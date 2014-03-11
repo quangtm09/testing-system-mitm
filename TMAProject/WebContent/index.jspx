@@ -1,0 +1,303 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+
+<!DOCTYPE html>
+<html lang="en">
+	<head><title>TTC course management</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="resource/css/reset.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="resource/css/style.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="resource/css/grid.css" type="text/css" media="screen">   
+    <link rel="icon" href="resource/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="resource/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="resource/css/demo.css" type="text/css" media="all">  
+    <script src="resource/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="resource/js/superfish.js" type="text/javascript"></script>
+    <script src="resource/js/jcarousellite_1.0.1.js" type="text/javascript"></script>
+    <script type="text/javascript" src="resource/js/easyTooltip.js"></script>
+    <script src="resource/js/script.js" type="text/javascript"></script>
+    <script type="text/javascript" async="" src="resource/js/ga.js"></script>
+    <script type="text/javascript" src="resource/js/tms-0.3.js"></script>
+    <script type="text/javascript" src="resource/js/tms_presets.js"></script>
+    <script type="text/javascript" src="resource/js/demo.js"></script> 
+    <script src="resource/js/jquery.hoverIntent.js" type="text/javascript"></script>
+    
+<style type="text/css">div#ad_seo_inner { color:#ffffff !important;} div#ad_seo_inner * { font-size:10px !important; line-height:10px !important; } div#ad_seo_inner span , div#ad_seo_inner .ad_seo_link {color:#2Dd4a4 !important;} div#ad_seo_inner span.ad_seo_details {color:#3Db4e4 !important;} div#ad_seo_box {background-color:rgba(0,0,0,0.9) !important; border:3px solid #0E694C !important;} div#ad_seo_inner .ad_seo_title , div#ad_seo_inner .ad_seo_item , div#ad_seo_inner .ad_seo_warning , div#ad_seo_inner a , #ad_seo_close {color:#ffffff !important;} div#ad_seo_inner .ad_seo_profileslist {display:none !important}</style></head>
+<body id="page1">
+	<div class="main-bg">
+        <div class="bg">
+            <div class="bg1">
+                <!--==============================header=================================-->
+                <header>
+                    <div class="main">
+                        <div class="head-box">
+                            <h1><a href="index.html">TMA Training Center</a></h1>
+                            <div class="logo-light"></div>
+                            <div class="head-text" style="font-size:200%">TMA Training Center</div>
+                            <span>Advanced Java K18 project</span>
+                            <div class="head-text">Training. Education. more.</div>
+                            
+						<% if(session.getAttribute("username") == null) { %>
+							<div class="login"><a href="" class="button1">Login</a></div>
+							<% } else {%>
+							<div class="login">Hello <%= session.getAttribute("username") %>!,<a href="" style="color: red">Logout</a></div>
+							
+							<% }%> 
+						<div class="clear"></div>               
+                        </div>
+                        <nav>
+                        <div class="shadow"></div> 
+                            <ul class="sf-menu sf-js-enabled">
+                                <li class="first1"><a class="first active" href="index.html">Trang Chủ</a></li>
+                                <li><a href="khoa-hoc.html">Khóa Học</a>
+                                    <ul style="display: none; visibility: hidden; ">
+                                        <li><a href="#">Lập Trình Viên</a>
+											<ul style="display: none; visibility: hidden; ">
+                                                <li><a href="#">Lập trình Android nâng cao</a></li>
+                                                <li><a href="#">Lập trình Mobile trên Android</a></li>
+                                                <li><a href="#">Lập trình Java nâng cao với Spring và Hibernate</a></li>
+                                                <li><a href="#">Lập trình ứng dụng Web với ASP.NET</a></li>
+                                                <li><a href="#">Lập trình ứng dụng Web với Java</a></li>
+                                                <li><a href="#">Lập trình mạng với C/C++ trên Linux</a></li>
+                                                <li class="last4"><a class="first1" href="#">Lập trình iPhone</a></li>
+                                            </ul>
+										</li>
+                                        <li><a href="#">Telecom/Network Test Engineer</a>
+                                            <ul style="display: none; visibility: hidden; ">
+                                                <li class="last4"><a class="first1" href="#">Telecom Testing</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Media</a></li>
+                                        <li class="last4"><a class="first1" href="#">FAQs</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Giảng Viên</a></li>
+                                <li><a href="#">Tin Tức</a></li>
+								<li><a href="#">Hình Ảnh</a></li>
+								<li><a href="#">Việc Làm</a></li>
+                                <li class="last1 last"><a class="last" href="#">Liên Hệ</a></li>
+                            </ul>
+                          <div class="clear"></div>                        
+                        </nav>                                       
+                    </div>
+                </header>
+                
+                <!--==============================content================================-->
+                <section id="content">
+                    <div class="main">
+                    <div class="slider" style="overflow: hidden; ">
+                        <ul class="items">
+                            <li style="display: none; "><img src="resource/images/slide-1.png" alt="">
+								<span class="banner" style="z-index: 999; display: none; ">
+									<strong>Sự khác biệt -<br>chìa khóa thành công!</strong><span class="p6">- Trên 13 năm kinh nghiệm<br>- Đào tạo theo mô hình dự án<br>- Bổ sung kỹ năng mềm<br>...</span><a class="button1" href="#">Read More</a>
+								</span>
+							</li>
+                            <li style="display: none; "><img src="resource/images/slide-2.png" alt="">
+								<span class="banner" style="z-index: 999; display: none; ">
+									<strong>Succeed<br> with us!</strong><span class="p6">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliqu<br> am erat volutpa.</span><a class="button1" href="#">Read More</a></span><span class="banner" style="z-index: 999; display: block; ">
+								</span>
+							</li>
+                            <li style="display: none; "><img src="resource/images/slide-3.png" alt="">
+								<span class="banner" style="z-index: 999; display: none; ">
+									<strong>A driving force<br> in your business!</strong>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliqu<br> am erat volutpa.</span> 
+								</span>
+							</li>
+                        </ul> 
+					</div>
+					  
+                        <div class="container_12">                        
+                                <article class="grid_12">
+                                  <div class="posrel">
+                                      <div class="wrapper p7">
+                                        <article class="grid_4 alpha">
+                                            <div class="page1-box3">
+                                                <div class="inner p9">
+                                                    <h2><img src="resource/images/page1-img1.png" alt=""> Online Testing</h2>
+                                                    <a class="button2" href="#">Enter</a>
+                                                    <div class="clear"></div>
+                                                </div>                                      
+                                                <div class="page1-text2">
+                                                <h3>Trung Tâm Đào Tạo TMA!</h3>
+												<span style="font-size:120%">
+													<p>Được thành lập bởi <strong>công ty phần mềm lớn nhất Tp.HCM</strong> (<a href="http://www.tmasolutions.com">www.tmasolutions.com</a>) để giúp các bạn học CNTT mới ra trường <strong>tự tin khi xin việc</strong> và <strong>thành công trong các công ty lớn</strong> bằng cách trang bị cho các bạn các kỹ năng cần thiết trong môi trường làm việc chuyên nghiệp:</p>
+													<ul>
+														<li>- Kỹ năng giao tiếp và thuyết trình</li>
+														<li>- Sử dụng ngoại ngữ trong công việc</li>
+														<li>- Quy trình phát triển phần mềm</li>
+														<li>- Công nghệ chuyên ngành</li>
+														<li>- Kinh nghiệm thực tiễn</li>
+													</ul>
+												</span>
+                                                </div>
+                                                <a class="button3 p15" href="#">More</a>                                        
+                                            </div>
+											<div class="page1-box2">
+                                                    <figure class="page1-img2"><img src="resource/images/page1-img4.png" alt=""></figure>
+                                                    <div class="extra-wrap p8">
+                                                        <a href="#">Nguyễn Tấn Lộc</a>
+                                                       <p>Team Leader</p>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                        </article>
+										<article class="grid_4">
+                                            <div class="page1-box3">
+                                                <div class="inner p9">
+                                                    <h2><img src="resource/images/page1-img2.png" alt=""> Resource</h2>
+                                                    <a class="button2" href="#">Enter</a>
+                                                    <div class="clear"></div>
+                                                </div>                                      
+                                                <div class="page1-text2">
+                                                <h3>Lịch khai giảng</h3>
+                                                <div class="clear"></div>
+													1. Lập trình viên
+                                                    <ul class="list1">
+                                                        <li><a href="#">Lập trình Android nâng cao</a></li>
+                                                        <li><a href="#">Lập trình Mobile trên Android</a></li>
+                                                        <li><a href="#">Lập trình Java nâng cao với Spring và Hibernate</a></li>
+                                                        <li><a href="#">Lập trình ứng dụng Web với ASP.NET</a></li>
+                                                        <li><a href="#">Lập trình ứng dụng Web với Java</a></li>
+                                                        <li><a href="#">Lập trình mạng với C/C++ trên Linux</a></li>
+                                                        <li><a href="#">Lập trình iPhone</a></li>
+                                                    </ul>
+													2. Telecom/Network Test Engineer
+                                                    <ul class="list1">
+                                                        <li><a href="#">Telecom Testing</a></li>
+                                                    </ul>
+                                                </div>
+                                                <a class="button3 p15" href="#">More</a>                                        
+                                            </div>
+                                        </article>
+                                        <article class="grid_4 omega">
+                                            <div class="page1-box4">
+                                                <div class="inner p10">
+                                                    <h2 class="p11"><img src="resource/images/page1-img3.png" alt=""> Interview Tip</h2>
+                                                    <a class="button2 p12" href="#">Enter</a>
+                                                    <div class="clear"></div>
+                                                </div>                                      
+                                                <div class="page1-text3">
+                                                <h3 class="p13">TMA News</h3>
+                                                    <div class="page1-box5">
+                                                        <figure class="page1-img3"><img src="resource/images/page1-img5.png" alt=""></figure>
+                                                        <div class="extra-wrap">
+                                                            <span>12-12-2012</span>
+                                                            <a href="#">Ngày hội việc làm ...</a>
+                                                            <p>Updating...</p>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                    </div>
+                                                    <div class="page1-box5 last2">
+                                                        <figure class="page1-img3"><img src="resource/images/page1-img6.png" alt=""></figure>
+                                                        <div class="extra-wrap">
+                                                            <span>12-12-2012</span>
+                                                            <a href="#">Tuyển thực tập sinh ...</a>
+                                                            <p>Updating...</p>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                    </div>
+                                                </div>
+                                                <a class="button3 p15" href="#">More</a>                                        
+                                            </div>
+                                        </article>                                
+                                        </div>
+                                       <div class="shadow1"></div> 
+                                    </div>                                
+                                </article>
+                                <div class="page1-box6">
+                                    <h2 class="flnone">Các Đối Tác</h2>      
+                                </div>
+                                <div class="carousel">
+                                    <div class="jCarouselLite" style="visibility: visible; overflow: hidden; position: relative; z-index: 2; left: 0px; width: 960px; ">
+                                        <ul class="carousel" style="margin: 0px; padding: 0px; position: relative; list-style-type: none; z-index: 1; width: 2880px; left: 0px; ">
+                                            <li style="overflow: hidden; float: left; width: 240px; height: 84px; ">
+                                                <article class="grid_3">
+                                                    <a href="#"><figure class="page1-img4"><img src="resource/images/page1-img7.png" alt=""></figure></a>
+                                                </article>
+                                            </li>  
+                                            <li style="overflow: hidden; float: left; width: 240px; height: 84px; "> 
+                                               <article class="grid_3">
+                                                    <a href="#"><figure class="page1-img4"><img src="resource/images/page1-img8.png" alt=""></figure></a>
+                                                </article>
+                                            </li>
+                                            <li style="overflow: hidden; float: left; width: 240px; height: 84px; ">
+                                                <article class="grid_3">
+                                                    <a href="#"><figure class="page1-img4"><img src="resource/images/page1-img9.png" alt=""></figure></a>
+                                                </article>
+                                            </li>
+                                            <li style="overflow: hidden; float: left; width: 240px; height: 84px; ">
+                                                <article class="grid_3">
+                                                    <a href="#"><figure class="page1-img4"><img src="resource/images/page1-img10.png" alt=""></figure></a>
+                                                </article>
+                                            </li> 
+                                            <li style="overflow: hidden; float: left; width: 240px; height: 84px; ">
+                                                <article class="grid_3">
+                                                    <a href="#"><figure class="page1-img4"><img src="resource/images/page1-img7.png" alt=""></figure></a>
+                                                </article>
+                                            </li>  
+                                            <li style="overflow: hidden; float: left; width: 240px; height: 84px; "> 
+                                               <article class="grid_3">
+                                                    <a href="#"><figure class="page1-img4"><img src="resource/images/page1-img8.png" alt=""></figure></a>
+                                                </article>
+                                            </li>
+                                            <li style="overflow: hidden; float: left; width: 240px; height: 84px; ">
+                                                <article class="grid_3">
+                                                    <a href="#"><figure class="page1-img4"><img src="resource/images/page1-img9.png" alt=""></figure></a>
+                                                </article>
+                                            </li>
+                                            <li style="overflow: hidden; float: left; width: 240px; height: 84px; ">
+                                                <article class="grid_3">
+                                                    <a href="#"><figure class="page1-img4"><img src="resource/images/page1-img10.png" alt=""></figure></a>
+                                                </article>
+                                            </li> 
+                                            <li style="overflow: hidden; float: left; width: 240px; height: 84px; ">
+                                                <article class="grid_3">
+                                                    <a href="#"><figure class="page1-img4"><img src="resource/images/page1-img7.png" alt=""></figure></a>
+                                                </article>
+                                            </li>  
+                                            <li style="overflow: hidden; float: left; width: 240px; height: 84px; "> 
+                                               <article class="grid_3">
+                                                    <a href="#"><figure class="page1-img4"><img src="resource/images/page1-img8.png" alt=""></figure></a>
+                                                </article>
+                                            </li>
+                                            <li style="overflow: hidden; float: left; width: 240px; height: 84px; ">
+                                                <article class="grid_3">
+                                                   <a href="#"> <figure class="page1-img4"><img src="resource/images/page1-img9.png" alt=""></figure></a>
+                                                </article>
+                                            </li>
+                                            <li style="overflow: hidden; float: left; width: 240px; height: 84px; ">
+                                                <article class="grid_3">
+                                                    <a href="#"><figure class="page1-img4"><img src="resource/images/page1-img10.png" alt=""></figure></a>
+                                                </article>
+                                            </li> 
+                                        </ul>
+                                    </div>
+                                    <a class="prev1"></a>
+                                <a class="next1"></a>
+                                </div>               
+                        </div>
+                    </div>
+                </section>
+                
+                <!--==============================footer=================================-->
+                <footer>
+                    <div class="foot-bg">
+                        <div class="main">
+                        <div class="foot-box">
+                            TTC Advanced Java K18 (06/2012)
+                        </div>
+                        <ul class="social-links">
+                          <li><a href="#" class="link-1 tooltip" title="RSS"></a></li>
+                          <li><a href="#" class="link-2 tooltip" title="Myspace"></a></li>
+                          <li><a href="#" class="link-3 tooltip" title="Linkedin"></a></li>
+                          <li><a href="#" class="link-4 tooltip" title="Facebook"></a></li>
+                        </ul>
+                        <div class="foot"><!-- {%FOOTER_LINK} --></div>
+                        <div class="clear"></div>                    
+                        </div>
+                </div>
+            </footer>
+            </div>
+        </div>
+    </div>
+
+<!--LIVEDEMO_00 -->

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://127.0.0.1:3306/ttck18</value>
+		</property>
+		<property name="username">
+			<value>root</value>
+		</property>
+		<property name="password">
+			<value>root</value>
+		</property>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>model/Permission.hbm.xml</value>
+				<value>model/Role.hbm.xml</value>
+				<value>model/Account.hbm.xml</value>
+				<value>model/Material.hbm.xml</value>
+				<value>model/Subject.hbm.xml</value>
+				<value>model/Person.hbm.xml</value>
+				<value>model/CourseTemplate.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQL5Dialect
+                  </prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean name="hibernateUtil" class="util.HibernateUtil">
+		<property name="sessionFactory">
+			<ref local="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean name="courseTemplateDAO" class="dao.impl.CourseTemplateDAOimpl">
+	</bean>
+	
+	<bean id="courseTemplateBOimpl" class="business.impl.CourseTemplateBOimpl" init-method="init" >
+		<property name="coursetemplatedao">
+			<ref bean="courseTemplateDAO" />
+		</property>
+	</bean>
+	
+	<!-- bean thu quan ly user -->
+	
+	<bean name="personDAO" class="dao.impl.PersonDAOImpl"/>
+	<bean name="accountDAO" class="dao.impl.AccountDAOImpl"/>
+	<bean name="roleDAO" class="dao.impl.RoleDAOImpl"/>
+	<bean name="permissionDAO" class="dao.impl.PermissionDAOImpl"/>
+	
+	
+	<bean name="managePerson" class="business.impl.ManagePersonImpl">
+		<property name="personDAO">
+			<ref bean="personDAO"/>
+		</property>
+	</bean>
+	<bean name="manageAccount" class="business.impl.ManageAccountImpl">
+		<property name="accountDAO">
+			<ref bean="accountDAO"/>
+		</property>
+	</bean>
+	<bean name="manageRole" class="business.impl.ManageRoleImpl">
+		<property name="roleDAO">
+			<ref bean="roleDAO"/>
+		</property>
+	</bean>
+	<bean name="managePermission" class="business.impl.ManagePermissionImpl">
+		<property name="permissionDAO">
+			<ref bean="permissionDAO"/>
+		</property>
+	</bean>
+	
+	<!-- Quang -->
+
+	<bean name="materialDAO" class="dao.impl.MaterialDAOImpl">
+	</bean>
+	
+	<bean id="MaterialManagerImpl" class="business.impl.MaterialManagerImpl" init-method="initMaterials" >
+		<property name="MaterialDAO">
+			<ref bean="materialDAO" />
+		</property>
+	</bean>
+	
+	<bean name="subjectDAO" class="dao.impl.SubjectDAOImpl">
+	</bean>
+	
+	<bean id="SubjectManagerImpl" class="business.impl.SubjectManagerImpl" init-method="initSubjects">
+		<property name="subjectDAO">
+			<ref bean="subjectDAO" />
+		</property>
+	</bean>
+	
+
+</beans>

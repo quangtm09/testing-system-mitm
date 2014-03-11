@@ -1,0 +1,76 @@
+body {
+	margin-left: 10px;
+	margin-top: 30px;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	border-bottom: 1px solid;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a {
+	padding-left: 25px;
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+
+a {
+	padding: 4px;
+}
+
+/* Table styling */
+table {
+	width: 100%;
+	height: 150px;
+}
+
+th,td {
+	padding: 7px 15px;
+	text-align: left;
+	width: 100px;
+}
+
+tr {
+	width: 100px;
+}
+
+td #column {
+	width: 200px;
+}
+
+.butons {
+	float: right;
+}
+
+.butons a {
+	margin: 0 10px 0 0;
+	float: left;
+	margin-left: 4px;
+	color: black;
+	padding: 1px 10px;
+	text-decoration: none;
+	border: 1px solid #ebe8e8;
+	background: #fbfbfc;
+}
+
+.butons p {
+	float: left;
+	margin-left: 15px;
+}
+
+.butons a:hover {
+	border: 1px solid #d9f0ff;
+	background: #78bbe6;
+	color: #fff;
+	text-decoration: none;
+}
+
+.butons a.active {
+	border: 1px solid #ebe8e8;
+	background: #78bbe6;
+	color: #fff;
+	text-decoration: none;
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 6, 2012 10:50:21 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="model.Examination" table="EXAMINATION">
+        <id name="ExaminationID" type="java.lang.String">
+            <column name="EXAMINATIONID" />
+            <generator class="assigned" />
+        </id>
+        <property name="examName" type="java.lang.String">
+            <column name="EXAMNAME" />
+        </property>
+        <property name="examType" type="java.lang.String">
+            <column name="EXAMTYPE" />
+        </property>
+        <property name="location" type="java.lang.String">
+            <column name="LOCATION" />
+        </property>
+        <property name="numberQuestion" type="int">
+            <column name="NUMBERQUESTION" />
+        </property>
+        <property name="timeStart" type="net.sourceforge.jtds.jdbc.DateTime">
+            <column name="TIMESTART" />
+        </property>
+        <property name="timeEnd" type="net.sourceforge.jtds.jdbc.DateTime">
+            <column name="TIMEEND" />
+        </property>
+        <set name="test" table="TEST" inverse="false" lazy="true">
+            <key>
+                <column name="EXAMINATIONID" />
+            </key>
+            <one-to-many class="model.Test" />
+        </set>
+        <set name="examinee" table="EXAMINEE" inverse="false" lazy="true">
+            <key>
+                <column name="EXAMINATIONID" />
+            </key>
+            <one-to-many class="model.Examinee" />
+        </set>
+    </class>
+</hibernate-mapping>

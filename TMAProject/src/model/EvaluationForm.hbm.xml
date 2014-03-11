@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 11, 2012 7:07:14 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="model.EvaluationForm" table="EVALUATIONFORM">
+        <id name="evaluationFormId" type="java.lang.Integer">
+            <column name="EVALUATIONFORMID" />
+            <generator class="assigned" />
+        </id>
+        <property name="serialVersionUID" type="long" access="field">
+            <column name="SERIALVERSIONUID" />
+        </property>
+        <many-to-one name="course" class="model.Course" fetch="join">
+            <column name="COURSE" />
+        </many-to-one>
+        <property name="date" type="java.util.Calendar">
+            <column name="DATE" />
+        </property>
+        <primitive-array name="knowledgeAndSkillEvaluation" table="EVALUATIONFORM">
+            <key>
+                <column name="EVALUATIONFORMID" />
+            </key>
+            <index></index>
+            <element type="int">
+                <column name="KNOWLEDGEANDSKILLEVALUATION" />
+            </element>
+        </primitive-array>
+        <property name="knowledgeAndSkillEvaluationResult" type="double">
+            <column name="KNOWLEDGEANDSKILLEVALUATIONRESULT" />
+        </property>
+        <primitive-array name="instructorEvaluation" table="EVALUATIONFORM">
+            <key>
+                <column name="EVALUATIONFORMID" />
+            </key>
+            <index></index>
+            <element type="int">
+                <column name="INSTRUCTOREVALUATION" />
+            </element>
+        </primitive-array>
+        <property name="instuctorEvaluationResult" type="double">
+            <column name="INSTUCTOREVALUATIONRESULT" />
+        </property>
+        <primitive-array name="courseTopicEvaluation" table="EVALUATIONFORM">
+            <key>
+                <column name="EVALUATIONFORMID" />
+            </key>
+            <index></index>
+            <element type="int">
+                <column name="COURSETOPICEVALUATION" />
+            </element>
+        </primitive-array>
+        <property name="courseTopicEvalutionResult" type="double">
+            <column name="COURSETOPICEVALUTIONRESULT" />
+        </property>
+        <primitive-array name="othersEvalution" table="EVALUATIONFORM">
+            <key>
+                <column name="EVALUATIONFORMID" />
+            </key>
+            <index></index>
+            <element type="int">
+                <column name="OTHERSEVALUTION" />
+            </element>
+        </primitive-array>
+        <property name="othersEvalutionResult" type="double">
+            <column name="OTHERSEVALUTIONRESULT" />
+        </property>
+        <property name="overallSatisfaction" type="int">
+            <column name="OVERALLSATISFACTION" />
+        </property>
+        <property name="overallSatisfactionResult" type="double">
+            <column name="OVERALLSATISFACTIONRESULT" />
+        </property>
+        <property name="evaluationResult" type="double">
+            <column name="EVALUATIONRESULT" />
+        </property>
+    </class>
+</hibernate-mapping>

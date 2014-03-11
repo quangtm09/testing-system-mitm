@@ -1,0 +1,33 @@
+#container{
+	background:#fff;
+	padding-bottom:20px;
+}
+#content{
+width:700px;
+margin:0 20px;
+}
+
+
+p.sig{	
+	margin:0 auto;
+	width:680px;
+	padding:1em 0;
+}
+#content table, td{
+	font:100% Arial, Helvetica, sans-serif; 
+}
+#content table{width:100%;border-collapse:collapse;margin:1em 0;}
+#content th, td{text-align:left;padding:.5em;border:1px solid #fff;}
+#content th{background:#328aa4 url(tr_back.gif) repeat-x;color:#fff;}
+#content td{background:#e5f1f4;}
+
+#content tr.even td{background:#e5f1f4;}
+#content tr.odd td{background:#f8fbfc;}
+
+#content th.over, tr.even th.over, tr.odd th.over{background:#4a98af;}
+#content th.down, tr.even th.down, tr.odd th.down{background:#bce774;}
+#content th.selected, tr.even th.selected, tr.odd th.selected{}
+
+#content td.over, tr.even td.over, tr.odd td.over{background:#ecfbd4;}
+#content td.down, tr.even td.down, tr.odd td.down{background:#bce774;color:#fff;}
+#content td.selected, tr.even td.selected, tr.odd td.selected{background:#bce774;color:#555;}

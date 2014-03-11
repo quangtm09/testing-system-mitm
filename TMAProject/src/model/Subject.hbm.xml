@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 3, 2012 10:20:53 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="model.Subject" table="SUBJECT">
+		<id name="subjectId" type="int">
+			<column name="subjectId" />
+			<generator class="native" />
+		</id>
+		<property generated="never" lazy="false" name="subjectName"
+			type="java.lang.String">
+			<column name="subjectName" />
+		</property>
+		<property generated="never" lazy="false" name="subjectDescription"
+			type="java.lang.String">
+			<column name="subjectDescription" />
+		</property>
+		
+		<list name="materials" inverse="true" table="MATERIAL" lazy="true"
+			cascade="all">
+			<key foreign-key="materialId">
+			</key>
+			<list-index>
+				<column name="materialId"></column>
+			</list-index>
+
+			<one-to-many class="model.Material" />
+		</list>
+		<many-to-one name="person" class="model.Person" column="personId"></many-to-one>
+
+
+
+		<set name="courseTemplate" inverse="true" cascade="save-update"
+			lazy="true" fetch="select" table="COURSETEMPLATE_SUBJECT">
+			<key column="subjectId"></key>
+			<many-to-many class="model.CourseTemplate" column="ID" />
+		</set>
+
+	</class>
+</hibernate-mapping>

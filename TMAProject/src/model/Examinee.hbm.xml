@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 6, 2012 10:50:21 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="model.Examinee" table="EXAMINEE">
+		<id name="ExamineeID" type="java.lang.String">
+			<column name="EXAMINEEID" />
+			<generator class="assigned" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="NAME" />
+		</property>
+		<property name="password" type="java.lang.String">
+			<column name="PASSWORD" />
+		</property>
+		<property name="choiceSelected" type="boolean">
+			<column name="CHOICESELECTED" />
+		</property>
+		<many-to-one name="examination" class="model.Examination"
+			column="EXAMINATIONID" cascade="save-update">
+		</many-to-one>
+		<one-to-one name="test" class="model.Test" constrained="true"></one-to-one>
+	</class>
+</hibernate-mapping>

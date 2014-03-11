@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean name="/SubjectManagement/Home.html"
+		class="controller.SubjectManagement.SubjectManagementHomeController">
+	</bean>
+
+	<bean name="/SubjectManagement/ViewSubject.html" class="controller.SubjectManagement.ViewSubjectController">
+		<property name="materialManager" ref="MaterialManagerImpl"></property>
+		<property name="subjectManager" ref="SubjectManagerImpl"></property>
+	</bean>
+
+	<bean name="/SubjectManagement/DownloadMaterial.html"
+		class="controller.SubjectManagement.DownloadMaterialController">
+		<property name="materialManager" ref="MaterialManagerImpl"></property>
+	</bean>
+
+	<bean name="/SubjectManagement/DeleteMaterial.html" class="controller.SubjectManagement.DeleteMaterialController">
+		<property name="materialManager" ref="MaterialManagerImpl"></property>
+	</bean>
+
+	<bean name="/SubjectManagement/ViewMaterial.html" class="controller.SubjectManagement.ViewMaterialController">
+		<property name="materialManager" ref="MaterialManagerImpl"></property>
+	</bean>
+
+	<bean name="/SubjectManagement/Material.html" class="controller.SubjectManagement.MaterialController">
+		<property name="materialManager" ref="MaterialManagerImpl"></property>
+	</bean>
+
+	<bean name="/SubjectManagement/Modify.html" class="controller.SubjectManagement.ModifySubjectController">
+		<property name="commandName" value="subjectModifyForm" />
+		<property name="commandClass"
+			value="controller.SubjectManagement.bean.SubjectBean" />
+		<property name="validator">
+			<bean class="controller.SubjectManagement.validator.ModifySubjectValidator">
+			</bean>
+		</property>
+		<property name="subjectManager" ref="SubjectManagerImpl"></property>
+	</bean>
+
+	<bean name="/SubjectManagement/SubjectManagement.html"
+		class="controller.SubjectManagement.SubjectManagementController">
+		<property name="subjectManager" ref="SubjectManagerImpl"></property>
+	</bean>
+
+
+	<bean name="/SubjectManagement/Add.html" class="controller.SubjectManagement.AddSubjectController">
+		<property name="sessionForm" value="true" />
+		<property name="commandName" value="Add" />
+		<property name="commandClass"
+			value="controller.SubjectManagement.bean.SubjectBean" />
+		<property name="successView" value="SubjectManagement/Home"></property>
+		<property name="validator">
+			<bean class="controller.SubjectManagement.validator.AddSubjectValidator">
+				<property name="subjectManager" ref="SubjectManagerImpl"></property>
+			</bean>
+		</property>
+		<property name="subjectManager" ref="SubjectManagerImpl"></property>
+	</bean>
+
+
+
+	<bean name="/SubjectManagement/Upload.html" class="controller.SubjectManagement.UploadMaterialController">
+		<property name="sessionForm" value="true" />
+		<property name="commandName" value="fileUploadForm" />
+		<property name="commandClass"
+			value="controller.SubjectManagement.bean.MaterialBean" />
+		<property name="validator">
+			<bean class="controller.SubjectManagement.validator.UploadValidator" />
+		</property>
+		<property name="subjectManager" ref="SubjectManagerImpl"></property>
+		<property name="materialManager" ref="MaterialManagerImpl"></property>
+	</bean>
+
+	<bean name="/SubjectManagement/DeleteSubject.html" class="controller.SubjectManagement.DeleteSubjectController">
+		<property name="subjectManager" ref="SubjectManagerImpl"></property>
+	</bean>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
+	<bean name="PDFDocumentViewer" class="controller.SubjectManagement.PDFDocumentViewer">
+	</bean>
+</beans>
+		

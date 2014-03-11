@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 11, 2011 3:51:55 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="model.CourseTemplate" table="CourseTemplate" lazy="true">
+		<id name="id" type="int">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="name" />
+		</property>
+		<property name="startDay" type="java.util.GregorianCalendar">
+			<column name="starDay" />
+		</property>
+		
+		<property name="endDay" type="java.util.GregorianCalendar">
+			<column name="endDay" />
+		</property>
+		
+		<property name="description" type="java.lang.String" lazy="true">
+			<column name="description" />
+		</property>
+		
+		<set name="subject" cascade="save-update" inverse="true" lazy="true" fetch="select"
+			table="COURSETEMPLATE_SUBJECT">
+			<key column="id"></key>
+			<many-to-many class="model.Subject" column="subjectId" />
+		</set>
+	</class>
+</hibernate-mapping>

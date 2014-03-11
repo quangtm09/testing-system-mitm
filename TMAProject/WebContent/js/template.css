@@ -1,0 +1,148 @@
+html{
+		
+}
+body {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:100%; 
+	color:black;
+	min-width:980px;
+}
+ul{
+	float: right;	
+}
+ul li{
+	float: left:
+	list-style: none;	
+}
+
+.select{
+	width: 250px;
+	padding-left: 10px;
+	padding-top: 5px;
+	max-height:100px;
+	height: 100px;
+	
+}
+.description{
+	text-align: 10px;
+}
+h1,h2,h3,h4,h5,h6 {
+	color: white;
+	margin-top:-70px;
+	font-family: 'Boogaloo', cursive;
+	font-size:35px;
+	color:#fff;
+	line-height:1.2em;
+	text-shadow:0 2px 2px #1d7eaf;
+	font-weight:normal;
+}
+
+	
+.button1 {
+	display:inline-block;
+	position:relative;
+	color:#000;
+	font-family:Arial, Helvetica, sans-serif;
+	font-weight:bold;
+	font-size:12px;
+	line-height:21px;
+	padding:10px 22px 9px;
+	border-radius:6px;
+     -moz-border-radius:6px;
+     -webkit-border-radius:6px;
+	 background:#d3eaf5;
+	 text-shadow:none;
+	 margin-left:2px;
+}
+.button1:hover {
+	background:#196ab6;
+	color:#fff;
+}
+
+#search{
+	margin-top: 20px;	
+}
+a:hover {
+	text-decoration: none;
+}
+
+#column{
+	width: 1px;	
+}
+
+a {
+	
+	padding-left: 25px;
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+
+Error{
+		font-size: 13px;
+		color: red;
+		font-family:Arial, Helvetica, sans-serif;
+}
+
+/* Table styling */
+table {
+	width: 100%;
+	height: 150px;
+	color: #196ab6;
+	
+}
+
+#tableupdate{
+	width: 100%;
+	height: 150px;
+	color:  #196ab6;
+	font-size: 
+}
+
+th,td {
+	padding: 7px 15px;
+	text-align: left;
+	width: 10px;
+	font-size: 13px;
+}
+
+
+
+.butons {
+	float: right;
+}
+
+.butons a {
+	margin: 0 10px 0 0;
+	float: left;
+	margin-left: 4px; color : black;
+	padding: 1px 10px;
+	text-decoration: none;
+	border: 1px solid #ebe8e8;
+	background: #fbfbfc;
+	color: black;
+}
+
+.butons p {
+	float: right;
+	margin-left: 15px;
+}
+
+.state a:hover {
+	border: 1px solid #d9f0ff;
+	color: red;
+	text-decoration: none;
+}
+
+.state{
+	border: 1px solid #d9f0ff;
+	color: red;
+	text-decoration: none;
+	text-align: center;
+}
+
+.butons a.active {
+	border: 1px solid #ebe8e8;
+	background: #78bbe6;
+	color: #fff;
+	text-decoration: none;
+}

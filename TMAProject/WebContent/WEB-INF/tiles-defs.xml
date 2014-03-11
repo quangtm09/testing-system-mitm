@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="base_layout" template="/WEB-INF/jsp/Template/layout.jsp">
+		<put-attribute name="title" value="Template" />
+		<put-attribute name="header" value="/WEB-INF/jsp/Template/header.jsp" />
+		<put-attribute name="body" value="/WEB-INF/jsp/Template/body.jsp" />
+		<put-attribute name="menuleft" value="/WEB-INF/jsp/Template/menuleft.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/Template/footer.jsp" />
+	</definition>
+
+
+	<!-- user thu -->
+	<definition name="index" extends="base_layout">
+		<put-attribute name="body" value="/WEB-INF/jsp/Template/body.jsp" />
+	</definition>
+	
+	<definition name="login" extends="base_layout">
+		<put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
+	</definition>
+
+	<definition name="person" extends="base_layout">
+		<put-attribute name="body" value="/WEB-INF/jsp/person.jsp" />
+	</definition>
+	
+	<definition name="account" extends="base_layout">
+		<put-attribute name="body" value="/WEB-INF/jsp/account.jsp" />
+	</definition>
+	
+	<definition name="role" extends="base_layout">
+		<put-attribute name="body" value="/WEB-INF/jsp/role.jsp" />
+	</definition>
+
+	
+	
+	<!-- Course Template -->
+	<definition name="CourseTemplate/Home" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/CourseTemplate/Home.jsp" />
+	</definition>
+	<definition name="CourseTemplate/Update" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/CourseTemplate/Update.jsp" />
+	</definition>
+
+	<definition name="CourseTemplate/View" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/CourseTemplate/View.jsp" />
+	</definition>
+
+	<definition name="CourseTemplate/Insert" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/CourseTemplate/Insert.jsp" />
+	</definition>
+
+
+	<!-- ============================Beginning of Subject Management============================= -->
+	
+	<definition name="SubjectManagement/Home" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/SubjectManagement/Home.jsp" />
+	</definition>
+	
+	<definition name="SubjectManagement/ViewSubject" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/SubjectManagement/ViewSubject.jsp" />
+	</definition>
+	
+	<definition name="SubjectManagement/Modify" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/SubjectManagement/Modify.jsp" />
+	</definition>
+	
+	<definition name="SubjectManagement/Add" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/SubjectManagement/Add.jsp" />
+	</definition>
+	
+	<definition name="SubjectManagement/Upload" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/SubjectManagement/Upload.jsp" />
+	</definition>
+	
+	<definition name="SubjectManagement/ViewMaterial" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/SubjectManagement/ViewMaterial.jsp" />
+	</definition>
+	
+	<definition name="SubjectManagement/DeleteSubject" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/SubjectManagement/DeleteSubject.jsp" />
+	</definition>
+	
+	<definition name="SubjectManagement/FileUploadSuccess" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/SubjectManagement/FileUploadSuccess.jsp" />
+	</definition>
+	
+	<definition name="SubjectManagement/FileUploadError" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/SubjectManagement/FileUploadError.jsp" />
+	</definition>
+	
+	<definition name="SubjectManagement/SubjectModifyError" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/SubjectManagement/SubjectModifyError.jsp" />
+	</definition>
+	
+	<definition name="SubjectManagement/FileViewError" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/SubjectManagement/FileViewError.jsp" />
+	</definition>
+	
+	<definition name="SubjectManagement/DownloadMaterial" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/SubjectManagement/DownloadMaterial.jsp" />
+	</definition>
+	
+	<definition name="SubjectManagement/DeleteMaterial" extends="base_layout">
+		<put-attribute name="body"
+			value="/WEB-INF/jsp/SubjectManagement/DeleteMaterial.jsp" />
+	</definition>
+	
+	
+	<!-- ============================End of Subject Management============================= -->
+
+</tiles-definitions>

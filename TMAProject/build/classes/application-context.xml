@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://127.0.0.1:3306/example</value>
+		</property>
+		<property name="username">
+			<value>root</value>
+		</property>
+		<property name="password">
+			<value>518091</value>
+		</property>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>model/Permission.hbm.xml</value>
+				<value>model/Role.hbm.xml</value>
+				<value>model/Account.hbm.xml</value>
+				<value>model/Person.hbm.xml</value>
+				<value>model/Material.hbm.xml</value>
+				<value>model/Subject.hbm.xml</value>
+				<value>model/CourseTemplate.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+                  </prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean name="hibernateUtil" class="util.HibernateUtil">
+		<property name="sessionFactory">
+			<ref local="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean name="courseTemplateDAO" class="dao.impl.CourseTemplateDAOimpl">
+	</bean>
+	
+	<bean id="courseTemplateBOimpl" class="business.impl.CourseTemplateBOimpl" init-method="init" >
+		<property name="coursetemplatedao">
+			<ref bean="courseTemplateDAO" />
+		</property>
+	</bean>
+	
+  <bean id="CourseTemplateView" class="test.CourseTemplateView">
+		<property name="DAO">
+			<ref bean="courseTemplateBOimpl" />
+		</property>
+	</bean>
+</beans>

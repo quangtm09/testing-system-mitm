@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<import resource="SubjectManagement-servlet.xml" />
+
+	<bean class="org.springframework.context.support.ResourceBundleMessageSource"
+		id="messageSource">
+		<property name="basename" value="messages" />
+	</bean>
+
+	<bean class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+		<property name="basename" value="views" />
+	</bean>
+
+	<bean name="/CourseTemplate/Home.html" class="controller.CourseTemplate.HomeCourseTemplate">
+
+	</bean>
+
+	<bean name="/index.html" class="index">
+	</bean>
+
+	<bean name="/CourseTemplate/Update.html" class="controller.CourseTemplate.UpdateCourseTemplate">
+		<property name="courseTemplateBO" ref="courseTemplateBOimpl"></property>
+		<property name="sessionForm" value="true"></property>
+		<property name="commandClass" value="Bean.CourseTemplateBean"></property>
+		<property name="commandName" value="CourseTemplateBean"></property>
+		<property name="successView" value="../CourseTemplate/View.html"></property>
+		<property name="validator" ref="UpdateValidator"></property>
+		<property name="SubjectManagerImpl" ref="SubjectManagerImpl"></property>
+	</bean>
+
+	<bean name="/CourseTemplate/Insert.html" class="controller.CourseTemplate.InsertCourseTemplate">
+		<property name="courseTemplateBO" ref="courseTemplateBOimpl"></property>
+		<property name="sessionForm" value="true"></property>
+		<property name="commandClass" value="Bean.CourseTemplateBean"></property>
+		<property name="commandName" value="CourseTemplateBean"></property>
+		<property name="successView" value="../CourseTemplate/Home.html"></property>
+		<property name="validator" ref="InsertValidator"></property>
+		<property name="SubjectManagerImpl" ref="SubjectManagerImpl"></property>
+	</bean>
+
+	<bean name="/CourseTemplate/Search.html" class="controller.CourseTemplate.SearchCourseTemplate">
+		<property name="courseTemplateBO" ref="courseTemplateBOimpl"></property>
+	</bean>
+
+	<bean name="/CourseTemplate/View.html" class="controller.CourseTemplate.ViewCourseTemplate">
+		<property name="courseTemplateBO" ref="courseTemplateBOimpl"></property>
+	</bean>
+
+	<bean name="/CourseTemplate/Ajax.html" class="controller.CourseTemplate.AjaxCourseTemplate">
+		<property name="courseTemplateBO" ref="courseTemplateBOimpl"></property>
+	</bean>
+
+	<bean name="/CourseTemplate/Delete.html" class="controller.CourseTemplate.DeleteCourseTemplate">
+		<property name="courseTemplateBO" ref="courseTemplateBOimpl"></property>
+	</bean>
+
+	<bean id="InsertValidator" class="controller.CourseTemplate.InsertCourseTemplateValidator">
+		<property name="courseTemplate" ref="courseTemplateBOimpl"></property>
+	</bean>
+
+	<bean id="UpdateValidator" class="controller.CourseTemplate.UpdateCourseTemplateValidator">
+		<property name="courseTemplate" ref="courseTemplateBOimpl"></property>
+
+	</bean>
+
+
+	<bean name="/CourseTemplate/PDF.pdf"
+		class="controller.CourseTemplate.ViewPDFCourseTemplateValidator">
+		<property name="courseTemplateBO" ref="courseTemplateBOimpl"></property>
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass">
+			<value>
+				org.springframework.web.servlet.view.tiles2.TilesView
+			</value>
+		</property>
+	</bean>
+	<bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/tiles-defs.xml</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- thu quan ly user -->
+
+	<bean name="/hello.html" class="controller.HelloController">
+	</bean>
+
+
+	<bean name="/login.html" class="controller.LoginController">
+		<property name="sessionForm" value="true" />
+		<property name="commandName" value="accountBean" />
+		<property name="commandClass" value="controller.bean.AccountBean" />
+		<property name="formView" value="login" />
+		<property name="validator">
+			<bean class="controller.validation.LoginValidator" />
+		</property>
+		<property name="successView" value="index.html" />
+		<property name="manageAccount" ref="manageAccount" />
+		<property name="managePerson" ref="managePerson" />
+	</bean>
+	<bean name="/logout.html" class="controller.LogoutUserController">
+	</bean>
+
+	<bean name="/showPerson.html" class="controller.ShowPersonController">
+		<property name="sessionForm" value="true" />
+		<property name="managePerson" ref="managePerson" />
+		<property name="commandName" value="personBean" />
+		<property name="commandClass" value="controller.bean.PersonBean" />
+		<property name="formView" value="showPerson" />
+	</bean>
+
+	<bean name="/addPerson.html" class="controller.AddPersonController">
+		<property name="managePerson" ref="managePerson" />
+		<property name="commandName" value="personBean" />
+		<property name="commandClass" value="controller.bean.PersonBean" />
+		<property name="validator">
+			<bean class="controller.validation.PersonValidator" />
+		</property>
+		<property name="formView" value="showPerson" />
+		<property name="successView" value="showPerson" />
+	</bean>
+
+	<bean name="/removePerson.html" class="controller.RemovePersonController">
+		<property name="managePerson" ref="managePerson" />
+		<property name="commandName" value="personBean" />
+		<property name="commandClass" value="controller.bean.PersonBean" />
+		<property name="formView" value="showPerson" />
+		<property name="successView" value="showPerson" />
+	</bean>
+
+	<bean name="/editPerson.html" class="controller.EditPersonController">
+		<property name="managePerson" ref="managePerson" />
+		<property name="commandName" value="personBean" />
+		<property name="commandClass" value="controller.bean.PersonBean" />
+		<property name="formView" value="editPerson" />
+		<property name="successView" value="editPerson" />
+	</bean>
+
+
+
+	<bean name="/updatePerson.html" class="controller.UpdatePersonController">
+		<property name="managePerson" ref="managePerson" />
+		<property name="commandName" value="personBean" />
+		<property name="commandClass" value="controller.bean.PersonBean" />
+		<property name="formView" value="updatePerson" />
+		<property name="validator">
+			<bean class="controller.validation.PersonValidator" />
+		</property>
+		<property name="successView" value="updatePerson" />
+	</bean>
+
+
+
+	<bean name="/showAccount.html" class="controller.ShowAccountController">
+		<property name="sessionForm" value="true" />
+		<property name="manageAccount" ref="manageAccount" />
+		<property name="manageRole" ref="manageRole" />
+		<property name="commandName" value="accountBean" />
+		<property name="commandClass" value="controller.bean.AccountBean" />
+		<property name="formView" value="account" />
+	</bean>
+
+	<bean name="/addAccount.html" class="controller.AddAccountController">
+		<property name="sessionForm" value="true" />
+		<property name="manageAccount" ref="manageAccount" />
+		<property name="manageRole" ref="manageRole" />
+		<property name="managePerson" ref="managePerson" />
+		<property name="commandName" value="accountBean" />
+		<property name="commandClass" value="controller.bean.AccountBean" />
+		<property name="formView" value="account" />
+	</bean>
+
+	<bean name="/removeAccount.html" class="controller.RemoveAccountController">
+		<property name="sessionForm" value="true" />
+		<property name="manageAccount" ref="manageAccount" />
+		<property name="commandName" value="accountBean" />
+		<property name="commandClass" value="controller.bean.AccountBean" />
+		<property name="formView" value="account" />
+	</bean>
+
+	<bean name="/editAccount.html" class="controller.EditAccountController">
+		<property name="sessionForm" value="true" />
+		<property name="manageAccount" ref="manageAccount" />
+		<property name="commandName" value="accountBean" />
+		<property name="commandClass" value="controller.bean.AccountBean" />
+		<property name="formView" value="account" />
+	</bean>
+
+	<bean name="/updateAccount.html" class="controller.UpdateAccountController">
+		<property name="sessionForm" value="true" />
+		<property name="manageAccount" ref="manageAccount" />
+		<property name="manageRole" ref="manageRole" />
+		<property name="managePerson" ref="managePerson" />
+		<property name="commandName" value="accountBean" />
+		<property name="commandClass" value="controller.bean.AccountBean" />
+		<property name="formView" value="account" />
+	</bean>
+
+
+	<bean name="/showRole.html" class="controller.ShowRoleController">
+		<property name="sessionForm" value="true" />
+		<property name="manageRole" ref="manageRole" />
+		<property name="commandName" value="roleBean" />
+		<property name="commandClass" value="controller.bean.RoleBean" />
+		<property name="formView" value="role" />
+	</bean>
+
+	<bean name="/editRole.html" class="controller.EditRoleController">
+		<property name="sessionForm" value="true" />
+		<property name="manageRole" ref="manageRole" />
+		<property name="commandName" value="roleBean" />
+		<property name="commandClass" value="controller.bean.RoleBean" />
+		<property name="formView" value="role" />
+	</bean>
+
+	<bean name="/updateRole.html" class="controller.UpdateRoleController">
+		<property name="sessionForm" value="true" />
+		<property name="manageRole" ref="manageRole" />
+		<property name="commandName" value="roleBean" />
+		<property name="commandClass" value="controller.bean.RoleBean" />
+		<property name="formView" value="role" />
+	</bean>
+</beans>

@@ -1,0 +1,37 @@
+body {
+	background: #F7F4E9;
+}
+
+small {
+	color: #888
+}
+
+th,#navigation,.active,input[type=submit],input[type=reset],.pagination a:hover,.date td a:hover
+	{
+	background: #78bbe6;
+	color: #78bbe6
+}
+
+tr {
+	background-position: 0 -18px;
+}
+
+.active,th,#head,#navigation a,input[type=submit] {
+	color: #fff;
+}
+
+input,select,textarea {
+	border-color: #ddd
+}
+
+h1,h2,h3,h4,h5,h6 {
+	border-color: #ddd
+}
+
+a {
+	color: #888
+}
+
+#head {
+	background: #313230
+}
