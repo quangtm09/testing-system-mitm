@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 12, 2014 10:45:56 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Questioninfo" table="questioninfo" catalog="testingsystem">
+        <id name="questInfoId" type="java.lang.Integer">
+            <column name="QUEST_INFO_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="question" class="Question" fetch="select">
+            <column name="QUESTION_ID" />
+        </many-to-one>
+        <property name="questInfoProp" type="string">
+            <column name="QUEST_INFO_PROP" length="50" not-null="true" />
+        </property>
+        <property name="questInfoValue" type="string">
+            <column name="QUEST_INFO_VALUE" length="200" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

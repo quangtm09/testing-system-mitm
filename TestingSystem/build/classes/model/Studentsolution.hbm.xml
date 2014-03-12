@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 12, 2014 10:45:56 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Studentsolution" table="studentsolution" catalog="testingsystem">
+        <id name="studentSolId" type="java.lang.Integer">
+            <column name="STUDENT_SOL_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="student" class="Student" fetch="select">
+            <column name="STUDENT_ID" length="10" />
+        </many-to-one>
+        <many-to-one name="tquestion" class="Tquestion" fetch="select">
+            <column name="TQUESTION_ID" />
+        </many-to-one>
+        <property name="studentSolComment" type="string">
+            <column name="STUDENT_SOL_COMMENT" length="65535" />
+        </property>
+        <set name="squestionsolutions" table="squestionsolution" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="STUDENT_SOL_ID" />
+            </key>
+            <one-to-many class="Squestionsolution" />
+        </set>
+    </class>
+</hibernate-mapping>

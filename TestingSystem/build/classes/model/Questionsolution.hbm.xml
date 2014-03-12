@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 12, 2014 10:45:56 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Questionsolution" table="questionsolution" catalog="testingsystem">
+        <id name="questSolId" type="java.lang.Integer">
+            <column name="QUEST_SOL_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="question" class="Question" fetch="select">
+            <column name="QUESTION_ID" />
+        </many-to-one>
+        <many-to-one name="questionitemByPreviousQuestItemId" class="Questionitem" fetch="select">
+            <column name="PREVIOUS_QUEST_ITEM_ID" />
+        </many-to-one>
+        <many-to-one name="questionitemByNextQuestItemId" class="Questionitem" fetch="select">
+            <column name="NEXT_QUEST_ITEM_ID" />
+        </many-to-one>
+        <many-to-one name="questionitemByQuestItemId" class="Questionitem" fetch="select">
+            <column name="QUEST_ITEM_ID" />
+        </many-to-one>
+        <property name="questSolOrder" type="java.lang.Byte">
+            <column name="QUEST_SOL_ORDER" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 12, 2014 10:45:56 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Testsection" table="testsection" catalog="testingsystem">
+        <id name="testSecId" type="java.lang.Integer">
+            <column name="TEST_SEC_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="test" class="Test" fetch="select">
+            <column name="TEST_ID" />
+        </many-to-one>
+        <property name="testSecDesc" type="string">
+            <column name="TEST_SEC_DESC" length="65535" />
+        </property>
+        <set name="tquestions" table="tquestion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TEST_SEC_ID" />
+            </key>
+            <one-to-many class="Tquestion" />
+        </set>
+        <set name="testsectionitems" table="testsectionitem" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TEST_SEC_ID" />
+            </key>
+            <one-to-many class="Testsectionitem" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 12, 2014 10:45:56 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Questionitem" table="questionitem" catalog="testingsystem">
+        <id name="questItemId" type="java.lang.Integer">
+            <column name="QUEST_ITEM_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="question" class="Question" fetch="select">
+            <column name="QUESTION_ID" />
+        </many-to-one>
+        <property name="questItemFace" type="string">
+            <column name="QUEST_ITEM_FACE" length="65535">
+                <comment>This value is showed to users. When question is the filling into the blank, this field is compared to QUEST_ITEM_VALUE to verify that they are match each
+                other.</comment>
+            </column>
+        </property>
+        <property name="questItemValue" type="string">
+            <column name="QUEST_ITEM_VALUE" length="65535" />
+        </property>
+        <set name="questionsolutionsForPreviousQuestItemId" table="questionsolution" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="PREVIOUS_QUEST_ITEM_ID" />
+            </key>
+            <one-to-many class="Questionsolution" />
+        </set>
+        <set name="questionsolutionsForQuestItemId" table="questionsolution" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="QUEST_ITEM_ID" />
+            </key>
+            <one-to-many class="Questionsolution" />
+        </set>
+        <set name="questionsolutionsForNextQuestItemId" table="questionsolution" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="NEXT_QUEST_ITEM_ID" />
+            </key>
+            <one-to-many class="Questionsolution" />
+        </set>
+        <set name="questionitemfigures" table="questionitemfigure" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="QUEST_ITEM_ID" />
+            </key>
+            <one-to-many class="Questionitemfigure" />
+        </set>
+        <set name="questioniteminfos" table="questioniteminfo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="QUEST_ITEM_ID" />
+            </key>
+            <one-to-many class="Questioniteminfo" />
+        </set>
+    </class>
+</hibernate-mapping>

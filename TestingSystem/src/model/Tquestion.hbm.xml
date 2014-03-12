@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 12, 2014 10:45:56 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="Tquestion" table="tquestion" catalog="testingsystem">
+        <id name="tquestionId" type="java.lang.Integer">
+            <column name="TQUESTION_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="testsection" class="Testsection" fetch="select">
+            <column name="TEST_SEC_ID" />
+        </many-to-one>
+        <property name="tquestionDesc" type="string">
+            <column name="TQUESTION_DESC" length="65535" />
+        </property>
+        <property name="tquestionType" type="string">
+            <column name="TQUESTION_TYPE" length="15" />
+        </property>
+        <property name="tquestionLevel" type="java.lang.Character">
+            <column name="TQUESTION_LEVEL" length="1" />
+        </property>
+        <property name="tquestionScore" type="java.lang.Float">
+            <column name="TQUESTION_SCORE" precision="12" scale="0" />
+        </property>
+        <set name="tquestionowners" table="tquestionowner" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TQUESTION_ID" />
+            </key>
+            <one-to-many class="Tquestionowner" />
+        </set>
+        <set name="tquestionitems" table="tquestionitem" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TQUESTION_ID" />
+            </key>
+            <one-to-many class="Tquestionitem" />
+        </set>
+        <set name="studentsolutions" table="studentsolution" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TQUESTION_ID" />
+            </key>
+            <one-to-many class="Studentsolution" />
+        </set>
+        <set name="tquestionsolutions" table="tquestionsolution" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TQUESTION_ID" />
+            </key>
+            <one-to-many class="Tquestionsolution" />
+        </set>
+        <set name="tquestioninfos" table="tquestioninfo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TQUESTION_ID" />
+            </key>
+            <one-to-many class="Tquestioninfo" />
+        </set>
+        <set name="tquestiontopics" table="tquestiontopic" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TQUESTION_ID" />
+            </key>
+            <one-to-many class="Tquestiontopic" />
+        </set>
+        <set name="tquestionfigures" table="tquestionfigure" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TQUESTION_ID" />
+            </key>
+            <one-to-many class="Tquestionfigure" />
+        </set>
+    </class>
+</hibernate-mapping>
