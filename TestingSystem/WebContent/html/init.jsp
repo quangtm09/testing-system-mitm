@@ -1,3 +1,3 @@
-<%@page import="util.TestingSystemConstants"%>
+<%@page import="util.TSConstants"%>
 
-<link rel="stylesheet" type="text/css" href="<%=TestingSystemConstants.TESTING_SYSTEM_CSS%>"/>
+<link rel="stylesheet" type="text/css" href="<%=TSConstants.TESTING_SYSTEM_CSS%>"/>

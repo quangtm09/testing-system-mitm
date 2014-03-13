@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import util.TestingSystemConstants;
+import util.TSConstants;
 
 /**
  * Servlet implementation class TestingSystemServlet
@@ -21,7 +21,7 @@ public class TestingSystemServlet extends HttpServlet {
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response){
 		try {
-			goToPage(TestingSystemConstants.INDEX_JSP, request, response);
+			goToPage(TSConstants.INDEX_JSP, request, response);
 		} catch (ServletException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
