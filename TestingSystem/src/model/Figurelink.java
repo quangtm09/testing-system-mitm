@@ -1,4 +1,5 @@
 package model;
+
 // Generated Mar 12, 2014 10:45:56 PM by Hibernate Tools 3.6.0
 
 import java.util.HashSet;
@@ -13,8 +14,7 @@ public class Figurelink implements java.io.Serializable {
 	private String figureDesc;
 	private String figurePath;
 	private Set<Questionfigure> questionfigures = new HashSet<Questionfigure>(0);
-	private Set<Questionitemfigure> questionitemfigures = new HashSet<Questionitemfigure>(
-			0);
+	private Set<Questionitemfigure> questionitemfigures = new HashSet<Questionitemfigure>(0);
 
 	public Figurelink() {
 	}
