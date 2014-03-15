@@ -1,5 +1,5 @@
 <%@ include file="/html/init.jsp"%>
-
+<link rel="stylesheet" type="text/css" href="<%=TSConstants.TESTING_SYSTEM_CSS%>"/>
 <!-- Begin Page Content -->
 <div id="container">
     <form>

@@ -1,10 +1,11 @@
 package dao;
 // default package
 // Generated Mar 15, 2014 5:58:16 PM by Hibernate Tools 3.4.0.CR1
-import model.*;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import model.Questiontopic;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

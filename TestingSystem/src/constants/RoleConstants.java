@@ -1,4 +1,4 @@
-package data.constant;
+package constants;
 
 public class RoleConstants {
 	

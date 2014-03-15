@@ -1,6 +1,6 @@
-package data.constant;
+package constants;
 
-public class PermissionConstant {
+public class PermissionConstants {
 	/* Create Test Permission */
 	public static final int CREATE_TEST = 1;
 	public static final String str_CREATE_TEST = "Create Test";

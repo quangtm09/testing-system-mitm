@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import util.TSConstants;
+import constants.TSConstants;
 
 /**
  * Servlet implementation class TestingSystemServlet
