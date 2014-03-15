@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<table-filter match-name="account" />
+	<table-filter match-name="account_role_map" />
+	<table-filter match-name="figurelink" />
+	<table-filter match-name="lecturer" />
+	<table-filter match-name="permission" />
+	<table-filter match-name="question" />
+	<table-filter match-name="questionfigure" />
+	<table-filter match-name="questioninfo" />
+	<table-filter match-name="questionitem" />
+	<table-filter match-name="questionitemfigure" />
+	<table-filter match-name="questioniteminfo" />
+	<table-filter match-name="questionowner" />
+	<table-filter match-name="questionsolution" />
+	<table-filter match-name="questiontopic" />
+	<table-filter match-name="role" />
+	<table-filter match-name="role_permission_map" />
+	<table-filter match-name="sharedquestion" />
+	<table-filter match-name="squestionsolution" />
+	<table-filter match-name="student" />
+	<table-filter match-name="studentsolution" />
+	<table-filter match-name="studenttestmap" />
+	<table-filter match-name="subject" />
+	<table-filter match-name="subjectandtopic" />
+	<table-filter match-name="subjectassignment" />
+	<table-filter match-name="test" />
+	<table-filter match-name="testreview" />
+	<table-filter match-name="testsection" />
+	<table-filter match-name="testsectionitem" />
+	<table-filter match-name="tfigurelink" />
+	<table-filter match-name="topic" />
+	<table-filter match-name="tquestion" />
+	<table-filter match-name="tquestionfigure" />
+	<table-filter match-name="tquestioninfo" />
+	<table-filter match-name="tquestionitem" />
+	<table-filter match-name="tquestionitemfigure" />
+	<table-filter match-name="tquestioniteminfo" />
+	<table-filter match-name="tquestionowner" />
+	<table-filter match-name="tquestionsolution" />
+	<table-filter match-name="tquestiontopic" />
+	<table-filter match-name="user" />
+<table name="account">
+	<column name="ACC_ID"></column>
+	<column name="USER_ID"></column>
+	<column name="ACC_PWD"></column>
+</table>
+<table name="tfigurelink">
+		<column name="TFIGURE_ID"></column>
+		<column name="TFIGURE_DESC"></column>
+		<column name="TFIGURE_PATH"></column>
+	</table>
+	<table name="figurelink">
+		<column name="FIGURE_ID"></column>
+		<column name="FIGURE_DESC"></column>
+		<column name="FIGURE_PATH"></column>
+	</table>
+	<table name="role_permission_map">
+		<column name="ROLE_PERMISSION_MAP_ID"></column>
+		<column name="ROLE_ID"></column>
+		<column name="PERMISSION_ID"></column>
+		<column name="ACC_ID"></column>
+		<column name="ROLE_PERMISSION_GRANTED_DATE"></column>
+	</table>
+	<table name="studenttestmap">
+		<column name="STUDENT_TEST_ID"></column>
+		<column name="STUDENT_ID"></column>
+		<column name="TEST_ID"></column>
+		<column name="STUDENT_TEST_STARTDATE"></column>
+		<column name="STUDENT_TEST_STARTTIME"></column>
+		<column name="STUDENT_TEST_ENDDATE"></column>
+		<column name="STUDENT_TEST_ENDTIME"></column>
+		<column name="STUDENT_TEST_VISIBLE"></column>
+	</table>
+	<table name="account_role_map">
+		<column name="ACC_ROLE_ID"></column>
+		<column name="ACC_ID"></column>
+		<column name="ROLE_ID"></column>
+		<column name="CREATOR_ACC_ROLE_ID"></column>
+		<column name="ACC_ROLE_GRANTED_DATE"></column>
+	</table>
+	<table name="user">
+		<column name="USER_ID"></column>
+		<column name="FNAME"></column>
+		<column name="LNAME"></column>
+		<column name="EMAIL"></column>
+		<column name="MOBILE"></column>
+		<column name="BDATE"></column>
+		<column name="ADDRESS"></column>
+	</table>
+	<table name="tquestionsolution">
+		<column name="TQUEST_SOL_ID"></column>
+		<column name="TQUESTION_ID"></column>
+		<column name="TQUEST_ITEM_ID"></column>
+		<column name="TQUEST_NEXT_ITEM_ID"></column>
+		<column name="TQUEST_PREVIOUS_ITEM_ID"></column>
+		<column name="TQUEST_SOL_ORDER"></column>
+	</table>
+	<table name="tquestioniteminfo">
+		<column name="TQUEST_ITEM_INFO_ID"></column>
+		<column name="TQUEST_ITEM_ID"></column>
+		<column name="TQUEST_ITEM_INFO_PROP"></column>
+		<column name="TQUEST_ITEM_INFO_VALUE"></column>
+	</table>
+	<table name="student">
+		<column name="STUDENT_ID"></column>
+		<column name="STUDENT_NAME"></column>
+	</table>
+	<table name="lecturer">
+		<column name="LECTR_ID"></column>
+		<column name="LECTR_NAME"></column>
+		<column name="LECTR_EMAIL"></column>
+		<column name="LECTR_FONE"></column>
+	</table>
+	<table name="subjectandtopic">
+		<column name="SUBJECT_TOP_ID"></column>
+		<column name="SUBJECT_ID"></column>
+		<column name="TOPIC_ID"></column>
+		<column name="SUBJECT_TOP_PERCENT"></column>
+	</table>
+	<table name="tquestiontopic">
+		<column name="TQUEST_TOPIC_ID"></column>
+		<column name="TQUESTION_ID"></column>
+		<column name="TOPIC_ID"></column>
+		<column name="TQUEST_TOPIC_LEVEL"></column>
+	</table>
+	<table name="squestionsolution">
+		<column name="SQUEST_SOL_ID"></column>
+		<column name="STUDENT_SOL_ID"></column>
+		<column name="TQUEST_ITEM_ID"></column>
+		<column name="TQUEST_PREVIOUS_ITEM_ID"></column>
+		<column name="TQUEST_NEXT_ITEM_ID"></column>
+		<column name="SQUEST_SOL_ORDER"></column>
+		<column name="SQUEST_SOL_COMMENT"></column>
+	</table>
+	<table name="subjectassignment">
+		<column name="ASSIGN_ID"></column>
+		<column name="LECTR_ID"></column>
+		<column name="SUBJECT_ID"></column>
+		<column name="ASSIGN_STARTDATE"></column>
+		<column name="ASSIGN_ENDDATE"></column>
+	</table>
+	<table name="questioninfo">
+		<column name="QUEST_INFO_ID"></column>
+		<column name="QUESTION_ID"></column>
+		<column name="QUEST_INFO_PROP"></column>
+		<column name="QUEST_INFO_VALUE"></column>
+	</table>
+	<table name="tquestionowner">
+		<column name="TQUEST_OWNER_ID"></column>
+		<column name="LECTR_ID"></column>
+		<column name="TQUESTION_ID"></column>
+	</table>
+	<table name="questionsolution">
+		<column name="QUEST_SOL_ID"></column>
+		<column name="QUEST_ITEM_ID"></column>
+		<column name="PREVIOUS_QUEST_ITEM_ID"></column>
+		<column name="NEXT_QUEST_ITEM_ID"></column>
+		<column name="QUESTION_ID"></column>
+		<column name="QUEST_SOL_ORDER"></column>
+	</table>
+	<table name="test">
+		<column name="TEST_ID"></column>
+		<column name="LECTR_ID"></column>
+		<column name="TEST_DESC"></column>
+		<column name="TEST_CREATION_DATE"></column>
+		<column name="TEST_START_TIME"></column>
+		<column name="TEST_DURATION"></column>
+	</table>
+	<table name="permission">
+		<column name="PERMISSION_ID"></column>
+		<column name="PERMISSION_NAME"></column>
+		<column name="PERMISSION_VALUE"></column>
+		<column name="PERMISSION_DESC"></column>
+	</table>
+	<table name="topic">
+		<column name="TOPIC_ID"></column>
+		<column name="TOPIC_PARENT_ID"></column>
+		<column name="TOPIC_NAME"></column>
+		<column name="TOPIC_DESC"></column>
+	</table>
+	<table name="testsection">
+		<column name="TEST_SEC_ID"></column>
+		<column name="TEST_ID"></column>
+		<column name="TEST_SEC_DESC"></column>
+	</table>
+	<table name="questioniteminfo">
+		<column name="ITEM_INFO_ID"></column>
+		<column name="QUEST_ITEM_ID"></column>
+		<column name="ITEM_INFO_PROP"></column>
+		<column name="ITEM_INFO_VALUE"></column>
+	</table>
+	<table name="questionitem">
+		<column name="QUEST_ITEM_ID"></column>
+		<column name="QUESTION_ID"></column>
+		<column name="QUEST_ITEM_FACE"></column>
+		<column name="QUEST_ITEM_VALUE"></column>
+	</table>
+	<table name="questionitemfigure">
+		<column name="ITEM_FIG_ID"></column>
+		<column name="QUEST_ITEM_ID"></column>
+		<column name="FIGURE_ID"></column>
+		<column name="ITEM_FIG_DESC"></column>
+	</table>
+	<table name="subject">
+		<column name="SUBJECT_ID"></column>
+		<column name="SUBJECT_NAME"></column>
+		<column name="SUBJECT_CREDIT"></column>
+	</table>
+	<table name="testreview">
+		<column name="TEST_REV_ID"></column>
+		<column name="LECTR_ID"></column>
+		<column name="TEST_ID"></column>
+		<column name="TEST_REV_COMMENT"></column>
+		<column name="TEST_REV_DATE"></column>
+		<column name="TEST_REV_APPROVED"></column>
+	</table>
+	<table name="questionowner">
+		<column name="QUEST_OWNER_ID"></column>
+		<column name="LECTR_ID"></column>
+		<column name="QUESTION_ID"></column>
+	</table>
+	<table name="tquestionitemfigure">
+		<column name="TQUEST_ITEM_FIG_ID"></column>
+		<column name="TFIGURE_ID"></column>
+		<column name="TQUEST_ITEM_ID"></column>
+		<column name="TQUEST_ITEM_FIG_DESC"></column>
+	</table>
+	<table name="questiontopic">
+		<column name="QUEST_TOPIC_ID"></column>
+		<column name="TOPIC_ID"></column>
+		<column name="QUESTION_ID"></column>
+		<column name="QUEST_TOPIC_LEVEL"></column>
+	</table>
+	<table name="studentsolution">
+		<column name="STUDENT_SOL_ID"></column>
+		<column name="STUDENT_ID"></column>
+		<column name="TQUESTION_ID"></column>
+		<column name="STUDENT_SOL_COMMENT"></column>
+	</table>
+	<table name="questionfigure">
+		<column name="QUEST_FIG_ID"></column>
+		<column name="FIGURE_ID"></column>
+		<column name="QUESTION_ID"></column>
+		<column name="QUEST_FIG_DESC"></column>
+	</table>
+	<table name="tquestionitem">
+		<column name="TQUEST_ITEM_ID"></column>
+		<column name="TQUESTION_ID"></column>
+		<column name="TQUEST_ITEM_FACE"></column>
+		<column name="TQUEST_ITEM_VALUE"></column>
+	</table>
+	<table name="role">
+		<column name="ROLE_ID"></column>
+		<column name="ROLE_NAME"></column>
+		<column name="ROLE_DESC"></column>
+	</table>
+	<table name="testsectionitem">
+		<column name="TEST_SEC_ITEM_ID"></column>
+		<column name="TEST_SEC_ID"></column>
+		<column name="QUESTION_ID"></column>
+		<column name="TEST_SEC_ITEM_SCORE"></column>
+	</table>
+	<table name="question">
+		<column name="QUESTION_ID"></column>
+		<column name="QUESTION_DESC"></column>
+		<column name="QUESTION_TYPE"></column>
+		<column name="QUESTION_LEVEL"></column>
+	</table>
+	<table name="tquestioninfo">
+		<column name="TQUEST_INFO_ID"></column>
+		<column name="TQUESTION_ID"></column>
+		<column name="TQUEST_INFO_PROP"></column>
+		<column name="TQUEST_INFO_VALUE"></column>
+	</table>
+	<table name="tquestion">
+		<column name="TQUESTION_ID"></column>
+		<column name="TEST_SEC_ID"></column>
+		<column name="TQUESTION_DESC"></column>
+		<column name="TQUESTION_TYPE"></column>
+		<column name="TQUESTION_LEVEL"></column>
+		<column name="TQUESTION_SCORE"></column>
+	</table>
+	<table name="sharedquestion">
+		<column name="SHARED_QUEST_ID"></column>
+		<column name="SHARER_ID"></column>
+		<column name="SHAREE_ID"></column>
+		<column name="QUESTION_ID"></column>
+		<column name="SHARED_QUEST_VIEWABLE"></column>
+		<column name="SHARED_QUEST_MODIFIABLE"></column>
+		<column name="SHARED_QUEST_RESHARABLE"></column>
+	</table>
+	<table name="tquestionfigure">
+		<column name="TQUEST_FIG_ID"></column>
+		<column name="TQUESTION_ID"></column>
+		<column name="TFIGURE_ID"></column>
+		<column name="TQUEST_FIG_DESC"></column>
+	</table>
+</hibernate-reverse-engineering>
