@@ -8,7 +8,7 @@ import model.Lecturer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import javax.ejb.*;
 /**
  * Home object for domain model class Lecturer.
  * @see .Lecturer

@@ -5,7 +5,7 @@ import javax.persistence.PersistenceContext;
 import model.AccountRoleMap;
 // default package
 // Generated Mar 15, 2014 5:58:16 PM by Hibernate Tools 3.4.0.CR1
-
+import javax.ejb.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
