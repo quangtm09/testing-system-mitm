@@ -42,12 +42,13 @@
 	<table-filter match-name="tquestionsolution" />
 	<table-filter match-name="tquestiontopic" />
 	<table-filter match-name="user" />
-<table name="account">
-	<column name="ACC_ID"></column>
-	<column name="USER_ID"></column>
-	<column name="ACC_PWD"></column>
-</table>
-<table name="tfigurelink">
+	<table-filter match-name="logs"></table-filter>
+	<table name="account">
+		<column name="ACC_ID"></column>
+		<column name="USER_ID"></column>
+		<column name="ACC_PWD"></column>
+	</table>
+	<table name="tfigurelink">
 		<column name="TFIGURE_ID"></column>
 		<column name="TFIGURE_DESC"></column>
 		<column name="TFIGURE_PATH"></column>
@@ -297,5 +298,13 @@
 		<column name="TQUESTION_ID"></column>
 		<column name="TFIGURE_ID"></column>
 		<column name="TQUEST_FIG_DESC"></column>
+	</table>
+	<table name="logs">
+		<column name="LOG_ID"></column>
+		<column name="USER_ID"></column>
+		<column name="LOG_DATE"></column>
+		<column name="LOGGER"></column>
+		<column name="LEVEL"></column>
+		<column name="MESSAGE"></column>
 	</table>
 </hibernate-reverse-engineering>
