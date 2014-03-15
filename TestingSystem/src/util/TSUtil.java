@@ -18,4 +18,12 @@ public class TSUtil {
 		}
 		return paramValue;
 	}
+	
+	public static Object getAttribute(HttpServletRequest request, String attributeName, Object defaultValue){
+		Object attributeValue = request.getAttribute(attributeName);
+		if(null == attributeValue){
+			attributeValue = defaultValue;
+		}
+		return attributeValue;
+	}
 }
