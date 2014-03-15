@@ -1,16 +1,12 @@
-<%@ include file="/html/init.jsp"%>
-<link rel="stylesheet" type="text/css" href="<%=TSConstants.TESTING_SYSTEM_CSS%>"/>
-<!-- Begin Page Content -->
-<div id="container">
-    <form>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
-        <div id="lower">
-            <input type="checkbox"><label class="check" for="checkbox">Keep me logged in</label>
-            <input type="submit" value="Login">
-        </div><!--/ lower-->
-    </form>
-</div><!--/ container-->
-<!-- End Page Content -->
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Index page</title>
+</head>
+<body>
+You have logged in successfully!
+</body>
+</html>

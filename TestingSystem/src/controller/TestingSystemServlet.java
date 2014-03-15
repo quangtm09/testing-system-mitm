@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import util.StringPool;
+import util.TSUtil;
 import constants.TSConstants;
 
 /**
@@ -20,8 +22,15 @@ public class TestingSystemServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response){
+		final String cmd = TSUtil.getParameter(request, TSConstants.CMD, StringPool.BLANK);
 		try {
-			goToPage(TSConstants.INDEX_JSP, request, response);
+			if(cmd.equals(TSConstants.LOGIN)){
+				// Do something
+				goToPage(TSConstants.INDEX_JSP, request, response);
+			} else {
+				// Go to login page
+				goToPage(TSConstants.LOGIN_JSP, request, response);
+			}
 		} catch (ServletException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
