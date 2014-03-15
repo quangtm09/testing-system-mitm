@@ -1,49 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC
-"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <session-factory>
-        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
-        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.password">123</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/testingsystem</property>
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
-        <property name="hibernate.search.autoregister_listeners">false</property>
-        <mapping resource="Tquestioniteminfo.hbm.xml" />
-        <mapping resource="Tquestionfigure.hbm.xml" />
-        <mapping resource="Studentsolution.hbm.xml" />
-        <mapping resource="Tquestion.hbm.xml" />
-        <mapping resource="Testsection.hbm.xml" />
-        <mapping resource="Questioniteminfo.hbm.xml" />
-        <mapping resource="Subjectassignment.hbm.xml" />
-        <mapping resource="Tquestiontopic.hbm.xml" />
-        <mapping resource="Lecturer.hbm.xml" />
-        <mapping resource="Tquestioninfo.hbm.xml" />
-        <mapping resource="Test.hbm.xml" />
-        <mapping resource="Studenttestmap.hbm.xml" />
-        <mapping resource="Question.hbm.xml" />
-        <mapping resource="Topic.hbm.xml" />
-        <mapping resource="Sharedquestion.hbm.xml" />
-        <mapping resource="Questionsolution.hbm.xml" />
-        <mapping resource="Questionitem.hbm.xml" />
-        <mapping resource="Questionfigure.hbm.xml" />
-        <mapping resource="Questioninfo.hbm.xml" />
-        <mapping resource="Tquestionowner.hbm.xml" />
-        <mapping resource="Subjectandtopic.hbm.xml" />
-        <mapping resource="Figurelink.hbm.xml" />
-        <mapping resource="Subject.hbm.xml" />
-        <mapping resource="Questionowner.hbm.xml" />
-        <mapping resource="Testreview.hbm.xml" />
-        <mapping resource="Tquestionsolution.hbm.xml" />
-        <mapping resource="Student.hbm.xml" />
-        <mapping resource="Questionitemfigure.hbm.xml" />
-        <mapping resource="Tfigurelink.hbm.xml" />
-        <mapping resource="Tquestionitemfigure.hbm.xml" />
-        <mapping resource="Squestionsolution.hbm.xml" />
-        <mapping resource="Questiontopic.hbm.xml" />
-        <mapping resource="Testsectionitem.hbm.xml" />
-        <mapping resource="Tquestionitem.hbm.xml" />
-    </session-factory>
+	<session-factory name="">
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.password">root</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/testsys_dba</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.default_catalog">testsys_dba</property>
+		<property name="hibernate.default_schema">testsys_dba</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<mapping class="model.Account" />
+		<mapping class="model.AccountRoleMap" />
+		<mapping class="model.Figurelink" />
+		<mapping class="model.Lecturer" />
+		<mapping class="model.Permission" />
+		<mapping class="model.Question" />
+		<mapping class="model.Questionfigure" />
+		<mapping class="model.Questioninfo" />
+		<mapping class="model.Questionitem" />
+		<mapping class="model.Questioniteminfo" />
+		<mapping class="model.Questionitemfigure" />
+		<mapping class="model.Questionowner" />
+		<mapping class="model.Questionsolution" />
+		<mapping class="model.Questiontopic" />
+		<mapping class="model.Role" />
+		<mapping class="model.RolePermissionMap" />
+		<mapping class="model.Sharedquestion" />
+		<mapping class="model.Squestionsolution" />
+		<mapping class="model.Student" />
+		<mapping class="model.Studentsolution" />
+		<mapping class="model.Studenttestmap" />
+		<mapping class="model.Subject" />
+		<mapping class="model.Subjectandtopic" />
+		<mapping class="model.Subjectassignment" />
+		<mapping class="model.Test" />
+		<mapping class="model.Testreview" />
+		<mapping class="model.Testsection" />
+		<mapping class="model.Testsectionitem" />
+		<mapping class="model.Tfigurelink" />
+		<mapping class="model.Topic" />
+		<mapping class="model.Tquestion" />
+		<mapping class="model.Tquestionfigure" />
+		<mapping class="model.Tquestioninfo" />
+		<mapping class="model.Tquestionitem" />
+		<mapping class="model.Tquestionitemfigure" />
+		<mapping class="model.Tquestioniteminfo" />
+		<mapping class="model.Tquestionowner" />
+		<mapping class="model.Tquestionsolution" />
+		<mapping class="model.Tquestiontopic" />
+		<mapping class="model.User" />
+	</session-factory>
 </hibernate-configuration>
