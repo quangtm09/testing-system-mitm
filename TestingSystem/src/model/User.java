@@ -1,7 +1,7 @@
 package model;
 
 // default package
-// Generated Mar 15, 2014 5:58:16 PM by Hibernate Tools 3.4.0.CR1
+// Generated Mar 15, 2014 7:27:54 PM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -30,6 +30,7 @@ public class User implements java.io.Serializable {
 	private Date bdate;
 	private String address;
 	private Set<Account> accounts = new HashSet<Account>(0);
+	private Set<Logs> logses = new HashSet<Logs>(0);
 
 	public User() {
 	}
@@ -40,7 +41,8 @@ public class User implements java.io.Serializable {
 	}
 
 	public User(String userId, String fname, String lname, String email,
-			String mobile, Date bdate, String address, Set<Account> accounts) {
+			String mobile, Date bdate, String address, Set<Account> accounts,
+			Set<Logs> logses) {
 		this.userId = userId;
 		this.fname = fname;
 		this.lname = lname;
@@ -49,6 +51,7 @@ public class User implements java.io.Serializable {
 		this.bdate = bdate;
 		this.address = address;
 		this.accounts = accounts;
+		this.logses = logses;
 	}
 
 	@Id
@@ -123,6 +126,15 @@ public class User implements java.io.Serializable {
 
 	public void setAccounts(Set<Account> accounts) {
 		this.accounts = accounts;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	public Set<Logs> getLogses() {
+		return this.logses;
+	}
+
+	public void setLogses(Set<Logs> logses) {
+		this.logses = logses;
 	}
 
 }

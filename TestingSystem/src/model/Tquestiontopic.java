@@ -1,7 +1,7 @@
 package model;
 
 // default package
-// Generated Mar 15, 2014 5:58:16 PM by Hibernate Tools 3.4.0.CR1
+// Generated Mar 15, 2014 7:27:54 PM by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
