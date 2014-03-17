@@ -1,0 +1,517 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+		<script type="text/javascript" src="#{request.getContextPath()}/script/recruitRequestCal.js"/>		
+
+		<h:form styleClass="edit" id="recruitRequestEditForm">
+
+			<a:loadScript src="/script/jquery.numeric.js" />
+
+			<s:div style="padding-top: 20px;">
+				<h:outputLabel value="#{messages['recruit.request.header.edit']}"
+					styleClass="header-label" />
+			</s:div>
+
+			<s:div styleClass="header-border">
+				<h:panelGrid columns="2">
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['org.unit']}:" />
+						</ui:define>
+
+						<h:selectOneMenu value="#{recruitRequestHome.instance.orgUnit}"
+							styleClass="rtsSelectOneMenu" 
+							id="orgUnitSelect" 
+							required="true"
+							binding="#{orgUnitComponent}"
+							requiredMessage="#{messages['error.select.required']} #{' '} #{messages['org.unit']}">
+
+							<s:selectItems value="#{recruitRequestHome.orgUnits}"
+								id="groupSelect" 
+								var="_unit" 
+								label="#{_unit.unitName}"
+								hideNoSelectionLabel="true"
+								noSelectionLabel="#{messages['selectOptions']}" />
+							<s:convertEntity />							
+						</h:selectOneMenu>
+					</s:decorate>
+
+					<s:decorate template="layout/edit.xhtml" id="recruitNameField">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.name']}:" />
+						</ui:define>
+						<h:inputText styleClass="rtsTextBox"
+							value="#{recruitRequestHome.instance.recruitRequestName}"
+							required="true"
+							requiredMessage="#{messages['error.enter.required']} #{' '} #{messages['recruit.request.name']}"
+							maxlength="30" >
+							<f:validator validatorId="rruNameValidator"/>
+							<f:attribute name="orgUnitComponent" value="#{orgUnitComponent}"/>
+							<f:attribute name="orgUnitValue" value="#{recruitRequestHome.instance.orgUnit.orgUnitId}"/>
+						</h:inputText>	
+					</s:decorate>
+
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['recruit.request.job.position']}:" />
+						</ui:define>
+						<h:inputText id="jobPositionField" required="true"
+							requiredMessage="#{messages['error.enter.required']} #{' '} #{messages['recruit.request.job.position']}"
+							styleClass="rtsTextBox"
+							value="#{recruitRequestHome.instance.jobPosition}" maxlength="30" />
+					</s:decorate>
+
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['project.recruit.status']}:" />
+						</ui:define>
+						<h:selectOneMenu styleClass="rtsSelectOneMenu"
+							value="#{recruitRequestHome.instance.status}" required="true"
+							requiredMessage="#{messages['error.select.required']} #{' '} #{messages['project.recruit.status']}">
+							<f:selectItem itemLabel="#{messages['status.open']}"
+								itemValue="#{messages['status.open']}" />
+							<f:selectItem itemLabel="#{messages['status.closed']}"
+								itemValue="#{messages['status.closed']}" />
+						</h:selectOneMenu>
+					</s:decorate>
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['recruit.request.add.info']}:" />
+						</ui:define>
+						<h:inputTextarea id="additionalInfoFieldEdit"
+							styleClass="additionalInfoFieldEdit rtsTextarea"
+							value="#{recruitRequestHome.instance.additionalTraining}" >
+							<a:support event="onblur" bypassUpdates="true" ajaxSingle="true"/>
+						</h:inputTextarea>	
+					</s:decorate>
+
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['recruit.request.add.skilss']}:" />
+						</ui:define>
+						<h:inputTextarea id="additionalSkillFieldEdit"
+							styleClass="additionalSkillFieldEdit rtsTextarea"
+							value="#{recruitRequestHome.instance.additionalSkills}" />
+					</s:decorate>
+
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['requested.date']}:" />
+						</ui:define>
+						<rich:calendar id="requestedDateCal" 
+							styleClass="rtsCalendar"
+							required="true"
+							requiredMessage="#{messages['error.select.required']} #{' '} #{messages['requested.date']}"
+							value="#{recruitRequestHome.instance.requestedDate}"
+							datePattern="#{messages['calendar.pattern']}"
+							resetTimeOnDateSelect="true" 
+							enableManualInput="false"
+							monthLabels="#{messages['calendar.month.labels']}"
+							isDayEnabled="disablementFunction"
+							dayStyleClass="disabledClassesProv"
+							boundaryDatesMode="scroll">
+							<f:validator validatorId="recruitRequestDateComparator"/>
+							<f:attribute name="closedDateComponent" value="#{closedDateComponent}"/>
+						</rich:calendar>
+					</s:decorate>
+
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['closed.date']}:" />
+						</ui:define>
+						<rich:calendar id="closedDateCal" 
+							styleClass="rtsCalendar"
+							value="#{recruitRequestHome.instance.closedDate}"
+							datePattern="#{messages['calendar.pattern']}"
+							enableManualInput="false"
+							monthLabels="#{messages['calendar.month.labels']}"
+							binding="#{closedDateComponent}"
+							isDayEnabled="disablementFunction"
+							dayStyleClass="disabledClassesProv"
+							boundaryDatesMode="scroll">
+						</rich:calendar>	
+					</s:decorate>
+					
+					<s:decorate id="approvedByField" template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.approved.by']}:" />
+						</ui:define>
+						<h:selectOneMenu value="#{recruitRequestHome.instance.approvedBy}"
+							required="true"
+							requiredMessage="#{messages['error.select.required']} #{' '} #{messages['com.bosch.ui.approved.by']}">
+							<s:selectItems value="#{userHome.availableUsers}"
+								noSelectionLabel="#{messages['selectOptions']}"
+								var="item" 								
+								label="#{item.usrFullName} - #{item.usrUserName}">								
+							</s:selectItems>
+							<s:convertEntity/>
+						</h:selectOneMenu>								
+					</s:decorate>
+					
+					<s:decorate template="layout/edit.xhtml"
+						id="rcrSkillDescriptionField">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['recruit.request.description']}:" />
+						</ui:define>
+						<h:inputTextarea id="descriptionFieldEdit"
+							styleClass="descriptionFieldEdit rtsTextarea"
+							value="#{recruitRequestHome.instance.description}"
+							required="true"
+							requiredMessage="#{messages['error.enter.required']} #{' '} #{messages['recruit.request.description']}" />
+					</s:decorate>
+				</h:panelGrid>
+
+				<!--Recruit Request Skills-->
+				<h:panelGrid columns="2">
+					<s:decorate template="layout/edit.xhtml" id="numberofPersonField">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['recruit.request.skill.no.candidates']}:" />
+						</ui:define>
+						<rich:inputNumberSpinner minValue="0" maxValue="100" inputSize="2"
+							value="#{recruitRequestHome.instance.numberOfPersons}">
+						</rich:inputNumberSpinner>
+					</s:decorate>
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['recruit.request.skill.qualification']}:" />
+						</ui:define>
+						<h:selectOneMenu styleClass="rtsSelectOneMenu"
+							value="#{recruitRequestHome.instance.qualifications}">
+							<f:selectItem itemValue=""
+								itemLabel="#{messages['selectOptions']}" />
+							<f:selectItem itemValue="#{messages['com.bosch.ui.graduated']}"
+								itemLabel="#{messages['com.bosch.ui.graduated']}" />
+							<f:selectItem itemValue="#{messages['com.bosch.ui.master']}"
+								itemLabel="#{messages['com.bosch.ui.master']}" />
+							<f:selectItem itemValue="#{messages['com.bosch.ui.phd']}"
+								itemLabel="#{messages['com.bosch.ui.phd']}" />
+							<f:selectItem itemValue="#{messages['com.bosch.ui.no.required']}"
+								itemLabel="#{messages['com.bosch.ui.no.required']}" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+					<s:decorate template="layout/edit.xhtml"
+						id="experienceMinYearField">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['com.bosch.ui.yearofexperience']}:" />
+						</ui:define>
+
+						<h:panelGrid columns="4">
+							<h:outputLabel value="#{messages['recruit.request.min']}:"
+								for="expSpinner1" />
+							<rich:inputNumberSpinner id="expSpinner1" minValue="0"
+								onchange=" checkValueFromAndTo('#{rich:clientId('expSpinner1')}','#{rich:clientId('expSpinner2')}')"
+								maxValue="29" inputSize="2"
+								value="#{recruitRequestHome.instance.experienceYearFrom}">
+							</rich:inputNumberSpinner>
+
+							<h:outputLabel value="#{messages['recruit.request.max']}:"
+								for="expSpinner2" />
+							<rich:inputNumberSpinner id="expSpinner2" minValue="0"
+								onchange=" checkValueFromAndTo('#{rich:clientId('expSpinner1')}','#{rich:clientId('expSpinner2')}')"
+								maxValue="30" inputSize="2"
+								value="#{recruitRequestHome.instance.experienceYearTo}">
+							</rich:inputNumberSpinner>
+						</h:panelGrid>
+					</s:decorate>
+				</h:panelGrid>
+
+				<!--Recruitment Skills-->
+				<div style="padding-left: 26px;">
+					<ui:include src="/SkillPick.xhtml" />
+				</div>
+
+				<!--Recruitment Docs-->
+				<s:div styleClass="rts-text-align">
+					<s:decorate template="layout/editRecruitRequest.xhtml">
+						<h:panelGrid columns="2">
+							<rich:fileUpload id="upload" autoclear="true"
+								fileUploadListener="#{recruitRequestHome.fileUploadBean.listener}"
+								maxFilesQuantity="#{recruitRequestHome.fileUploadBean.uploadsAvailable}"
+								immediateUpload="#{recruitRequestHome.fileUploadBean.autoUpload}"
+								allowFlash="#{recruitRequestHome.fileUploadBean.useFlash}"
+								acceptedTypes="#{messages['recruit.request.acceptType']}">
+								<a:support event="onuploadcomplete" reRender="info,upload" ajaxSingle="true" focus="upload"/>
+							</rich:fileUpload>
+
+							<rich:panel id="info" styleClass="uploadFileInfo">
+								<f:facet name="header">
+									<h:outputLabel
+										value="#{messages['upload.uploaded.files.info']}" />
+								</f:facet>
+
+								<rich:dataTable
+									value="#{recruitRequestHome.fileUploadBean.files}" var="_file"
+									rowKeyVar="_indexRow" width="100%"
+									rendered="#{not empty recruitRequestHome.fileUploadBean.files}">
+									<rich:column styleClass="uploadFirstCell">
+										<f:facet name="header">
+											<h:outputLabel value="#{messages['upload.file.name']}" />
+										</f:facet>
+										<h:outputText value="#{_file.name}" styleClass="wordWrap" />
+									</rich:column>
+									<rich:column styleClass="uploadCell">
+										<f:facet name="header">
+											<h:outputLabel value="#{messages['project.recruit.status']}" />
+										</f:facet>
+										<h:selectOneMenu value="#{_file.status}" id="statusOptions">
+											<f:selectItem itemLabel="#{messages['status.active']}"
+												itemValue="#{messages['status.active']}" />
+											<f:selectItem itemLabel="#{messages['status.unActive']}"
+												itemValue="#{messages['status.unActive']}" />
+										</h:selectOneMenu>
+									</rich:column>
+
+									<rich:column styleClass="uploadCell">
+										<f:facet name="header">
+											<h:outputLabel value="#{messages['upload.file.length']}" />
+										</f:facet>
+										<h:outputText value="#{_file.toString()}">
+											<f:convertNumber />
+										</h:outputText>
+									</rich:column>
+
+									<rich:column styleClass="textCenterAlign">
+										<f:facet name="header">
+											<h:outputLabel value="#{messages['upload.uploaded.on']}" />
+										</f:facet>
+										<h:outputText
+											value="#{_file.recruitRequestAtt.attachmentCreatedOn}">
+											<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+										</h:outputText>
+									</rich:column>
+
+									<rich:column styleClass="textCenterAlign">
+										<f:facet name="header">
+											<h:outputLabel value="#{messages['upload.download']}" />
+										</f:facet>
+										<s:download src="/ResourceProvider.xhtml"
+											rendered="#{(not empty _file.recruitRequestAtt.attachmentName) and (not empty _file.recruitRequestAtt.attachmentId)}">
+											<h:graphicImage value="/img/iconDocument.gif" />
+											<f:param name="attachmentId"
+												value="#{_file.recruitRequestAtt.attachmentId}" />
+											<f:param name="recruitRequestId"
+												value="#{recruitRequestHome.instance.rcrRecruitRequestId}" />
+											<f:param name="cid"	value="#{conversation.id}" />	
+										</s:download>
+									</rich:column>
+
+									<rich:column styleClass="uploadCell">
+										<f:facet name="header">
+											<h:outputLabel value="#{messages['upload.remove']}" />
+										</f:facet>
+
+										<h:graphicImage value="/img/iconDelete.gif"
+											styleClass="customLink">
+											<a:support event="onclick"
+												action="#{recruitRequestHome.fileUploadBean.clearUploadData('recruitrequest',_indexRow)}"
+												ajaxSingle="true" limitToList="true" reRender="info, upload" />
+										</h:graphicImage>
+									</rich:column>
+
+									<f:facet name="footer">
+										<a:commandButton
+											action="#{recruitRequestHome.fileUploadBean.clearAllUploadData('recruitrequest')}"
+											reRender="info, upload"
+											value="#{messages['upload.remove.all']}" ajaxSingle="true"
+											limitToList="true" styleClass="submitStandard" />
+									</f:facet>
+								</rich:dataTable>
+							</rich:panel>
+						</h:panelGrid>
+					</s:decorate>
+					
+				</s:div>
+				
+				
+				
+				<s:div id="requiredFields">
+					<h:outputLabel styleClass="noteRTS" style="padding-left: 27px;"
+						value="(#{messages['accept.upload.file.type']}: #{messages['recruit.request.acceptType']}. " />
+					<h:outputLabel styleClass="noteRTS"
+						value="#{messages['upload.file.size']}." />
+					<h:outputLabel styleClass="noteRTS"
+						value="#{messages['maximun.of.files']}.)" />
+				</s:div>
+				
+				<s:decorate	template="layout/edit.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['candidate.handled.by']}:" />
+					</ui:define>
+
+					<h:inputText value="#{recruitRequestHome.instance.handledBy}"
+						id="handledByTextField" binding="#{handledByTextField}"
+						validator="#{candidateValidator.validateHandledBy}">
+						<s:validate/>
+					</h:inputText>
+					<h:outputLink value="#" id="handledByToolTip">
+       					<rich:toolTip value="#{messages['candidate.look.up.tooltip.value']}" /> 
+       					<rich:spacer width="5px"/>
+						<h:graphicImage value="/img/iconInfo.gif" />
+					</h:outputLink>
+					<h:outputLink value="#" id="handledByLink">
+       					<rich:toolTip value="#{messages['candidate.look.up.tooltip']}" /> 
+       					<rich:spacer width="5px"/>
+						<h:graphicImage value="/img/headSearch.gif" />
+						<rich:componentControl for="handledByModal" attachTo="handledByLink" operation="show" event="onclick"/>
+					</h:outputLink>
+				</s:decorate>				
+
+				<div style="clear: both">
+					<span><rich:spacer height="5" /> </span>
+				</div>
+
+				<s:div styleClass="bottom-border">
+					<h:commandButton id="saveButon" styleClass="submitStandard"
+						value="#{resource['Button.Save']}"
+						action="#{recruitRequestHome.updateRecruitRequest()}"
+						onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+						<s:defaultAction />
+					</h:commandButton>
+					
+					<s:button includePageParams="false" propagation="join"
+						styleClass="submitStandard"
+						view="#{not empty recruitRequestHome.fromView ? recruitRequestHome.fromView : '/RecruitRequestList.xhtml'}"
+						id="back" value="#{resource['Button.Back']}"
+						onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});" />
+						
+					<s:button includePageParams="false" propagation="end"
+						styleClass="submitStandard" view="/RecruitRequestList.xhtml"
+						id="cancel" value="#{resource['Button.Cancel']}"
+						onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});" />	
+						
+				</s:div>
+			</s:div>
+		</h:form>
+		<a:queue ignoreDupResponses="true" id="queue" requestDelay="1" />
+		
+		<a:region>
+	        <h:form>
+	            <a:poll id="poll" interval="29000" timeout="30000" reRender="footerSpace" />
+	        </h:form>
+	    </a:region>
+	    
+	    <rich:spacer height="5px" id="footerSpace" rendered="#{recruitRequestHome.renderedFooterSpace}"/>	
+	    
+	    <rich:modalPanel id="handledByModal" autosized="true">
+	        <f:facet name="header">
+	             <h:outputText value="#{resource['candidate.handledby.look.up.form']}"/>
+	        </f:facet>
+	        <f:facet name="controls">
+	            <h:panelGroup>
+	                <h:graphicImage value="/img/close.png" id="handledByHidelink" style="margin: 0px; cursor:pointer;"/>
+	                <rich:componentControl for="handledByModal" attachTo="handledByHidelink" operation="hide" event="onclick" sortOrder="ASCENDING"/>
+	            </h:panelGroup>
+	        </f:facet>
+	        <a:form ajaxSingle="true" id="handledByLookupForm" >
+	        	<rich:dataTable id="userLookUpTable" 
+	        		var="_ur"						
+					value="#{userHome.availableUsers}"					
+					width="100%"	
+					rows="#{messages['item.pagination.size']}"
+					rendered="#{not empty userHome.availableUsers}"
+					reRender="handledByPagination"
+					rowKeyVar="rowNo">
+					
+					<f:facet name="header">
+						<rich:columnGroup>
+							<rich:column>
+								<h:outputText value="#{resource['form.name']}" />
+							</rich:column>
+							<rich:column>
+								<h:outputText value="#{resource['form.username']}" />
+							</rich:column>	
+							<rich:column>
+								<h:outputText value="#{resource['com.bosch.ui.email']}" />
+							</rich:column>	
+							<rich:column>
+								<h:outputText value="#{resource['form.id.number']}" />
+							</rich:column>								
+						</rich:columnGroup>											
+					</f:facet>	
+					
+					<rich:column filterMethod="#{handledByFilter.filterFullName}">
+						<f:facet name="header">
+							<h:inputText value="#{handledByFilter.filterFullNameValue}" id="handledByFullName">
+								<a:support event="onkeyup" ignoreDupResponses="true" requestDelay="500"
+								oncomplete="setUserToLookUpTable(event);" 
+								reRender="userLookUpTable,handledByPagination"/>
+							</h:inputText>
+						</f:facet>
+						
+						<a:commandLink value="#{_ur.usrFullName}" 
+								action="#{recruitRequestHome.populateUser(_ur.usrUserName)}" 
+								ajaxSingle="true" 
+								onclick="Richfaces.showModalPanel('ajaxLoadingModalBox')"
+								oncomplete="Richfaces.hideModalPanel('handledByModal');Richfaces.hideModalPanel('ajaxLoadingModalBox');"
+								reRender="handledByTextField"
+								id="handledByPopup"
+								process="handledByTextField">										
+						</a:commandLink>		
+					</rich:column>
+						
+					<rich:column filterMethod="#{handledByFilter.filterUsername}">
+						<f:facet name="header">
+							<h:inputText value="#{handledByFilter.filterUsernameValue}" id="handledByUsername">
+								<a:support event="onkeyup" ignoreDupResponses="true" requestDelay="500"
+								oncomplete="setUserToLookUpTable(event);" 
+								reRender="userLookUpTable,handledByPagination"/>
+							</h:inputText>
+						</f:facet>
+						<h:outputText value="#{_ur.usrUserName}" />					
+					</rich:column>			
+					
+					<rich:column filterMethod="#{handledByFilter.filterEmail}">
+						<f:facet name="header">
+							<h:inputText value="#{handledByFilter.filterEmailValue}" id="inputUsrEmail">
+								<a:support event="onkeyup" ignoreDupResponses="true" requestDelay="500"
+								oncomplete="setUserToLookUpTable(event);" 
+								reRender="userLookUpTable,handledByPagination"/>
+							</h:inputText>
+						</f:facet>
+						<h:outputText value="#{_ur.usrEmail}" />					
+					</rich:column>	
+					
+					<rich:column filterMethod="#{handledByFilter.filterIdNumber}">
+						<f:facet name="header">
+							<h:inputText value="#{handledByFilter.filterIdNumberValue}" id="handledByIdNumber">
+								<a:support event="onkeyup" ignoreDupResponses="true" requestDelay="500"
+								oncomplete="setUserToLookUpTable(event);" 
+								reRender="userLookUpTable,handledByPagination"/>
+							</h:inputText>
+						</f:facet>
+						<h:outputText value="#{_ur.usrIdNumber}" />					
+					</rich:column>										
+					
+					<f:facet name="footer">
+						<rich:datascroller for="userLookUpTable" 
+							renderIfSinglePage="false" 
+							align="center"
+							id="handledByPagination"
+							maxPages="#{messages['item.pagination.size']}"/>
+					</f:facet>
+										    
+				</rich:dataTable>
+				
+				<rich:spacer height="5"/>			
+			</a:form>
+		</rich:modalPanel>
+		
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" template="/layout/template.xhtml">
+	<ui:define name="head">
+		<script type="text/javascript">
+		function showReport() {
+			document.getElementById('report').removeAttribute('style');
+		}
+		</script>
+	</ui:define>
+	<ui:define name="body">
+		<h:form id="form1">
+			<a:outputPanel id="pnlMsg">
+				<h:messages id="localmsg" styleClass="message" errorClass="errormsg"
+					infoClass="infomsg" warnClass="warnmsg" />
+			</a:outputPanel>
+			<a:region>
+				<rich:panel>
+					<f:facet name="header">Report Type</f:facet>
+					<h:selectOneRadio value="#{reportBLO.reportType}"
+						label="Report Type">
+						<f:selectItem itemValue="Candidate" itemLabel="Recruitment Report" />
+						<f:selectItem itemValue="Request"
+							itemLabel="Recruit Request Report" />
+						<a:support event="onchange" reRender="pnlReport"
+							bypassUpdates="false" ajaxSingle="true" />
+					</h:selectOneRadio>
+				</rich:panel>
+			</a:region>
+			<a:outputPanel id="pnlReport">
+				<rich:panel rendered="#{reportBLO.reportType.equals('Candidate')}"
+					id="pnlCandidate">
+					<f:facet name="header">Recruitment reports</f:facet>
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Report by</ui:define>
+						<h:selectOneMenu value="#{reportBLO.reportOption}">
+							<f:selectItem itemLabel="Status" itemValue="candidate_status" />
+							<f:selectItem itemLabel="Source" itemValue="candidate_source" />
+							<f:selectItem itemLabel="Skill" itemValue="candidate_skill" />
+							<f:selectItem itemLabel="Graduation Degree"
+								itemValue="candidate_graduation_degree" />
+							<f:selectItem itemLabel="Graduation Faculty"
+								itemValue="candidate_faculty" />
+							<f:selectItem itemLabel="Status Yearly"
+								itemValue="candidate_yearly" />
+							<a:support event="onchange" ajaxSingle="true"
+								reRender="pnlCandidate" />
+						</h:selectOneMenu>
+					</s:decorate>
+					<h:panelGroup
+						rendered="#{reportBLO.reportOption.equals('candidate_yearly')}">
+						<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">For year</ui:define>
+							<s:div>
+								<s:div style="float:left; width: 200px">
+									<rich:comboBox value="#{reportBLO.selectedYear}"
+										converter="commonConverter" enableManualInput="false"
+										suggestionValues="#{reportBLO.listYear}">
+									</rich:comboBox>
+								</s:div>
+								<s:div style="float:left; width: 200px">
+									<h:selectOneRadio value="#{reportBLO.reportOptionTime}">
+										<f:selectItem itemValue="candidate_yearly" itemLabel="Monthly" />
+										<f:selectItem itemValue="candidate_quarterly"
+											itemLabel="Quarterly" />
+									</h:selectOneRadio>
+								</s:div>
+							</s:div>
+						</s:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="pnlDateCandidate"
+						rendered="#{not reportBLO.reportOption.equals('candidate_yearly') and not reportBLO.reportOption.equals('candidate_quarterly')}">
+						<div style="height: 30px">
+							<s:decorate template="layout/edit.xhtml">
+								<ui:define name="label">From</ui:define>
+								<rich:calendar id="startDate" value="#{reportBLO.dteFrom}"
+									datePattern="MMM/dd/yyyy" showApplyButton="false"
+									defaultTime="00:00" resetTimeOnDateSelect="true">
+									<f:validator validatorId="fromToDateValidator" />
+									<f:attribute name="dteTo" value="#{dteTo}" />
+								</rich:calendar>
+							</s:decorate>
+						</div>
+						<div style="height: 30px">
+							<s:decorate template="layout/display.xhtml">
+								<ui:define name="label">To</ui:define>
+								<rich:calendar id="endDate" binding="#{dteTo}"
+									value="#{reportBLO.dteTo}" datePattern="MMM/dd/yyyy"
+									showApplyButton="false" immediate="false" defaultTime="23:59"
+									resetTimeOnDateSelect="true">
+								</rich:calendar>
+							</s:decorate>
+						</div>
+					</h:panelGroup>
+				</rich:panel>
+				<rich:panel rendered="#{reportBLO.reportType.equals('Request')}"
+					id="pnlRequest">
+					<f:facet name="header">Recruit Request reports</f:facet>
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Report by</ui:define>
+						<h:selectOneMenu value="#{reportBLO.reportOption}">
+							<f:selectItem itemLabel="User" itemValue="request_user" />
+							<f:selectItem itemLabel="Department"
+								itemValue="request_department" />
+							<f:selectItem itemLabel="Status" itemValue="request_status" />
+							<f:selectItem itemLabel="Skill" itemValue="request_skill" />
+							<f:selectItem itemLabel="Experience"
+								itemValue="request_experience" />
+							<f:selectItem itemLabel="Status Yearly"
+								itemValue="request_yearly" />
+							<a:support event="onchange" reRender="pnlRequest"
+								ajaxSingle="true" />
+						</h:selectOneMenu>
+					</s:decorate>
+					<h:panelGroup id="pnlUser"
+						rendered="#{reportBLO.reportOption.equals('request_user')}">
+						<s:decorate template="layout/edit.xhtml">
+							<ui:define name="label">User name</ui:define>
+							<rich:comboBox id="cboUser" value="#{reportBLO.selectedUser}"
+								defaultLabel="User name" required="true" immediate="false"
+								requiredMessage="#{messages['com.bosch.validator.Report.Username']}"
+								converter="commonConverter" enableManualInput="false"
+								suggestionValues="#{reportBLO.listUser}">
+							</rich:comboBox>
+						</s:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="pnlDept"
+						rendered="#{reportBLO.reportOption.equals('request_department')}">
+						<s:decorate template="layout/edit.xhtml">
+							<ui:define name="label">Department</ui:define>
+							<rich:comboBox id="cboUser"
+								value="#{reportBLO.selectedDepartment}"
+								defaultLabel="Department name" required="true" immediate="false"
+								requiredMessage="#{messages['com.bosch.validator.Report.Department']}"
+								converter="commonConverter" enableManualInput="false"
+								suggestionValues="#{reportBLO.listDept}">
+							</rich:comboBox>
+						</s:decorate>
+					</h:panelGroup>
+					<h:panelGroup
+						rendered="#{reportBLO.reportOption.equals('request_yearly')}">
+						<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">For year</ui:define>
+							<s:div>
+								<s:div style="float:left; width: 200px">
+									<rich:comboBox value="#{reportBLO.selectedYear}"
+										converter="commonConverter" enableManualInput="false"
+										suggestionValues="#{reportBLO.listYear}">
+									</rich:comboBox>
+								</s:div>
+								<s:div style="float:left; width: 200px">
+									<h:selectOneRadio value="#{reportBLO.reportOptionTime}">
+										<f:selectItem itemValue="request_yearly" itemLabel="Monthly" />
+										<f:selectItem itemValue="request_quarterly"
+											itemLabel="Quarterly" />
+									</h:selectOneRadio>
+								</s:div>
+							</s:div>
+						</s:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="pnlDateRequest"
+						rendered="#{not reportBLO.reportOption.equals('request_yearly') and not reportBLO.reportOption.equals('request_quarterly')}">
+						<div style="height: 30px">
+							<s:decorate template="layout/edit.xhtml">
+								<ui:define name="label">From</ui:define>
+								<rich:calendar id="startDate" value="#{reportBLO.dteFrom}"
+									datePattern="MMM/dd/yyyy" showApplyButton="false"
+									defaultTime="00:00" resetTimeOnDateSelect="true">
+									<f:validator validatorId="fromToDateValidator" />
+									<f:attribute name="dteTo" value="#{dteTo2}" />
+								</rich:calendar>
+							</s:decorate>
+						</div>
+						<div style="height: 30px">
+							<s:decorate template="layout/display.xhtml">
+								<ui:define name="label">To</ui:define>
+								<rich:calendar id="endDate" binding="#{dteTo2}"
+									value="#{reportBLO.dteTo}" datePattern="MMM/dd/yyyy"
+									showApplyButton="false" immediate="false" defaultTime="23:59"
+									resetTimeOnDateSelect="true">
+								</rich:calendar>
+							</s:decorate>
+						</div>
+					</h:panelGroup>
+				</rich:panel>
+				<script>
+				jQuery("form").bind('keypress', function(e) {
+					if (e.which == 13 || e.which == 3) {
+						   return jQuery("#"+ replaceSpelcialCharater("#{rich:clientId('showReportBtn')}")).trigger('onclick'); 
+					}
+				});
+				</script>
+				<a:commandButton styleClass="submitHighlighted" id="showReportBtn"
+					data="#{reportBLO.reportURL}" action="#{reportBLO.loadReport()}"
+					value="Show Report" onclick="openWaitDialog()"
+					oncomplete="if (data != parent.report.location) {parent.report.location = data; showReport();} closeWaitDialog();"
+					reRender="pnlReport" />
+			</a:outputPanel>
+			<iframe id="report" name="report" width="100%" height="650px"
+				style="visibility: hidden" />
+		</h:form>
+	</ui:define>
+</ui:composition>

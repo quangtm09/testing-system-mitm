@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page login-required="true" no-conversation-view-id="/InterviewScheduleList.xhtml"
+	xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+	<restrict>#{schPrivilege.searchableInterviewSchedule and not identity.hasRole('disabledUser')}</restrict>
+	<begin-conversation flush-mode="auto" join="true" />
+	<action
+		execute="#{schPrivilege.onloadEditableInterviewSchedule(credentials.username)}"
+		on-postback="false" />
+	<action execute="#{interviewScheduleHome.resetSelectedInterview()}"
+		on-postback="true" />
+	<action execute="#{interviewScheduleHome.initialiseInterviewSchedules()}"
+		on-postback="false" />
+	<action
+		execute="#{schPrivilege.onloadSearchableInterviewSchedule(credentials.username)}"
+		on-postback="false" />
+	<param name="fromView" value="#{interviewScheduleHome.fromView}" />
+	<param name="isUpdate" value="#{interviewScheduleHome.updating}" />
+	<param name="selectedInterview"
+		value="#{interviewScheduleHome.interviewScheduleItsInterviewScheduleId}" />
+	<param name="interviewScheduleItsInterviewScheduleId"
+		value="#{interviewScheduleHome.interviewScheduleItsInterviewScheduleId}" />
+	<param name="candidateCddCandidateId" value="#{candidateHome.candidateCddCandidateId}" />
+	<param name="recruitRequestRcrRecruitRequestId"
+		value="#{recruitRequestHome.recruitRequestRcrRecruitRequestId}" />
+	<param name="userUsrUserId" value="#{userHome.userUsrUserId}" />
+	<param name="scheduleId" />
+</page>

@@ -1,0 +1,384 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	template="layout/template_PrintVersion.xhtml">
+
+	<ui:define name="body">
+		<h:outputText value="#{messages['com.bosch.ui.invalidURL']}"
+			rendered="#{not schPrivilege.viewableTechnicalFeedback}" />
+
+		<h:form id="trtsTechnicalResult"
+				rendered="#{schPrivilege.viewableTechnicalFeedback}">
+			<rich:panel>
+				<f:facet name="header">Technical Interview Result</f:facet>
+				<h:panelGrid columns="2" style=" width : 710px;">
+					<h:panelGroup id="panelLeft" style="width: 400px;">
+						<s:decorate id="itsCandidate" template="layout/display.xhtml">
+							<ui:define name="label">Candidate:</ui:define>
+							<h:outputText
+								value="#{technicalResultBLO.selectedIS.candidate.cddName}" />
+						</s:decorate>
+						<s:decorate id="itsInterviewDate" template="layout/display.xhtml">
+							<ui:define name="label">Interview date:</ui:define>
+							<h:outputText
+								value="#{technicalResultBLO.selectedIS.itsTechnicalInterviewTime}">
+								<s:convertDateTime type="both" dateStyle="short"
+									pattern="dd.MMM.yyyy hh:mm a" />
+							</h:outputText>
+						</s:decorate>						
+						<s:decorate id="itsInterviewType" template="layout/display.xhtml">
+							<ui:define name="label">Interview type:</ui:define>
+							<h:outputText
+								value="#{technicalResultBLO.selectedIS.itsInterviewType}" />
+						</s:decorate>
+						
+						<s:decorate id="interviewers" template="layout/display.xhtml">
+							<ui:define name="label">Interviewers:</ui:define>
+							<ui:repeat value="#{interviewScheduleHome.instance.interviewers}" 
+								var="_interviewer"
+								rowKeyVar="_key">
+								<h:outputText value="#{_key + 1}. " />		
+								<h:outputText value="#{_interviewer.toString()}" />
+								<br/>
+							</ui:repeat>								
+						</s:decorate>
+					</h:panelGroup>
+
+					<h:panelGroup id="panelRight">
+						<s:decorate id="itsRequest" template="layout/display.xhtml">
+							<ui:define name="label">Recruit Request:</ui:define>
+							<h:outputText
+								value="#{technicalResultBLO.selectedIS.recruitRequest.recruitRequestName}" />
+						</s:decorate>
+						<s:decorate id="itsStatus" template="layout/display.xhtml">
+							<ui:define name="label">Status:</ui:define>
+							<h:outputText value="#{technicalResultBLO.finalRecommendation}" />
+						</s:decorate>
+						
+					</h:panelGroup>
+				</h:panelGrid>
+
+				<div>
+					<table border="1" style="border-collapse: collapse">
+						<thead style="font-weight: bold; font-size: 1em;">
+							<tr>
+								<td width="220px"></td>
+								<td width="200px"></td>
+								<td width="200px"></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr style="height: 40px; background-color: #DDDDDD">
+								<td colspan="3"
+									style="text-align: center; vertical-align: middle;"><h:outputText
+										style="font-weight: bold; font-size: 1.2em"
+										value="Technical
+							Competence" /><br /> (Assessment and
+									rating to be done based on the role &amp; level; definition on
+									ratings given at the bottom of the page)</td>
+							</tr>
+							<tr style="font-weight: bold; font-size: 1em; height: 40px;"
+								align="center">
+								<td style="vertical-align: middle">Role Specific Competency</td>
+								<td style="vertical-align: middle">Rating</td>
+								<td style="vertical-align: middle">Comments<br /> <h:outputText
+										style="font-size: 0.8em; font-weight:normal;"
+										value="(specify key observations, training need etc.)" />
+								</td>
+							</tr>
+							<tr id="tr1">
+								<td
+									style="vertical-align: middle; padding-left: 5px; padding-right: 5px">Basic
+									Engineering/subject knowledge</td>
+								<td style="vertical-align: middle"><h:selectOneRadio
+										value="#{technicalResultBLO.result1_rating}"
+										styleClass="radio" disabled="true">
+										<f:selectItem itemLabel="1" itemValue="1" />
+										<f:selectItem itemLabel="2" itemValue="2" />
+										<f:selectItem itemLabel="3" itemValue="3" />
+										<f:selectItem itemLabel="4" itemValue="4" />
+										<f:selectItem itemLabel="NR" itemValue="5" />
+									</h:selectOneRadio>
+								</td>
+								<td style="padding: 3px"><h:inputTextarea
+										id="itrResult1Comment" style="width:99%;border:0" rows="2"
+										required="true" readonly="true"
+										value="#{technicalResultBLO.result1_comment}" />
+								</td>
+							</tr>
+							<tr id="tr2">
+								<td
+									style="vertical-align: middle; padding-left: 5px; padding-right: 5px">Eng.
+									process overview, Problem Solving skill</td>
+								<td style="vertical-align: middle"><h:selectOneRadio
+										value="#{technicalResultBLO.result2_rating}"
+										styleClass="radio" disabled="true">
+										<f:selectItem itemLabel="1" itemValue="1" />
+										<f:selectItem itemLabel="2" itemValue="2" />
+										<f:selectItem itemLabel="3" itemValue="3" />
+										<f:selectItem itemLabel="4" itemValue="4" />
+										<f:selectItem itemLabel="NR" itemValue="5" />
+									</h:selectOneRadio>
+								</td>
+								<td style="padding: 3px"><h:inputTextarea
+										id="itrResult2Comment" style="width:99%;border:0 "
+										required="true" readonly="true"
+										value="#{technicalResultBLO.result2_comment}" />
+								</td>
+							</tr>
+							<tr id="tr3">
+								<td
+									style="vertical-align: middle; padding-left: 5px; padding-right: 5px">Passion
+									for Engineering</td>
+								<td style="vertical-align: middle"><h:selectOneRadio
+										value="#{technicalResultBLO.result3_rating}"
+										styleClass="radio" disabled="true">
+										<f:selectItem itemLabel="1" itemValue="1" />
+										<f:selectItem itemLabel="2" itemValue="2" />
+										<f:selectItem itemLabel="3" itemValue="3" />
+										<f:selectItem itemLabel="4" itemValue="4" />
+										<f:selectItem itemLabel="NR" itemValue="5" />
+									</h:selectOneRadio>
+								</td>
+								<td style="padding: 3px"><h:inputTextarea
+										id="itrResult3Comment" style="width:99%;border:0 "
+										required="true" readonly="true"
+										value="#{technicalResultBLO.result3_comment}" />
+								</td>
+							</tr>
+							<tr style="height: 20px">
+								<td colspan="3" align="left" style="vertical-align: middle"><h:outputText
+										value="Position specific Competency, if any."
+										style="font-weight:bold;" />
+								</td>
+							</tr>
+							<tr id="tr4">
+								<td style="padding: 3px"><h:inputTextarea
+										id="itrResult9Description" style="width:99%;border:0" rows="2"
+										required="true" readonly="true"
+										value="#{technicalResultBLO.result9_description}" />
+								</td>
+								<td style="vertical-align: middle"><h:selectOneRadio
+										disabled="true" value="#{technicalResultBLO.result9_rating}"
+										styleClass="radio">
+										<f:selectItem itemLabel="1" itemValue="1" />
+										<f:selectItem itemLabel="2" itemValue="2" />
+										<f:selectItem itemLabel="3" itemValue="3" />
+										<f:selectItem itemLabel="4" itemValue="4" />
+										<f:selectItem itemLabel="NR" itemValue="5" />
+									</h:selectOneRadio>
+								</td>
+								<td style="padding: 3px"><h:inputTextarea
+										id="itrResult4Comment" style="width:99%;border:0 "
+										required="true" readonly="true"
+										value="#{technicalResultBLO.result9_comment}" />
+								</td>
+							</tr>
+							<tr id="tr5">
+								<td style="padding: 3px"><h:inputTextarea
+										id="itrResult10Description" style="width:99%;border:0"
+										rows="2" required="true" readonly="true"
+										value="#{technicalResultBLO.result10_description}" />
+								</td>
+								<td style="vertical-align: middle"><h:selectOneRadio
+										disabled="true" value="#{technicalResultBLO.result10_rating}"
+										styleClass="radio">
+										<f:selectItem itemLabel="1" itemValue="1" />
+										<f:selectItem itemLabel="2" itemValue="2" />
+										<f:selectItem itemLabel="3" itemValue="3" />
+										<f:selectItem itemLabel="4" itemValue="4" />
+										<f:selectItem itemLabel="NR" itemValue="5" />
+									</h:selectOneRadio>
+								</td>
+								<td style="padding: 3px"><h:inputTextarea
+										id="itrResult5Comment" style="width:99%;border:0 "
+										required="true" readonly="true"
+										value="#{technicalResultBLO.result10_comment}" />
+								</td>
+							</tr>
+							<tr style="height: 30px; background-color: #DDDDDD">
+								<td colspan="3"
+									style="vertical-align: middle; text-align: center; font-weight: bold; font-size: 1.2em">Behavioural
+									Competence</td>
+							</tr>
+							<tr id="tr6">
+								<td
+									style="vertical-align: middle; padding-left: 5px; padding-right: 5px">Communication</td>
+								<td style="vertical-align: middle"><h:selectOneRadio
+										disabled="true" value="#{technicalResultBLO.result4_rating}"
+										styleClass="radio">
+										<f:selectItem itemLabel="1" itemValue="1" />
+										<f:selectItem itemLabel="2" itemValue="2" />
+										<f:selectItem itemLabel="3" itemValue="3" />
+										<f:selectItem itemLabel="4" itemValue="4" />
+										<f:selectItem itemLabel="NR" itemValue="5" />
+									</h:selectOneRadio>
+								</td>
+								<td style="padding: 3px"><h:inputTextarea
+										id="itrResult6Comment" style="width:99%;border:0 "
+										required="true" readonly="true"
+										value="#{technicalResultBLO.result4_comment}" />
+								</td>
+							</tr>
+							<tr id="tr7">
+								<td
+									style="vertical-align: middle; padding-left: 5px; padding-right: 5px">Self-confidence</td>
+								<td style="vertical-align: middle"><h:selectOneRadio
+										disabled="true" value="#{technicalResultBLO.result5_rating}"
+										styleClass="radio">
+										<f:selectItem itemLabel="1" itemValue="1" />
+										<f:selectItem itemLabel="2" itemValue="2" />
+										<f:selectItem itemLabel="3" itemValue="3" />
+										<f:selectItem itemLabel="4" itemValue="4" />
+										<f:selectItem itemLabel="NR" itemValue="5" />
+									</h:selectOneRadio>
+								</td>
+								<td style="padding: 3px"><h:inputTextarea
+										id="itrResult7Comment" style="width:99%;border:0 "
+										required="true" readonly="true"
+										value="#{technicalResultBLO.result5_comment}" />
+								</td>
+							</tr>
+							<tr id="tr8">
+								<td
+									style="vertical-align: middle; padding-left: 5px; padding-right: 5px">Initiative</td>
+								<td style="vertical-align: middle"><h:selectOneRadio
+										disabled="true" value="#{technicalResultBLO.result6_rating}"
+										styleClass="radio">
+										<f:selectItem itemLabel="1" itemValue="1" />
+										<f:selectItem itemLabel="2" itemValue="2" />
+										<f:selectItem itemLabel="3" itemValue="3" />
+										<f:selectItem itemLabel="4" itemValue="4" />
+										<f:selectItem itemLabel="NR" itemValue="5" />
+									</h:selectOneRadio>
+								</td>
+								<td style="padding: 3px"><h:inputTextarea
+										id="itrResult8Comment" style="width:99%;border:0 "
+										required="true" readonly="true"
+										value="#{technicalResultBLO.result6_comment}" />
+								</td>
+							</tr>
+							<tr id="tr9">
+								<td
+									style="vertical-align: middle; padding-left: 5px; padding-right: 5px">Analytical
+									Thinking</td>
+								<td style="vertical-align: middle"><h:selectOneRadio
+										disabled="true" value="#{technicalResultBLO.result7_rating}"
+										styleClass="radio">
+										<f:selectItem itemLabel="1" itemValue="1" />
+										<f:selectItem itemLabel="2" itemValue="2" />
+										<f:selectItem itemLabel="3" itemValue="3" />
+										<f:selectItem itemLabel="4" itemValue="4" />
+										<f:selectItem itemLabel="NR" itemValue="5" />
+									</h:selectOneRadio>
+								</td>
+								<td style="padding: 3px"><h:inputTextarea
+										id="itrResult9Comment" style="width:99%;border:0 "
+										required="true" readonly="true"
+										value="#{technicalResultBLO.result7_comment}" />
+								</td>
+							</tr>
+							<tr id="tr10">
+								<td
+									style="vertical-align: middle; padding-left: 5px; padding-right: 5px">Personal
+									projection</td>
+								<td style="vertical-align: middle"><h:selectOneRadio
+										disabled="true" value="#{technicalResultBLO.result8_rating}"
+										styleClass="radio">
+										<f:selectItem itemLabel="1" itemValue="1" />
+										<f:selectItem itemLabel="2" itemValue="2" />
+										<f:selectItem itemLabel="3" itemValue="3" />
+										<f:selectItem itemLabel="4" itemValue="4" />
+										<f:selectItem itemLabel="NR" itemValue="5" />
+									</h:selectOneRadio>
+								</td>
+								<td style="padding: 3px"><h:inputTextarea
+										id="itrResult10Comment" style="width:99%;border:0 "
+										required="true" readonly="true"
+										value="#{technicalResultBLO.result8_comment}" />
+								</td>
+							</tr>
+							<tr style="height: 40px; background-color: #DDDDDD">
+								<td colspan="3"
+									style="text-align: center; vertical-align: middle"><h:outputText
+										style="font-weight: bold; font-size: 1.2em"
+										value="Other comments" /><br /> (Please write your comments,
+									as observed during the interview)</td>
+							</tr>
+							<tr>
+								<td colspan="3" style="padding: 3px"><h:inputTextarea
+										id="itrResultRemarks" style="width:99%;border:0" rows="3"
+										readonly="true" value="#{technicalResultBLO.otherComments}" />
+								</td>
+							</tr>
+							<tr style="height: 60px">
+								<td colspan="3"
+									style="text-align: center; vertical-align: middle;"
+									align="center"><h:outputText
+										style="font-weight: bold; font-size: 1.2em"
+										value="Overall evaluation" /><br /> <br /> <h:selectOneRadio
+										value="#{technicalResultBLO.overallEvaluation}"
+										disabled="true" styleClass="radio"
+										style=" width : 495px; padding-left:100px;text-align:center">
+										<f:selectItem itemLabel="Very Good" itemValue="Very Good" />
+										<f:selectItem itemLabel="Good" itemValue="Good" />
+										<f:selectItem itemLabel="Acceptable" itemValue="Acceptable" />
+										<f:selectItem itemLabel="Not suitable"
+											itemValue="Not Suitable" />
+									</h:selectOneRadio>
+								</td>
+							</tr>
+							<tr style="height: 30px; background-color: #DDDDDD">
+								<td colspan="3"
+									style="text-align: center; font-weight: bold; font-size: 1.2em; vertical-align: middle;">Final
+									Recommendation</td>
+							</tr>
+							<tr style="height: 25px">
+								<td colspan="3"
+									style="text-align: center; vertical-align: middle;"><h:selectOneRadio
+										value="#{technicalResultBLO.finalRecommendation}"
+										disabled="true" styleClass="radio"
+										style=" width : 495px; padding-left:135px;text-align:center">
+										<f:selectItem itemLabel="Select" itemValue="Select" />
+										<f:selectItem itemLabel="Reject" itemValue="Reject" />
+										<f:selectItem itemLabel="refer for futher assessment"
+											itemValue="further" />
+									</h:selectOneRadio>
+								</td>
+							</tr>
+							<tr style="height: 30px; background-color: #DDDDDD">
+								<td colspan="3"
+									style="text-align: center; font-weight: bold; font-size: 1.2em; vertical-align: middle;">Priority</td>
+							</tr>
+							<tr style="height: 25px">
+								<td colspan="3"
+									style="text-align: center; vertical-align: middle;"><h:selectOneRadio
+										value="#{technicalResultBLO.priority}" disabled="true"
+										styleClass="radio"
+										style=" width : 400px; padding-left:200px;text-align:center">
+										<f:selectItem itemLabel="High" itemValue="1" />
+										<f:selectItem itemLabel="Normal" itemValue="2" />
+										<f:selectItem itemLabel="Low" itemValue="3" />
+									</h:selectOneRadio>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</rich:panel>
+			
+			<h:outputText
+			value="Rating - 1: Very high potential; 2: Good knowledge / good competence; " />
+			<br />
+			<h:outputText
+				value="3: Acceptable standard can be moulded; 4: Poor knowledge; NR: Not rated / not applicable" />
+		</h:form>		
+		
+	</ui:define>
+
+</ui:composition>

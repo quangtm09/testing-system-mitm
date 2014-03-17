@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+	no-conversation-view-id="/CandidateList.xhtml"
+	login-required="true" >	
+	<restrict>#{caPrivilege.editableCandidate and not identity.hasRole('disabledUser')}</restrict>
+	<begin-conversation join="true" flush-mode="auto" />
+		
+	<action execute="#{skillPickBean.setUseTwoYear(false)}" />	
+	<action execute="#{candidateHome.fetchSkillPick()}" on-postback="false"/>	
+	<action execute="#{candidateHome.wire}" />	
+	<action execute="#{candidateHome.initUpdate}" on-postback="false" />	
+	<action execute="#{candidateHome.fetchFileUploadBean()}" on-postback="false"/>	
+	<action execute="#{candidateHome.resetRecruitRequest('edit')}" on-postback="false"/>	
+	<action execute="#{userHome.onloadUsers()}" on-postback="false"/>
+	<param name="candidateCddCandidateId" value="#{candidateHome.candidateCddCandidateId}" />	
+	<param name="userUsrUserId" value="#{userHome.userUsrUserId}" />	
+	<param name="fromView" value="#{candidateHome.fromView}"/>
+	<param name="rrid" value="#{candidateHome.rrid}"/>
+	
+	<navigation from-action="#{candidateHome.updateCandidate()}">
+		<rule if-outcome="updated">
+			<end-conversation before-redirect="true" />
+			<redirect view-id="/CandidateList.xhtml" include-page-params="false"/>
+		</rule>
+		<rule if-outcome="failure">
+			 <render view-id="/CandidateEdit.xhtml"/>
+		</rule>
+	</navigation>
+</page>

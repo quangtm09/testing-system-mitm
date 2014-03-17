@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      login-required="true">
+
+	<restrict>#{identity.hasRole('admin') and not identity.hasRole('disabledUser')}</restrict>
+	<begin-conversation flush-mode="auto" join="true" />
+
+	<action execute="#{skillHome.onloadSkills()}" on-postback="false"/>
+	<action execute="#{skillHome.wire()}" />
+	<param name="fromView" value="#{skillHome.fromView}"/>
+	
+	<param name="skillSklSkillId" value="#{skillHome.skillSklSkillId}" />
+		
+		
+	<navigation from-action="#{skillHome.createSkill()}">
+		<rule if-outcome="persisted"> 
+			<end-conversation before-redirect="true"/>
+			<redirect include-page-params="false" view-id="/SkillList.xhtml"/>
+		</rule>	
+		
+		<rule if-outcome="failure"> 
+			<render view-id="/SkillList.xhtml" />
+		</rule>	
+	</navigation>
+
+</page>

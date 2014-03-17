@@ -1,0 +1,486 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" 
+	template="../layout/template.xhtml">
+
+	<ui:define name="body">	
+	
+		<s:div style="padding-top: 20px;">
+			<h:outputLabel value="#{messages['recruit.request.report']}"
+					styleClass="header-label" id="headerLabel">
+					
+				<rich:toolTip value="#{messages['form.header.hint']}"/>
+				
+				<script type="text/javascript">			
+					jQuery('#headerLabel').click(function(){
+						jQuery('.header-border').toggle();
+					});			
+				</script>	
+			</h:outputLabel>	
+			 
+		</s:div>
+	
+		
+		<h:form id="rrReportForm" style="padding-top:5px;">				
+			<s:div styleClass="header-border">
+			
+			<h:panelGrid columns="2">
+				<s:decorate	template="../layout/edit.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="Created From:" />
+					</ui:define>
+					<rich:calendar id="createdFromCal"
+						value="#{rrrHome.createdFrom}"
+						datePattern="#{messages['calendar.pattern']}"
+						showApplyButton="false"
+						enableManualInput="false"
+						locale="#{calendarBean.locale}"
+						monthLabels="#{messages['calendar.month.labels']}"/>
+				</s:decorate>
+				
+				<s:decorate	template="../layout/edit.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="Created To:" />
+					</ui:define>
+					<rich:calendar id="createdToCal"
+						 value="#{rrrHome.createdTo}"
+						datePattern="#{messages['calendar.pattern']}"
+						showApplyButton="false"
+						enableManualInput="false"
+						locale="#{calendarBean.locale}"
+						monthLabels="#{messages['calendar.month.labels']}"/>
+				</s:decorate>
+				
+				<s:decorate	template="../layout/edit.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="Requested From:" />
+					</ui:define>
+					<rich:calendar id="requestedFromCal"
+						value="#{rrrHome.requestedFrom}"
+						datePattern="#{messages['calendar.pattern']}"
+						showApplyButton="false"
+						enableManualInput="false"
+						locale="#{calendarBean.locale}"
+						monthLabels="#{messages['calendar.month.labels']}"/>
+				</s:decorate>
+				
+				<s:decorate	template="../layout/edit.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="Requested To:" />
+					</ui:define>
+					<rich:calendar id="requestedToCal"
+						 value="#{rrrHome.requestedTo}"
+						datePattern="#{messages['calendar.pattern']}"
+						showApplyButton="false"
+						enableManualInput="false"
+						locale="#{calendarBean.locale}"
+						monthLabels="#{messages['calendar.month.labels']}"/>
+				</s:decorate>
+				
+				<s:decorate	template="../layout/edit.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="Closed From:" />
+					</ui:define>
+					<rich:calendar id="closedFromCal"
+						value="#{rrrHome.closedFrom}"
+						datePattern="#{messages['calendar.pattern']}"
+						showApplyButton="false"
+						enableManualInput="false"
+						locale="#{calendarBean.locale}"
+						monthLabels="#{messages['calendar.month.labels']}"/>
+				</s:decorate>
+				
+				<s:decorate	template="../layout/edit.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="Closed To:" />
+					</ui:define>
+					<rich:calendar id="closedToCal"
+						 value="#{rrrHome.closedTo}"
+						datePattern="#{messages['calendar.pattern']}"
+						showApplyButton="false"
+						enableManualInput="false"
+						locale="#{calendarBean.locale}"
+						monthLabels="#{messages['calendar.month.labels']}"/>
+				</s:decorate>
+				
+				<s:decorate id="createdByField" template="../layout/edit.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['recruit.request.created.by']}:" />
+					</ui:define>
+					<h:selectOneMenu value="#{rrrHome.createdBy}">
+						<s:selectItems value="#{userHome.availableUsers}"
+							noSelectionLabel="#{messages['selectOptions']}"
+							var="item" 								
+							label="#{item.usrFullName} - #{item.usrUserName}">								
+						</s:selectItems>
+						<s:convertEntity/>
+					</h:selectOneMenu>								
+				</s:decorate>
+				
+				<s:decorate id="approvedByField" template="../layout/edit.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['com.bosch.ui.approved.by']}:" />
+					</ui:define>
+					<h:selectOneMenu value="#{rrrHome.approvedBy}">
+						<s:selectItems value="#{userHome.availableUsers}"
+							noSelectionLabel="#{messages['selectOptions']}"
+							var="item" 								
+							label="#{item.usrFullName} - #{item.usrUserName}">								
+						</s:selectItems>
+						<s:convertEntity/>
+					</h:selectOneMenu>								
+				</s:decorate>
+				
+				<s:decorate id="handledByField" template="../layout/edit.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['candidate.handled.by']}:" />
+					</ui:define>
+					<h:selectOneMenu value="#{rrrHome.handledBy}">
+						<s:selectItems value="#{userHome.availableUsers}"
+							noSelectionLabel="#{messages['selectOptions']}"
+							var="item" 								
+							label="#{item.usrFullName} - #{item.usrUserName}">								
+						</s:selectItems>
+						<s:convertEntity/>
+					</h:selectOneMenu>								
+				</s:decorate>
+				
+				<s:decorate template="../layout/edit.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['project.recruit.status']}:" />
+					</ui:define>
+					<h:selectOneMenu value="#{rrrHome.status}"
+						styleClass="rtsSelectOneMenu" 
+						required="false" 
+						id="statusSelect">
+						<f:selectItem itemLabel="#{messages['selectOptions']}"
+							itemValue="" />
+						<f:selectItem itemLabel="#{messages['status.open']}"
+							itemValue="#{messages['status.open']}" />							
+						<f:selectItem itemLabel="#{messages['status.approved']}"
+							itemValue="#{messages['status.approved']}" />	
+						<f:selectItem itemLabel="#{messages['status.rejected']}"
+							itemValue="#{messages['status.rejected']}" />		
+						<f:selectItem itemLabel="#{messages['status.closed']}"
+							itemValue="#{messages['status.closed']}" />	
+					</h:selectOneMenu>
+				</s:decorate>
+
+				
+				<s:decorate id="orgUnitField" template="../layout/edit.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['org.unit']}:" />
+					</ui:define>
+					<h:selectOneMenu value="#{rrrHome.orgUnit}"
+						styleClass="rtsSelectOneMenu">
+						<s:selectItems value="#{rrrHome.availableOrgUnits}"
+							var="_unit" 
+							label="#{_unit.unitName}"
+							noSelectionLabel="#{messages['selectOptions']}">
+						</s:selectItems>
+						<a:support event="onchange" 
+							ajaxSingle="true" 
+							limitToList="true"
+							ignoreDupResponses="true" 
+							reRender="cddRequestNumberFieldDeco"
+							action="#{rrrHome.populateRecruitRequests()}"
+							onsubmit="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+							oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');">
+						</a:support>
+						<s:convertEntity />
+					</h:selectOneMenu>
+				</s:decorate>
+				
+				<s:decorate id="cddRequestNumberFieldDeco">
+					<s:decorate id="cddRequestNumberField" template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['com.bosch.ui.appliedforrequest']}:" />
+						</ui:define>
+						<h:selectOneMenu
+							value="#{rrrHome.recruitRequest}"
+							styleClass="rtsSelectOneMenu">
+							<s:selectItems value="#{rrrHome.availableRecruitRequests}"
+								var="rr" 
+								label="#{rr.recruitRequestName} #{'-'} #{rr.orgUnit.unitName}"
+								noSelectionLabel="#{messages['selectOptions']}">
+							</s:selectItems>
+							<s:convertEntity />
+						</h:selectOneMenu>
+					</s:decorate>						
+				</s:decorate>
+				
+			</h:panelGrid>
+			</s:div>	
+				
+			<div class="actionButtons" style="clear: both; padding-top:5px;">
+				<a:commandButton id="searchButton"
+					value="#{messages['Button.Search']}" 
+					reRender="searchResultDiv,exportExcelButton"
+					action="#{rrrHome.search()}"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+					oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');"
+					styleClass="submitStandard">
+					<s:defaultAction />
+				</a:commandButton>
+				
+				<s:button id="resetButton"
+					action="#{rrrHome.resetFormFields()}"
+					value="#{messages['Button.Reset']}" 
+					includePageParams="false"
+					styleClass="submitStandard"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});" />
+						
+					
+				<rich:spacer width="25"/>
+					
+				<a:commandButton id="thisWeekButton"
+					value="#{messages['Button.Search.By.This.Week']}" 
+					reRender="createdFromCal,searchResultDiv,exportExcelButton"
+					action="#{rrrHome.searchByThisWeek()}"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+					oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');"
+					styleClass="submitStandard">
+				</a:commandButton>
+				
+				<a:commandButton id="lastWeekButton"
+					value="#{messages['Button.Search.By.Last.Week']}" 
+					reRender="createdFromCal,createdToCal,searchResultDiv,exportExcelButton"
+					action="#{rrrHome.searchByLastWeek()}"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+					oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');"
+					styleClass="submitStandard">
+				</a:commandButton>	
+				
+				<a:commandButton id="thisMonthButton"
+					value="#{messages['Button.Search.By.This.Month']}" 
+					reRender="createdFromCal,searchResultDiv,exportExcelButton"
+					action="#{rrrHome.searchByThisMonth()}"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+					oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');"
+					styleClass="submitStandard">
+				</a:commandButton>
+				
+				<a:commandButton id="lastMonthButton"
+					value="#{messages['Button.Search.By.Last.Month']}" 
+					reRender="createdFromCal,createdToCal,searchResultDiv,exportExcelButton"
+					action="#{rrrHome.searchByLastMonth()}"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+					oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');"
+					styleClass="submitStandard">
+				</a:commandButton>
+				
+				<rich:spacer width="25"/>		
+					
+				<s:link action="#{rrrHome.export()}"
+					target="_blank"
+					id="exportExcelButton"
+					rendered="#{not empty rrrHome.rrReportList}">
+					<f:param name="cid"	value="#{conversation.id}" />
+					<h:graphicImage value="/img/excel.gif" title="#{messages['export.excel']}" >
+						<rich:toolTip value="#{messages['export.excel']}"/>
+					</h:graphicImage>
+				</s:link>	
+					
+			</div>	
+				
+			
+			<s:div id="searchResultDiv" styleClass="table-align">
+				<a:region rendered="#{empty rrrHome.rrReportList}" >
+					<h:graphicImage url="/img/msginfo.png" />
+						<h:outputLabel value="#{messages['recruit.request.search.no.results']}"	/>
+				</a:region>				
+					
+				<rich:dataTable value="#{rrrHome.rrReportList}" 
+						var="rows"
+						id="tableId" 
+						rowKeyVar="rowkey"
+						rendered="#{not empty rrrHome.columns}">	
+						
+					<f:facet name="header">
+						<rich:columnGroup>
+							<rich:column colspan="10" style="background: #d0d0d0;">
+								<h:outputText value="INFORMATION" />
+							</rich:column>
+							<rich:column colspan="6" style="background: #888888;">
+								<h:outputText value="REQUEST DURATION RECORD"/>
+							</rich:column>
+							<rich:column colspan="1" style="background: #478903;">
+								<h:outputText value="PERSON IN CHARGE" />
+							</rich:column>
+							<rich:column colspan="3" style="background: #FAC090;">
+								<h:outputText value="TARGET AND DELIVER" />
+							</rich:column>
+							<rich:column colspan="14" style="background: #b8cce4;">
+								<h:outputText value="APPLICATION STATUS" />
+							</rich:column>
+							<rich:column colspan="6" style="background: #E6B9B8;">
+								<h:outputText value="OFFER STATUS" />
+							</rich:column>
+							<rich:column colspan="1" style="background: #FFC0CB;">
+								<h:outputText value="Note" />
+							</rich:column>
+							<rich:column colspan="1" style="background: #FFC080;" rowspan="2">
+								<h:outputText value="Weekly status update" />
+							</rich:column>
+							
+							<rich:column breakBefore="true" style="background: #d0d0d0;">
+								<h:outputText value="#{rrrHome.columns.get(0).header}" />
+							</rich:column>
+							<rich:column style="background: #d0d0d0;">
+								<h:outputText value="#{rrrHome.columns.get(1).header}" />
+							</rich:column>	
+							<rich:column style="background: #d0d0d0;">
+								<h:outputText value="#{rrrHome.columns.get(2).header}" />
+							</rich:column>	
+							<rich:column style="background: #d0d0d0;">
+								<h:outputText value="#{rrrHome.columns.get(3).header}" />
+							</rich:column>
+							<rich:column style="background: #d0d0d0;">
+								<h:outputText value="#{rrrHome.columns.get(4).header}" />
+							</rich:column>
+							<rich:column style="background: #d0d0d0;">
+								<h:outputText value="#{rrrHome.columns.get(5).header}" />
+							</rich:column>	
+							<rich:column style="background: #d0d0d0;">
+								<h:outputText value="#{rrrHome.columns.get(6).header}" />
+							</rich:column>	
+							<rich:column style="background: #d0d0d0;">
+								<h:outputText value="#{rrrHome.columns.get(7).header}" />
+							</rich:column>	
+							<rich:column style="background: #d0d0d0;">
+								<h:outputText value="#{rrrHome.columns.get(8).header}" />
+							</rich:column>
+							<rich:column style="background: #d0d0d0;">
+								<h:outputText value="#{rrrHome.columns.get(9).header}" />
+							</rich:column>
+							<rich:column style="background: #888888;">
+								<h:outputText value="#{rrrHome.columns.get(10).header}" />
+							</rich:column>
+							<rich:column style="background: #888888;">
+								<h:outputText value="#{rrrHome.columns.get(11).header}" />
+							</rich:column>
+							<rich:column style="background: #888888;">
+								<h:outputText value="#{rrrHome.columns.get(12).header}" />
+							</rich:column>
+							<rich:column style="background: #888888;">
+								<h:outputText value="#{rrrHome.columns.get(13).header}" />
+							</rich:column>
+							<rich:column style="background: #888888;">
+								<h:outputText value="#{rrrHome.columns.get(14).header}" />
+							</rich:column>
+							<rich:column style="background: #888888;">
+								<h:outputText value="#{rrrHome.columns.get(15).header}" />
+							</rich:column>
+							<rich:column style="background: #478903;">
+								<h:outputText value="#{rrrHome.columns.get(16).header}" />
+							</rich:column>
+							<rich:column style="background: #FAC090;">
+								<h:outputText value="#{rrrHome.columns.get(17).header}" />
+							</rich:column>
+							<rich:column style="background: #FAC090;">
+								<h:outputText value="#{rrrHome.columns.get(18).header}" />
+							</rich:column>
+							<rich:column style="background: #FAC090;">
+								<h:outputText value="#{rrrHome.columns.get(19).header}" />
+							</rich:column>
+							<rich:column style="background: #b8cce4;">
+								<h:outputText value="#{rrrHome.columns.get(20).header}" />
+							</rich:column>
+							<rich:column style="background: #b8cce4;">
+								<h:outputText value="#{rrrHome.columns.get(21).header}" />
+							</rich:column>
+							<rich:column style="background: #b8cce4;">
+								<h:outputText value="#{rrrHome.columns.get(22).header}" />
+							</rich:column>
+							<rich:column style="background: #b8cce4;">
+								<h:outputText value="#{rrrHome.columns.get(23).header}" />
+							</rich:column>
+							<rich:column style="background: #b8cce4;">
+								<h:outputText value="#{rrrHome.columns.get(24).header}" />
+							</rich:column>
+							<rich:column style="background: #b8cce4;">
+								<h:outputText value="#{rrrHome.columns.get(25).header}" />
+							</rich:column>
+							<rich:column style="background: #b8cce4;">
+								<h:outputText value="#{rrrHome.columns.get(26).header}" />
+							</rich:column>
+							<rich:column style="background: #b8cce4;">
+								<h:outputText value="#{rrrHome.columns.get(27).header}" />
+							</rich:column>
+							<rich:column style="background: #b8cce4;">
+								<h:outputText value="#{rrrHome.columns.get(28).header}" />
+							</rich:column>
+							<rich:column style="background: #b8cce4;">
+								<h:outputText value="#{rrrHome.columns.get(29).header}" />
+							</rich:column>
+							<rich:column style="background: #b8cce4;">
+								<h:outputText value="#{rrrHome.columns.get(30).header}" />
+							</rich:column>
+							<rich:column style="background: #b8cce4;">
+								<h:outputText value="#{rrrHome.columns.get(31).header}" />
+							</rich:column>
+							<rich:column style="background: #b8cce4;">
+								<h:outputText value="#{rrrHome.columns.get(32).header}" />
+							</rich:column>
+							<rich:column style="background: #b8cce4;">
+								<h:outputText value="#{rrrHome.columns.get(33).header}" />
+							</rich:column>
+							<rich:column style="background: #E6B9B8;">
+								<h:outputText value="#{rrrHome.columns.get(34).header}" />
+							</rich:column>
+							<rich:column style="background: #E6B9B8;">
+								<h:outputText value="#{rrrHome.columns.get(35).header}" />
+							</rich:column>
+							<rich:column style="background: #E6B9B8;">
+								<h:outputText value="#{rrrHome.columns.get(36).header}" />
+							</rich:column>
+							<rich:column style="background: #E6B9B8;">
+								<h:outputText value="#{rrrHome.columns.get(37).header}" />
+							</rich:column>
+							<rich:column style="background: #E6B9B8;">
+								<h:outputText value="#{rrrHome.columns.get(38).header}" />
+							</rich:column>
+							<rich:column style="background: #E6B9B8;">
+								<h:outputText value="#{rrrHome.columns.get(39).header}" />
+							</rich:column>
+							<rich:column style="background: #FFC0CB;">
+								<h:outputText value="#{rrrHome.columns.get(40).header}" />
+							</rich:column>
+							
+						
+						</rich:columnGroup>
+					</f:facet>		
+					
+					<rich:columns value="#{rrrHome.columns}" 
+						var="column"
+						index="idx" 
+						id="col#{idx}"
+						rowKeyVar="rowkey" >			                
+						<h:outputText value="#{rows.actualDataList.get(idx).value}"/>
+					</rich:columns>
+					
+					<f:facet name="footer">
+						<rich:datascroller for="tableId" 
+							renderIfSinglePage="false" 
+							align="center"
+							id="paginationId"
+							maxPages="#{messages['item.pagination.size']}"/>
+					</f:facet>
+				</rich:dataTable>		
+				
+			</s:div>
+			
+		</h:form>
+
+		<a:queue ignoreDupResponses="true" id="queue" requestDelay="200" />
+
+	</ui:define>
+
+</ui:composition>

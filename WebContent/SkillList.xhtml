@@ -1,0 +1,219 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" template="layout/template.xhtml">
+
+	<ui:define name="body">
+	
+		<style>
+			.rich-filter-input {
+				width: 85px;
+			}
+		</style>
+		
+		<s:div style="padding-top: 20px;">
+			<h:outputLabel value="Create #{messages['import.candidate.Skill.Set']}"
+					styleClass="header-label" id="headerLabel">
+					
+				<rich:toolTip value="#{messages['form.header.hint']}"/>
+				
+				<script type="text/javascript">					
+					jQuery('#headerLabel').click(function(){
+						jQuery('.header-border').toggle();
+					});			
+				</script>	
+			</h:outputLabel>	
+			 
+		</s:div>	
+
+		<h:form id="skillsForm">
+			
+			<s:div styleClass="header-border">
+				<h:panelGrid columns="2">
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.skillname']}:" />
+						</ui:define>
+						<h:inputText
+							value="#{skillHome.newInstance().sklName}"
+							rendered="#{!skillHome.error}"
+							required="true" 
+							requiredMessage="#{messages['error.enter.required']} #{' '} #{messages['com.bosch.ui.skillname']}"
+							styleClass="rtsTextBox" 
+							validator="#{skillValidator.validate}">
+							<s:validate/>
+						</h:inputText>	
+						<h:inputText
+							value="#{skillHome.instance.sklName}"
+							rendered="#{skillHome.error}"
+							required="true" 
+							requiredMessage="#{messages['error.enter.required']} #{' '} #{messages['com.bosch.ui.skillname']}"
+							styleClass="rtsTextBox" 
+							validator="#{skillValidator.validate}">
+							<s:validate/>
+						</h:inputText>	
+					</s:decorate>
+
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.skill.desc']}:" />
+						</ui:define>	
+						
+						<h:inputTextarea
+							styleClass="additionalInfoField rtsTextarea"
+							value="#{skillHome.instance.sklDescription}" />						
+					</s:decorate>
+					
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.status']}:" />
+						</ui:define>	
+						
+						<h:selectOneMenu
+								value="#{skillHome.instance.activeState}"
+								required="true"
+								requiredMessage="#{messages['error.select.required']} #{' '} #{messages['com.bosch.ui.status']}">
+								<f:selectItem itemValue="" itemLabel="#{messages['selectOptions']}"/>
+							<f:selectItem itemValue="#{false}" itemLabel="#{messages['status.unActive']}"/>
+							<f:selectItem itemValue="#{true}" itemLabel="#{messages['status.active']}"/>							
+						</h:selectOneMenu>
+					
+					</s:decorate>
+
+				</h:panelGrid>
+			</s:div>
+
+			<div style="clear: both">
+				<rich:spacer />
+			</div>
+
+			<s:div styleClass="bottom-border">
+				<h:commandButton value="#{messages['Button.Save']}"
+					action="#{skillHome.createSkill()}"
+					id="saveButton" 
+					styleClass="submitStandard"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+					<s:defaultAction />
+				</h:commandButton>
+
+				<s:button id="resetButton" 
+					value="#{resource['Button.Reset']}"
+					styleClass="submitStandard" 
+					includePageParams="none"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+				</s:button>
+			</s:div>
+
+			<s:div id="searchResultPanel" styleClass="table-align">
+				<h:outputLabel value="#{messages['no.results.found']}"
+					rendered="#{empty skillHome.skills}" />
+
+				<rich:dataTable id="skillsTable" 
+					var="item"
+					value="#{skillHome.skills}"
+					rowKeyVar="index" 
+					rowClasses="brightRow,darkRow"
+					rendered="#{not empty skillHome.skills}"
+					reRender="paginationId" 
+					width="100%"
+					rows="#{messages['pagination.size']}">
+				
+
+					<rich:column filterBy="#{item.sklName}" filterEvent="onkeyup"
+						sortBy="#{item.sklName}" sortable="true">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['form.name']}" />
+						</f:facet>
+						<s:link value="#{item.sklName}"
+							view="/SkillEdit.xhtml" 
+							propagation="join"
+							onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+							<f:param name="skillSklSkillId" value="#{item.sklSkillId}" />
+							<f:param name="fromView" value="/SkillList.xhtml" />
+						</s:link>
+
+					</rich:column>
+
+					<rich:column filterBy="#{item.sklDescription}"
+						filterEvent="onkeyup" sortBy="#{item.sklDescription}"
+						sortable="true">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['com.bosch.ui.skill.desc']}" />
+						</f:facet>
+						<h:outputText value="#{item.sklDescription}" />
+					</rich:column>
+					
+					<rich:column filterBy="#{item.createdBy}"
+						filterEvent="onkeyup" sortBy="#{item.createdBy}"
+						sortable="true" styleClass="textCenterAlign">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['createdBy']}" />
+						</f:facet>
+						<h:outputText value="#{item.createdBy}" />
+					</rich:column>
+					
+					<rich:column sortBy="#{item.createdOn}"
+						sortable="true" styleClass="textCenterAlign">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['createdOn']}" />
+						</f:facet>
+						<h:outputText value="#{item.createdOn}" >
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>
+					</rich:column>
+					
+					<rich:column filterBy="#{item.updatedBy}"
+						filterEvent="onkeyup" sortBy="#{item.updatedBy}"
+						sortable="true" styleClass="textCenterAlign">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['updatedBy']}" />
+						</f:facet>
+						<h:outputText value="#{item.updatedBy}" />
+					</rich:column>
+					
+					<rich:column sortBy="#{item.updatedOn}"
+						sortable="true" styleClass="textCenterAlign">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['updatedOn']}" />
+						</f:facet>
+						<h:outputText value="#{item.updatedOn}" >
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>
+					</rich:column>
+					
+					<rich:column filterBy="#{item.createdBy}" filterEvent="onkeyup"
+						sortBy="#{item.createdBy}" sortable="true" styleClass="textCenterAlign">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['createdBy']}" />
+						</f:facet>
+						<h:outputText value="#{item.createdBy}" />
+					</rich:column>
+					
+					<rich:column filterBy="#{item.activeState}" filterEvent="onkeyup"
+						sortBy="#{item.activeState}" sortable="true" styleClass="textCenterAlign">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['status.active']}" />
+						</f:facet>
+						<h:outputText value="#{item.activeState ? messages['status.yes'] : messages['status.no']}" />
+					</rich:column>
+					
+					<f:facet name="footer">
+						<rich:datascroller for="skillsTable"
+							renderIfSinglePage="false" 
+							align="center" 
+							id="paginationId"
+							maxPages="#{messages['item.pagination.size']}"/>
+					</f:facet>
+
+				</rich:dataTable>
+			</s:div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

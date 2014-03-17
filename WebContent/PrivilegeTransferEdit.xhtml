@@ -1,0 +1,200 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+	<ui:define name="subMenu">
+		<s:decorate rendered="true">
+			<rich:toolBar itemSeparator="line"
+				separatorClass="subMenuItemSeparator" styleClass="subMenuBar">
+				<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
+					<f:facet name="label">
+						<s:link view="/PrivilegeTransferList.xhtml"
+							value="Transferred Privileges" propagation="none"
+							styleClass="menuItemNotSelected">
+						</s:link>
+					</f:facet>
+				</rich:dropDownMenu>
+				<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none"
+					rendered="#{not identity.hasRole('interviewer')}">
+					<f:facet name="label">
+						<s:link view="/PrivilegeTransferEdit.xhtml"
+							value="Transfer Privileges" propagation="none"
+							styleClass="menuItem">
+						</s:link>
+					</f:facet>
+				</rich:dropDownMenu>
+			</rich:toolBar>
+		</s:decorate>
+	</ui:define>
+	<h:outputText value="#{messages['com.bosch.ui.invalidURL']}"
+		rendered="#{not (identity.hasRole('gm') or identity.hasRole('grm') 
+			or identity.hasRole('dh') or identity.hasRole('pm'))}" />
+	<ui:define name="body">
+		<script>
+        function disablelementFunction(date){
+        	   var curDt = new Date();
+               var curD  = curDt.getDate();
+               var curDay = (curD &lt; 10) ? '0' + curD : curD;
+               var curM = curDt.getMonth() + 1;
+               var curMonth = (curM &lt; 10) ? '0' + curM : curM;
+               var curYy = curDt.getYear();
+               var curYear = (curYy &lt; 1000) ? curYy + 1900 : curYy;
+               var curDateNumber = curDay + curMonth * 100 + curYear * 10000;
+            if (curDt==undefined){
+                curDt = date.date.getDate;
+            }
+         var t1=   curDt.setHours(0,0,0,0);
+            var t2= date.date.setHours(0,0,0,0);
+            return t2>=t1;
+        }
+        function checkTime(event, control) {
+            var date = new Date();
+        if(event.rich.date &lt;= date) {
+        	event.rich.date = date;
+            var dateSplits = date.toString().split(' ');
+            var newDateString = dateSplits[1] + '/' + dateSplits[2] + '/' + dateSplits[3];
+            var timeSplits = dateSplits[4].split(':');
+            var hour = date.getHours();
+            var min = date.getMinutes();
+            if(hour &lt; 12) {
+            	if(hour &lt; 10) {
+            		newDateString += '0';
+            	} else {
+            		newDateString += ' ';
+            	}
+            	newDateString += hour;
+            	newDateString += ':';
+            	if(min &lt; 10) {
+            		newDateString += '0';
+            	}
+            	newDateString += min;
+            	newDateString += ' ';
+            	newDateString += 'AM';
+            } else {
+            	hour = hour - 12;
+            	if(hour &lt; 10) {
+            		newDateString += ' 0';
+            	} else {
+            		newDateString += ' ';
+            	}
+            	newDateString += hour;
+            	newDateString = newDateString + ':';
+            	if(min &lt; 10) {
+            		newDateString += '0';
+            	}
+            	newDateString += min;
+            	newDateString += ' ';
+            	newDateString += 'PM';
+            }
+            control.value = newDateString;
+		}
+        }
+        </script>
+		<h:form id="privilegeTransfer" styleClass="edit"
+			rendered="#{identity.hasRole('grm') 
+			or identity.hasRole('dh') or identity.hasRole('pm')}">
+
+			<a:region>
+				<a:keepAlive beanName="privilegeTransferBLO" />
+				<rich:panel>
+					<f:facet name="header">#{privilegeTransferHome.managed ? 'Edit' : 'Add'} Privilege transfer</f:facet>
+					<h:panelGrid columns="2" style=" width : 800px; height : 228px;">
+						<h:panelGroup id="panelLeft">
+							<s:decorate template="layout/edit_pvlTransfer.xhtml">
+								<ui:define name="label">Transferred user</ui:define>
+								<rich:comboBox style="width: 150px"
+									directInputSuggestions="true" id="user2"
+									suggestionValues="#{privilegeTransferBLO.userList}"
+									value="#{privilegeTransferBLO.selectedUser}"
+									converter="commonConverter" required="true"
+									requiredMessage="#{messages['com.bosch.rts.blo.InterviewScheduleBLO.noInterviewerSelected']}"
+									itemSelectedClass="tisComboboxSelected"
+									selectFirstOnUpdate="true" enableManualInput="true">
+								</rich:comboBox>
+							</s:decorate>
+							<s:decorate template="layout/edit_pvlTransfer.xhtml">
+								<ui:define name="label">Effective Org. Unit</ui:define>
+								<rich:comboBox style="width: 150px"
+									directInputSuggestions="true" id="user2"
+									suggestionValues="#{userBLO.getManagerOrgUnitList(loggedInUser.usrUserName)}"
+									value="#{privilegeTransferBLO.orgUnit}"
+									converter="commonConverter" required="true"
+									requiredMessage="#{messages['com.bosch.rts.blo.InterviewScheduleBLO.noInterviewerSelected']}"
+									itemSelectedClass="tisComboboxSelected"
+									selectFirstOnUpdate="true" enableManualInput="true">
+								</rich:comboBox>
+							</s:decorate>
+							<s:decorate template="layout/edit_pvlTransfer.xhtml">
+								<ui:define name="label">Transferred privileges</ui:define>
+								<h:selectManyCheckbox layout="pageDirection"
+									value="#{privilegeTransferBLO.selectedPrivileges}"
+									id="privileges" required="true"
+									rendered="#{not privilegeTransferBLO.updating}">
+									<s:selectItems value="#{privilegeTransferBLO.privilegeList}"
+										var="pvl" label="#{pvl}" />
+								</h:selectManyCheckbox>
+								<h:outputText
+									value="#{privilegeTransferBLO.updatingPT.privilege.toString().replace('_',' ')}"
+									rendered="#{privilegeTransferBLO.updating}" />
+							</s:decorate>
+						</h:panelGroup>
+
+						<h:panelGroup id="panelRight">
+							<s:decorate id="rotFromDateField"
+								template="layout/edit_pvlTransfer.xhtml">
+								<ui:define name="label">From date</ui:define>
+								<rich:calendar id="rotFromDate"
+									value="#{privilegeTransferBLO.fromDate}"
+									isDayEnabled="disablelementFunction" datePattern="MMM/dd/yyyy"
+									required="true"
+									requiredMessage="#{messages['com.bosch.ui.PrivilegeTransfer.fromDateRequired']}">
+								</rich:calendar>
+							</s:decorate>
+							<s:decorate id="rotToDateField"
+								template="layout/edit_pvlTransfer.xhtml">
+								<ui:define name="label">To date</ui:define>
+								<rich:calendar id="rotToDate"
+									isDayEnabled="disablelementFunction"
+									value="#{privilegeTransferBLO.toDate}"
+									datePattern="MMM/dd/yyyy" required="true"
+									requiredMessage="#{messages['com.bosch.ui.PrivilegeTransfer.toDateRequired']}" />
+							</s:decorate>
+							<s:decorate id="rotDescriptionField"
+								template="layout/edit_pvlTransfer.xhtml">
+								<ui:define name="label">Description</ui:define>
+								<h:inputTextarea id="itrsInterviewScheduleRemark"
+									style="width:100%" rows="3"
+									value="#{privilegeTransferBLO.description}" required="true" />
+							</s:decorate>
+						</h:panelGroup>
+					</h:panelGrid>
+					<div style="clear: both">
+						<span class="required">*</span> required fields
+					</div>
+				</rich:panel>
+			</a:region>
+			<div class="actionButtons">
+				<a:commandButton id="save" value="Save"
+					action="#{privilegeTransferBLO.save()}"
+					rendered="#{not privilegeTransferBLO.updating}"
+					styleClass="submitHighlighted" reRender="privilegeTransfer" />
+
+				<a:commandButton id="update" value="Update"
+					action="#{privilegeTransferBLO.update()}"
+					rendered="#{privilegeTransferBLO.updating}"
+					styleClass="submitHighlighted" reRender="privilegeTransfer" />
+
+				<s:button id="cancelEdit" value="Cancel" propagation="end"
+					view="/PrivilegeTransferList.xhtml" rendered="true"
+					styleClass="submitStandard" />
+			</div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

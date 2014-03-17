@@ -1,0 +1,541 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+	<ui:define name="body">
+
+		<h:form id="InterviewScheduleViewForm">
+
+			<s:div style="padding-top: 20px;">
+				<h:outputLabel value="#{messages['candidate.header.add.schedule.details']}"
+					styleClass="header-label" />
+			</s:div>
+			<s:div styleClass="header-border">
+				<h:panelGrid columns="2">
+					<s:decorate id="itsCandidate" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['int.sch.candidate']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.candidate.cddName}" />
+					</s:decorate>
+					<s:decorate id="itsCandidateEmail" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.email']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.candidate.cddEmail}" />
+					</s:decorate>
+
+					<s:decorate id="itsInterviewer1" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['int.sch.interviewers']}:" />
+						</ui:define>
+						<a:repeat value="#{interviewScheduleHome.instance.interviewers}"
+							var="_interviewer" rowKeyVar="_key">
+							<h:outputText value="#{_key + 1}. " />
+							<h:outputLink value="mailto:#{_interviewer.usrEmail}">
+								<h:outputText value="#{_interviewer.usrFullName}" />
+							</h:outputLink>
+							<br />
+						</a:repeat>
+					</s:decorate>
+
+					<s:decorate id="itsRequest" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['recruit.request']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.recruitRequest.recruitRequestName}" />
+					</s:decorate>
+
+					<s:decorate id="itsApplyForLevel" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['interview.apply.for.level']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.itsApplyForLevel.displayName}" />
+					</s:decorate>
+
+					<s:decorate id="itsTechnicalInterviewDate"
+						template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['interview.schedule.technical']} #{messages['interview.at']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.itsTechnicalInterviewTime}">
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern.long']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>
+					</s:decorate>
+
+					<s:decorate id="itsHrInterviewDate" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['interview.schedule.hr']} #{messages['interview.at']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.itsHrInterviewTime}">
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern.long']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>
+					</s:decorate>
+
+					<s:decorate id="itsTechnicalInterviewLocation"
+						template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['interview.schedule.technical.location']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.itsTechnicalLocation}" />
+					</s:decorate>
+
+					<s:decorate id="itsHrInterviewLocation"
+						template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['interview.schedule.hr.location']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.itsHrLocation}" />
+					</s:decorate>
+
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['interview.schedule.technical.mode']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.itsTechnicalInterviewType}" />
+					</s:decorate>
+
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['interview.schedule.hr.mode']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.itsHRInterviewType}" />
+					</s:decorate>
+
+					<s:decorate template="layout/edit.xhtml"
+						rendered="#{interviewScheduleHome.addTechnicalFeedback}">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['interview.schedule.technical.status']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.itsTechnicalStatus}" />
+					</s:decorate>
+
+					<s:decorate template="layout/edit.xhtml"
+						rendered="#{interviewScheduleHome.addHRFeedback}">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['interview.schedule.hr.status']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.itsHrStatus}" />
+					</s:decorate>
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['int.sch.technical']} #{' '} #{messages['com.bosch.ui.remark']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.itsTechnicalRemark}" />
+					</s:decorate>
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['int.sch.hr']} #{' '} #{messages['com.bosch.ui.remark']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.itsHRRemark}" />
+					</s:decorate>
+				</h:panelGrid>
+
+				<div style="clear: both;">
+					<span><rich:spacer /> </span>
+				</div>
+
+				<s:div styleClass="bottom-border">
+					<s:button styleClass="submitStandard" includePageParams="none"
+						view="/InterviewScheduleList.xhtml" id="backButton"
+						value="#{messages['Button.Back']}"
+						onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+						<f:param name="fromView" value="/InterviewScheduleList.xhtml" />
+					</s:button>
+				</s:div>
+			</s:div>
+		</h:form>
+	
+	<!-- Candidate Details -->
+		<div style="clear: both">
+			<span><rich:spacer height="10" /> </span>
+		</div>		
+	<h:form id="candidateViewForm"
+			rendered="#{schPrivilege.searchableInterviewSchedule}">
+			<s:div styleClass="header-lable-align">
+				<h:outputLabel value="#{messages['candidate.details']}"
+					styleClass="header-label " />
+			</s:div>
+
+			<!--General information-->
+		<s:div styleClass="header-border">
+				<h:panelGrid columns="2">
+					<s:decorate id="cddNameField" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputText value="#{messages['com.bosch.ui.name']}:" />
+						</ui:define>
+						<h:outputText id="cddName" maxlength="50"
+							value="#{interviewScheduleHome.instance.candidate.cddPrefix} #{interviewScheduleHome.instance.candidate.cddName}">
+						</h:outputText>
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<rich:spacer />
+					</s:decorate>
+
+					<s:decorate id="cddStatusField" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputText value="#{messages['com.bosch.ui.status']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.cddStatus}" />
+					</s:decorate>
+
+					<s:decorate id="joinDateField" template="layout/display.xhtml"
+						rendered="#{interviewScheduleHome.instance.candidate.cddStatus eq 'JOINED'}">
+						<ui:define name="label">
+							<h:outputText value="#{messages['com.bosch.ui.joindate']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.cddJoiningDate}">
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" />
+						</h:outputText>
+					</s:decorate>
+
+					<s:decorate id="cddDobField" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputText value="#{messages['com.bosch.ui.dateofbirth']}:" />
+						</ui:define>
+						<h:outputText id="cddDob" value="#{interviewScheduleHome.instance.candidate.cddDob}">
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" />
+						</h:outputText>
+
+					</s:decorate>
+
+					<s:decorate id="cddEmailField" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputText value="#{messages['com.bosch.ui.email']}:" />
+						</ui:define>
+						<h:outputText id="cddEmail"
+							value="#{interviewScheduleHome.instance.candidate.cddEmail}">
+						</h:outputText>
+					</s:decorate>
+
+					<s:decorate id="cddidentifynumberField"
+						template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputText value="#{messages['com.bosch.ui.identifynumber']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.cddIdentityCard}" />
+					</s:decorate>
+
+					<s:decorate id="cddAddressField" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputText value="#{messages['com.bosch.ui.address']}:" />
+						</ui:define>
+						<h:outputText id="cddAddress" styleClass="wordWrap"
+							value="#{interviewScheduleHome.instance.candidate.cddAddress}">
+						</h:outputText>
+					</s:decorate>
+
+					<s:decorate id="cddPhoneNoField" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputText value="#{messages['com.bosch.ui.contactnumber']} 1:" />
+						</ui:define>
+						<h:outputText id="cddPhoneNo"
+							value="#{interviewScheduleHome.contactNumber1}">
+						</h:outputText>
+					</s:decorate>
+
+					<s:decorate id="cddPhoneNoField2" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputText value="#{messages['com.bosch.ui.contactnumber']} 2:" />
+						</ui:define>
+						<h:outputText id="cddPhoneNo2"
+							value="#{interviewScheduleHome.contactNumber2}">
+						</h:outputText>
+					</s:decorate>
+
+
+					<s:decorate id="cddEducationDegreeField" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputText value="#{messages['com.bosch.ui.educationdegree']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.cddDegree1}" />
+					</s:decorate>
+
+					<s:decorate id="cddUniversityField" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.university']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.cddGraduationUniversity}" />
+					</s:decorate>
+					
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['candidate.graduation.time']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.graduationTime}" />
+					</s:decorate>
+					
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['candidate.current.company']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.currentCompany}" />
+					</s:decorate>
+					
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['candidate.current.position']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.currentPosition}" />
+					</s:decorate>
+					
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['candidate.position.applied']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.positionApplied}"/>
+					</s:decorate>
+					
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputText value="#{messages['com.bosch.ui.faculty']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.candidate.cddGraduationFaculty}" />
+					</s:decorate>
+
+					<s:decorate id="cddOrgUnitField" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputText value="#{messages['org.unit']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.orgUnit.unitName}" />
+					</s:decorate>
+
+					<s:decorate id="cddRequestNumberField"
+						template="layout/display.xhtml" style="width:100%">
+						<ui:define name="label">
+							<h:outputText value="#{messages['com.bosch.ui.applyforrequest']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.candidate.recruitRequest.recruitRequestName}" />
+					</s:decorate>
+
+					<s:decorate id="cddYearOfExperienceField"
+						template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputText value="#{messages['com.bosch.ui.overallyearofexperience']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.candidate.cddYearOfExperience}" />
+					</s:decorate>
+					
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.relevantexperiences']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.cddRelevantExperience}" />
+					</s:decorate>
+					
+					<s:decorate	template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['candidate.tinme.of.cv.received']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.timeOfCvReceived}" >
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}"/>
+						</h:outputText>						
+					</s:decorate>					
+					
+					<s:decorate	template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['candidate.handled.by']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.handledBy}" />						
+					</s:decorate>
+					
+					<s:decorate	template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['candidate.tinme.of.cv.sent']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.timeOfCvSent}" >
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}"/>
+						</h:outputText>			
+					</s:decorate>
+					
+					<s:decorate	template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['candidate.shortlist.by']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.shortListBy}" />					
+					</s:decorate>
+					
+					<s:decorate	template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['candidate.shortlist.result']}:" />
+						</ui:define>
+						<h:outputText value="#{messages['candidate.shortlist.result.0']}" rendered="#{interviewScheduleHome.instance.candidate.shortListResult eq 0}"/>
+						<h:outputText value="#{messages['candidate.shortlist.result.1']}" rendered="#{interviewScheduleHome.instance.candidate.shortListResult eq 1}"/>
+						<h:outputText value="" rendered="#{empty interviewScheduleHome.instance.candidate.shortListResult}"/>						
+					</s:decorate>
+					
+					<s:decorate	template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['candidate.tested.on']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.testedOn}" >
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}"/>
+						</h:outputText>					
+					</s:decorate>
+					
+					<s:decorate	template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['candidate.tested.result']}:" />
+						</ui:define>
+						<h:outputText value="#{messages['candidate.tested.result.0']}" rendered="#{interviewScheduleHome.instance.candidate.testedResult eq 0}"/>
+						<h:outputText value="#{messages['candidate.tested.result.1']}" rendered="#{interviewScheduleHome.instance.candidate.testedResult eq 1}"/>
+						<h:outputText value="" rendered="#{empty interviewScheduleHome.instance.candidate.testedResult}"/>	
+					</s:decorate>
+					
+					<s:decorate id="cddPriorityField" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.priority']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{candidatePriorityHelper.getPriorityStr(interviewScheduleHome.instance.candidate.cddPriority)}" />
+					</s:decorate>
+
+					<s:decorate id="cddSourceField" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.source']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.cddSource}"
+							rendered="#{ interviewScheduleHome.instance.candidate.cddSource != 'Referral' 
+									and interviewScheduleHome.instance.candidate.cddSource != 'Please select'}"
+							cols="30" rows="5" />
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.cddEmployeeId}"
+							rendered="#{ interviewScheduleHome.instance.candidate.cddSource eq 'Referral'}" />
+						<h:outputText value="#{' - '}"
+							rendered="#{not empty (interviewScheduleHome.instance.candidate.cddEmployeeId) and not empty (interviewScheduleHome.instance.candidate.cddEmployeeName)}" />
+						<h:outputText value="#{interviewScheduleHome.instance.candidate.cddEmployeeName}"
+							rendered="#{ interviewScheduleHome.instance.candidate.cddSource eq 'Referral'}" />
+					</s:decorate>
+
+					<s:decorate id="cddDescriptField" template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.description']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewScheduleHome.instance.candidate.cddSkillDescription}" cols="30"
+							rows="5" />
+					</s:decorate>
+				</h:panelGrid>
+
+				<!--Candidate Skills-->
+				<s:div styleClass="rts-text-align">
+					<rich:dataTable id="skillCandiadteTable"
+						value="#{interviewScheduleHome.instance.candidate.candidateHasSkills.toArray()}"
+						rowClasses="brightRow,darkRow"
+						rendered="#{not empty interviewScheduleHome.instance.candidate.candidateHasSkills}"
+						var="item" style="width:100%;">
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="#{messages['com.bosch.ui.skillname']}" />
+							</f:facet>
+							<h:outputText value="#{item.skill.sklName}" style="width:70%" />
+						</rich:column>
+
+						<rich:column styleClass="textCenterAlign">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['com.bosch.ui.yearofexperience']}" />
+							</f:facet>
+							<h:outputText value="#{item.chs_Exerinece_Years}" />
+						</rich:column>
+
+						<rich:column styleClass="textCenterAlign">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['candiadte.header.skill.level']}" />
+							</f:facet>
+							<h:outputText value="#{item.skillLevel}" />
+						</rich:column>
+
+					</rich:dataTable>
+				</s:div>
+
+				<!--Candidate Resumes-->
+				<s:div styleClass="rts-text-align">
+					<rich:dataTable id="CandidateResumeTable" var="_doc"
+						value="#{interviewScheduleHome.instance.candidate.attachments.toArray()}"
+						rendered="#{not empty interviewScheduleHome.instance.candidate.attachments}"
+						rowClasses="brightRow,darkRow" style="width:100%">
+						<rich:column>
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['upload.file.name']}" />
+							</f:facet>
+							<h:outputText value="#{_doc.chaAttachmentName}"
+								styleClass="wordWrap" />
+						</rich:column>
+
+						<rich:column styleClass="textCenterAlign">
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['upload.file.length']}" />
+							</f:facet>
+							<h:outputText value="#{_doc.toString()}" />
+						</rich:column>
+
+						<rich:column styleClass="textCenterAlign">
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['upload.uploaded.on']}" />
+							</f:facet>
+							<h:outputText value="#{_doc.chaAttachmentCreatedOn}">
+								<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" />
+							</h:outputText>
+						</rich:column>
+
+						<rich:column styleClass="textCenterAlign">
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['upload.status']}" />
+							</f:facet>
+							<h:outputText value="#{_doc.chaAttachmentStatus}" />
+						</rich:column>
+
+						<rich:column styleClass="textCenterAlign">
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['upload.download']}" />
+							</f:facet>
+							<s:download src="/ResourceProvider.xhtml"
+								rendered="#{not empty _doc.chaAttachmentName}">
+								<h:graphicImage value="/img/iconDocument.gif" />
+								<f:param name="attachmentId" value="#{_doc.chaAttachmentId}" />
+								<f:param name="candidateId"	value="#{interviewScheduleHome.instance.candidate.cddCandidateId}" />
+								<f:param name="cid"	value="#{conversation.id}" />		
+							</s:download>
+						</rich:column>
+					</rich:dataTable>
+				</s:div>
+
+				<div style="clear: both">
+					<span><rich:spacer height="5" /> </span>
+				</div>
+			</s:div>
+		</h:form>
+	</ui:define>
+</ui:composition>

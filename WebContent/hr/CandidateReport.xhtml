@@ -1,0 +1,629 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="../layout/template.xhtml">
+
+	<ui:define name="body">		
+	
+		<s:div style="padding-top: 20px;">
+			<h:outputLabel value="#{messages['candidate.report']}"
+					styleClass="header-label" id="headerLabel">
+					
+				<rich:toolTip value="#{messages['form.header.hint']}"/>
+				
+				<script type="text/javascript">					
+					jQuery('#headerLabel').click(function(){
+						jQuery('.header-border').toggle();
+					});			
+				</script>	
+			</h:outputLabel>	
+			 
+		</s:div>	
+	
+		<h:form id="candidateReport" styleClass="edit">
+
+			<s:div styleClass="header-border">
+			
+				<h:panelGrid columns="2" id="searchContent">
+					<s:decorate	template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="Created From:" />
+						</ui:define>
+						<rich:calendar id="createdFromCal"
+							value="#{candidateReportHome.createdFrom}"
+							datePattern="#{messages['calendar.pattern']}"
+							showApplyButton="false"
+							enableManualInput="false"
+							locale="#{calendarBean.locale}"
+							monthLabels="#{messages['calendar.month.labels']}"/>
+					</s:decorate>
+					
+					<s:decorate	template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="Created To:" />
+						</ui:define>
+						<rich:calendar id="createdToCal"
+							 value="#{candidateReportHome.createdTo}"
+							datePattern="#{messages['calendar.pattern']}"
+							showApplyButton="false"
+							enableManualInput="false"
+							locale="#{calendarBean.locale}"
+							monthLabels="#{messages['calendar.month.labels']}"/>
+					</s:decorate>
+					
+					<s:decorate id="orgUnitField" template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['org.unit']}:" />
+						</ui:define>
+						<h:selectOneMenu value="#{candidateReportHome.orgUnit}"
+							styleClass="rtsSelectOneMenu">
+							<s:selectItems value="#{candidateHome.candidateReportOrgUnits}"
+								var="_unit" 
+								label="#{_unit.unitName}"
+								noSelectionLabel="#{messages['selectOptions']}">
+							</s:selectItems>
+							<a:support event="onchange" 
+								ajaxSingle="true" 
+								limitToList="true"
+								ignoreDupResponses="true" 
+								reRender="cddRequestNumberFieldDeco"
+								action="#{candidateReportHome.populateRecruitRequests()}"
+								onsubmit="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+								oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');">
+							</a:support>
+							<s:convertEntity />
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate id="cddRequestNumberFieldDeco">
+						<s:decorate id="cddRequestNumberField" template="../layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel
+									value="#{messages['com.bosch.ui.appliedforrequest']}:" />
+							</ui:define>
+							<h:selectOneMenu
+								value="#{candidateReportHome.recruitRequest}"
+								styleClass="rtsSelectOneMenu">
+								<s:selectItems value="#{candidateReportHome.availableRecruitRequests}"
+									var="rr" 
+									label="#{rr.recruitRequestName} #{'-'} #{rr.orgUnit.unitName}"
+									noSelectionLabel="#{messages['selectOptions']}">
+								</s:selectItems>
+								<s:convertEntity />
+							</h:selectOneMenu>
+						</s:decorate>						
+					</s:decorate>	
+					
+					<s:decorate id="cddSourceField" template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.source']}:" />
+						</ui:define>
+						<h:selectOneMenu value="#{candidateReportHome.source}"
+							styleClass="rtsSelectOneMenu">
+							<f:selectItem itemLabel="#{messages['selectOptions']}" itemValue="" />
+							<f:selectItem
+								itemLabel="#{messages['com.bosch.ui.consultancy']}"
+								itemValue="#{messages['com.bosch.ui.consultancy']}" />
+							<f:selectItem itemLabel="#{messages['com.bosch.ui.direct']}"
+								itemValue="#{messages['com.bosch.ui.direct']}" />
+							<f:selectItem itemLabel="#{messages['com.bosch.ui.jobportal']}"
+								itemValue="#{messages['com.bosch.ui.jobportal']}" />
+							<f:selectItem itemLabel="#{messages['com.bosch.ui.referral']}"
+								itemValue="#{messages['com.bosch.ui.referral']}" />
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.status']}:" />
+						</ui:define>
+						<h:selectOneMenu value="#{candidateReportHome.candidateStatus}" styleClass="rtsSelectOneMenu">
+							<s:selectItems
+								value="#{candidateStatusHelper.statusList}"
+								var="item"  
+								label="#{item.toString()}"
+								itemValue="#{item}"
+								noSelectionLabel="#{messages['selectOptions']}">
+							</s:selectItems>
+							<s:convertEnum/>
+						</h:selectOneMenu>
+					</s:decorate>		
+					
+					<s:decorate id="handledByField" template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['candidate.handled.by']}:" />
+						</ui:define>
+						<h:selectOneMenu value="#{candidateReportHome.handledBy}">
+							<s:selectItems value="#{userHome.availableUsers}"
+								noSelectionLabel="#{messages['selectOptions']}"
+								var="item" 								
+								label="#{item.usrFullName} - #{item.usrUserName}">								
+							</s:selectItems>
+							<s:convertEntity/>
+						</h:selectOneMenu>								
+					</s:decorate>
+					
+					<s:decorate id="shortListByField" template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['candidate.shortlist.by']}:" />
+						</ui:define>
+						<h:selectOneMenu value="#{candidateReportHome.shortListBy}">
+							<s:selectItems value="#{userHome.availableUsers}"
+								noSelectionLabel="#{messages['selectOptions']}"
+								var="item" 								
+								label="#{item.usrFullName} - #{item.usrUserName}">								
+							</s:selectItems>
+							<s:convertEntity/>
+						</h:selectOneMenu>								
+					</s:decorate>
+				
+					<s:decorate id="createdByField" template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['recruit.request.created.by']}:" />
+						</ui:define>
+						<h:selectOneMenu value="#{candidateReportHome.createdBy}">
+							<s:selectItems value="#{userHome.availableUsers}"
+								noSelectionLabel="#{messages['selectOptions']}"
+								var="item" 								
+								label="#{item.usrFullName} - #{item.usrUserName}">								
+							</s:selectItems>
+							<s:convertEntity/>
+						</h:selectOneMenu>								
+					</s:decorate>
+					
+					<s:decorate id="cddPriorityField" template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.priority']}:" />
+						</ui:define>
+						<h:selectOneMenu value="#{candidateHome.instance.cddPriority}">
+							<f:selectItem itemLabel="#{messages['selectOptions']}" itemValue="" />
+							<f:selectItem itemValue="3"	itemLabel="#{messages['com.bosch.ui.high']}" />
+							<f:selectItem itemValue="2"	itemLabel="#{messages['com.bosch.ui.normal']}" />
+							<f:selectItem itemValue="1" itemLabel="#{messages['com.bosch.ui.low']}" />
+						</h:selectOneMenu>
+					</s:decorate>
+				</h:panelGrid>				
+			
+				<s:decorate template="/layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['com.bosch.ui.matchedskill']}:" />
+					</ui:define>
+				</s:decorate>
+				<div style="clear: both">
+					<rich:pickList style="padding-left:18px;"
+						value="#{candidateReportHome.skills}">
+						<s:selectItems value="#{skillPickBean.skillList}" 				
+							var="item"
+							label="#{item.sklName}" />
+						<s:convertEntity/>	
+					</rich:pickList>			
+				</div>	
+			</s:div>
+			
+			<div style="clear: both">
+				<span><rich:spacer height="5" /> </span>
+			</div>
+
+			<s:div styleClass="bottom-border">
+				<a:commandButton id="searchButton"
+					value="#{messages['Button.Search']}" 
+					reRender="searchResultDiv,exportButton"
+					action="#{candidateReportHome.search()}"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+					oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');"
+					styleClass="submitStandard">
+					<s:defaultAction />
+				</a:commandButton>				
+				
+				<s:button id="resetButton"
+					value="#{messages['Button.Reset']}"
+					action="#{candidateReportHome.resetFormFields()}" 
+					includePageParams="false"
+					styleClass="submitStandard"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});" />	
+					
+				<rich:spacer width="25"/>
+					
+				<a:commandButton id="thisWeekButton"
+					value="#{messages['Button.Search.By.This.Week']}" 
+					reRender="createdFromCal,searchResultDiv,exportButton"
+					action="#{candidateReportHome.searchByThisWeek()}"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+					oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');"
+					styleClass="submitStandard">
+				</a:commandButton>
+				
+				<a:commandButton id="lastWeekButton"
+					value="#{messages['Button.Search.By.Last.Week']}" 
+					reRender="createdFromCal,createdToCal,searchResultDiv,exportButton"
+					action="#{candidateReportHome.searchByLastWeek()}"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+					oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');"
+					styleClass="submitStandard">
+				</a:commandButton>	
+				
+				<a:commandButton id="thisMonthButton"
+					value="#{messages['Button.Search.By.This.Month']}" 
+					reRender="createdFromCal,searchResultDiv,exportButton"
+					action="#{candidateReportHome.searchByThisMonth()}"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+					oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');"
+					styleClass="submitStandard">
+				</a:commandButton>
+				
+				<a:commandButton id="lastMonthButton"
+					value="#{messages['Button.Search.By.Last.Month']}" 
+					reRender="createdFromCal,createdToCal,searchResultDiv,exportButton"
+					action="#{candidateReportHome.searchByLastMonth()}"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+					oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');"
+					styleClass="submitStandard">
+				</a:commandButton>
+				
+				<rich:spacer width="25"/>
+					
+				<s:link action="#{candidateReportHome.export()}"
+					target="_blank"
+					rendered="#{not empty candidateReportHome.candidates}"
+					id="exportButton">
+					<f:param name="cid"	value="#{conversation.id}" />
+					<h:graphicImage value="/img/excel.gif" title="#{messages['export.excel']}" >
+						<rich:toolTip value="#{messages['export.excel']}"/>
+					</h:graphicImage>
+					
+				</s:link>				
+				
+			</s:div>
+			
+			<s:div id="searchResultDiv" styleClass="table-align">
+				<a:region rendered="#{empty candidateReportHome.candidates}" >
+					<h:graphicImage url="../img/msginfo.png" />
+						<h:outputLabel value="#{messages['candidate.search.no.results']}"	/>
+				</a:region>
+			
+				<rich:dataTable id="candidateListTable" 
+					var="cdd"
+					value="#{candidateReportHome.candidates}" 
+					rowClasses="brightRow,darkRow"
+					rendered="#{not empty candidateReportHome.candidates}" 
+					rowKeyVar="index"
+					width="100%">
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="No" />
+						</f:facet>						
+						<h:outputText value="#{index+1}" />
+					</rich:column>
+
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['com.bosch.ui.name']}" />
+						</f:facet>						
+						<h:outputText value="#{cdd.cddName}" />
+					</rich:column>
+
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Update Date" />
+						</f:facet>
+						<h:outputText value="#{cdd.cddUpdatedDate}" >
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Position Applied" />
+						</f:facet>
+						<h:outputText value="#{cdd.positionApplied}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Competency" />
+						</f:facet>
+						<a:repeat value="#{cdd.candidateHasSkills.toArray()}" var="chs">
+							<a:repeat value="#{chs.skill}" var="skill">
+								<h:outputText value="#{skill.sklName}" /> <br />							
+							</a:repeat>
+						</a:repeat>
+						
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Team" />
+						</f:facet>
+						<h:outputText value="#{cdd.orgUnit.unitName}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['com.bosch.ui.appliedforrequest']}" />
+						</f:facet>
+						<h:outputText value="#{cdd.recruitRequest.recruitRequestName}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Yrs of experiences" />
+						</f:facet>
+						<h:outputText value="#{cdd.cddYearOfExperience}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Relavant exp" />
+						</f:facet>
+						<h:outputText value="#{cdd.cddRelevantExperience}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="YOB" />
+						</f:facet>
+						<h:outputText value="#{cdd.cddDob}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="University" />
+						</f:facet>
+						<h:outputText value="#{cdd.cddGraduationUniversity}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Graduation time" />
+						</f:facet>
+						<h:outputText value="#{cdd.graduationTime}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Degree" />
+						</f:facet>
+						<h:outputText value="#{cdd.cddDegree1}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Current Company" />
+						</f:facet>
+						<h:outputText value="#{cdd.currentCompany}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Current Position" />
+						</f:facet>
+						<h:outputText value="#{cdd.currentPosition}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Mobile" />
+						</f:facet>
+						<h:outputText value="#{cdd.cddPhoneNo}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Email" />
+						</f:facet>
+						<h:outputText value="#{cdd.cddEmail}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="File" />
+						</f:facet>
+						<a:repeat value="#{cdd.attachments.toArray()}" var="cha" rendered="#{not empty cdd.attachments}">
+							<h:outputText value="#{cha.extension}" /> <br />							
+						</a:repeat>
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Link" />
+						</f:facet>
+						<a:repeat value="#{cdd.attachments.toArray()}" var="cha" rendered="#{not empty cdd.attachments}">
+							<s:download src="/ResourceProvider.xhtml">
+								<h:outputText value="#{cha.chaAttachmentName}" />
+								<f:param name="attachmentId" value="#{cha.chaAttachmentId}" />
+								<f:param name="candidateId"	value="#{cdd.cddCandidateId}" />
+								<f:param name="cid" value="#{conversation.id}" />	
+							</s:download><br />		
+						</a:repeat>
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Link CV" />
+						</f:facet>						
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Location" />
+						</f:facet>
+						<h:outputText value="#{cdd.cddAddress}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Source" />
+						</f:facet>
+						<h:outputText value="#{cdd.cddSource}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Introduced by" />
+						</f:facet>
+						<h:outputText value="#{cdd.cddEmployeeName} #{cdd.cddEmployeeId}" />
+					</rich:column>								
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Time of CV received" />
+						</f:facet>
+						<h:outputText value="#{cdd.timeOfCvReceived}" >
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>
+					</rich:column>					
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Handled by" />
+						</f:facet>
+						<h:outputText value="#{cdd.handledBy}" />
+					</rich:column>
+					
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Time of CV sent" />
+						</f:facet>
+						<h:outputText value="#{cdd.timeOfCvSent}" >
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Short list by" />
+						</f:facet>
+						<h:outputText value="#{cdd.shortListBy}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Shortlist Result" />
+						</f:facet>
+						<h:outputText value="Suitable" rendered="#{cdd.shortListResult eq 0}"/>
+						<h:outputText value="Not suitable" rendered="#{cdd.shortListResult eq 1}"/>
+					</rich:column>
+										
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Test Date" />
+						</f:facet>
+						<h:outputText value="#{cdd.testedOn}" >
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Test Result" />
+						</f:facet>
+						<h:outputText value="#{messages['candidate.tested.result.0']}" rendered="#{cdd.testedResult eq 0}"/>
+						<h:outputText value="#{messages['candidate.tested.result.1']}" rendered="#{cdd.testedResult eq 1}"/>
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="1st Interview" />
+						</f:facet>
+							
+						<h:outputText value="#{cdd.latestTechnicalResult.createdOn}" rendered="#{cdd.latestTechnicalResult != null}">
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>
+						
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Interviewer" />
+						</f:facet>
+						<a:repeat value="#{cdd.latestInterviewSchedule.interviewers}" 
+								rendered="#{cdd.latestTechnicalResult != null}"
+								var="intervier">
+							<h:outputText value="#{intervier.usrFullName}"/> <br></br>
+						</a:repeat>
+						
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="1st round interview Status" />
+						</f:facet>
+						<a:region rendered="#{cdd.latestTechnicalResult != null}">
+							<h:outputText value="#{messages['candidate.tested.result.0']}" rendered="#{cdd.latestTechnicalResult.overallEvaluation eq 1 or cdd.latestTechnicalResult.overallEvaluation eq 2 or cdd.latestTechnicalResult.overallEvaluation eq 3}" />
+							<h:outputText value="#{messages['candidate.tested.result.1']}" rendered="#{cdd.latestTechnicalResult.overallEvaluation eq 4}" />
+							<h:outputText value="#{messages['candidate.tested.result.2']}" rendered="#{cdd.latestTechnicalResult.overallEvaluation eq 5}" />
+						</a:region>
+						
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="2nd Interview" />
+						</f:facet>
+						<h:outputText value="#{cdd.latestHrResult.updatedOn}" rendered="#{cdd.latestHrResult != null}">
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Interviewer" />
+						</f:facet>
+						<h:outputText value="#{cdd.latestHrResult.updatedBy}" rendered="#{cdd.latestHrResult != null}"/>
+					</rich:column>					
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="2st round interview Status" />
+						</f:facet>
+						<a:region rendered="#{cdd.latestHrResult != null}">
+							<h:outputText value="#{messages['candidate.tested.result.0']}" rendered="#{cdd.latestHrResult.ihrRecommended eq 0 or cdd.latestHrResult.ihrRecommended eq 2}"/>
+							<h:outputText value="#{messages['candidate.tested.result.1']}" rendered="#{cdd.latestHrResult.ihrRecommended eq 1}"/>
+						</a:region>							
+					</rich:column>					
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Final Status" />
+						</f:facet>
+						<h:outputText value="#{cdd.cddStatus.toString()}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Offer status" /> 
+						</f:facet>
+						<h:outputText value="#{cdd.cddStatus.toString()}" 
+							rendered="#{(cdd.cddStatus.dbString() eq 'TO_OFFER') or (cdd.cddStatus.dbString() eq 'OFFERED') or (cdd.cddStatus.dbString() eq 'OFFER_ACCEPTED') or (cdd.cddStatus.dbString() eq 'OFFER_REFUSED')}"/>
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Summary Assessment" />
+						</f:facet>
+						<h:outputText value="#{cdd.latestHrResult.ihrComment}" rendered="#{cdd.latestHrResult != null}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="Note" />
+						</f:facet>
+						<h:outputText value="#{cdd.cddSkillDescription}" />
+					</rich:column>
+
+				</rich:dataTable>
+				
+				</s:div>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

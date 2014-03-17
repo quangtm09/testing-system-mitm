@@ -1,0 +1,424 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" template="layout/template.xhtml">
+
+	<ui:define name="body">
+		<style>
+			.rich-filter-input {
+				width: 85px;
+			}	
+		</style>
+		
+		
+		<s:div style="padding-top: 20px;">
+			<h:outputLabel value="#{messages['int.sch.search']}"
+					styleClass="header-label" id="headerLabel">
+					
+				<rich:toolTip value="#{messages['form.header.hint']}"/>
+				
+				<script type="text/javascript">					
+					jQuery('#headerLabel').click(function(){
+						jQuery('.header-border').toggle();
+					});			
+				</script>	
+			</h:outputLabel>	
+			 
+		</s:div>	
+			
+		<h:form id="interviewScheduleSearchForm">
+			
+			<a:region>
+				<s:div styleClass="header-border">
+					<h:panelGrid columns="2">
+						<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="#{messages['candidate.name']}:" />
+							</ui:define>
+							<h:inputText id="candidateName" 
+								value="#{interviewScheduleHome.candidateName}"
+								styleClass="rtsTextBox">
+								<a:support ajaxSingle="true" event="onkeyup" eventsQueue="createButton"/>
+							</h:inputText>
+							<rich:suggestionbox id="suggestion" width="225"
+								selectedClass="rts-entry-element" bgcolor="white"
+								shadowDepth="0" for="candidateName" fetchValue="#{_cddName}"
+								suggestionAction="#{interviewScheduleHome.autoCompleteCandidateNames()}"
+								var="_cddName" minChars="1">
+								<h:column>
+									<h:outputText value="#{_cddName}" />
+								</h:column>
+							</rich:suggestionbox>
+						</s:decorate>
+
+						<s:decorate id="userDecoration" template="layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="#{messages['recruit.request']}:" />
+							</ui:define>
+							<h:inputText id="recruitRequest" styleClass="rtsTextBox"
+								value="#{interviewScheduleHome.recruitRequestName}">
+								<a:support ajaxSingle="true" event="onkeyup" eventsQueue="createButton"/>
+							</h:inputText>
+							<rich:suggestionbox id="suggestion" width="225"
+								selectedClass="rts-entry-element" bgcolor="white"
+								shadowDepth="0" for="recruitRequest"
+								fetchValue="#{_recruitRequestName}"
+								suggestionAction="#{interviewScheduleHome.autoCompleteRecruitRequestNames()}"
+								var="_recruitRequestName" minChars="1">
+								<h:column>
+									<h:outputText value="#{_recruitRequestName}"
+										styleClass="rtsTextBox" />
+								</h:column>
+							</rich:suggestionbox>
+						</s:decorate>
+
+						<s:decorate id="startDateField" template="layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="#{messages['technical.int.sch.from']}:" />
+							</ui:define>
+							<rich:calendar id="startDate"
+								value="#{interviewScheduleHome.fromDate}"
+								datePattern="#{messages['calendar.pattern']}"
+								showApplyButton="false" defaultTime="00:00"
+								resetTimeOnDateSelect="true" enableManualInput="false"
+								monthLabels="#{messages['calendar.month.labels']}">
+							</rich:calendar>
+						</s:decorate>
+
+						<s:decorate id="endDateField" template="layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="#{messages['technical.int.sch.to']}:" />
+							</ui:define>
+							<rich:calendar id="endDate"
+								value="#{interviewScheduleHome.toDate}"
+								datePattern="#{messages['calendar.pattern']}"
+								showApplyButton="false" defaultTime="23:59"
+								resetTimeOnDateSelect="true" enableManualInput="false"
+								monthLabels="#{messages['calendar.month.labels']}">
+							</rich:calendar>
+						</s:decorate>
+
+						<s:decorate template="layout/edit.xhtml"
+							rendered="#{schPrivilege.searchableInterviewSchedule}">
+							<ui:define name="label">
+								<h:outputLabel
+									value="#{messages['interview.schedule.technical.status']}:" />
+							</ui:define>
+
+							<h:selectOneMenu value="#{interviewScheduleHome.technicalStatus}"
+								styleClass="rtsSelectOneMenu">
+								<s:selectItems value="#{interviewScheduleList.technicalStatuses}"
+									var="sts" label="#{sts.toString()}"
+									itemLabel="#{sts.toString()}" itemValue="#{sts}"
+									noSelectionLabel="#{messages['selectOptions']}" />
+							</h:selectOneMenu>
+						</s:decorate>
+
+						<s:decorate template="layout/edit.xhtml"
+							rendered="#{schPrivilege.searchableInterviewSchedule}">
+							<ui:define name="label">
+								<h:outputLabel
+									value="#{messages['interview.schedule.hr.status']}:" />
+							</ui:define>
+
+							<h:selectOneMenu value="#{interviewScheduleHome.hrStatus}"
+								styleClass="rtsSelectOneMenu">
+								<s:selectItems value="#{interviewScheduleList.hrStatuses}"
+									var="sts" label="#{sts.toString()}"
+									itemLabel="#{sts.toString()}" itemValue="#{sts}"
+									noSelectionLabel="#{messages['selectOptions']}" />
+							</h:selectOneMenu>
+						</s:decorate>
+					</h:panelGrid>
+				</s:div>
+					
+				<s:div>
+					<a:commandButton id="searchButton"
+						value="#{messages['Button.Search']}"
+						action="#{interviewScheduleHome.searchInterviewSchedules()}"
+						styleClass="submitStandard" 
+						reRender="interviewScheduleListDiv"
+						ajaxSingle="false"
+						onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+						oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');">
+						<s:defaultAction />
+					</a:commandButton>
+
+					<s:button id="resetButton"
+						action="#{interviewScheduleHome.resetSearchForm()}"
+						value="#{resource['Button.Reset']}" 
+						styleClass="submitStandard"
+						includePageParams="none" 
+						onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+					</s:button>
+
+					<s:button id="createButton" 
+						view="/InterviewScheduleCreate.xhtml"
+						value="#{resource['int.sch.create']}" 
+						propagation="join"
+						styleClass="submitStandard"
+						action="#{interviewScheduleHome.resetSelectedInterview()}"
+						onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+						rendered="#{schPrivilege.addableInterviewSchedule}">
+					</s:button>
+				</s:div>
+				
+			</a:region>
+			
+			<s:div  styleClass="table-align" id="interviewScheduleListDiv">
+				<div class="results">							
+						<a:region rendered="#{empty interviewScheduleHome.interviewSchedules}" >
+							<h:graphicImage url="/img/msginfo.png" />
+								<h:outputLabel value="#{messages['int.sch.search.no.results']}"	/>
+						</a:region>			
+
+						<rich:dataTable id="interviewScheduleListTable" var="_sch"
+							value="#{interviewScheduleHome.interviewSchedules}"
+							rowKeyVar="index"
+							rendered="#{not empty interviewScheduleHome.interviewSchedules}"
+							rowClasses="brightRow,darkRow" 
+							width="100%" 
+							rows="#{messages['pagination.size']}" reRender="paginationId">
+
+							<rich:column styleClass="action textCenterAlign" 
+								rendered="#{interviewScheduleHome.renderedInterviewSchedule(_sch, identity.hasRole('hrmanager'))}">
+								<s:link view="/TechnicalResultCreate.xhtml" 
+									propagation="join"
+									onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+									rendered="#{interviewScheduleHome.checkAddableTechnicalResult(_sch)}">
+									<h:graphicImage value="/img/technical_feedback.png" />
+									<rich:toolTip value="#{messages['int.sch.give.interview.feedback']}" />
+									<f:param name="interviewScheduleItsInterviewScheduleId"	value="#{_sch.itsInterviewScheduleId}" />									
+									<f:param name="fromView" value="/InterviewScheduleList.xhtml" />
+								</s:link>
+							
+								<s:link view="/TechnicalResultEdit.xhtml" propagation="join"
+									onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+									rendered="#{interviewScheduleHome.checkEditableTechnicalResult(_sch)}">
+									<h:graphicImage value="/img/technical_feedback.png"/>
+									<rich:toolTip value="#{messages['int.sch.edit.interview.feedback']}" />
+									<f:param name="interviewScheduleItsInterviewScheduleId"	value="#{_sch.itsInterviewScheduleId}" />
+									<f:param name="technicalResultItrTechnicalResultId"
+										value="#{(not empty _sch.technicalResultList) ? _sch.technicalResultList.get(0).technicalResultId : -1}" />
+									<f:param name="fromView" value="/InterviewScheduleList.xhtml" />
+								</s:link>
+
+								<s:link view="/TechnicalResult.xhtml" propagation="join"
+									onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+									rendered="#{interviewScheduleHome.checkViewableTechnicalResult(_sch)}">
+									<h:graphicImage value="/img/msginfo.png" />
+									<rich:toolTip value="#{messages['int.sch.view.interview.feedback']}" />
+									<f:param name="interviewScheduleItsInterviewScheduleId"	value="#{_sch.itsInterviewScheduleId}" />
+									<f:param name="technicalResultItrTechnicalResultId"
+										value="#{(not empty _sch.technicalResultList) ? _sch.technicalResultList.get(0).technicalResultId : -1}" />
+									<f:param name="fromView" value="/InterviewScheduleList.xhtml" />
+								</s:link>
+								
+								
+							</rich:column>
+
+							<rich:column styleClass="action textCenterAlign" >
+								<s:link	rendered="#{interviewScheduleHome.giveableHRResult(_sch) and _sch.itsStatus eq  'Open'}"
+										view="/HrResultEdit.xhtml" 
+										propagation="join"
+										onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+									<h:graphicImage value="/img/hr_feedback.png" />
+									<rich:toolTip value="#{messages['int.sch.give.interview.hr.feedback']}" />
+									<f:param name="scheduleId" value="#{_sch.itsInterviewScheduleId}" />
+									<f:param name="action" value="add" />
+									<f:param name="fromView" value="/InterviewScheduleList.xhtml" />
+								</s:link>
+
+								<s:link id="editHRFeedback"
+										rendered="#{interviewScheduleHome.editableHrResult(_sch) and _sch.itsStatus eq  'Open'}"
+										view="/HrResultEdit.xhtml" propagation="join"
+										onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+									<h:graphicImage value="/img/hr_feedback.png" />
+									<rich:toolTip value="#{messages['int.sch.edit.interview.hr.feedback']}" />
+									<f:param name="scheduleId" value="#{_sch.itsInterviewScheduleId}" />
+									<f:param name="action" value="edit" />
+									<f:param name="fromView" value="/InterviewScheduleList.xhtml" />
+								</s:link>
+								
+								<s:link id="viewHRFeedback"
+										rendered="#{interviewScheduleHome.viewableHrResult(_sch)}"
+										view="/HrResult.xhtml" 
+										propagation="join"
+										value="#{_sch.itsHrStatus}"
+										onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+									<h:graphicImage value="/img/hr_feedback.png" />
+									<rich:toolTip value="#{messages['int.sch.view.interview.hr.feedback']}" />
+									<f:param name="scheduleId" value="#{_sch.itsInterviewScheduleId}" />
+									<f:param name="action" value="view" />
+									<f:param name="fromView" value="/InterviewScheduleList.xhtml" />
+								</s:link>
+
+							<s:link id="viewHRFeedback2"
+								rendered="#{interviewScheduleHome.editableHrResult(_sch) and _sch.itsStatus eq  'Closed'}"
+								view="/HrResult.xhtml" propagation="join"
+								onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+								<h:graphicImage value="/img/hr_feedback.png" />
+								<rich:toolTip
+									value="#{messages['int.sch.view.interview.hr.feedback']}" />
+								<f:param name="scheduleId"
+									value="#{_sch.itsInterviewScheduleId}" />
+								<f:param name="action" value="view" />
+								<f:param name="fromView" value="/InterviewScheduleList.xhtml" />
+							</s:link>
+
+						</rich:column>
+
+							<rich:column sortBy="#{_sch.candidate.cddName}" 
+									rendered="#{schPrivilege.editableInterviewSchedule or schPrivilege.searchableInterviewSchedule}"
+									sortable="true" 
+									filterBy="#{_sch.candidate.cddName}"
+									filterEvent="onkeyup">
+								<f:facet name="header">
+									<h:outputLabel value="#{messages['candidate.name']}" />
+								</f:facet>
+								<s:link value="#{_sch.candidate.cddName}"
+									rendered="#{schPrivilege.editableInterviewSchedule 
+										and (interviewScheduleHome.editableTechinalInf(_sch) 
+										or interviewScheduleHome.editableHrInf(_sch))}"
+									view="/InterviewScheduleEdit.xhtml" id="candidateEditName"
+									propagation="join"
+									onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+									<rich:toolTip value="#{resource['int.sch.edit']}" />
+									<f:param name="isUpdate" value="true" />
+									<f:param name="scheduleId" value="#{_sch.itsInterviewScheduleId}" />
+									<f:param name="fromView" value="/InterviewScheduleList.xhtml" />
+								</s:link>
+								<s:link value="#{_sch.candidate.cddName}"
+									rendered="#{(schPrivilege.searchableInterviewSchedule and !schPrivilege.editableInterviewSchedule)
+											or (schPrivilege.searchableInterviewSchedule 
+											and !interviewScheduleHome.editableTechinalInf(_sch)
+											and !interviewScheduleHome.editableHrInf(_sch))}"
+									view="/InterviewSchedule.xhtml" id="candidateViewName"
+									propagation="join"
+									onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+									<rich:toolTip value="#{resource['int.sch.view']}" />
+									<f:param name="scheduleId" value="#{_sch.itsInterviewScheduleId}" />
+									<f:param name="fromView" value="/InterviewScheduleList.xhtml" />
+								</s:link>
+							</rich:column>
+							
+							<rich:column sortable="true" 
+								sortBy="#{_sch.itsInterviewScheduleId}"
+								filterBy="#{_sch.itsInterviewScheduleId}"
+								filterEvent="onkeyup" 
+								styleClass="textCenterAlign">
+								<f:facet name="header">
+									<h:outputLabel value="#{messages['int.sch.no']}" />
+								</f:facet>
+								<h:outputText value="#{_sch.itsInterviewScheduleId}" />
+							</rich:column>
+
+							<rich:column sortable="true" 
+								sortBy="#{_sch.recruitRequest.recruitRequestName}"
+								filterBy="#{_sch.recruitRequest.recruitRequestName}"
+								filterEvent="onkeyup">
+								<f:facet name="header">
+									<h:outputLabel value="#{messages['recruit.request.name']}" />
+								</f:facet>
+								<h:outputText value="#{_sch.recruitRequest.recruitRequestName}" />
+							</rich:column>
+
+							<rich:column sortable="true" sortBy="#{_sch.itsApplyForLevel.displayName}" width="8%"
+								filterBy="#{_sch.itsApplyForLevel.displayName}" filterEvent="onkeyup"
+								styleClass="action textCenterAlign">
+								<f:facet name="header">
+									<h:outputLabel value="#{messages['form.applied.for.level']}" />
+								</f:facet>
+								<h:outputText value="#{_sch.itsApplyForLevel.displayName}" />
+							</rich:column>
+							
+							<rich:column sortable="true" sortBy="#{_sch.candidate.cddStatus}"
+								filterBy="#{_sch.candidate.cddStatus}" filterEvent="onkeyup"
+								styleClass="action textCenterAlign">
+								<f:facet name="header">
+									<h:outputLabel value="Candidate Status" />
+								</f:facet>
+								<h:outputText value="#{_sch.candidate.cddStatus}" />
+							</rich:column>
+
+							<rich:column sortBy="#{_sch.technicalStatusDisplayString}" 
+								sortable="true" filterBy="#{_sch.technicalStatusDisplayString}"
+								filterEvent="onkeyup" styleClass="statusCell">
+								<f:facet name="header">
+									<h:outputLabel value="#{messages['interview.schedule.technical.status']}" />
+								</f:facet>
+								<h:outputText value="#{_sch.technicalStatusDisplayString}" />
+							</rich:column>
+
+							<rich:column sortBy="#{_sch.HRStatusDisplayString}" width="8%"
+								sortable="true" filterBy="#{_sch.HRStatusDisplayString}"
+								filterEvent="onkeyup" styleClass="statusCell">
+								<f:facet name="header">
+									<h:outputLabel value="#{messages['interview.schedule.hr.status']}" />
+								</f:facet>
+								<h:outputText value="#{_sch.HRStatusDisplayString}" />
+							</rich:column>
+
+
+							<rich:column styleClass="interviewersCell" width="16%">
+								<f:facet name="header">
+									<h:outputLabel value="#{messages['int.sch.interviewers']}" />
+								</f:facet>
+								<a:repeat value="#{_sch.interviewers}" var="_int"
+									rowKeyVar="_key">
+									<h:outputText value="#{_key + 1}. " />
+									<h:outputLink value="mailto:#{_int.usrEmail}">
+										<h:outputText value="#{_int.usrFullName}" />
+									</h:outputLink>
+									<br />
+								</a:repeat>
+							</rich:column>
+
+							<rich:column sortBy="#{_sch.itsTechnicalInterviewTime}" 
+								sortable="true" styleClass="interviewDateCell">
+								<f:facet name="header">
+									<h:outputLabel value="#{messages['interview.schedule.technical']} #{messages['interview.at']}" />
+								</f:facet>
+								<h:outputText value="#{_sch.itsTechnicalInterviewTime}">
+									<s:convertDateTime type="both" pattern="#{messages['calendar.pattern.long']}" />
+								</h:outputText>
+							</rich:column>
+
+							<rich:column sortBy="#{_sch.itsHrInterviewTime}" sortable="true" 
+								styleClass="interviewDateCell">
+								<f:facet name="header">
+									<h:outputLabel value="#{messages['interview.schedule.hr']} #{messages['interview.at']}" />
+								</f:facet>
+								<h:outputText value="#{_sch.itsHrInterviewTime}">
+									<s:convertDateTime type="both"	pattern="#{messages['calendar.pattern.long']}" />
+								</h:outputText>
+							</rich:column>
+							
+							<rich:column sortBy="#{_sch.itsStatus}" sortable="true" 
+								styleClass="interviewDateCell" filterBy="#{_sch.itsStatus}" filterEvent="onkeyup">
+								<f:facet name="header">
+									<h:outputLabel value="#{messages['status.open']}" />
+								</f:facet>
+								<h:outputText value="#{_sch.itsStatus}"/>
+							</rich:column>				
+						
+							<f:facet name="footer">
+								<rich:datascroller for="interviewScheduleListTable"
+									renderIfSinglePage="false" 
+									align="center" 
+									id="paginationId"
+									maxPages="#{messages['item.pagination.size']}"/>
+							</f:facet>
+
+						</rich:dataTable>
+					</div>
+			</s:div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

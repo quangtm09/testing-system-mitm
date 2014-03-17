@@ -1,0 +1,376 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<h:form id="recruitRequestCloseForm">
+
+			<s:div style="padding-top: 20px;">
+				<h:outputLabel value="#{messages['recruit.request.close']}"
+					styleClass="header-label" />
+			</s:div>
+
+			<s:div styleClass="header-border">
+				<h:panelGrid columns="2">
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['org.unit']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{recruitRequestHome.instance.orgUnit.unitName}" />
+					</s:decorate>
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.name']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{recruitRequestHome.instance.recruitRequestName}" />
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['recruit.request.job.position']}:" />
+						</ui:define>
+						<h:outputText value="#{recruitRequestHome.instance.jobPosition}" />
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['project.recruit.status']}:" />
+						</ui:define>
+						<strong style="color:#F7921E;"><h:outputText value="#{recruitRequestHome.instance.status.toString().toUpperCase()}" /></strong>
+					</s:decorate>
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['recruit.request.add.info']}:" />
+						</ui:define>
+						<h:outputText styleClass="wordWrap"
+							value="#{recruitRequestHome.instance.additionalTraining}" />
+					</s:decorate>
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['recruit.request.add.skilss']}:" />
+						</ui:define>
+						<h:outputText styleClass="wordWrap"
+							value="#{recruitRequestHome.instance.additionalSkills}" />
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['requested.date']}:" />
+						</ui:define>
+						<h:outputText value="#{recruitRequestHome.instance.requestedDate}">
+							<s:convertDateTime type="both"
+								pattern="#{messages['calendar.pattern']}" />
+						</h:outputText>
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['closed.date']}:" />
+						</ui:define>
+						<h:outputText value="#{recruitRequestHome.instance.closedDate}">
+							<s:convertDateTime type="both"
+								pattern="#{messages['calendar.pattern']}" />
+						</h:outputText>
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml"
+						id="rcrSkillDescriptionField">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['recruit.request.description']}:" />
+						</ui:define>
+						<h:outputText styleClass="wordWrap"
+							value="#{recruitRequestHome.instance.description}" />
+					</s:decorate>
+				</h:panelGrid>
+
+
+				<!--Recruitment Skills-->
+				<h:panelGrid columns="2">
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['recruit.request.skill.no.candidates']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{recruitRequestHome.instance.numberOfPersons}" />
+					</s:decorate>
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['recruit.request.skill.qualification']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{recruitRequestHome.instance.qualifications}" />
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['com.bosch.ui.yearofexperience']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{recruitRequestHome.instance.experienceYearFrom} #{' - '} #{recruitRequestHome.instance.experienceYearTo}" />
+					</s:decorate>
+				</h:panelGrid>
+
+				<s:div styleClass="rts-text-align">
+					<a:region rendered="#{empty recruitRequestHome.instance.recruitRequestHasSkills}">
+						<h:graphicImage url="/img/msginfo.png" />
+						<h:outputLabel value="#{messages['recruit.request.no.req.skills']}" />
+					</a:region>	
+				
+					<rich:dataTable id="recruitmentRequestSkilsTable"
+						value="#{recruitRequestHome.instance.recruitRequestHasSkills.toArray()}"
+						rowClasses="brightRow,darkRow"
+						rendered="#{not empty recruitRequestHome.instance.recruitRequestHasSkills}"
+						var="item" 
+						style="width:100%">
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="#{messages['com.bosch.ui.skillname']}" />
+							</f:facet>
+							<h:outputText value="#{item.skill.sklName}" style="width:70%;" />
+						</rich:column>
+
+						<rich:column styleClass="textCenterAlign">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['com.bosch.ui.yearofexperience']} #{' '} #{messages['int.sch.from']}" />
+							</f:facet>
+							<h:outputText value="#{item.rhsRequiredExperienceYearsFrom}" />
+						</rich:column>
+
+						<rich:column styleClass="textCenterAlign">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['com.bosch.ui.yearofexperience']} #{' '} #{messages['int.sch.to']}" />
+							</f:facet>
+							<h:outputText value="#{item.rhsRequiredExperienceYearsTo}" />
+						</rich:column>
+
+						<rich:column styleClass="textCenterAlign">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['candiadte.header.skill.level']}" />
+							</f:facet>
+							<h:outputText value="#{item.skillLevel}" />
+						</rich:column>
+					</rich:dataTable>
+				</s:div>
+
+				<div style="clear: both">
+					<span><rich:spacer height="5" /> </span>
+				</div>
+
+				<!--Recruitment docs-->
+				<s:div styleClass="rts-text-align">
+					<a:region rendered="#{empty recruitRequestHome.instance.attachments}">
+						<h:graphicImage url="/img/msginfo.png" />
+						<h:outputLabel value="#{messages['recruit.request.header.no.req.doc']}" />
+					</a:region>	
+
+					<rich:dataTable id="recruitRequestDocTable" width="100%" var="_doc"
+						value="#{recruitRequestHome.instance.attachments.toArray()}"
+						rendered="#{not empty recruitRequestHome.instance.attachments}"
+						rowClasses="brightRow,darkRow">
+						<rich:column>
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['upload.file.name']}" />
+							</f:facet>
+							<h:outputText value="#{_doc.attachmentName}"
+								styleClass="wordWrap" />
+						</rich:column>
+
+						<rich:column styleClass="textCenterAlign">
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['upload.file.length']}" />
+							</f:facet>
+							<h:outputText value="#{_doc.toString()}" />
+						</rich:column>
+
+						<rich:column styleClass="textCenterAlign">
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['upload.uploaded.on']}" />
+							</f:facet>
+							<h:outputText value="#{_doc.attachmentCreatedOn}">
+								<s:convertDateTime type="both"
+									pattern="#{messages['calendar.pattern']}" />
+							</h:outputText>
+						</rich:column>
+
+						<rich:column styleClass="textCenterAlign">
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['upload.status']}" />
+							</f:facet>
+							<h:outputText value="#{_doc.attachmentStatus}" />
+						</rich:column>
+
+						<rich:column styleClass="textCenterAlign">
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['upload.download']}" />
+							</f:facet>
+							<s:download src="/ResourceProvider.xhtml"
+								rendered="#{(not empty _doc.attachmentName) and (not empty _doc.attachmentId)}">
+								<h:graphicImage value="/img/iconDocument.gif" />
+								<f:param name="attachmentId" value="#{_doc.attachmentId}" />
+								<f:param name="recruitRequestId"
+									value="#{recruitRequestHome.instance.rcrRecruitRequestId}" />
+								<f:param name="cid"	value="#{conversation.id}" />	
+							</s:download>
+						</rich:column>
+
+					</rich:dataTable>
+				</s:div>
+				
+				<div style="clear: both">
+					<span><rich:spacer height="5" /> </span>
+				</div>
+								
+				
+				<s:decorate	template="layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['candidate.handled.by']}:" />
+					</ui:define>
+
+					<h:outputText vvalue="#{recruitRequestHome.instance.handledBy}"
+						id="handledByTextField">
+					</h:outputText>					
+				</s:decorate>
+				
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel
+							value="#{messages['createdBy']}:" />
+					</ui:define>
+					<h:outputText
+						value="#{recruitRequestHome.instance.createdBy}" />
+				</s:decorate>	
+				
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['createdOn']}:" />
+					</ui:define>
+					<h:outputText value="#{recruitRequestHome.instance.createdDate}" >
+						<s:convertDateTime type="both" pattern="#{messages['calendar.pattern.long']}" locale="#{calendarBean.locale}"/>
+					</h:outputText>
+				</s:decorate>	
+				
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel
+							value="#{messages['updatedBy']}:" />
+					</ui:define>
+					<h:outputText
+						value="#{recruitRequestHome.instance.updatedBy}" />
+				</s:decorate>	
+				
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['updatedOn']}:" />
+					</ui:define>
+					<h:outputText value="#{recruitRequestHome.instance.updatedDate}" >
+						<s:convertDateTime type="both" pattern="#{messages['calendar.pattern.long']}" locale="#{calendarBean.locale}"/>
+					</h:outputText>
+				</s:decorate>
+				
+				<a:region rendered="#{recruitRequestHome.instance.status.equalsIgnoreCase('Rejected')}">
+					<s:decorate	template="layout/display.xhtml" >
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.rejected.by']}:" />
+						</ui:define>
+	
+						<h:outputText vvalue="#{recruitRequestHome.instance.approvedBy.usrFullName} - #{recruitRequestHome.instance.approvedBy.usrUserName}">
+						</h:outputText>					
+					</s:decorate>
+					
+					<s:decorate	template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.rejected.on']}:" />
+						</ui:define>
+	
+						<h:outputText value="#{recruitRequestHome.instance.approvedDate}">
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern.long']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>					
+					</s:decorate>
+						
+				</a:region>
+				
+				<a:region rendered="#{not recruitRequestHome.instance.status.equalsIgnoreCase('Rejected')}">
+					<s:decorate	template="layout/display.xhtml" >
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.approved.by']}:" />
+						</ui:define>
+	
+						<h:outputText value="#{recruitRequestHome.instance.approvedBy.usrFullName} - #{recruitRequestHome.instance.approvedBy.usrUserName}"/>
+					</s:decorate>
+					
+					<s:decorate	template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.approved.on']}:" />
+						</ui:define>
+	
+						<h:outputText value="#{recruitRequestHome.instance.approvedDate}">
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern.long']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>					
+					</s:decorate>
+						
+				</a:region>
+
+				<div style="clear: both">
+					<span><rich:spacer height="5" /> </span>
+				</div>
+				
+				<s:decorate	template="layout/editInterviewers.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['recruit.request.send.mails.to']}:" />
+					</ui:define>
+				
+					<h:selectManyCheckbox value="#{recruitRequestHome.selectedRecipients}"
+						layout="pageDirection">
+					   	<f:selectItem itemValue="2" itemLabel="HR" />
+					   	<f:selectItem itemValue="4" itemLabel="Handled By" />
+					</h:selectManyCheckbox>
+				
+				</s:decorate>				
+				
+				<div style="clear: both">
+					<span><rich:spacer height="5" /> </span>
+				</div>
+
+				<s:div styleClass="bottom-border">					
+						
+					<h:commandButton id="closeButton" 
+						styleClass="submitStandard"
+						value="#{resource['Button.Close']} #{resource['recruit.request']}" 
+						action="#{recruitRequestHome.closeRecruitRequest()}"
+						onclick="if (!confirm('#{resource['close.confirm']}')) return false; else Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+						<s:defaultAction />
+					</h:commandButton>	
+						
+					<s:button includePageParams="false" propagation="join"
+						view="#{not empty recruitRequestHome.fromView ? recruitRequestHome.fromView : '/RecruitRequestList.xhtml'}"
+						id="back" styleClass="submitStandard"
+						value="#{resource['Button.Back']}"
+						onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});" />	
+				</s:div>
+			</s:div>
+		</h:form>
+		<a:queue ignoreDupResponses="true" id="queue" requestDelay="1" />
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+	login-required="true" no-conversation-view-id="/CandidateList.xhtml">
+	<restrict>#{caPrivilege.searchableCandidate and not identity.hasRole('disabledUser')}</restrict>
+	<begin-conversation join="true" flush-mode="auto" />
+	
+	<action execute="#{candidateHome.onloadCandidates()}" on-postback="false"/>	
+	<action execute="#{skillPickBean.setUseTwoYear(false)}" />
+	<action execute="#{skillPickBean.setUseYearColumn(false)}" />
+	<action execute="#{candidateHome.initialiseRecruitRequets()}" on-postback="false" />	
+	
+	<param name="fromView" value="#{candidateHome.fromView}"/>		
+	
+</page>

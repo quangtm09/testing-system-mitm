@@ -1,0 +1,66 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<h:outputText value="#{messages['com.bosch.ui.invalidURL']}"
+		rendered="#{not (identity.hasRole('gm') or identity.hasRole('grm') 
+			or identity.hasRole('dh') or identity.hasRole('pm'))}" />
+			
+	<ui:define name="body">
+
+		<rich:panel
+			rendered="#{identity.hasRole('gm') or identity.hasRole('grm') 
+			or identity.hasRole('dh') or identity.hasRole('pm')}">
+			<f:facet name="header">Privilege Transfer Details</f:facet>
+
+			<s:decorate id="rotPVL" template="layout/display.xhtml">
+				<ui:define name="label">Privilege</ui:define>
+				<h:outputText
+					value="#{privilegeTransferHome.instance.privilege.toString().replace('_',' ')}" />
+			</s:decorate>
+
+			<s:decorate id="rotUser" template="layout/display.xhtml">
+				<ui:define name="label">Transferred User</ui:define>
+				<h:outputText
+					value="#{privilegeTransferHome.instance.userByRotUsrToUserId.toString()}" />
+			</s:decorate>
+
+			<s:decorate id="rotFromDate" template="layout/display.xhtml">
+				<ui:define name="label">From</ui:define>
+				<h:outputText value="#{privilegeTransferHome.instance.rotFromDate}">
+					<s:convertDateTime type="both" dateStyle="short"
+						pattern="MMM/dd/yyyy" />
+				</h:outputText>
+			</s:decorate>
+
+			<s:decorate id="rotToDate" template="layout/display.xhtml">
+				<ui:define name="label">To</ui:define>
+				<h:outputText value="#{privilegeTransferHome.instance.rotToDate}">
+					<s:convertDateTime type="both" dateStyle="short"
+						pattern="MMM/dd/yyyy" />
+				</h:outputText>
+			</s:decorate>
+			<s:decorate id="rotDescription" template="layout/display.xhtml">
+				<ui:define name="label">Description</ui:define>
+				<h:outputText
+					value="#{privilegeTransferHome.instance.rotDescription}" />
+			</s:decorate>
+
+			<div style="clear: both" />
+
+		</rich:panel>
+
+		<div class="actionButtons">
+
+			<s:button view="/PrivilegeTransferList.xhtml" id="done" value="Done"
+				styleClass="submitHighlighted" />
+
+		</div>
+	</ui:define>
+
+</ui:composition>

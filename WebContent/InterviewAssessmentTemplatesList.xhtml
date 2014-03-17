@@ -1,0 +1,191 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" template="../layout/template.xhtml">
+
+	<ui:define name="body">
+	
+		<h:form>
+			<a:outputPanel>
+				<s:div style="padding-top: 20px;">
+					<h:outputLabel
+						value="#{messages['interview.assessment.template.create']}"
+						styleClass="header-label" />
+				</s:div>
+				<s:div styleClass="header-border">
+					<h:panelGrid columns="2">
+						<s:decorate template="../layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="#{messages['form.name']}:" />
+							</ui:define>
+							<h:inputText
+								value="#{interviewAssessmentTemplatesHome.instance.name}"
+								rendered="#{interviewAssessmentTemplatesHome.error}"
+								required="true" styleClass="rtsTextBox" />
+							<h:inputText
+								value="#{interviewAssessmentTemplatesHome.newInstance().name}"
+								rendered="#{!interviewAssessmentTemplatesHome.error}"
+								required="true" styleClass="rtsTextBox" />
+						</s:decorate>
+
+						<s:decorate template="../layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="#{messages['form.description']}:" />
+							</ui:define>
+							<h:inputTextarea
+								value="#{interviewAssessmentTemplatesHome.instance.description}"
+								styleClass="rtsTextarea" />
+						</s:decorate>
+
+						<s:decorate template="../layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="#{messages['form.applied.for.level']}:" />
+							</ui:define>
+							<h:selectOneMenu styleClass="rtsSelectOneMenu"
+								value="#{interviewAssessmentTemplatesHome.instance.appliedForLevel}"
+								required="true">
+								<f:selectItem itemValue="1"
+									itemLabel="#{messages['int.sch.level.48.to.51']}" />
+								<f:selectItem itemValue="2"
+									itemLabel="#{messages['int.sch.level.52.to.53']}" />
+								<f:selectItem itemValue="3"
+									itemLabel="#{messages['int.sch.level.54.to.56']}" />
+								<f:selectItem itemValue="4"
+									itemLabel="#{messages['int.sch.level.57']}" />
+							</h:selectOneMenu>
+						</s:decorate>
+
+						<s:decorate template="../layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="#{messages['form.status']}:" />
+							</ui:define>
+							<h:selectOneMenu styleClass="rtsSelectOneMenu"
+								value="#{interviewAssessmentTemplatesHome.instance.active}"
+								required="true">
+								<f:selectItem itemValue="Y"
+									itemLabel="#{messages['status.active']}" />
+								<f:selectItem itemValue="N"
+									itemLabel="#{messages['status.unActive']}" />
+							</h:selectOneMenu>
+
+						</s:decorate>
+					</h:panelGrid>
+				</s:div>
+
+				<div style="clear: both">
+					<rich:spacer />
+				</div>
+
+				<div class="actionButtons" style="clear: both;">
+					<h:commandButton value="#{messages['Button.Save']}"
+						action="#{interviewAssessmentTemplatesHome.createTemplate()}"
+						styleClass="submitStandard"
+						onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+						id="saveButton">
+						<s:defaultAction />
+					</h:commandButton>
+
+					<s:button id="resetButton" value="#{resource['Button.Reset']}"
+						styleClass="submitStandard" includePageParams="none"
+						onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+					</s:button>
+				</div>
+
+				<s:div id="searchResultPanel" styleClass="table-align">
+					<rich:dataTable id="interviewAssessmentTable" 
+						var="item"
+						value="#{interviewAssessmentTemplatesHome.assessmentTemplates}"
+						rowKeyVar="index" 
+						rowClasses="brightRow,darkRow"
+						rendered="#{not empty interviewAssessmentTemplatesHome.assessmentTemplates}"
+						reRender="paginationId" 
+						width="100%"
+						rows="#{messages['pagination.size']}">
+
+						<rich:column filterBy="#{item.name}" filterEvent="onkeyup"
+							sortBy="#{item.name}" sortable="true">
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['form.name']}" />
+							</f:facet>
+
+							<s:link value="#{item.name}"
+								view="/ia/TemplatesEdit.xhtml"
+								propagation="join"
+								onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+								<f:param name="trtsInterviewAssessmentTemplatesId"
+									value="#{item.id}" />
+								<f:param name="fromView" value="/ia/TemplatesList.xhtml" />
+							</s:link>
+						</rich:column>
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['tempalte.used.group']}" />
+							</f:facet>
+							<a:repeat value="#{item.technicalResultGroups.toArray()}"
+								var="grp" rowKeyVar="idx">
+								<h:outputText value="#{idx + 1}. #{grp.name}" />
+								<br />
+							</a:repeat>
+						</rich:column>
+
+						<rich:column filterBy="#{item.appliedForLevel}"
+							filterEvent="onkeyup" sortBy="#{item.appliedForLevel}"
+							sortable="true">
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['form.applied.for.level']}" />
+							</f:facet>
+							<h:outputText value="#{messages['int.sch.level.48.to.51']}"
+								rendered="#{item.appliedForLevel eq '1'}" />
+							<h:outputText value="#{messages['int.sch.level.52.to.53']}"
+								rendered="#{item.appliedForLevel eq '2'}" />
+							<h:outputText value="#{messages['int.sch.level.54.to.56']}"
+								rendered="#{item.appliedForLevel eq '3'}" />
+							<h:outputText value="#{messages['int.sch.level.57']}"
+								rendered="#{item.appliedForLevel eq '4'}" />
+						</rich:column>
+
+						<rich:column filterBy="#{item.description}" filterEvent="onkeyup"
+							sortBy="#{item.description}" sortable="true">
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['form.description']}" />
+							</f:facet>
+							<h:outputText value="#{item.description}" />
+						</rich:column>
+
+						<rich:column filterBy="#{item.active}" filterEvent="onkeyup"
+							sortBy="#{item.active}" sortable="true">
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['form.status']}" />
+							</f:facet>
+							<h:outputText
+								value="#{item.active eq 'Y' ? messages['status.active'] : messages['status.unActive']}" />
+						</rich:column>
+
+						<rich:column filterBy="#{item.createdBy}" filterEvent="onkeyup"
+							sortBy="#{item.createdBy}" sortable="true">
+							<f:facet name="header">
+								<h:outputLabel value="#{messages['createdBy']}" />
+							</f:facet>
+							<h:outputText value="#{item.createdBy}" />
+						</rich:column>
+
+						<f:facet name="footer">
+							<rich:datascroller for="interviewAssessmentTable"
+								renderIfSinglePage="false" 
+								align="center" 
+								id="paginationId"
+								maxPages="#{messages['item.pagination.size']}" />
+						</f:facet>
+
+					</rich:dataTable>
+				</s:div>
+			</a:outputPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

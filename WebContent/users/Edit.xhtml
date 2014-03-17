@@ -1,0 +1,168 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="../layout/template.xhtml">	
+	
+	<ui:define name="body">		
+		<h:form id="editUserForm" styleClass="edit">
+			<s:div style="padding-top: 20px;">
+				<h:outputLabel
+					value="#{messages['form.edit.user']}"
+					styleClass="header-label" />
+			</s:div>
+
+			<s:div styleClass="header-border">
+				<h:panelGrid columns="2">				
+					
+					<s:decorate template="../layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['form.name']}:" />
+						</ui:define>
+						<h:outputText value="#{userHome.instance.usrPrefix} #{' '} #{userHome.instance.usrFullName}"/>
+					</s:decorate>
+					
+					<s:decorate template="../layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.email']}:" />
+						</ui:define>
+						<h:outputLink value="mailto:#{userHome.instance.usrEmail}">
+							<h:outputText value="#{userHome.instance.usrEmail}" />
+						</h:outputLink>		
+					</s:decorate>
+					
+					<s:decorate template="../layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['form.username']}:" />
+						</ui:define>
+						<h:outputText value="#{userHome.instance.usrUserName}"/>
+					</s:decorate>
+					
+					<s:decorate template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['form.id.number']}:" />
+						</ui:define>
+						<h:inputText value="#{userHome.instance.usrIdNumber}"/>
+					</s:decorate>
+					
+					<s:decorate template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['org.unit']}:" />
+						</ui:define>						
+						<h:selectOneMenu value="#{userHome.instance.orgUnit}"
+							styleClass="rtsSelectOneMenu" required="true"
+							requiredMessage="#{messages['error.select.required']} #{' '} #{messages['org.unit']}">
+							<s:selectItems value="#{candidateHome.chooseAbleOrgUnitList}"
+								var="_unit" label="#{_unit.unitName}">
+							</s:selectItems>
+							<s:convertEntity />
+						</h:selectOneMenu>
+											
+					</s:decorate>
+					
+					<s:decorate id="usrStatusField" template="../layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.status']}:" />
+						</ui:define>
+						<h:selectOneMenu styleClass="rtsSelectOneMenu"
+							value="#{userHome.instance.status}" 
+							required="true"
+							requiredMessage="#{messages['error.select.required']} #{' '} #{messages['com.bosch.ui.status']}">
+							<f:selectItem itemValue="#{false}" itemLabel="#{messages['status.unActive']}"/>
+							<f:selectItem itemValue="#{true}" itemLabel="#{messages['status.active']}"/>
+						</h:selectOneMenu>						
+					</s:decorate>
+					
+				</h:panelGrid>
+
+				<s:decorate template="../layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['form.roles']}:" />
+					</ui:define>
+				</s:decorate>
+				
+				<rich:pickList style="padding-left:18px;"
+					value="#{userHome.selectedUserRoles}">
+					<s:selectItems value="#{userHome.userRoles}" var="ur"
+						label="#{ur.usrDescription}" />
+					<s:convertEntity />
+				</rich:pickList>	
+				
+				<h:panelGrid columns="2">
+					<s:decorate id="approvedByField" template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.approved.by']}:" />
+						</ui:define>
+						<h:selectOneMenu value="#{userHome.instance.approvedBy}"
+							required="true"
+							requiredMessage="#{messages['error.select.required']} #{' '} #{messages['com.bosch.ui.approved.by']}">
+							<s:selectItems value="#{userHome.availableUsers}"
+								noSelectionLabel="#{messages['selectOptions']}"
+								var="item" 
+								label="#{item.usrFullName} - #{item.usrUserName}"
+								itemValue="#{item.usrUserName}" 
+								itemLabel="#{item.usrUserName}">								
+							</s:selectItems>
+						
+						</h:selectOneMenu>								
+					</s:decorate>
+					
+					<s:decorate id="approvedField" template="../layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.approved.status']}:" />
+						</ui:define>
+	
+						<h:outputText value="#{userHome.instance.approved ? messages['status.yes'] : messages['status.no']}">
+						</h:outputText>			
+						
+					</s:decorate>
+					
+					<s:decorate id="approvedOnField" template="../layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.approved.on']}:" />
+						</ui:define>
+	
+						<h:outputText value="#{userHome.instance.approvedOn}" >
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>	
+						
+					</s:decorate>
+						
+				</h:panelGrid>
+				
+
+			</s:div>
+
+			<div style="clear: both">
+				<rich:spacer />
+			</div>
+
+			<s:div styleClass="bottom-border">
+				<h:commandButton value="#{messages['Button.Save']}"
+					action="#{userHome.update()}"
+					styleClass="submitStandard"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+					id="saveButton">
+					<s:defaultAction />
+				</h:commandButton>
+
+				<s:button id="resetButton" value="#{resource['Button.Reset']}"
+					styleClass="submitStandard" includePageParams="none"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+				</s:button>
+
+				<s:button id="cancelButton" value="#{resource['Button.Cancel']}"
+					styleClass="submitStandard" includePageParams="none"
+					propagation="none" view="/users/List.xhtml"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+				</s:button>				
+			</s:div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

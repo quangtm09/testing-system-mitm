@@ -1,0 +1,285 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:m="http://jboss.com/products/seam/mail"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a="http://richfaces.org/a4j">
+	
+	<m:message>
+		<m:from name="#{messages['rts.title']}"	address="#{messages['rts.email.address']}" />		
+		<ui:repeat value="#{recipients}" var="recipient">
+			<m:to name="#{recipient.usrFullName}" address="#{recipient.usrEmail}" />	
+		</ui:repeat>		
+		<m:subject>#{messages['rts.name']} - #{messages['recruit.request.close']}</m:subject> 
+		<m:body>
+			<head>
+				<f:verbatim escape="true">
+					<style type="text/css">
+						body{
+							font-family: arial,  helvetica, sans-serif;
+							color: #666666;
+							font-size: 12px;
+						}
+						.title{
+							font-family: arial,  helvetica, sans-serif;
+							font-size: 20px;
+							font-weight:bold;
+						}
+						.subtitle{
+							font-family: arial,  helvetica, sans-serif;
+							font-size: 14px;
+							font-weight:bold;
+						}
+						.footer{
+							font-family: verdana,  helvetica, sans-serif;
+							color: #666666;
+							font-size: 10px;	
+						}
+						a:link {
+							color:#046380;
+							text-decoration:underline;
+						}
+						a:visited {
+							color:#a7a37e;
+							text-decoration:none;
+						}
+						a:hover {
+							color:#002f2f;
+							text-decoration:underline;
+						}
+						a:active {
+							color:#046380;
+							text-decoration:none;
+						}
+						.table{
+							border: #8CD1D1 1px solid;
+						}
+						.header{
+							background-color: #8CD1D1;
+						}
+					</style>
+				</f:verbatim>
+			</head>
+			<h:panelGrid columns="1" width="100%">
+			<body>
+				<table align="center" style="width: 100%; border: #8CD1D1 1px solid" cellpadding="10" cellspacing="0">
+					<tr class="header">
+						<td>
+							<div class="title"><a href="#{rtsAddress}">#{messages['rts.title']}</a></div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0" align="center">
+						<tr>
+						  <td>		
+							<p>
+								<s:decorate template="display.xhtml">
+									<h:outputText value="Dear Sir or Madam, " /><br/>						
+								</s:decorate><br />
+								
+								<s:decorate template="display.xhtml">
+									<h:outputText value="Recruitment request created by #{onwnerBy.usrPrefix}  #{' '} #{onwnerBy.usrFullName} has been closed." />
+								</s:decorate><br />
+								<s:decorate template="display.xhtml">
+									<h:outputText value="Kindly find the information as below," />
+								</s:decorate><br />								
+							</p>									
+															
+							<strong class="subtitle">#{messages['recruit.request.info']}</strong>
+								
+							<table align="center" style="width: 100%; border: #8CD1D1 1px solid" cellpadding="5" cellspacing="5">
+								<tr>
+									<td><p>
+											<s:decorate template="display.xhtml">
+												<ui:define name="label">
+													<strong> <h:outputLabel
+															value="#{messages['recruit.request.name']}: " /> </strong>
+												</ui:define>
+												<h:outputText value="#{rr.recruitRequestName}"/>
+											</s:decorate>
+											
+											<s:decorate template="display.xhtml">
+												<ui:define name="label">
+													<strong> <h:outputLabel
+															value="#{messages['org.unit']}: " /> </strong>
+												</ui:define>
+												<h:outputText value="#{rr.orgUnit}"/>
+											</s:decorate>
+											
+											<s:decorate template="display.xhtml">
+												<ui:define name="label">
+													<strong> <h:outputLabel
+															value="#{messages['recruit.request.job.position']}: " /> </strong>
+												</ui:define>
+												<h:outputText value="#{rr.jobPosition}"/>
+											</s:decorate>
+											
+											<s:decorate template="display.xhtml">
+												<ui:define name="label">
+													<strong> <h:outputLabel
+															value="#{messages['requested.date']}: " /> </strong>
+												</ui:define>
+												<h:outputText value="#{rr.requestedDate}">
+													<s:convertDateTime type="both"
+														pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+												</h:outputText>
+											</s:decorate>
+											
+											<s:decorate template="display.xhtml">
+												<ui:define name="label">
+													<strong> <h:outputLabel
+															value="#{messages['approved.date']}: " /> </strong>
+												</ui:define>
+												<h:outputText value="#{rr.approvedDate}">
+													<s:convertDateTime type="both"
+														pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+												</h:outputText>
+											</s:decorate>
+
+											<s:decorate template="display.xhtml">
+												<ui:define name="label">
+													<strong>
+														<h:outputLabel value="#{messages['closed.date']}:" />
+													</strong>
+												</ui:define>
+												<h:outputText
+													value="#{rr.closedDate}">
+													<s:convertDateTime type="both"
+														pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+												</h:outputText>
+											</s:decorate>
+																							
+											<s:decorate template="display.xhtml">
+												<ui:define name="label">
+													<strong>
+														<h:outputLabel value="#{messages['recruit.request.skill.no.candidates']}:" />
+													</strong>
+												</ui:define>
+												<h:outputText value="#{rr.numberOfPersons}"/>
+											</s:decorate>
+											
+											<s:decorate template="display.xhtml">
+												<ui:define name="label">
+													<strong>
+														<h:outputLabel value="#{messages['com.bosch.ui.yearofexperience']}:" />
+													</strong>
+												</ui:define>
+												<h:outputText value="#{rr.experienceYearFrom} #{' - '} #{rr.experienceYearTo}"/>
+											</s:decorate>				
+											
+											<s:decorate template="display.xhtml">
+												<ui:define name="label">
+													<strong>
+														<h:outputLabel value="#{messages['recruit.request.skill.qualification']}:" />
+													</strong>
+												</ui:define>
+												<h:outputText value="#{rr.qualifications}"/>
+											</s:decorate>							
+											
+											<s:decorate template="display.xhtml">
+												<ui:define name="label">
+													<strong>
+														<h:outputLabel value="#{messages['recruit.request.description']}:" />
+													</strong>
+												</ui:define>
+												<h:outputText value="#{rr.description}"/>
+											</s:decorate>
+											
+											<s:decorate template="display.xhtml">
+												<ui:define name="label">
+													<strong>
+														<h:outputLabel value="#{messages['candidate.handled.by']}:" />
+													</strong>
+												</ui:define>
+												<h:outputText value="#{rr.handledBy}"/>
+											</s:decorate>
+											<br/> 
+										</p>
+									</td>
+								</tr>
+							</table>						
+							<br/>
+							
+							<strong class="subtitle">#{messages['recruit.request.skills']}</strong>
+								
+							<table align="center" style="width: 100%; border: #8CD1D1 1px solid;" cellpadding="5" cellspacing="5">
+								<tr>
+									<td>
+										<p>
+											<strong>#{messages['com.bosch.ui.skillname']}</strong>
+										</p>
+									</td>
+									<td>
+										<p>
+											<strong>#{messages['com.bosch.ui.yearofexperience']} #{' '} #{messages['int.sch.from']}</strong>
+										</p>
+									</td>
+									<td>
+										<p>
+											<strong>#{messages['com.bosch.ui.yearofexperience']} #{' '} #{messages['int.sch.to']}</strong>
+										</p>
+									</td>
+									<td>
+										<p>
+											<strong>#{messages['candiadte.header.skill.level']}</strong>
+										</p>
+									</td>
+								</tr>	
+								
+								<a:repeat value="#{rr.recruitRequestHasSkills.toArray()}" var="item" rowKeyVar="row">								
+									<tr>																
+										<td>
+											<p>
+												#{item.skill.sklName}
+											</p>
+										</td>
+										<td>
+											<p>
+												#{item.rhsRequiredExperienceYearsFrom}
+											</p>
+										</td>
+										<td>
+											<p>
+												#{item.rhsRequiredExperienceYearsTo}
+											</p>
+										</td>
+										<td>
+											<p>
+												#{item.skillLevel}
+											</p>
+										</td>
+									
+									</tr>	
+								</a:repeat>
+							</table>
+							<br />
+							To view this recruitment request, please go to RTS system (#{rtsAddress})
+									and navigate to &gt; Recruit Request &gt; Search Recruit Request &gt; View Recruit Request.
+							<br />
+							
+							<br />
+								Please refer to the manuals which are linked on tab "Help" and which describe how to work with the RTS system.
+							<br />
+							
+							</td>
+						</tr>
+						</table>
+						</td>
+					 </tr>
+					<tr>
+						<td bgcolor="#8CD1D1" style="border-top: #8CD1D1 1px solid;" align="center">
+							<div class="footer">
+								This message is automatically generated by <a href="#{rtsAddress}">#{messages['rts.name']}</a>.<br/>
+								If you think it was sent incorrectly, please contact your RTS administrators.
+							</div>
+						</td>
+					</tr>
+				</table>
+			</body>
+			</h:panelGrid>
+		</m:body>
+	</m:message>
+	
+</ui:composition>

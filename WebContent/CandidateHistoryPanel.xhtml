@@ -1,0 +1,211 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+	<rich:modalPanel id="candidateHistoryPanel" autosized="true"
+		onmaskclick="Richfaces.hideModalPanel('candidateHistoryPanel');">
+		<f:facet name="header">
+			<h:outputText value="#{messages['candidate.view.information']}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/img/close.png" id="attrHistoryHidelink"
+					style="margin: 0px; cursor:pointer;"
+					title="#{messages['Button.Close']}" />
+				<rich:componentControl for="candidateHistoryPanel"
+					attachTo="attrHistoryHidelink" operation="hide" event="onclick"
+					sortOrder="ASCENDING" />
+			</h:panelGroup>
+		</f:facet>
+
+		<a:form id="candidateHistoryPanelForm">
+			<a:outputPanel id="addMessage">
+				<h:messages globalOnly="true" styleClass="message"
+					errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg" />
+			</a:outputPanel>
+			<s:decorate template="layout/display.xhtml"> 
+				<ui:define name="label">
+					<h:outputLabel value="#{messages['candidate.name']}:" />
+				</ui:define>
+				<s:link value="#{candidateHome.candHistory.cddName}"
+					rendered="#{caPrivilege.editableCandidate}"
+					view="#{'/CandidateEdit.xhtml'}" propagation="none"
+					id="candidateEditId"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+					<f:param name="candidateCddCandidateId"
+						value="#{candidateHome.candHistory.cddCandidateId}" />
+					<f:param name="fromView" value="/CandidateList.xhtml" />
+					<rich:toolTip value="#{messages['candidate.edit.details']}" />
+				</s:link>
+				<s:link value="#{candidateHome.candHistory.cddName}"
+					rendered="#{not (caPrivilege.editableCandidate) and caPrivilege.viewableCandidate}"
+					view="#{'/Candidate.xhtml'}" propagation="none"
+					id="candidateViewId"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+					<f:param name="candidateCddCandidateId"
+						value="#{candidateHome.candHistory.cddCandidateId}" />
+					<f:param name="fromView" value="/CandidateList.xhtml" />
+					<rich:toolTip value="#{messages['candidate.view.details']}" />
+				</s:link>
+			</s:decorate>
+
+			<s:decorate template="layout/display.xhtml">
+				<ui:define name="label">
+					<h:outputLabel value="#{messages['candidate.email']}:" />
+				</ui:define>
+				<h:outputText styleClass="boldTextRTS"
+					value="#{candidateHome.candHistory.cddEmail}" />
+			</s:decorate>
+			<rich:dataTable id="candidateHistoryTable" var="_sch"
+				value="#{candidateHome.candidateInterviewHistories}"
+				rowClasses="brightRow,darkRow"
+				rendered="#{not empty candidateHome.candidateInterviewHistories}"
+				rowKeyVar="index" width="100%"
+				reRender="candidateHistoryPaginationId"
+				rows="#{messages['pagination.size']}">
+				<rich:column>
+					<f:facet name="header">
+						<h:outputLabel 
+							value="#{messages['candidate.history.technical.date']}" />
+					</f:facet>
+					<h:outputText value="#{_sch.itsTechnicalInterviewTime}">
+						<s:convertDateTime type="both"
+							pattern="#{messages['calendar.pattern.long']}" />
+					</h:outputText>
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputLabel
+							value="#{messages['candidate.history.technical.result']}" />
+					</f:facet>
+					<a:repeat
+						value="#{_sch.technicalResultList}" var="_tech">
+						<s:link view="/TechnicalResultEdit.xhtml" propagation="join" value="#{_tech.technicalStatus()}"
+							onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+							rendered="#{(interviewScheduleHome.checkExistingTechnicalResult(_sch)) 
+											and (interviewScheduleHome.checkAddableTechnicalResult(_sch)) 
+											and (_sch.itsTechnicalStatus eq 'TAKEN') 
+											and (_sch.itsHrStatus ne 'TAKEN') 
+											and (_sch.itsStatus eq 'Open')}">
+							<rich:toolTip
+								value="#{messages['int.sch.edit.interview.feedback']}" />
+							<f:param name="interviewScheduleItsInterviewScheduleId"
+								value="#{_sch.itsInterviewScheduleId}" />
+							<f:param name="technicalResultItrTechnicalResultId"
+								value="#{(not empty _sch.technicalResultList) 
+											? _sch.technicalResultList.get(0).technicalResultId 
+											: ''}" />
+							<f:param name="fromView" value="/CandidateHistoryPanel.xhtml" />
+						</s:link>
+
+						<s:link view="/TechnicalResult.xhtml" propagation="join" value="#{_tech.technicalStatus()}"
+							onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+							rendered="#{ (interviewScheduleHome.checkExistingTechnicalResult(_sch)) 
+											and interviewScheduleHome.checkViewableTechnicalResult(_sch) 
+											and ((_sch.itsHrStatus eq 'TAKEN') 
+											or (not interviewScheduleHome.checkAddableTechnicalResult(_sch)) )
+											and (_sch.itsStatus eq 'Open')}">
+							<rich:toolTip
+								value="#{messages['int.sch.view.interview.feedback']}" />
+							<f:param name="interviewScheduleItsInterviewScheduleId"
+								value="#{_sch.itsInterviewScheduleId}" />
+							<f:param name="technicalResultItrTechnicalResultId"
+								value="#{(not empty _sch.technicalResultList) ? _sch.technicalResultList.get(0).technicalResultId : ''}" />
+							<f:param name="fromView" value="/CandidateHistoryPanel.xhtml" />
+						</s:link>
+
+						<s:link view="/TechnicalResult.xhtml" propagation="join" value="#{_tech.technicalStatus()}"
+							onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+							rendered="#{interviewScheduleHome.checkExistingTechnicalResult(_sch) 
+											and interviewScheduleHome.checkViewableTechnicalResult(_sch) 
+											and (_sch.itsStatus eq 'Closed')}">
+							<rich:toolTip
+								value="#{messages['int.sch.view.interview.feedback']}" />
+							<f:param name="interviewScheduleItsInterviewScheduleId"
+								value="#{_sch.itsInterviewScheduleId}" />
+							<f:param name="technicalResultItrTechnicalResultId"
+								value="#{(not empty _sch.technicalResultList) ? _sch.technicalResultList.get(0).technicalResultId : ''}" />
+							<f:param name="fromView" value="/CandidateHistoryPanel.xhtml" />
+						</s:link>
+					</a:repeat>
+					<h:outputText value="#{_sch.technicalStatusDisplayString}" rendered="#{empty _sch.technicalResultList}"/>
+				</rich:column>
+
+				<rich:column>
+					<f:facet name="header">
+						<h:outputLabel value="#{messages['candidate.history.hr.date']}" />
+					</f:facet>
+					<h:outputText value="#{_sch.itsHrInterviewTime}">
+						<s:convertDateTime type="both"
+							pattern="#{messages['calendar.pattern.long']}" />
+					</h:outputText>
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputLabel value="#{messages['candidate.history.hr.result']}" />
+					</f:facet>
+					<a:repeat
+						value="#{_sch.hrResultList}" var="_hr">
+						<s:link id="editHRFeedback" value="#{_hr.hrStatus()}"
+							rendered="#{interviewScheduleHome.editableHrResult(_sch) and _sch.itsStatus eq  'Open'}"
+							view="/HrResultEdit.xhtml" propagation="join"
+							onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+							<rich:toolTip
+								value="#{messages['int.sch.edit.interview.hr.feedback']}" />
+							<f:param name="scheduleId" value="#{_sch.itsInterviewScheduleId}" />
+							<f:param name="action" value="edit" />
+							<f:param name="fromView" value="/InterviewScheduleList.xhtml" />
+						</s:link>
+
+						<s:link id="viewHRFeedback" 
+							rendered="#{interviewScheduleHome.viewableHrResult(_sch)}"
+							view="/HrResult.xhtml" propagation="join"
+							value="#{_hr.hrStatus()}"
+							onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+							<rich:toolTip
+								value="#{messages['int.sch.view.interview.hr.feedback']}" />
+							<f:param name="scheduleId" value="#{_sch.itsInterviewScheduleId}" />
+							<f:param name="action" value="view" />
+							<f:param name="fromView" value="/InterviewScheduleList.xhtml" />
+						</s:link>
+						
+						<s:link id="viewHRFeedback2" 
+							rendered="#{interviewScheduleHome.editableHrResult(_sch) and _sch.itsStatus eq  'Closed'}"
+							view="/HrResult.xhtml" propagation="join"
+							value="#{_hr.hrStatus()}"
+							onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+							<rich:toolTip
+								value="#{messages['int.sch.view.interview.hr.feedback']}" />
+							<f:param name="scheduleId" value="#{_sch.itsInterviewScheduleId}" />
+							<f:param name="action" value="view" />
+							<f:param name="fromView" value="/InterviewScheduleList.xhtml" />
+						</s:link>
+					</a:repeat>
+					<h:outputText value="#{_sch.HRStatusDisplayString}" rendered="#{empty _sch.hrResultList}"/>
+				</rich:column>
+
+				<f:facet name="footer">
+					<rich:datascroller for="candidateHistoryTable"
+						renderIfSinglePage="false" align="center"
+						id="candidateHistoryPaginationId"
+						onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+						oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');" />
+				</f:facet>
+			</rich:dataTable>
+
+			<div style="clear: both">
+				<span><rich:spacer height="5" /> </span>
+			</div>
+
+			<s:button value="Cancel" type="button"
+				onclick="#{rich:component('candidateHistoryPanel')}.hide();return false;"
+				styleClass="submitStandard">
+			</s:button>
+		</a:form>
+
+	</rich:modalPanel>
+</ui:composition>

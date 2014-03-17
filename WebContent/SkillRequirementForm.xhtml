@@ -1,0 +1,237 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+	<a:loadScript src="/script/utility.js" />
+	<a:loadScript src="/script/jquery.numeric.js" />
+	<rich:modalPanel id="skillRequirementInputModelPanel" autosized="true"
+		onmaskclick="#{rich:component('skillRequirementInputModelPanel')}.hide();">
+		<f:facet name="header">
+			<h:outputText
+				value="#{resource['recruit.request.skill.lookup.form']}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/img/close.png" id="attrHidelink"
+					style="margin: 0px; cursor:pointer;" title="#{messages['Button.Close']}"/>					
+				<rich:componentControl for="skillRequirementInputModelPanel"
+					attachTo="attrHidelink" operation="hide" event="onclick"
+					sortOrder="ASCENDING"/>
+			</h:panelGroup>
+		</f:facet>
+			
+		<a:form id="skillRequirementInputForm">		
+			<a:outputPanel id="addMessage">
+				<h:messages globalOnly="true" styleClass="message"
+					errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg" />
+			</a:outputPanel>
+			
+			<rich:panel id="skillRequirementContent" styleClass="resetPanelPosition">
+				<f:facet name="header">
+					<h:outputLabel value="#{messages['recruit.request.skill.gen.info']}" />					 
+				</f:facet>
+			
+				<h:panelGrid columns="2">
+					<s:decorate template="layout/edit.xhtml" id="numberofPersonField">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['recruit.request.skill.no.candidates']}:" />
+						</ui:define>					
+						<rich:inputNumberSpinner 
+							minValue="1"
+							maxValue="100" 
+							inputSize="2" 								
+							value="#{recruitRequestHome.skillRequirement.numberOfPersons}"
+							required="true"	
+							requiredMessage="#{messages['error.enter.required']} #{' '} #{messages['recruit.request.skill.no.candidates']}">
+							
+						</rich:inputNumberSpinner>						
+					</s:decorate>
+					<s:decorate template="layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel
+								value="#{messages['recruit.request.skill.qualification']}:" />
+						</ui:define>
+						<h:selectOneMenu
+							value="#{recruitRequestHome.skillRequirement.qualifications}"
+							required="true"
+							requiredMessage="#{messages['error.select.required']} #{' '} #{messages['recruit.request.skill.qualification']}">
+							<f:selectItem itemValue=""
+								itemLabel="#{messages['selectOptions']}" />
+							<f:selectItem itemValue="#{messages['com.bosch.ui.graduated']}"
+								itemLabel="#{messages['com.bosch.ui.graduated']}" />
+							<f:selectItem itemValue="#{messages['com.bosch.ui.master']}"
+								itemLabel="#{messages['com.bosch.ui.master']}" />
+							<f:selectItem itemValue="#{messages['com.bosch.ui.phd']}"
+								itemLabel="#{messages['com.bosch.ui.phd']}" />
+							<f:selectItem itemValue="#{messages['com.bosch.ui.no.required']}"
+								itemLabel="#{messages['com.bosch.ui.no.required']}" />
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="layout/edit.xhtml" id="experienceMinYearField">
+						
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.yearofexperience']}:" />
+						</ui:define>
+						
+						<h:panelGrid columns="4">
+							<h:outputLabel value="#{messages['recruit.request.min']}:" for="expSpinner1"/>
+							<rich:inputNumberSpinner 
+								id="expSpinner1" 
+								minValue="0"
+								onchange="checkValueFromAndTo('#{rich:clientId('expSpinner1')}','#{rich:clientId('expSpinner2')}')"
+								maxValue="29" 
+								inputSize="2" 	
+								value="#{recruitRequestHome.skillRequirement.experienceYearFrom}">
+							</rich:inputNumberSpinner>	
+								
+							<h:outputLabel value="#{messages['recruit.request.max']}:" for="expSpinner2" />
+							<rich:inputNumberSpinner 
+								id="expSpinner2" 
+								minValue="0"
+								onchange="checkValueFromAndTo('#{rich:clientId('expSpinner1')}','#{rich:clientId('expSpinner2')}')"
+								maxValue="30" 
+								inputSize="2"  
+								value="#{recruitRequestHome.skillRequirement.experienceYearTo}">
+							</rich:inputNumberSpinner>															
+								
+						</h:panelGrid>
+					</s:decorate>			
+					
+				</h:panelGrid>
+				
+				</rich:panel>
+				
+				<rich:panel>
+					<f:facet name="header">
+						<h:outputLabel value="#{messages['com.bosch.ui.requiredskill']}" />						
+					</f:facet>				
+
+						<a:region id="skillPickRegion" renderRegionOnly="true">
+							<s:div style="padding-left:2px">
+								<h:inputText value="#{skillPickBean.filter}" maxlength="10">
+									<a:support event="onkeyup" 
+										reRender="skillPickList"
+										action="#{skillPickBean.doFilter()}" 
+										ignoreDupResponses="true"
+										ajaxSingle="true"/>
+								</h:inputText>
+							</s:div>
+							<s:div>
+								<h:panelGrid columns="3" id="skillPickPanel">
+									
+									<a:keepAlive beanName="skillPickBean"/>
+									
+									<h:selectManyListbox value="#{skillPickBean.selectedLeftSkills}"
+										style="width:200px;height:150px" id="skillPickList">
+										<s:selectItems value="#{skillPickBean.skillList}" 
+											var="sk"
+											label="#{sk.sklName}">
+										</s:selectItems>
+										<f:converter converterId="skillSelectManyConvert" />
+									</h:selectManyListbox>
+									<h:panelGroup>
+										<div>
+											<a:commandButton value="&gt;&gt;"
+												actionListener="#{skillPickBean.moveSkillLeftToRight()}"
+												reRender="skillPickPanel,skillPickList"
+												styleClass="submitStandard">
+											</a:commandButton>
+										</div>
+										<div>
+											<a:commandButton value="&lt;&lt;" immediate="true"
+												actionListener="#{skillPickBean.moveSkillRightToLelf()}"
+												reRender="skillPickPanel,skillPickList"
+												styleClass="submitStandard" >
+											</a:commandButton>
+										</div>
+									</h:panelGroup>
+									<h:panelGroup>
+										<rich:extendedDataTable enableContextMenu="false"
+											value="#{skillPickBean.chosenSkillMap.values().toArray()}"
+											var="item" 
+											selectionMode="multi" 
+											rows="20"
+											selection="#{skillPickBean.selectedRightSkills}" 
+											width="650px"
+											height="150px" 
+											tableState="#{skillPickBean.tableState}"
+											id="extendedTable">
+											<rich:column width="200px">
+												<f:facet name="header">
+													<h:outputText value="#{messages['com.bosch.ui.skillname']}" />
+												</f:facet>
+												<h:outputText value=" #{item.skill.sklName}" />
+											</rich:column>
+											<rich:column 	
+												width="250px"
+												rendered="#{skillPickBean.useYearColumn}">
+												<f:facet name="header">
+													<h:outputText
+														value="#{messages['com.bosch.ui.yearofexperience']}" />
+												</f:facet>
+												<h:panelGrid columns="5">
+													<h:outputLabel 
+														value="#{messages['com.bosch.ui.from']}:"
+														for="year1Spinner"/>
+													<rich:inputNumberSpinner 
+														id="year1Spinner" 
+														minValue="0"
+														onchange="checkValueFromAndTo('#{rich:clientId('year1Spinner')}','#{rich:clientId('year2Spinner')}')"
+														maxValue="29" 
+														step="1" 
+														inputSize="2" 
+														value="#{item.year1}"/>
+													<h:outputLabel value="#{messages['com.bosch.ui.to']}:"
+														for="year2Spinner" />
+													<rich:inputNumberSpinner 
+														id="year2Spinner" 
+														minValue="0"
+														onchange="checkValueFromAndTo('#{rich:clientId('year1Spinner')}','#{rich:clientId('year2Spinner')}')"
+														maxValue="30" 
+														step="1" 
+														inputSize="2" 
+														value="#{item.year2}"/>														
+												</h:panelGrid>
+											</rich:column>
+											<rich:column width="200px" styleClass="textCenterAlign">
+												<f:facet name="header">
+													<h:outputText value="#{messages['candiadte.header.skill.level']}" />
+												</f:facet>
+												<h:inputText value="#{item.skillLevel}" maxlength="50" style="width:180px"/>
+											</rich:column>
+										</rich:extendedDataTable>
+									</h:panelGroup>
+	
+								</h:panelGrid>
+							</s:div>
+						</a:region>
+			</rich:panel>
+
+			<div style="clear: both">
+				<span><rich:spacer height="5" />
+				</span>
+			</div>
+
+			<div class="actionButtons" style="clear: both;">
+				<rich:toolBar style="margin:0; padding:0;">
+					<a:commandButton 
+						value="#{messages['Button.Save']}" 
+						styleClass="submitStandard"
+						ignoreDupResponses="true"
+						action="#{recruitRequestHome.addSkillRequirement()}"
+						onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+						oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');"
+						limitToList="true"
+						reRender="extendedTable,skillsRequirementPanel,skillRequirementContent,addMessage"/>						
+						
+				</rich:toolBar>
+			</div>
+			
+		</a:form>
+	</rich:modalPanel>
+</ui:composition>
