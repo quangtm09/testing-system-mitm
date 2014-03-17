@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+	
+	<rich:modalPanel id="transferCandidatePanel" autosized="true"
+				onmaskclick="Richfaces.hideModalPanel('transferCandidatePanel');">
+				
+		<f:facet name="header">
+			<h:outputText
+				value="#{messages['transfer.to.other.request.form']}:" />
+		</f:facet>	
+		
+		<f:facet name="controls">
+			<h:panelGroup>
+				<h:graphicImage value="/img/close.png" id="cddHideButton2"
+					style="margin: 0px; cursor:pointer;" title="#{messages['Button.Close']}"/>					
+				<rich:componentControl for="transferCandidatePanel"
+					attachTo="cddHideButton2" operation="hide" event="onclick"
+					sortOrder="ASCENDING"/>
+			</h:panelGroup>
+		</f:facet>
+		
+		<a:form id="transferCandidatePanelForm">
+			
+			<a:outputPanel id="addMessage">
+				<h:messages globalOnly="true" styleClass="message"
+					errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg" />
+			</a:outputPanel>
+			
+			<rich:panel id="tranferContent" styleClass="resetPanelPosition">
+				<f:facet name="header">
+					<h:outputText value="#{messages['candidate.details']}" />
+				</f:facet>			
+				
+				<s:decorate template="layout/edit.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['com.bosch.ui.transfer']}#{' '}#{messages['com.bosch.ui.from']}:" />
+					</ui:define>
+					<h:outputText
+						value="#{candidateHome.instance.recruitRequest.recruitRequestName}" />
+				</s:decorate>
+			
+				
+				<s:decorate template="layout/edit.xhtml">
+					<ui:define name="label"> 
+						<h:outputLabel value="#{messages['com.bosch.ui.to']}:" />
+					</ui:define>
+					<h:selectOneMenu id="recruitRequestCombobox"
+						value="#{candidateBussinessBean.newRequest}"
+						required="true"
+						requiredMessage="#{messages['error.select.required']} #{' '} #{messages['com.bosch.ui.to']}">
+						<s:selectItems
+							value="#{candidateBussinessBean.getTransferableRequest(candidateHome.instance)}"
+							var="recr"
+							label="#{recr.recruitRequestName}"
+							hideNoSelectionLabel="true"
+							noSelectionLabel="#{messages['selectOptions']}">
+						</s:selectItems>
+						<s:convertEntity/>																	
+					</h:selectOneMenu>
+				</s:decorate>
+				
+				<s:decorate id="statusDescriptionField"
+					template="layout/edit.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['com.bosch.ui.description']}:" />
+					</ui:define>
+					
+					<h:panelGrid columns="2">
+						<h:inputTextarea cols="30" 
+							required="true" 
+							requiredMessage="#{messages['error.enter.required']} #{' '} #{messages['com.bosch.ui.description']}"
+							styleClass="descriptionClass2"
+							value="#{candidateHome.instance.cddSkillDescription}">
+							<a:support event="onblur" reRender="statusDescriptionField"></a:support>
+						</h:inputTextarea>		
+					</h:panelGrid>
+				</s:decorate>	
+				
+				<div style="clear: both">
+					<span><rich:spacer height="5" /></span>
+				</div>		
+		
+				<div class="actionButtons" style="clear: both;">				
+					<rich:toolBar style="margin:0; padding:0;">								
+						<a:commandButton value="#{messages['Button.Transfer']}"
+							reRender="transferCandidatePanelForm,cddRequestNumberField,addMessage"
+							action="#{candidateBussinessBean.transferCandidate()}"					
+							styleClass="submitStandard"
+							onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+							oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');">
+						</a:commandButton>						
+							
+					</rich:toolBar>
+				</div>
+			</rich:panel>
+		</a:form>
+		
+	</rich:modalPanel>	
+</ui:composition>

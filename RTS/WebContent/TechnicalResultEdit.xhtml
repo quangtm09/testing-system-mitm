@@ -1,0 +1,362 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">	
+	
+	<ui:define name="body">	
+		<script type="text/javascript" src="#{request.getContextPath()}/script/technicalResult.js"/>		
+	
+	<!--[if IE]>
+		<link rel="stylesheet" type="text/css" href="#{request.getContextPath()}/stylesheet/ie.css" />
+	<![endif]-->	
+		<s:div style="padding-top: 20px;">
+			<h:outputLabel value="#{messages['int.sch.edit.interview.feedback']}"
+				styleClass="header-label" />
+		</s:div>
+
+		<s:div styleClass="resetPanelPosition header-border">
+			<h:panelGrid columns="2">
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['int.sch.candidate']}:" />
+					</ui:define>
+					<h:outputText
+						value="#{interviewScheduleHome.instance.candidate.cddName}" />
+				</s:decorate>
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['int.sch.interview.time']}:" />
+					</ui:define>
+					<h:outputText
+						value="#{interviewScheduleHome.instance.itsTechnicalInterviewTime}">
+						<s:convertDateTime type="both"
+							pattern="#{messages['calendar.pattern.long']}" locale="#{calendarBean.locale}"/>
+					</h:outputText>
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['recruit.request']}:" />
+					</ui:define>
+					<h:outputText
+						value="#{interviewScheduleHome.instance.recruitRequest.recruitRequestName}" />
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['int.sch.interview.type']}:" />
+					</ui:define>
+					<h:outputText
+						value="#{interviewScheduleHome.instance.itsTechnicalInterviewType}" />
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['int.sch.interviewers']}:" />
+					</ui:define>
+					<a:repeat value="#{interviewScheduleHome.instance.interviewers}"
+						var="_interviewer" rowKeyVar="_key">
+						<h:outputText value="#{_key + 1}. " />
+						<h:outputLink value="mailto:#{_interviewer.usrEmail}">
+							<h:outputText value="#{_interviewer.usrFullName}" />
+						</h:outputLink>
+						<br />
+					</a:repeat>
+				</s:decorate>
+				
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['form.applied.for.level']}:" />
+					</ui:define>
+					<h:outputText
+						value="#{interviewScheduleHome.instance.itsApplyForLevel.displayName}" />
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['int.sch.status']}:" />
+					</ui:define>
+					<h:outputText
+						value="#{interviewScheduleHome.instance.candidate.cddStatus}" />
+				</s:decorate>
+
+			</h:panelGrid>
+
+
+			<h:form>
+				<s:div styleClass="rts-text-align">
+					<table width="900px;" style="border: 1px solid #008894;">
+						<a:repeat
+							value="#{technicalResultHome.instance.interviewAssessmentTemplates.groupsList}"
+							var="grp">
+							<!-- Groups -->
+							<tr class="feebackFormHeader feebackFormHeaderNoTooltip">
+								<td class="feebackFormCells" colspan="#{grp.colspan}"
+									style="background: #{grp.background}; color: #{grp.color}"><h:outputLabel
+										value="#{grp.name}" styleClass="feebackFormCell" /><br /> <h:outputText
+										value="#{grp.description}"
+										rendered="#{not empty grp.description}" /></td>
+							</tr>
+
+							<!-- Lines -->
+							<a:repeat value="#{grp.linesList}" var="ln" rowKeyVar="idx">
+								<tr id="line#{idx}" class="feebackFormHeader">
+									<td>
+										<table width="100%">
+											<tr>
+												<a:repeat value="#{ln.technicalResultLineAttributeList}"
+													var="attr">
+													<td class="feedbackFormContentValue"
+														style="width:#{attr.colSpan * 33}%; ">
+														<s:decorate
+															template="layout/edit_interviewResult.xhtml">
+															<h:outputLabel value="#{attr.label}"
+																rendered="#{attr.controlType.name eq 'TEXT'}"
+																styleClass="feebackFormCell" />
+															<br />
+															<h:outputText value="#{attr.description}"
+																rendered="#{(attr.controlType.name eq 'TEXT') and (not empty attr.description)}" />
+
+															<h:inputText value="#{attr.value}"
+																rendered="#{attr.controlType.name eq 'TEXT_FIELD'}"
+																required="#{attr.required eq 'Y' ?  true : false}" />
+
+															<h:inputTextarea value="#{attr.value}"
+																rendered="#{attr.controlType.name eq 'TEXT_AREA'}"
+																required="#{attr.required eq 'Y' ?  true : false}"
+																style="width: 260px; height: 40px;" />
+
+															<h:selectOneRadio value="#{attr.value}"
+																styleClass="cursorPointer3"
+																rendered="#{attr.controlType.name eq 'RADIO_BUTTON'}"
+																required="#{attr.required eq 'Y' ?  true : false}"
+																layout="#{attr.layout eq 'pageDirection' ? 'pageDirection' : 'lineDirection'}"
+																style="margin: 0px auto;">
+																<f:selectItem itemLabel="1" itemValue="1" />
+																<f:selectItem itemLabel="2" itemValue="2" />
+																<f:selectItem itemLabel="3" itemValue="3" />
+																<f:selectItem itemLabel="4" itemValue="4" />
+																<f:selectItem itemLabel="NR" itemValue="5" />
+															</h:selectOneRadio>
+														</s:decorate>
+													</td>
+												</a:repeat>
+											</tr>
+										</table></td>
+								</tr>
+							</a:repeat>
+
+						</a:repeat>
+
+						<tr
+							class="feebackFormHeader feebackFormHeaderNoTooltip feebackFormCellsBackground">
+							<td colspan="3" class="feebackFormCells"><h:outputLabel
+									value="#{messages['feedback.overall.evaluation']}"
+									styleClass="feebackFormCell" /></td>
+						</tr>
+
+						<tr>
+							<td colspan="3" class="feebackFormCells"><s:decorate
+									template="layout/edit_interviewResult.xhtml">
+									<h:selectOneRadio
+										styleClass="cursorPointer"
+										value="#{technicalResultHome.instance.overallEvaluation}"
+										layout="pageDirection" 										
+										required="true"
+										requiredMessage="#{messages['error.select.required']} #{' '} #{messages['feedback.overall.evaluation']}">
+										<f:selectItem itemLabel="#{messages['feedback.result.1']}"
+											itemValue="1" />
+										<f:selectItem itemLabel="#{messages['feedback.result.2']}"
+											itemValue="2" />
+										<f:selectItem itemLabel="#{messages['feedback.result.3']}"
+											itemValue="3" />
+										<f:selectItem itemLabel="#{messages['feedback.result.4']}"
+											itemValue="4" />
+										<f:selectItem itemLabel="#{messages['feedback.result.5']}"
+											itemValue="5" />
+										<a:support event="onclick" ajaxSingle="true"
+											reRender="reasonForRejectField, referToField" limitToList="true"
+											ignoreDupResponses="true" />
+									</h:selectOneRadio>
+								</s:decorate></td>
+						</tr>
+						<tr>
+							<td><s:decorate id="reasonForRejectField">
+									<s:div
+										rendered="#{technicalResultHome.instance.overallEvaluation eq '4'}">
+										<s:decorate template="layout/edit.xhtml">
+											<ui:define name="label">
+												<h:outputLabel
+													value="#{messages['feedback.reason.for.reject']}:" />
+											</ui:define>
+											<h:inputTextarea cols="40" rows="2" required="true"
+												requiredMessage="#{messages['error.enter.required']} #{' '} #{messages['feedback.reason.for.reject']}"
+												value="#{technicalResultHome.instance.reasonForRejection}" />
+										</s:decorate>
+									</s:div>
+								</s:decorate>
+							</td>
+						</tr>
+						<tr>
+							<td><s:decorate id="referToField">
+									<s:div
+										rendered="#{technicalResultHome.instance.overallEvaluation eq '5'}">
+										<s:decorate template="layout/edit.xhtml">
+											<ui:define name="label">
+												<h:outputLabel value="#{messages['org.unit']}:" />
+											</ui:define>
+											<h:selectOneMenu styleClass="rtsSelectOneMenu"
+												value="#{interviewScheduleHome.instance.candidate.orgUnit}"
+												required="true"
+												requiredMessage="#{messages['error.enter.required']} #{' '} #{messages['org.unit']}">
+												<s:selectItems
+													value="#{candidateHome.chooseAbleOrgUnitList}" var="_unit"
+													label="#{_unit.unitName}">
+												</s:selectItems>
+												<s:convertEntity />
+											</h:selectOneMenu>
+										</s:decorate>
+									</s:div>
+								</s:decorate>
+							</td>
+						</tr>
+
+						<tr
+							class="feebackFormHeader feebackFormHeaderNoTooltip feebackFormCellsBackground">
+							<td colspan="3" class="feebackFormCells"><h:outputLabel
+									value="#{messages['feedback.total.experience']}"
+									styleClass="feebackFormCell" /></td>
+						</tr>
+
+						<tr>
+							<td class="feebackFormCells" colspan="3">
+							
+							<h:panelGrid columns="2">
+									<s:decorate template="layout/edit.xhtml">
+										<ui:define name="label">
+											<h:outputLabel
+												value="#{messages['feedback.total.experience']}:" />
+										</ui:define>
+										<rich:inputNumberSpinner minValue="1" maxValue="60"
+											inputSize="2"
+											value="#{technicalResultHome.instance.totalExperience}">
+										</rich:inputNumberSpinner>
+									</s:decorate>
+
+									<s:decorate template="layout/edit.xhtml">
+										<ui:define name="label">
+											<h:outputLabel
+												value="#{messages['feedback.relevant.experience']}:" />
+										</ui:define>
+										<rich:inputNumberSpinner minValue="1" maxValue="60"
+											inputSize="2"
+											value="#{technicalResultHome.instance.relevantExperience}">
+										</rich:inputNumberSpinner>
+									</s:decorate>
+
+									<s:decorate template="layout/edit.xhtml">
+										<ui:define name="label">
+											<h:outputLabel
+												value="#{messages['feedback.level.recomended']}:" />
+										</ui:define>
+										<rich:inputNumberSpinner minValue="48" maxValue="57"
+											inputSize="2"
+											value="#{technicalResultHome.instance.levelRecommended}">
+										</rich:inputNumberSpinner>
+									</s:decorate>
+									<s:decorate template="layout/edit.xhtml">
+										<ui:define name="label">
+											<h:outputLabel
+												value="#{messages['feedback.recruited.for.group']}:" />
+										</ui:define>
+
+										<h:inputText
+											value="#{technicalResultHome.instance.recruitedFor}"
+											styleClass="rtsTextBox" />
+									</s:decorate>
+
+									<s:decorate template="layout/edit.xhtml">
+										<ui:define name="label">
+											<h:outputLabel value="#{messages['feedback.for.location']}:" />
+										</ui:define>
+
+										<h:inputText
+											value="#{technicalResultHome.instance.forLocation}"
+											styleClass="rtsTextBox" />
+									</s:decorate>
+									<s:decorate template="layout/edit.xhtml">
+										<ui:define name="label">
+											<h:outputLabel
+												value="#{messages['feedback.required.join.by']}:" />
+										</ui:define>			
+											
+										<rich:calendar id="joinedByDate"
+											styleClass="rtsCalendar"
+											isDayEnabled="disablementFunction"
+											dayStyleClass="disabledClassesProv"
+											boundaryDatesMode="scroll"
+											value="#{technicalResultHome.instance.joinBy}"
+											datePattern="#{messages['calendar.pattern']}"
+											enableManualInput="false"
+											locale="#{calendarBean.locale}"
+											monthLabels="#{messages['calendar.month.labels']}">
+											<f:validator validatorId="techinicalDateComparator"/>
+											<f:attribute name="promotionDateComponent" value="#{promotionDateComponent}"/>
+										</rich:calendar>	
+									</s:decorate>
+
+									<s:decorate template="layout/edit.xhtml">
+										<ui:define name="label">
+											<h:outputLabel
+												value="#{messages['feedback.reviewed.promotion']}:" />
+										</ui:define>
+										
+										<rich:calendar id="promotionDate"
+											styleClass="rtsCalendar"
+											isDayEnabled="disablementFunction"
+											dayStyleClass="disabledClassesProv"
+											boundaryDatesMode="scroll"
+											binding="#{promotionDateComponent}"
+											value="#{technicalResultHome.instance.reviewedForPromotion}"
+											datePattern="#{messages['calendar.pattern']}"
+											locale="#{calendarBean.locale}"
+											enableManualInput="false"
+											monthLabels="#{messages['calendar.month.labels']}" >
+										</rich:calendar>
+									</s:decorate>
+
+								</h:panelGrid>
+								
+							</td>
+
+						</tr>
+
+					</table>
+				</s:div>
+				<s:div styleClass="bottom-border" style="margin-top: 10px;">
+					<h:commandButton id="saveButton"
+						action="#{technicalResultHome.updateTechnicalFeedback()}"
+						value="#{messages['Button.Save']}"
+						onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+						styleClass="submitStandard" >
+						<s:defaultAction/>
+					</h:commandButton>	
+
+					<s:button id="cancelButton" value="#{messages['Button.Cancel']}"
+						view="/InterviewScheduleList.xhtml" propagation="none"
+						includePageParams="false"
+						onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+						styleClass="submitStandard" />
+				</s:div>
+			</h:form>
+
+		</s:div>
+		
+		
+	</ui:define>
+</ui:composition>

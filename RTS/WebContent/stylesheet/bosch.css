@@ -1,0 +1,643 @@
+/*
+===================================================
+ bosch.css 
+===================================================
+ This CSS file is for bosch formatting. 
+Formatting which is done in this file will be used as default.
+Don't change this file while application development.
+*/
+
+/* general */
+* {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #474747;
+	font-size: 12px;
+}
+
+.message {
+	padding: 5px;
+	list-style: none;
+	border: 0;
+	background: none;
+	padding: 0;
+	color: #000000;
+	margin: 5px 0 8px 0;
+	font-size: 12px;
+}
+
+.message li {
+	background: no-repeat left center;
+	padding-top: 1px;
+	padding-left: 20px;
+	margin-left: 3px;
+}
+
+.message li.infomsg {
+	background-image: url(../img/msginfo.png);
+	text-align: left;
+	/* color: yellow; */
+}
+
+.message li.errormsg {
+	background-image: url(../img/msgerror.png);
+	text-align: left;
+	color: red;
+}
+
+.message li.warnmsg {
+	background-image: url(../img/msgwarn.png);
+	text-align: left;
+	color: yellow;
+}
+
+/* messages */
+.messageOk {
+	background-image: url(../img/messageOk.gif);
+}
+
+.messageWarning {
+	background-image: url(../img/msgwar.png);
+}
+
+.messageError {
+	background-image: url(../img/msgerror.png);
+}
+
+.messageProcessing {
+	background-image: url(../img/bosch/messageProcessing.gif);
+}
+
+.rich-messages-label {
+	margin-left: 5px;
+}
+
+/* menu */
+.rich-menu-item-label {
+	color: #474747;
+}
+
+/* panel */
+.rich-panel {
+	margin-top: 1em;
+}
+
+/* toolbar */
+.rich-toolbar {
+	padding: 0 0;
+	margin: 2em 0 0 0;
+}
+
+.rich-toolbar a {
+	width: 100px;
+	text-decoration: none;
+}
+
+.dr-toolbar-int {
+	vertical-align: middle;
+}
+
+/* block layouting */
+.center {
+	margin: auto;
+}
+
+a {
+	color: #225A8D;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: #7890AB;
+}
+
+/* paragraph */
+p {
+	padding: 0 1em;
+	margin: 1em 0;
+}
+
+table p {
+	margin: 0;
+}
+
+/* tables */
+.dr-table-headercell,.dr-table-subheadercell {
+	text-align: left;
+	vertical-align: bottom;
+}
+
+.brightRow {
+	background-color: #FBFBFB;
+}
+
+.highlightedRow {
+	background-color: #B4C6D9;
+}
+
+.darkRow {
+	background-color: #F2F2F2;
+}
+
+td {
+	text-align: justify;
+	vertical-align: top;
+}
+
+th { /*background-color: #bed6f8;*/
+	font-weight: bold;
+	text-align: left;
+	vertical-align: top;
+}
+
+.blueGradientHeader {
+	padding: 4px 2em;
+	font-weight: bold;
+	text-align: left;
+	vertical-align: top;
+	background-image: url(../img/bosch/bg_glassXGradient.png);
+	/*background-color: #bed6f8;*/
+	border: 1px solid;
+}
+
+.richTable {
+	margin: 1em 0;
+	border-collapse: collapse;
+}
+
+.richTable td,.richTable th {
+	border: 1px solid #c0c0c0;
+	padding: 0.5em;
+}
+
+/* images */
+img {
+	border: none;
+	padding: 0;
+	margin: 0.5em;
+	vertical-align: middle;
+}
+
+table img {
+	margin: 0;
+	border: none;
+}
+
+.rich-toolbar img {
+	margin: 0 0.5em 0 0;
+}
+
+/* headlines */
+h1,h2,h3,h4 {
+	color: #003B69;
+	font-size: 110%;
+	/* padding:0;
+	font-size: 110%;
+	margin-top:-1.2em; 
+	margin-bottom:1.2em; 
+	padding:1em 0 0 0; 
+	border-bottom: 1px dashed #003B69; */
+}
+
+.rtsH1 {
+	color: #003B69;
+	font-size: 110%;
+	padding: 0;
+	font-size: 110%;
+	/* margin-top:-1.2em;  */
+	/* margin-bottom:1.2em;  */
+	padding: 1em 0 0 0;
+}
+
+h1 {
+	font-size: 16px;
+}
+
+h2 {
+	color: #E76300;
+	/*border-bottom: 1px dashed #E76300; */
+}
+
+h3 {
+	font-size: 12px;
+}
+
+h4 {
+	font-size: 11px;
+}
+
+h1 img,h2 img,h3 img,h4 img {
+	margin: 0 0.5em 0 0;
+}
+
+/* forms */
+
+/* sizes of input fields */
+.large {
+	width: 360px;
+}
+
+.medium {
+	width: 180px;
+}
+
+.small {
+	width: 120px;
+}
+
+.required { /* color: #0000FF; */
+	color: red;
+}
+
+.entry,.entryFeedback,.entrySkillSpecSearchCriteria {
+	overflow: auto;
+	clear: both;
+	width: 410px;
+	padding: 5px;
+	margin-left: 20px;
+}
+
+.entry .label,.entryFeedback .label,.entrySkillSpecSearchCriteria .label
+	{
+	float: left;
+	width: 150px;
+	text-align: left;
+	font-weight: bold;
+}
+
+.entrySkillSpecSearchCriteria {
+	width: 450px;
+}
+
+.entrySkillSpecSearchCriteria .label {
+	width: 150px;
+}
+
+.entrySkillSpecSearchCriteria .input {
+	margin-left: 10px;
+	width: 180px;
+}
+
+.entry2 {
+	overflow: auto;
+	clear: both;
+	width: 710px;
+	padding: 5px;
+}
+
+.entry2 .label {
+	float: left;
+	width: 150px;
+	text-align: left;
+	font-weight: bold;
+	margin-left: 20px;
+}
+
+.entryFeedback {
+	width: 710px;
+}
+
+.entryFeedback .label {
+	width: 350px;
+}
+
+.entryFeedback .input {
+	text-align: left;
+	margin-left: 10px;
+}
+
+.entry .output {
+	float: right;
+	width: 360px;
+	text-align: left;
+}
+
+.entry .input {
+	float: right;
+	width: 250px;
+	text-align: left;
+}
+
+.entry .error {
+	float: right;
+	width: 250px;
+	text-align: left;
+}
+
+.errors {
+	font-size: small;
+	font-weight: bold;
+	text-align: center;
+	/* color: #600; */
+	color: red;
+}
+
+.errors div {
+	text-align: left;
+}
+
+.errors span {
+	text-align: left;
+}
+
+.errors input {
+	border: 1px solid #600;
+}
+
+.errors ul {
+	list-style: none;
+}
+
+.recordsResult {
+	text-align: center;
+	vertical-align: middle;
+}
+
+.headerCol {
+	font-weight: bold;
+	/* color: #474747; */
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.headerCol:HOVER {
+	color: #FFFFFF;
+}
+
+.textCenterAlign {
+	text-align: center;
+}
+
+.submitStandard {
+	
+}
+
+.submitStandard:hover {
+	cursor: pointer !important;
+}
+
+.inputClazz {
+	width: 170px;
+}
+
+.cursorPointer {
+	cursor: pointer;
+}
+
+#candidateSearch {
+	margin-top: 10x;
+}
+
+.rtsSelectOneMenu {
+	width: 225px;
+}
+
+.rtsTextBox {
+	width: 220px;
+}
+
+.rtsNumberSpinner {
+	width: 225px;
+}
+
+.rtsTextarea {
+	min-width: 218px;
+	max-width: 218px;
+	min-height: 60px;
+	max-height: 60px;
+}
+
+.rtsCalendar {
+	width: 220px;
+}
+
+.required_fields {
+	clear: both;
+	margin: 5px;
+}
+
+.resetPanelPosition {
+	margin-top: 0px;
+}
+
+.resetSimpleTooglePanelPosition {
+	margin-top: 10px;
+}
+
+.interviewDateCell,.statusCell {
+	text-align: center;
+	width: 115px;
+}
+
+.roundCell {
+	text-align: center;
+	width: 50px;
+}
+
+.interviewersCell {
+	width: 150px;
+}
+
+.feebackFormHeader,.feedbackFormSubHeader {
+	font-family: Arial, Helvetica, sans-serif;
+	height: 40px;
+}
+
+.feedbackFormSubHeader {
+	height: 25px;
+}
+
+.feebackFormHeaderNoTooltip {
+	height: 30px;
+}
+
+.feebackFormRadio {
+	padding-left: 165px;
+}
+
+.feebackFormRecommendationRadio {
+	padding-left: 175px;
+}
+
+.feebackFormPriorityRadio {
+	padding-left: 230px;
+}
+
+.feebackFormCells,.feedbackFormSubCells {
+	font-family: Arial, Helvetica, sans-serif;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.feebackFormCellsBackground {
+	border: 1px solid #BED6F8;
+	background: #8CD1D1;
+}
+
+.feedbackFormSubCell {
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.feebackFormCell {
+	color: #474747;
+	font-size: 12px;
+	font-weight: bold;
+	clear: both;
+}
+
+.feebackFormSubCell {
+	color: #474747;
+	font-size: 12px;
+	font-weight: normal;
+	clear: both;
+}
+
+.feedbackFormContentHeader {
+	vertical-align: middle;
+	text-align: center;
+	font-weight: bold;
+	color: #474747;
+	font-size: 12px;
+}
+
+.feedbackFormContentValue {
+	vertical-align: middle;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #474747;
+}
+
+.feedbackSpecifyKey {
+	font-size: 0.8em;
+	font-weight: normal;
+}
+
+.feedbackFormTable {
+	border: 1px solid #BED6F8;
+	border-collapse: collapse;
+}
+
+.unitsItem {
+	font-weight: 13px;
+	padding-left: 10px;
+}
+
+.resetRadio { /* margin-top: -5px; */
+	
+}
+
+.overseasExperience {
+	margin-left: 15px;
+	margin-bottom: 5px;
+	list-style-type: none;
+}
+
+.redText {
+	color: red;
+}
+
+.customLink {
+	cursor: pointer;
+}
+
+.wordWrap {
+	word-wrap: break-word;
+}
+
+.uploadCell {
+	max-width: 250px;
+	text-align: center;
+}
+
+.uploadFirstCell {
+	max-width: 250px;
+}
+
+.autocompleteRTS {
+	max-width: 225px;
+	min-width: 225px;
+}
+
+.boldTextRTS {
+	font-weight: bold;
+}
+
+.invisibleRTS {
+	visibility: hidden;
+}
+
+.noneTextDecorationRTS {
+	text-decoration: none;
+}
+
+.usefullLinkRTS {
+	font-size: 14px;
+}
+
+.header-label {
+	color: #F7921E;
+	font-size: 22px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+header-lable-align {
+	padding-top: 30px;
+	margin-top: 30px;
+}
+
+.header-border {
+	border-top: 1px dashed #11808A;
+	padding-top: 35px;
+}
+
+.bottom-border {
+	border-top: 1px dashed #11808A;
+	padding-top: 5px;
+}
+
+.rts-text-align {
+	margin-left: 25px;
+	margin-top: 10px;
+}
+
+.uploadFileInfo {
+	margin: 0 0;
+	min-width: 100%;
+	border-color: #C0C0C0;
+	height: 248px;
+}
+
+.table-align {
+	padding-top: 10px;
+}
+
+.usefullLinkRTS {
+	text-decoration: none;
+	font-size: 13px;
+}
+
+.extendedTBSelected {
+	background-color: #52A8FF;
+}
+
+.noteRTS {
+	color: red;
+}
+/* .rtsSelectOneMenu option:hover{
+	background-color: #11808A;
+	color: red;
+} */
+.rich-sb-cell-padding:link,.rich-sb-cell-padding:visited,.rich-sb-cell-padding:hover,.rich-sb-cell-padding:active
+	{
+	background-color: #52A8FF;
+}
+.rts-spinner {
+	width: 62px;
+}
+.action {
+	width: 15px;
+}
+.status {
+	width: 8%;
+}

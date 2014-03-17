@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page login-required="true" no-conversation-view-id="/RecruitRequestList.xhtml"
+	xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+	<restrict>#{rrPrivilege.addableRecruitRequest and not identity.hasRole('disabledUser')}</restrict>
+	<begin-conversation flush-mode="auto" join="true" />
+	
+	<action execute="#{recruitRequestHome.initialiseOrgUnits()}" on-postback="false" />
+	<action execute="#{userHome.onloadAllRecruitmentApprovers()}" on-postback="false" />
+	<action execute="#{skillPickBean.setUseTwoYear(true)}" />
+	
+	<param name="recruitRequestRcrRecruitRequestId"
+		value="#{recruitRequestHome.recruitRequestRcrRecruitRequestId}" />
+	<param name="fromView" value="#{recruitRequestHome.fromView}" />
+	
+	<navigation from-action="#{recruitRequestHome.createRecruitRequest()}">
+		<rule if-outcome="persisted">
+			<end-conversation before-redirect="true" />
+			<redirect include-page-params="false" view-id="/RecruitRequestList.xhtml" />
+		</rule>
+		<rule if-outcome="failure">
+			<render view-id="/RecruitRequestCreate.xhtml" />
+		</rule>
+	</navigation>
+</page>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page login-required="true"
+ no-conversation-view-id="/RecruitRequestList.xhtml"
+ xmlns="http://jboss.com/products/seam/pages"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+ <restrict>#{rrPrivilege.searchableRecruitRequest and not identity.hasRole('disabledUser')}</restrict>
+ <begin-conversation flush-mode="auto" join="true"/>
+ <action execute="#{recruitRequestHome.wire()}"/>
+ <action execute="#{recruitRequestHome.onloadApprovalList()}" on-postback="false"/>
+ <action execute="#{recruitRequestHome.fetchRecruitRequestsValues()}" on-postback="false"/>
+ <action execute="#{recruitRequestHome.onloadApprovedRecruitRequests()}" on-postback="false"/>
+ <action execute="#{recruitRequestHome.onloadRejectedRecruitRequests()}" on-postback="false"/>
+ <action execute="#{userHome.onloadUsers()}" on-postback="false"/>
+ <param name="recruitRequestRcrRecruitRequestId" value="#{recruitRequestHome.recruitRequestRcrRecruitRequestId}"/>
+ <param name="fromView" value="#{recruitRequestHome.fromView}"/>
+</page>

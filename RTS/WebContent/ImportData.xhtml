@@ -1,0 +1,58 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+	<ui:define name="body">
+		<h:outputText value="Invalid URL!"
+			rendered="#{not userBLO.userHasPrivilege(credentials.username, 'IMPORT_DATA')}" />
+
+		<h:form id="importForm" styleClass="edit"
+			rendered="#{userBLO.userHasPrivilege(credentials.username, 'IMPORT_DATA')}"
+			enctype="multipart/form-data">
+
+			<s:div style="padding-top: 20px;">
+				<h:outputLabel value="#{messages['menu.import.candidate']}"
+					styleClass="header-label " />
+			</s:div>
+			<s:div styleClass="header-border">
+				<s:decorate id="fileChoosen" template="layout/display.xhtml">
+					<ui:define name="label">
+						<h:outputLabel value="#{messages['import.select.file']}:" />
+						<s:span styleClass="required">*</s:span>
+					</ui:define>
+					<s:fileUpload fileName="#{importExcelData.file.name}"
+						fileSize="#{importExcelData.file.fileSize}" 
+						accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+						contentType="#{importExcelData.file.mime}" 
+						required="true"
+						data="#{importExcelData.file.data}">
+					</s:fileUpload>
+				</s:decorate>
+			</s:div>
+			<s:div id="requiredFields" styleClass="required_fields">
+				<span class="required">*</span>
+				<h:outputLabel value="#{messages['required.fields']}" />
+				<h:outputLabel
+					value="#{'( '} #{messages['import.candidate.accept.file.type']} #{' )'}" />
+			</s:div>
+			<s:div styleClass="bottom-border">
+				<h:commandButton id="btnUpload"
+					value="#{messages['import.title']}"
+					action="#{importExcelData.uploadFile()}"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});"
+					oncomplete="Richfaces.hideModalPanel('ajaxLoadingModalBox');"
+					styleClass="submitStandard">
+					<s:defaultAction />
+				</h:commandButton>
+
+				<s:button view="/home.xhtml" value="#{messages['Button.Cancel']}" propagation="none"
+					styleClass="submitStandard" />
+			</s:div>
+		</h:form>		
+	</ui:define>
+</ui:composition>

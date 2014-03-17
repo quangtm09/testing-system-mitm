@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page login-required="true" no-conversation-view-id="/InterviewScheduleList.xhtml"
+	xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+	<restrict>#{schPrivilege.addableInterviewSchedule and not identity.hasRole('disabledUser')}</restrict>
+	<begin-conversation flush-mode="AUTO" join="true" />
+	<action execute="#{interviewScheduleHome.wire}" />
+	<action execute="#{interviewScheduleHome.onloadCandidates(false)}"
+		on-postback="false" />
+	<action execute="#{interviewScheduleHome.onloadCreateInterviewSchedule()}"
+		on-postback="false" />
+	<action execute="#{interviewScheduleHome.onloadInterviewList()}" 
+		on-postback="false" />			
+	<action execute="#{interviewScheduleHome.onLoadAppliedForLevels()}"
+		on-postback="false" />	
+	<param name="isUpdate" value="#{interviewScheduleHome.updating}" />
+	
+	<param name="scheduleId"
+		value="#{interviewScheduleHome.instance.itsInterviewScheduleId}" />
+	<param name="candidateCddCandidateId" value="#{interviewScheduleHome.selectedCandidateId}" />
+	<navigation from-action="#{interviewScheduleHome.createInterviewSchedule()}">
+		<rule if-outcome="persisted">
+			<end-conversation before-redirect="true" />
+			<redirect include-page-params="false" view-id="/InterviewScheduleList.xhtml" />
+		</rule>
+		<rule if-outcome="failure">
+			<render view-id="/InterviewScheduleCreate.xhtml" />
+		</rule>
+	</navigation>
+</page>

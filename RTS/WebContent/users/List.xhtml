@@ -1,0 +1,151 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" template="../layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<h:form>
+			<s:div style="padding-top: 20px;">
+				<h:outputLabel
+					value="#{messages['form.users']}"
+					styleClass="header-label" />
+			</s:div>	
+			
+			<s:div id="searchResultPanel"  styleClass="header-border">
+				<h:outputLabel value="#{messages['no.results.found']}"
+					rendered="#{empty userHome.availableUsers}" />
+
+				<rich:dataTable id="usersTable" 
+					var="item"
+					value="#{userHome.availableUsers}"
+					rowKeyVar="index" 
+					rowClasses="brightRow,darkRow"
+					rendered="#{not empty userHome.availableUsers}"
+					reRender="paginationId" 
+					width="100%"
+					rows="#{messages['pagination.size']}">
+					
+					<rich:column styleClass="action textCenterAlign">
+						<s:link id="approveLink"
+							view="/users/Approve.xhtml" rendered="#{(item.approvedBy.toLowerCase() eq identity.username.toLowerCase()) and (not item.approved)}">
+							<h:graphicImage value="../img/approve.png" />
+							<rich:toolTip value="#{messages['form.user.approve']}" />
+							<f:param name="userUsrUserId" value="#{item.usrUserId}" />								
+						</s:link>						
+					</rich:column>
+					
+					<rich:column sortBy="#{item.usrPrefix}" sortable="true" style="width:10px">						
+						<h:outputText value="#{item.usrPrefix}" />					
+					</rich:column>
+
+					<rich:column filterBy="#{item.usrFullName}" filterEvent="onkeyup"
+						sortBy="#{item.usrFullName}" sortable="true">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['form.name']}" />
+						</f:facet>
+
+						<s:link value="#{item.usrFullName}"
+							view="/users/Edit.xhtml" propagation="join"
+							onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+							<f:param name="fromView" value="/users/List.xhtml" />
+							<f:param name="userUsrUserId" value="#{item.usrUserId}" />
+						</s:link>
+					</rich:column>
+					
+					<rich:column filterBy="#{item.usrUserName}" filterEvent="onkeyup"
+						sortBy="#{item.usrUserName}" sortable="true" styleClass="textCenterAlign">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['form.username']}" />
+						</f:facet>
+						<h:outputText value="#{item.usrUserName}" />					
+					</rich:column>
+					
+					<rich:column filterBy="#{item.usrEmail}" filterEvent="onkeyup"
+						sortBy="#{item.usrEmail}" sortable="true">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['com.bosch.ui.email']}" />
+						</f:facet>
+						<h:outputLink value="mailto:#{item.usrEmail}">
+							<h:outputText value="#{item.usrEmail}" />
+						</h:outputLink>			
+					</rich:column>
+					
+					<rich:column filterBy="#{item.usrIdNumber}" filterEvent="onkeyup"
+						sortBy="#{item.usrIdNumber}" sortable="true" styleClass="textCenterAlign">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['form.id.number']}" />
+						</f:facet>
+						<h:outputText value="#{item.usrIdNumber}" />					
+					</rich:column>
+					
+					<rich:column filterBy="#{item.usrIdNumber}" filterEvent="onkeyup"
+						sortBy="#{item.usrIdNumber}" sortable="true" styleClass="textCenterAlign">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['org.unit']}" />
+						</f:facet>
+						<h:outputText value="#{item.orgUnit.unitName}" />					
+					</rich:column>
+					
+					<rich:column sortBy="#{item.status}" sortable="true" styleClass="textCenterAlign">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['com.bosch.ui.status']}" />
+						</f:facet>
+						<h:outputText value="#{item.status ? messages['status.active'] : messages['status.unActive']}" />		
+					</rich:column>
+					
+					<rich:column filterBy="#{item.approvedBy}" filterEvent="onkeyup"
+						sortBy="#{item.approvedBy}" sortable="true" styleClass="textCenterAlign">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['com.bosch.ui.approved.by']}" />
+						</f:facet>						
+						<h:outputText value="#{item.approvedBy}" />
+					</rich:column>
+					
+					<rich:column sortBy="#{item.approved}" sortable="true" styleClass="textCenterAlign">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['com.bosch.ui.approved.status']}" />
+						</f:facet>						
+						<h:outputText value="#{item.approved ? messages['status.yes'] : messages['status.no']}" />
+					</rich:column>
+					
+					<rich:column sortBy="#{item.approvedOn}" sortable="true">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['com.bosch.ui.approved.on']}" />
+						</f:facet>						
+						<h:outputText value="#{item.approvedOn}" >
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['form.roles']}" />
+						</f:facet>						
+						<a:repeat value="#{item.userRoles}" var="ur" rowKeyVar="idx">
+							#{idx+1}. #{' '} <h:outputText value="#{ur.usrRoleName}" />
+							<br />
+						</a:repeat>			
+					</rich:column>
+					
+
+					<f:facet name="footer">
+						<rich:datascroller for="usersTable"
+							renderIfSinglePage="false" 
+							align="center" 
+							id="paginationId"
+							maxPages="#{messages['item.pagination.size']}"/>
+					</f:facet>
+
+				</rich:dataTable>			
+			</s:div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<m:message xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:m="http://jboss.com/products/seam/mail"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich">
+	<m:from name="Peter" address="fixed-term.Binh.TranDuHoa@bosch.com" />
+	<m:to name="#{address}">#{address}</m:to>
+	<m:subject>RTS interview notifications!</m:subject>
+	<m:body>
+		<p>
+			<h:outputText value="Dear #{name}" />
+			,
+		</p>
+		We would like to inform you your interview schedules as below:<br />
+		<table>
+			<thead>
+				<tr>
+					<td>No.</td>
+					<td>Candidate</td>
+					<td>Request</td>
+					<td>Time</td>
+				</tr>
+			</thead>
+			<tbody>
+				<ui:repeat var="_temp" value="#{interviewList}"></ui:repeat>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+		Please kindly visit RTS and give your corresponding feedback after the interviews!
+		<p>Thank you &amp; Best regards,</p>
+		<p>RTS</p>
+	</m:body>
+</m:message>

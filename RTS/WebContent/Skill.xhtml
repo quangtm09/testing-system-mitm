@@ -1,0 +1,136 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<rich:panel>
+			<f:facet name="header">Skill Details</f:facet>
+			<s:decorate id="sklDescription" template="layout/display.xhtml">
+				<ui:define name="label">Skl description</ui:define>
+				<h:outputText value="#{skillHome.instance.sklDescription}" />
+			</s:decorate>
+
+			<s:decorate id="sklName" template="layout/display.xhtml">
+				<ui:define name="label">Skl name</ui:define>
+				<h:outputText value="#{skillHome.instance.sklName}" />
+			</s:decorate>
+			<div style="clear: both" />
+		</rich:panel>
+		<div class="actionButtons">
+			<s:button view="/SkillEdit.xhtml" id="edit" value="Edit" />
+			<s:button view="/#{empty skillFrom ? 'SkillList' : skillFrom}.xhtml"
+				id="done" value="Done" />
+		</div>
+
+		<rich:tabPanel switchType="ajax">
+
+			<rich:tab>
+				<f:facet name="label">
+					<h:panelGroup>
+						<h:graphicImage value="/img/onetomany.gif"
+							style="vertical-align: middle; padding-right: 4px;" />Candidate has skills</h:panelGroup>
+				</f:facet>
+				<h:form styleClass="association" id="candidateHasSkillsChildren">
+
+					<h:outputText
+						value="There are no candidateHasSkills associated with this skill."
+						rendered="#{empty skillHome.candidateHasSkills}" />
+
+					<rich:dataTable value="#{skillHome.candidateHasSkills}"
+						var="_candidateHasSkill"
+						rendered="#{not empty skillHome.candidateHasSkills}"
+						rowClasses="rvgRowOne,rvgRowTwo" id="candidateHasSkillsTable">
+						<rich:column sortBy="#{_candidateHasSkill.chsCandidateSkillId}">
+							<f:facet name="header">Chs candidate skill id</f:facet>
+							<h:outputText value="#{_candidateHasSkill.chsCandidateSkillId}" />
+						</rich:column>
+						<h:column>
+							<f:facet name="header">Action</f:facet>
+							<s:link id="selectcandidateHasSkill" value="Select"
+								view="/CandidateHasSkill.xhtml">
+								<f:param name="candidateHasSkillChsCandidateSkillId"
+									value="#{_candidateHasSkill.chsCandidateSkillId}" />
+								<f:param name="candidateHasSkillFrom" value="Skill" />
+							</s:link>
+						</h:column>
+					</rich:dataTable>
+
+				</h:form>
+
+				<div class="actionButtons">
+					<s:button value="Add candidateHasSkill"
+						view="/CandidateHasSkillEdit.xhtml">
+						<f:param name="skillSklSkillId"
+							value="#{skillHome.instance.sklSkillId}" />
+						<f:param name="candidateHasSkillFrom" value="Skill" />
+					</s:button>
+				</div>
+			</rich:tab>
+
+			<rich:tab>
+				<f:facet name="label">
+					<h:panelGroup>
+						<h:graphicImage value="/img/onetomany.gif"
+							style="vertical-align: middle; padding-right: 4px;" />Recruit request has skills</h:panelGroup>
+				</f:facet>
+				<h:form styleClass="association"
+					id="recruitRequestHasSkillsChildren">
+
+					<h:outputText
+						value="There are no recruitRequestHasSkills associated with this skill."
+						rendered="#{empty skillHome.recruitRequestHasSkills}" />
+
+					<rich:dataTable value="#{skillHome.recruitRequestHasSkills}"
+						var="_recruitRequestHasSkill"
+						rendered="#{not empty skillHome.recruitRequestHasSkills}"
+						rowClasses="rvgRowOne,rvgRowTwo" id="recruitRequestHasSkillsTable">
+						<rich:column
+							sortBy="#{_recruitRequestHasSkill.rhsRecruitRequestSkillId}">
+							<f:facet name="header">Rhs recruit request skill id</f:facet>
+							<h:outputText
+								value="#{_recruitRequestHasSkill.rhsRecruitRequestSkillId}" />
+						</rich:column>
+						<rich:column
+							sortBy="#{_recruitRequestHasSkill.rhsRequiredExperienceYearsFrom}">
+							<f:facet name="header">Rhs required experience years from</f:facet>
+							<h:outputText
+								value="#{_recruitRequestHasSkill.rhsRequiredExperienceYearsFrom}" />
+						</rich:column>
+						<rich:column
+							sortBy="#{_recruitRequestHasSkill.rhsRequiredExperienceYearsTo}">
+							<f:facet name="header">Rhs required experience years to</f:facet>
+							<h:outputText
+								value="#{_recruitRequestHasSkill.rhsRequiredExperienceYearsTo}" />
+						</rich:column>
+						<h:column>
+							<f:facet name="header">Action</f:facet>
+							<s:link id="selectrecruitRequestHasSkill" value="Select"
+								view="/RecruitRequestHasSkill.xhtml">
+								<f:param name="recruitRequestHasSkillRhsRecruitRequestSkillId"
+									value="#{_recruitRequestHasSkill.rhsRecruitRequestSkillId}" />
+								<f:param name="recruitRequestHasSkillFrom" value="Skill" />
+							</s:link>
+						</h:column>
+					</rich:dataTable>
+
+				</h:form>
+
+				<div class="actionButtons">
+					<s:button value="Add recruitRequestHasSkill"
+						view="/RecruitRequestHasSkillEdit.xhtml">
+						<f:param name="skillSklSkillId"
+							value="#{skillHome.instance.sklSkillId}" />
+						<f:param name="recruitRequestHasSkillFrom" value="Skill" />
+					</s:button>
+				</div>
+			</rich:tab>
+		</rich:tabPanel>
+	</ui:define>
+
+</ui:composition>

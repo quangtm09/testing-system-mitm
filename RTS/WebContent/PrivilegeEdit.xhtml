@@ -1,0 +1,160 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="privilege" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{privilegeHome.managed ? 'Edit' : 'Add'} Privilege</f:facet>
+
+
+
+
+            <s:decorate id="prvPrivilegeNameField" template="layout/edit.xhtml">
+                <ui:define name="label">Prv privilege name</ui:define>
+                <h:inputText id="prvPrivilegeName"
+                           size="50"
+                      maxlength="50"
+                          value="#{privilegeHome.instance.prvPrivilegeName}">
+                    <a:support event="onblur" reRender="prvPrivilegeNameField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{privilegeHome.persist}"
+                       disabled="#{!privilegeHome.wired}"
+                       rendered="#{!privilegeHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{privilegeHome.update}"
+                       rendered="#{privilegeHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{privilegeHome.remove}"
+                      immediate="true"
+                       rendered="#{privilegeHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Privilege.xhtml"
+                rendered="#{privilegeHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty privilegeFrom ? 'PrivilegeList' : privilegeFrom}.xhtml"
+                rendered="#{!privilegeHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Privilege transfers">
+        <h:form styleClass="association" id="privilegeTransfersChildren">
+
+            <h:outputText value="There are no privilegeTransfers associated with this privilege."
+                       rendered="#{empty privilegeHome.privilegeTransfers}"/>
+
+            <rich:dataTable value="#{privilegeHome.privilegeTransfers}"
+                           var="_privilegeTransfer"
+                      rendered="#{not empty privilegeHome.privilegeTransfers}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="privilegeTransfersTable">
+                <rich:column sortBy="#{_privilegeTransfer.rotPrivilegeTransferId}">
+                    <f:facet name="header">Rot privilege transfer id</f:facet>
+                    <h:outputText value="#{_privilegeTransfer.rotPrivilegeTransferId}"/>
+                </rich:column>
+                <rich:column sortBy="#{_privilegeTransfer.rotDescription}">
+                    <f:facet name="header">Rot description</f:facet>
+                    <h:outputText value="#{_privilegeTransfer.rotDescription}"/>
+                </rich:column>
+                <rich:column sortBy="#{_privilegeTransfer.rotFromDate}">
+                    <f:facet name="header">Rot from date</f:facet>
+                    <h:outputText value="#{_privilegeTransfer.rotFromDate}">
+                        <s:convertDateTime type="both" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_privilegeTransfer.rotToDate}">
+                    <f:facet name="header">Rot to date</f:facet>
+                    <h:outputText value="#{_privilegeTransfer.rotToDate}">
+                        <s:convertDateTime type="both" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{privilegeHome.managed}" id="privilegeTransfers">
+        <div class="actionButtons">
+            <s:button id="addprivilegeTransfer"
+                   value="Add privilegeTransfer"
+                    view="/PrivilegeTransferEdit.xhtml"
+             propagation="none">
+                 <f:param name="privilegePrvPrivilegeId"
+                         value="#{privilegeHome.instance.prvPrivilegeId}"/>
+                 <f:param name="privilegeTransferFrom" value="Privilege"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Role has privileges">
+        <h:form styleClass="association" id="roleHasPrivilegesChildren">
+
+            <h:outputText value="There are no roleHasPrivileges associated with this privilege."
+                       rendered="#{empty privilegeHome.roleHasPrivileges}"/>
+
+            <rich:dataTable value="#{privilegeHome.roleHasPrivileges}"
+                           var="_roleHasPrivilege"
+                      rendered="#{not empty privilegeHome.roleHasPrivileges}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="roleHasPrivilegesTable">
+                <rich:column sortBy="#{_roleHasPrivilege.rhpRolePrivilegeId}">
+                    <f:facet name="header">Rhp role privilege id</f:facet>
+                    <h:outputText value="#{_roleHasPrivilege.rhpRolePrivilegeId}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{privilegeHome.managed}" id="roleHasPrivileges">
+        <div class="actionButtons">
+            <s:button id="addroleHasPrivilege"
+                   value="Add roleHasPrivilege"
+                    view="/RoleHasPrivilegeEdit.xhtml"
+             propagation="none">
+                 <f:param name="privilegePrvPrivilegeId"
+                         value="#{privilegeHome.instance.prvPrivilegeId}"/>
+                 <f:param name="roleHasPrivilegeFrom" value="Privilege"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

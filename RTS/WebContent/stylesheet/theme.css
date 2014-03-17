@@ -1,0 +1,2344 @@
+html {
+	overflow-y: scroll;
+}
+
+body {
+	margin: 0px;
+}
+
+a img {
+	border: none;
+}
+
+h1 {
+	font-size: 1.6em;
+	margin-top: 0;
+}
+
+input[type=submit],input[type=button] {
+	font-size: 11px;
+	margin: 5px 5px 5px 0;
+	cursor: pointer;
+}
+
+.tableControl,.actionButtons {
+	width: 100%;
+}
+
+.rich-combobox-list-position {
+	left: 0;
+	position: absolute;
+	top: 1px;
+	text-align: left;
+}
+
+.tableControl a {
+	padding-left: 10px;
+}
+
+.tableControl {
+	text-align: right;
+}
+
+.footer {
+	text-align: center;
+	font-size: 11px;
+	margin-bottom: 10px;
+}
+
+.rich-table {
+	width: 100%;
+}
+
+.body {
+	padding: 30px;
+}
+
+.message {
+	padding: 5px;
+	list-style: none;
+	border: 0;
+	background: none;
+	padding: 0;
+	color: #000000;
+	margin: 5px 0 8px 0;
+	font-size: 12px;
+}
+
+.message li {
+	background: no-repeat left center;
+	padding-top: 1px;
+	padding-left: 20px;
+	margin-left: 3px;
+}
+
+.message li.infomsg {
+	background-image: url(../img/msginfo.png);
+}
+
+.message li.errormsg {
+	background-image: url(../img/msgerror.png);
+	text-align: center;
+	color: red;
+}
+
+.message li.warnmsg {
+	background-image: url(../img/msgwarn.png);
+}
+
+.name_auto_width {
+	vertical-align: top;
+	font-weight: bold;
+	float: left;
+	padding: 5px;
+	margin-top: 3px;
+	clear: left;
+}
+
+.name {
+	vertical-align: middle;
+	font-weight: bold;
+	width: 150px;
+	float: left;
+	margin-top: 7px;
+	clear: left;
+}
+
+.value {
+	float: left;
+	padding: 8px;
+}
+
+.error {
+	float: left;
+	padding: 5px;
+}
+
+.errors {
+	color: #FF0000;
+	vertical-align: middle;
+}
+
+img.errors {
+	padding-right: 5px;
+}
+
+.errors input,.errors textarea,.errors select {
+	border: 1px solid red !important;
+}
+
+.required {
+	color: #FF0000;
+	padding-left: 2px;
+}
+
+.rich-stglpanel-body {
+	overflow: auto;
+}
+
+/* the specificity here is necessary to override the defaults */ /*
+.rich-panel .rich-panel-header,
+.rich-stglpanel .rich-stglpanel-header {
+	padding: 2px 3px;
+}*/
+.rich-panel input[type=submit],.rich-panel input[type=button],.rich-tabpanel input[type=submit],.rich-tabpanel input[type=button]
+	{
+	margin-bottom: 0;
+}
+
+.tableControl input[type=submit],.tableControl input[type=button],.tableControl select
+	{
+	margin: 5px 0 5px 5px;
+}
+
+/* I don't know why this is necessary, but the select is off by a pixel on the top and is padding too much on the left */
+.tableControl select {
+	margin-left: 2px;
+	position: relative;
+	top: 1px;
+}
+
+.actionButtons {
+	padding-left: 1px;
+}
+
+.actionButtons select {
+	margin: 5px 5px 5px 0;
+	vertical-align: bottom;
+}
+
+.rich-toolbar-item a {
+	text-decoration: none;
+}
+
+.rich-toolbar-item a:hover,.rich-ddmenu-label-select {
+	text-decoration: underline;
+}
+
+.rich-toolbar-item .rich-menu-item a:hover {
+	text-decoration: none;
+}
+
+.rich-datalist {
+	list-style: square;
+	margin: 6px 0 1px 0;
+	padding-left: 18px;
+}
+
+.rich-list-item {
+	padding-bottom: 4px;
+}
+
+div.info {
+	font-size: 1.2em;
+}
+
+ul.bullets {
+	list-style: square;
+}
+
+ul.bullets li {
+	padding-bottom: 2px;
+}
+
+td.action {
+	text-align: left;
+	width: 8em;
+	white-space: nowrap;
+}
+
+td.action a {
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+table.radio {
+	border: 0;
+}
+
+table.radio td {
+	
+}
+
+table.radio input[type=radio] {
+	vertical-align: middle;
+	margin-left: 10px;
+	text-align: center;
+}
+
+.rich-panel {
+	overflow: auto;
+}
+
+.rich-table-subheadercell {
+	border: 1px solid #FBFBFB !important;
+	color: #2F3122;
+	font-family: arial, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	padding: 4px;
+	text-align: left;
+	white-space: nowrap;
+}
+
+.rich-table {
+	background: transparent !important;
+	border-left: 1px solid #FBFBFB;
+	border-top: 1px solid #FBFBFB;
+	empty-cells: show;
+}
+
+.rich-menu-item-hover,.rich-menu-group-hover {
+	background-color: #94AEC4;
+	background-position: left top;
+	background-repeat: repeat-x;
+	border-color: #94AEC4;
+}
+
+.rich-menu-list-bg {
+	background-image: none;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+}
+
+.rich-toolbar-item a:hover,.rich-ddmenu-label-select {
+	text-decoration: none;
+	color: white;
+}
+
+.rich-ddmenu-label-select {
+	background-color: #94AEC4;
+	border-color: #94AEC4;
+	color: #2F3122;
+}
+
+.rich-menu-list-border {
+	background-color: #E2E8EE;
+	border-color: #E2E8EE;
+}
+
+.rich-toolbar-item {
+	border: 1px solid #FFFFFF;
+	background-color: #E2E8EE;
+	color: #000000;
+	font-family: arial, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 2px 10px;
+	white-space: nowrap;
+}
+
+.rich-toolbar {
+	background-color: #E2E8EE;
+	border-color: #E2E8EE;
+}
+
+.rich-calendar-tool-btn {
+	color: white;
+	cursor: pointer;
+	padding: 2px 3px;
+	white-space: nowrap;
+}
+
+.rich-calendar-tool-btn-hover {
+	background-color: #BED6F8;
+}
+
+.rich-tab-active {
+	background-color: #295D89;
+	background-image: none;
+	color: white;
+	font-weight: bold;
+	border: none;
+}
+
+.rich-tab-inactive {
+	background-color: #B4C6D9;
+	background-image: none;
+	background-position: center top;
+	background-repeat: repeat-x;
+	border-color: #E2E8EE;
+	border-style: solid;
+	border-width: 1px 1px 0;
+	cursor: default;
+}
+
+.rich-tab-bottom-line {
+	border-bottom: 3px solid #295D89;
+}
+
+.rich-calendar-tool-btn-hover {
+	border: none !important;
+	color: white !important;
+	padding: 1px 2px;
+}
+
+.rich-calendar-tool-btn-hover,.rich-mpnl-header,.rich-stglpanel-header,.rich-panel-header
+	{
+	background-color: #295D89 !important;
+	color: #FFFFFF;
+	background-image: none !important;
+}
+
+.rich-toolbar,.rich-stglpanel-header,.rich-panel-header {
+	background-image: none;
+}
+
+.rich-table-cell {
+	border-bottom: 1px solid #FBFBFB;
+	border-right: 1px solid #FBFBFB;
+	color: #2F3122;
+	font-family: arial, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	padding: 4px;
+	text-align: left;
+}
+
+.rich-combobox-input,.rich-combobox-input-disabled,.rich-combobox-input-inactive
+	{
+	background-color: white;
+	border-bottom-color: #E2E8EE;
+	border-right-color: #E2E8EE;
+}
+
+input.rich-combobox-button-icon,input.rich-combobox-button-icon-inactive
+	{
+	background-color: #CBD5E1;
+}
+
+.actionDropDownMenu .rich-menu-list-bg {
+	background-color: #F2F2F2;
+}
+
+.actionDropDownMenu .rich-menu-list-border {
+	border-width: 2px;
+	border-color: #FFFFFF;
+}
+
+.actionDropDownMenu .rich-menu-item-label-disabled {
+	color: #A1A1A1;
+}
+
+.actionDropDownMenu .rich-menu-item {
+	height: 15px;
+	font-size: 0.9em;
+	background-color: 
+}
+
+.actionDropDownMenu .rich-menu-item-label-selected {
+	color: white;
+	background-color: #94AEC4;
+}
+
+/*===================================================*/
+/* Intranet CSS */ /* Release 1.4.1
+/* 11/2007 */ /* Author: Hans Reip (CI/AFA2) */
+/*===================================================*/
+/* this formatting applies to the whole document */
+* { /* general formatting */
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	/*	font-size: 16px;*/
+	color: #000000;
+}
+
+/* base font-size - all other font sizes will be relative to this one */
+html {
+	font-size: 0.8em;
+}
+
+html,body { /* margin:0; 
+ padding:0; */ /*text-align: center;*/
+	/* for central alignment of the page in IE */
+	
+}
+
+div#body table { /*border: none;
+	border-collapse: collapse;
+	border-spacing: 0;  /* for Netscape borders in tables */ /*width: 100%;
+	background-color: #FBFBFB;
+	border: 1px solid #FBFBFB;
+	border-top: 1px solid white;*/
+	
+}
+
+div#body td {
+	vertical-align: top;
+}
+
+h1 {
+	font-size: 1.4em;
+	/*	font-size: 16px; */
+	font-weight: bold;
+	padding: 10px 0px 5px 0px;
+}
+
+h1,h2,h3,h4 {
+	color: #003B69;
+	font-weight: bold;
+}
+
+h1 span {
+	display: block;
+	padding: 4px 0 0px 0px;
+	top: 43px;
+}
+
+h1 span.description {
+	font-weight: normal
+}
+
+a {
+	text-decoration: underline;
+	color: #225A8D;
+}
+
+a:hover {
+	color: #4B8BC7;
+}
+
+img {
+	border: none;
+	vertical-align: middle;
+}
+
+code {
+	font-family: courier;
+	padding-left: 4px;
+	padding-right: 4px;
+	color: #AA5522;
+}
+
+em {
+	font-style: normal;
+	font-weight: bold;
+	color: inherit;
+	font-family: inherit;
+	font-size: 16px;
+}
+
+code em {
+	font-family: courier;
+	color: #AA5522;
+}
+
+small {
+	font-size: 0.9em;
+	/*	font-size: 10px;*/
+}
+
+li {
+	margin-left: 20px;
+}
+
+div#body {
+	text-align: left; /*revert central alignment for IE*/
+	min-width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	/* to prevent an IE-Bug. With the use of the <pre>-tag, the navigation will be placed over the content area 
+	position: relative;
+ IE-Bug end */
+}
+
+/* HEAD FORMATTING */
+div#head {
+	width: 100%;
+	height: 54px;
+	background-color: #295D89;
+	border-bottom: 12px solid white;
+	overflow: hidden; /* for IE */
+	voice-family: "\"}\""; /* Tantek's IE Box Model Bug Hack */
+	voice-family: inherit;
+	height: 42px;
+}
+
+div#body>div#head { /* mozilla */
+	height: 42px;
+}
+
+div#head a {
+	text-decoration: none;
+}
+
+div#head img {
+	vertical-align: baseline;
+}
+
+div#headGeneralInfoLinks {
+	background-color: #295D89;
+	height: 13px;
+	margin-right: 180px;
+	overflow: hidden;
+	/*necessary for IE, in order to set the height to 11px.*/
+}
+
+div#headGeneralInfoLinks * {
+	color: white;
+	font-size: 10px;
+	padding-left: 12px;
+	float: left;
+	/* only for IE5, in order to keep the padding of 12px between the navigation items */
+}
+
+div#headGeneralFunctLinks {
+	padding-top: 7px;
+	background-color: #E2E8EE;
+	height: 29px;
+	vertical-align: middle;
+}
+
+div#head>div#headGeneralFunctLinks { /* mozilla */
+	height: 22px;
+}
+
+div#headGeneralFunctLinks a {
+	margin: 0px;
+	padding: 0 12px 0 12px;
+	float: left;
+	/* only for IE5, in order to keep the padding of 12px between the navigation items */
+}
+
+span#headerLogo {
+	display: block;
+	width: 180px;
+	background-color: white;
+	text-align: right;
+	float: right;
+	position: relative;
+	top: -7px;
+}
+
+span#headerDate {
+	margin-right: 10px;
+	float: right;
+}
+
+/* END OF HEAD FORMATTING */
+div#showNavi { /* position: absolute;
+ top: 54px;
+ left: 0px;
+ z-index: 99;
+ clear: both;
+ height: 100%;*/
+	display: none;
+	padding: 0px 1px 0px 2px;
+	position: absolute;
+	left: 0px;
+	z-index: 99;
+	background-color: #E2E8EE;
+	border-bottom: 1px solid white;
+}
+
+html>body div#showNavi {
+	padding: 5px 1px 5px 2px;
+}
+
+/* NAVI FORMATTING*/
+div#navi {
+	width: 240px;
+	float: left;
+	position: relative;
+	/* to prevent an IE-Bug. With the use of the <pre>-tag, the navigation will be placed over the content area 
+	position: absolute;
+	top: 54px;
+	left: 180px;
+ IE-Bug end */
+	margin-left: -240px;
+	margin-right: 0px;
+	background-color: #E2E8EE;
+	padding-bottom: 0px;
+	z-index: 99;
+	/* in order to lay over the content area. the content area has a margin-left of -2px and comes over the navi area */
+}
+
+a#hideNavi {
+	display: block;
+	height: 19px;
+	width: 5px;
+	text-align: right;
+	margin: 0 !important;
+	padding: 0 !important;
+	background-image: none !important;
+	font-size: 0px !important;
+	position: relative;
+	left: 177px;
+}
+
+html>body a#hideNavi {
+	height: 18px;
+}
+
+a#hideNavi :hover {
+	background-color: #E2E8EE !important;
+}
+
+a#hideNavi img {
+	position: relative;
+	top: 5px;
+	right: 5px;
+}
+
+div#navi h1,div#navi h2,div#navi a {
+	color: #000000;
+}
+
+div#navi h1 {
+	padding: 13px 0px 6px 9px;
+	color: #003B69;
+	margin-top: 0px;
+	margin-left: 0px;
+	border: none;
+	background-color: #E2E8EE;
+	/*	font-size: 1.1em; */
+	font-size: 12px;
+	border-top: 1px solid white;
+}
+
+div#navi small {
+	padding-left: 9px;
+	font-size: 10px;
+}
+
+div#navi h2 { /*	font-size: 1.0em; */
+	font-size: 11px;
+	padding-left: 9px;
+	padding-bottom: 1px;
+	padding-top: 8px;
+}
+
+div#navi ul,div#navi li {
+	margin-left: 0px;
+}
+
+div#navi ul {
+	list-style-type: none;
+	position: relative;
+	/* to avoid IE bug. In combination with 'display: block' of the <a>-element, the formatting  (borders, bg-colors) does not apply */
+}
+
+div#navi li {
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+div#navi li a {
+	display: block;
+}
+
+* html div#navi li a {
+	width: 100%;
+	voice-family: "\"}\""; /* Tantek's IE Box Model Bug Hack */
+	voice-family: inherit;
+	width: auto;
+}
+
+div#navi level1 {
+	font-size: 0.7em !important;
+	color: #000000;
+	position: left;
+}
+
+div#navi level2 {
+	font-size: 0.7em !important;
+	color: #000000;
+}
+
+div#navi a.selected {
+	font-size: 0.6em;
+	color: #003B69;
+	font-weight: bolder;
+}
+
+div#navi ul.level3 {
+	
+}
+
+div#navi ul.level4 {
+	
+}
+
+div#navi ul.level2 a {
+	padding-left: 26px;
+	background-position: 17px 6px;
+}
+
+div#navi ul.level3 a {
+	padding-left: 35px;
+	background-position: 26px 6px;
+}
+
+div#navi a {
+	text-decoration: none;
+	/*	font-size: 1em;*/
+	padding: 2px 0px 2px 17px;
+	display: block;
+	background-image: url(arrowNaviRight.gif);
+	background-repeat: no-repeat;
+	background-position: 8px 6px;
+	font-size: 12px;
+	font-style: Bosch Office Sans;
+}
+
+div#navi a.homeLink {
+	background-color: #C7CFDC;
+	background-image: url(arrowNaviRight.gif);
+	display: block;
+	border-top: 1px solid white;
+}
+
+div#navi a:hover { /* background-color: F1F4F7;*/
+	text-decoration: underline;
+}
+
+div#navi a.homeLink:hover { /*background-color: #E2E8EE;*/
+	
+}
+
+div#navi hr {
+	display: none;
+}
+
+/* END of NAVI-Formatting */ /* horizontal navigation */
+div#naviHoriz #hideNavi,div#naviHoriz .homeLink,div#naviHoriz h1,div#naviHoriz small
+	{
+	display: none;
+}
+
+div#naviHoriz {
+	position: absolute;
+	z-index: 1001;
+	background-color: #E2E8EE;
+	width: 100%;
+	line-height: 23px;
+	border-bottom: 1px solid #a1a1a1;
+}
+
+div#naviHoriz * {
+	color: black;
+	font-size: 12px;
+}
+
+div#naviHoriz ul,div#naviHoriz li {
+	padding: 0px;
+	margin: 0px;
+}
+
+div#naviHoriz>ul>li {
+	float: left;
+}
+
+div#naviHoriz li {
+	list-style-type: none;
+	padding: 2px;
+	padding-left: 4px;
+	padding-right: 12px;
+	white-space: nowrap;
+}
+
+div#naviHoriz li.arrow {
+	background-image: url(hNaviArrowDown.gif);
+	background-repeat: no-repeat;
+	background-position: right 12px;
+	padding-right: 14px;
+}
+
+div#naviHoriz li.arrowHover {
+	background-image: url(hNaviArrowDownHover.gif);
+}
+
+/* arrows for the third level on */
+div#naviHoriz ul ul li.arrow {
+	background-image: url(hNaviArrowRight.gif);
+	background-position: right 10px;
+}
+
+div#naviHoriz ul ul li.arrowHover {
+	background-image: url(hNaviArrowRightHover.gif);
+}
+
+div#naviHoriz li li {
+	white-space: normal;
+	padding-right: 2px;
+}
+
+div#naviHoriz ul {
+	width: 100%;
+	position: static;
+}
+
+div#naviHoriz ul ul { /*display: none;*/
+	width: auto;
+	visibility: hidden;
+	position: absolute;
+	margin-left: -3px;
+	margin-top: 2px;
+	background-color: white;
+	border-left: 1px solid #bebebe;
+	border-top: 1px solid #bebebe;
+	border-bottom: 2px groove #7f7f7f;
+	border-right: 2px groove #7f7f7f;
+}
+
+div#naviHoriz li:hover>ul { /*display: block;*/
+	visibility: visible;
+}
+
+div#naviHoriz ul.parent_hover { /*display: block;*/
+	visibility: visible;
+}
+
+div#naviHoriz a {
+	display: block;
+	width: 100%;
+	text-decoration: none;
+}
+
+div#naviHoriz li.hover {
+	background-color: #94AEC4 !important;
+	color: white;
+}
+
+/* because IE does not understand the child selector '>' this complicated method is necessary in order to 
+   provide the text color to links inside the hovered <li>. Since the color must remain also when
+   navigating to children, the 'a:hover' selector can not be used here
+*/ /* mouseover for level1 */
+div#naviHoriz li.hover a {
+	color: white;
+}
+
+div#naviHoriz li.hover * a {
+	color: black;
+} /* revert color for grandchildren*/ /* mouseover for level2 */
+div#naviHoriz li.hover li.hover a {
+	color: white;
+}
+
+div#naviHoriz li.hover li.hover * a {
+	color: black;
+} /* revert color for grandchildren*/ /* mouseover for level3 */
+div#naviHoriz li.hover li.hover li.hover a {
+	color: white;
+}
+
+div#naviHoriz li.hover li.hover li.hover * a {
+	color: black;
+} /* revert color for grandchildren*/ /* mouseover for level4 */
+div#naviHoriz li.hover li.hover li.hover li.hover a {
+	color: white;
+}
+
+div#naviHoriz li.hover li.hover li.hover li.hover * a {
+	color: black;
+} /* revert color for grandchildren*/
+div#naviHoriz li li {
+	width: 150px;
+	padding-left: 12px;
+	padding-right: 12px;
+}
+
+div#naviHoriz ul ul {
+	margin-top: 0px;
+}
+
+div#naviHoriz ul ul ul {
+	margin-top: -1.5em;
+	left: 99%;
+}
+
+div#naviHoriz span {
+	display: block;
+}
+
+div#naviHoriz>ul {
+	float: left;
+	width: 100%;
+	/*  background-color: #6699FF;*/
+}
+
+.menuItem {
+	color: #FFFFFF;
+}
+
+.menuItemNotSelected {
+	color: #FFFFFF;
+	font-weight: 400;
+}
+
+.menuBar {
+	background-color: #567F9F !important;
+	font-size: 0.7em;
+}
+
+.subMenuBar {
+	background-color: #295D89 !important;
+	font-size: 0.7em;
+}
+
+#menu td.rich-toolbar-item {
+	background-color: #567F9F !important;
+	border-top: 0px;
+	border-bottom: 0px;
+	border-left: 0px;
+	color: #FFFFFF !important;
+	font-size: 0.7em !important;
+	color: #FFFFFF !important;
+}
+
+#subMenu td.rich-toolbar-item {
+	background-color: #295D89 !important;
+	border-top: 0px;
+	border-bottom: 0px;
+	border-left: 0px;
+	border-right: 0px !important;
+	color: #FFFFFF !important;
+	font-size: 0.7em !important;
+	color: #FFFFFF !important;
+}
+
+.menuItemSelected {
+	background-color: #295D89 !important;
+}
+
+div.subMenu {
+	background-color: #295D89 !important;
+	height: 25px;
+	border-top: 100px !important;
+	border-bottom: 0px;
+	border-right: 0px !important;
+	color: #FFFFFF !important;
+	font-size: 0.7em !important;
+	color: #FFFFFF !important;
+}
+
+.rich-label-text-decor {
+	color: #FFFFFF;
+	font-weight: 700;
+}
+
+.endmenu {
+	clear: left;
+}
+
+.naviIframe {
+	position: absolute;
+	border: 0px solid white;
+	/*	background-color: red;*/ /*display: none;*/
+	width: 10px;
+	height: 10px;
+}
+
+/* for IE */
+* html div#naviHoriz ul li {
+	float: left;
+	width: 1px;
+}
+
+* html div#naviHoriz ul ul li {
+	float: none;
+	width: 150px;
+}
+
+* html div#naviHoriz ul {
+	float: left;
+	/* width: 100%;*/
+}
+
+/* END of horizonal menu bar */
+#outer {
+	border: solid white 0px;
+	/*/*/
+	border-left-width: 0px;
+	/* left column width. NN4 hack to hide borders */
+	border-left-color: #E2E8EE; /* left column colour */
+	border-left-style: solid;
+	background-color: white; /* center column colour */
+	width: auto;
+}
+
+#inner {
+	margin: 0;
+	width: 100%;
+}
+
+/* CONTENT FORMATTING */
+div#content { /*float: left;*/
+	/* IE Bugfix: necessary in order to make the footer stay below the navigation  - 2007-02-16- */
+	float: none;
+	/* IE Bugfix: necessary in order to make the contentTextContainer div be 100%  - 2007-07-04- */
+	background-color: white;
+	padding-bottom: 12px;
+	padding-left: 12px;
+	width: auto;
+	voice-family: "\"}\""; /* Tantek's IE Box Model Bug Hack */
+	voice-family: inherit;
+	width: auto;
+}
+
+div#inner>div#content {
+	/* float: none; and width: auto;, in order to maximize the #content div to 100%. float: left is needed only for IE */
+	float: none;
+	width: auto;
+	margin-right: 0px;
+	/* for Firefox, in order to not display a .contentTextContainer div too big */
+}
+
+div#content h2 {
+	font-size: 1.2em;
+	/*	font-size: 13px;*/
+	margin-top: 15px;
+	margin-left: 0px;
+	padding: 2px 3px 2px 3px;
+}
+
+div#content h3 {
+	font-size: 1.1em;
+	/*	font-size: 12px;*/
+	padding: 4px 3px 2px 3px;
+	margin-top: 5px;
+}
+
+div#content h4 {
+	font-size: 1em;
+	/*	font-size: 11px;*/
+	padding: 4px 3px 2px 3px;
+	margin-top: 5px;
+}
+
+div#content p {
+	padding: 2px 3px 0.4em 4px;
+	/* relative padding-bottom in order to keep the aspect ratio when increasing the font-size in the browser */
+}
+
+div#content thead th {
+	border: 1px solid #295D89;
+	border-bottom: 1px solid white;
+}
+
+div#content tfoot td,div#content tfoot th {
+	border-bottom: 0px;
+	background-color: #E2E8EE;
+}
+
+div#content tfoot th p {
+	font-weight: normal;
+}
+
+div#content thead th p { /* Table headline and table footer */
+	background-color: #295D89;
+	color: white;
+	font-weight: bold;
+	font-size: 1em;
+	/*	font-size: 11px;*/
+}
+
+div#content tr.sortRow th,div#content tr.sortRow th p {
+	/* formatting for column headlines from sortable tables */
+	border: none;
+	background-color: #E2E8EE;
+	color: #003B69;
+	text-align: left;
+	padding-left: 6px;
+	padding-bottom: 1px;
+}
+
+div#content th {
+	background-color: #E2E8EE;
+}
+
+div#content th p {
+	/* column headline for a table. Contents must be placed in a <p> tag in order to obtain a thin bottom margin */
+	color: #003B69;
+	padding: 2px 0 3px 4px;
+	text-align: left;
+	font-weight: bold;
+}
+
+div#content th img {
+	vertical-align: middle;
+}
+
+div#content ol li {
+	margin-left: 25px;
+}
+
+div#content a img {
+	/* for the arrows which are situated inside a link */
+	vertical-align: baseline;
+}
+
+/* END OF CONTENT FORMATTING */ /* LINK FORMATTING */
+div#content a {
+	padding: 2px 3px 2px 4px;
+}
+
+div#content a.linkRight,div#content a.linkLeft,div#content a.linkTop,div#content a.linkDown
+	{
+	padding-left: 10px;
+	background-repeat: no-repeat;
+	background-position: 3px 6px;
+}
+
+div#content a.linkRight {
+	background-image: url(arrowBlueRight.gif);
+}
+
+div#navi a.linkDown {
+	background-image: url(arrowBlueDown.gif);
+	background-position: 5px;
+}
+
+div#content a.linkLeft {
+	background-image: url(arrowBlueLeft.gif);
+}
+
+div#content a.linkTop {
+	background-image: url(arrowBlueUp.gif);
+	background-position: left 5px;
+}
+
+div#content a.linkDown {
+	background-image: url(arrowBlueDown.gif);
+	background-position: left 5px;
+}
+
+/* linkButtons are formatted in an other section below */
+/* END OF LINK FORMATTING */ /* TABLE FORMATTING */
+div#content table.tdBorders {
+	border: none;
+}
+
+div#content table.tdBorders td {
+	border: 1px solid #E2E8EE;
+}
+
+div#content table.noBorders td {
+	border: 0px;
+}
+
+div#content table.tdBorders th {
+	border: 1px solid #ffffff;
+	border-left: 1px solid #E2E8EE;
+}
+
+div#content table.tdBorders tfoot td,div#content table.tdBorders tfoot th
+	{
+	border: none;
+	border-left: 1px solid #E2E8EE;
+}
+
+div#content table.tdBorders thead th {
+	border: 1px solid #295D89;
+	border-bottom: 1px solid white;
+}
+
+/* END OF TABLE FORMATTING */ /* FOOTER FORMATTING */
+div#footer {
+	width: 100%;
+	background-color: #B4C6D9;
+}
+
+div#footer * {
+	color: white;
+	text-decoration: none;
+	font-size: 11px;
+}
+
+div#footer .topOfPage {
+	display: block;
+	background-image: url(arrowWhiteUp.gif);
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+	float: left;
+	width: 194px;
+	padding: 2px 0 0 15px;
+}
+
+div#footer #footerContact {
+	display: block;
+	float: right;
+	width: 180px;
+	padding-left: 17px;
+	line-height: 18px; /* for well positioning in Firefox*/
+	background-image: url(mailtoFooter.gif);
+	background-repeat: no-repeat;
+	background-position: 0px 1px;
+}
+
+div#footer p {
+	line-height: 18px;
+}
+
+/* POP-IN FORMATTING */
+div#content div.popIn {
+	display: none;
+	border: 1px solid #A1A1A1;
+	background-color: #DEE9F4;
+	width: 400px;
+}
+
+div#content div.popIn table {
+	background-color: #DEE9F4;
+	border: 0px;
+}
+
+div#content div.popIn .messageOk,div#content div.popIn .messageWarning,div#content div.popIn .messageerror1111,div#content div.popIn .messageProcessing
+	{
+	background-color: white !important;
+	border-bottom: 2px solid #225A8D;
+	margin: 0px !important;
+}
+
+div#content div.popIn .draggable {
+	cursor: move;
+}
+
+div#content div.popIn  img.closePopIn {
+	float: right;
+	margin-right: 1px;
+	margin-top: 1px;
+}
+
+/* END OF POP-IN FORMATTING  */ /* FORM FORMATTING */
+form {
+	position: relative;
+	/* IE Bug - sometimes background information are not displayed, depending on how many hierarchies you have */
+}
+
+html>body form {
+	position: static;
+}
+
+input,textarea {
+	border: 1px solid #003B69;
+	border-bottom-color: #C7CFDC;
+	border-right-color: #C7CFDC;
+	/*	padding-left: 2px;*/
+	/* IE Bug - IE will not display any right border of input fields which are situated in a table if there is this padding. occurs only in some unknown cases */
+}
+
+* html input,* html select {
+	vertical-align: middle !important;
+}
+
+td input {
+	margin: 0px;
+}
+
+td * input {
+	margin: 0px;
+}
+
+input {
+	border: solid;
+	border-width: 1px;
+	border-left-color: #003B69;
+	border-top-color: #003B69;
+	border-right-color: #C7CFDC;
+	border-bottom-color: #C7CFDC;
+	background-color: #FFFFFF;
+	font-size: 12px;
+}
+
+html>body select option {
+	padding-right: 3px;
+	/* needed, in order that non IE browsers can display the whole text of an option if no width is specified for the select tag */
+}
+
+option {
+	padding-left: 4px;
+	font-size: 12px;
+}
+
+textarea {
+	overflow: auto;
+}
+
+.formTable input,.formTable textarea {
+	width: 98%;
+	/* 98% due to the IE bug: when an input field is displayed inside a formTable, the right border of the input field is not displayed in some cases */
+}
+
+.formTable p {
+	padding-left: 2px;
+	/* IE Bug:  when an input field is displayed inside a formTable, the right border of the input field is not displayed in some cases */
+}
+
+* html table.tdBorders {
+	/* used due to the IE bug: when an input field is displayed inside a formTable, the right border of the very right cell is not displayed any more */
+	border-right: 1px solid #E2E8EE !important;
+}
+
+div#content input.inputerror1111 {
+	border: 1px solid #CC0000;
+	color: #CC0000;
+}
+
+div#content select.inputerror1111 option,div#content select.inputerror1111
+	{
+	color: #CC0000;
+}
+
+.formTable .submitStandard,.formTable .submitDisabled,.formTable .checkBox,.formTable .radioButton,.formtable .submitHighlighted
+	{
+	width: auto;
+}
+
+.checkbox,.radioButton {
+	border: none;
+	vertical-align: text-top;
+	margin-right: 2px;
+}
+
+/* END FORM FORMATTING */
+/* FORMATTING OF SUBMIT BUTTONS AND LINKBUTTONS */
+.submitStandard,.submitDisabled,.submitHighlighted {
+	padding-left: 0px;
+	padding-right: 2px;
+	border: 1px solid black;
+	border-top: 1px solid #B8C1CC;
+	border-top-color: #FFFFFF;
+	border-left-color: #ffffff;
+	background-color: #C7CFDC;
+	text-align: center;
+	color: #000000;
+	font-size: 11px;
+}
+
+.submitDisabled {
+	color: #A1A1A1;
+}
+
+.submitHighlighted {
+	border-left: 6px solid #295D89;
+}
+
+div#content a.linkButton,div#content a.linkButtonHighlighted {
+	font-size: 11px;
+	color: black;
+	padding: 1px 6px 0px 6px;
+	background-color: #C7CFDC;
+	text-decoration: none;
+	border: 1px solid black;
+	border-left: 1px solid #ffffff;
+	border-top: 1px solid #ffffff;
+	cursor: default;
+	vertical-align: middle;
+	white-space: nowrap;
+	line-height: 14px; /* for IE */
+}
+
+div#content a.linkButtonHighlighted {
+	border-left: 6px solid #295D89;
+}
+
+div#content .standardActionBar a,div#content .standardActionBar input {
+	display: block;
+	float: left;
+	margin: 0px;
+	margin-right: 3px;
+}
+
+.standardActionBar:empty {
+	display: none;
+}
+
+/* Bugfix IE: 2007-07-04 */
+* html body div#content .standardActionBar {
+	padding-bottom: 0px;
+}
+
+* html body div#content .standardActionBar a {
+	display: block;
+	float: left;
+} /* end bugfix */
+/* END OF FORMATTING OF SUBMIT BUTTONS AND LINKBUTTONS */
+/* ACTION BAR FORMATTING*/
+div#content .globalActionBar,div#content .standardActionBar {
+	background-color: #CBD5E1;
+}
+
+div#content .globalActionBar a,div#content .standardActionBar a {
+	font-weight: normal;
+	text-decoration: none;
+}
+
+div#content .globalActionBar img,div#content .standardActionBar img {
+	vertical-align: middle;
+}
+
+div#content .globalActionBar table {
+	background-color: transparent;
+	border: none;
+}
+
+div#content .globalActionBar {
+	border-top: 1px solid #225A8D;
+}
+
+div#content .standardActionBar {
+	position: relative;
+	/* IE Bug - sometimes background information are not displayed */
+	border-top: 1px solid white;
+	padding: 2px 0px 0px 2px;
+	height: 22px;
+	voice-family: "\"}\""; /* Tantek's IE Box Model Bug Hack */
+	voice-family: inherit;
+	height: 19px;
+}
+
+html>body div#content .standardActionBar {
+	position: static; /* revert IE Bug woraround */
+	/* solves differences between the layout when showing only links, only buttons and links combined with buttons in three different bars */
+	height: auto;
+	min-height: 19px;
+}
+
+/* END OF ACTION BAR FORMATTING*/ /* MESSAGE BAR FORMATTING */
+div#content .messageOk,div#content .messageWarning,div#content .messageProcessing
+	{
+	border-bottom: 2px solid #225A8D;
+}
+
+div#content .messageerror1111 {
+	border-bottom: 2px solid #C80000;
+}
+
+div#content .messageArea .messageOk,div#content .messageArea .messageWarning,div#content .messageArea .messageProcessing,div#content .messageArea .messageerror1111
+	{
+	border-bottom: 0px;
+}
+
+div#content .messageArea {
+	border-bottom: 2px solid #225A8D;
+	position: relative;
+	/* used to avoid IE bug - background-image is displayed now */
+}
+
+div#content .messageOk,div#content .messageWarning,div#content .messageerror1111,div#content .messageProcessing
+	{
+	background-repeat: no-repeat;
+	background-position: 5px 3px;
+	padding-left: 20px;
+	margin-left: 5px;
+}
+
+div#content .messageOk {
+	background-image: url(messageOk.gif);
+}
+
+div#content .messageWarning {
+	background-image: url(messageWarning.gif);
+}
+
+div#content .messageerror1111 {
+	background-image: url(messageerror1111.gif);
+}
+
+div#content .messageProcessing {
+	background-image: url(messageProcessing.gif);
+}
+
+/* END MESSAGE BAR FORMATTING */
+div#content .contentTextContainer {
+	background-color: #FBFBFB;
+	border: 1px solid #E2E8EE;
+	padding-bottom: 15px;
+}
+
+div#content .contentTextContainer table {
+	width: auto;
+	/* if width remains at 100%, a horizontal scrollbar occures if application runs inside the RB Enterprise Portal */
+	background-color: transparent;
+	border: none;
+}
+
+/* PAGING NAVIGATION FORMATTING */
+div#content .pageableNavigationTop {
+	border-bottom: 1px solid #225A8D;
+}
+
+div#content .pageableNavigationBottom {
+	border-top: 1px solid #225A8D;
+}
+
+div#content .pageableNavigationTop,div#content .pageableNavigationBottom
+	{
+	text-align: center;
+	padding-bottom: 5px;
+	margin-top: 15px;
+	font-size: 12px;
+	/* avoid: error1111 when displaying a linked picture next to a non-linked picture in firefox */
+}
+
+div#content .pageableNavigationTop *,div#content .pageableNavigationBottom *
+	{
+	font-size: 0.95em;
+	/* this font-size is relative to the 12px from the font-size above */
+	/*	font-size: 11px;*/
+	color: #225A8D;
+	vertical-align: middle;
+	padding: 0px;
+	margin: 0px;
+	text-decoration: none;
+}
+
+/* avoid: error1111 when displaying a linked picture next to a non-linked picture in firefox */
+html>body div#content .pageableNavigationTop a,html>body div#content .pageableNavigationBottom a
+	{
+	padding-bottom: 1px;
+}
+
+div#content .pageableNavigationTop .linkRight,div#content .pageableNavigationBottom .linkRight
+	{
+	padding: 2px 3px 2px 10px;
+}
+
+div#content .pageableNavigationTop .pages,div#content .pageableNavigationBottom .pages
+	{
+	vertical-align: baseline;
+}
+
+div#content .pageableNavigationTop .pages a,div#content .pageableNavigationBottom .pages a
+	{
+	border-left: 1px solid #225A8D;
+	padding: 0px;
+	padding-left: 4px;
+	text-decoration: none;
+}
+
+div#content .pageableNavigationTop .pages a.currentPage,div#content .pageableNavigationBottom .pages a.currentPage
+	{
+	font-weight: bold;
+}
+
+/* SEQUENCE CONTAINER FORMATTING */
+div#content .sequenceContainer {
+	margin-top: 15px;
+}
+
+div#content .sequenceContainer * {
+	padding: 0;
+	margin: 0;
+	line-height: 18px;
+	background-repeat: no-repeat;
+}
+
+div#content .sequenceContainer a {
+	text-decoration: none;
+}
+
+div#content .sequenceContainer p,.sequenceContainer h1 {
+	float: left;
+}
+
+div#content .sequenceContainer h1 {
+	background-color: #225A8D;
+	color: white;
+	font-size: 11px;
+	border: 0px;
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+	padding: 0 10px 0 10px;
+	margin: 0px;
+	font-weight: bold;
+}
+
+div#content .sequenceContainer p {
+	background-color: #CBD5E1;
+	font-size: 11px;
+	background-image: url(sequenceStandardStepBg.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	padding-left: 16px;
+	padding-right: 6px;
+}
+
+div#content .sequenceContainer p * {
+	font-size: 11px;
+}
+
+div#content .sequenceContainer span {
+	font-weight: bold;
+	padding-right: 10px;
+}
+
+div#content .sequenceContainer .firstStep {
+	background-image: none;
+	padding-left: 0px;
+}
+
+div#content .sequenceContainer .firstStep img {
+	vertical-align: middle;
+}
+
+div#content .sequenceContainer .firstStep span {
+	padding-left: 9px;
+}
+
+div#content .sequenceContainer .selectedStep {
+	background-image: url(sequenceSelectedStepBg.gif);
+	background-color: #225A8D;
+}
+
+div#content .sequenceContainer .selectedStep a {
+	color: white;
+}
+
+div#content .sequenceContainer .behindSelectedStep {
+	background-image: url(sequenceBehindSelectedStepBg.gif);
+}
+
+div#content .sequenceContainer .disabledStep,div#content .sequenceContainer .disabledStep *
+	{
+	color: #79818D;
+}
+
+div#content .sequenceContainer .successfulStep,div#content .sequenceContainer .warningStep,div#content .sequenceContainer .error1111Step
+	{
+	background-position: right;
+	padding-right: 15px;
+}
+
+div#content .sequenceContainer .successfulStep {
+	background-image: url(sequenceSuccessStepBg.gif);
+}
+
+div#content .sequenceContainer .warningStep {
+	background-image: url(sequenceWarningStepBg.gif);
+}
+
+div#content .sequenceContainer .error1111Step {
+	background-image: url(sequenceerror1111StepBg.gif);
+}
+
+div#content .sequenceContainer .sequenceEnd {
+	padding-left: 0px;
+	background-image: none;
+	background-color: transparent;
+	float: none;
+}
+
+* html div#content .sequenceContainer .sequenceEnd img {
+	/* workaround for IE float bug. Only IE win sees this */
+	margin-left: -3px;
+}
+
+/* END SEQUENCE CONTAINER FORMATTING */
+/* TAB CONTAINER FORMATTING --- DEPRECATED, DO NOT USE ANY MORE ---*/
+div#content .tabContainer {
+	border-bottom: 2px solid #295D89;
+	margin-top: 15px;
+	padding-left: 10px;
+	position: relative;
+	/* used to avoid IE bug - bottom border is displayed now */
+}
+
+html>body div#content .tabContainer { /*padding-bottom: 1px;*/
+	/* in order to see the bottom border in Firefox */
+	
+}
+
+div#content .tabContainer * {
+	padding: 0;
+	margin: 0;
+	line-height: 17px;
+	color: black;
+}
+
+div#content .tabContainer a,div#content .tabContainer span {
+	text-decoration: none;
+	padding: 2px 6px 1px 6px;
+}
+
+div#content .tabContainer p {
+	display: inline;
+	background-color: #B4C6D9;
+	font-size: 11px;
+	margin-right: 3px;
+}
+
+html>body div#content .tabContainer p { /* for Firefox */
+	padding-top: 2px;
+	padding-bottom: 2px;
+	margin-right: 0px;
+}
+
+div#content .tabContainer .selectedTab {
+	background-color: #295D89;
+	padding-bottom: 2px;
+	color: white;
+	cursor: default;
+}
+
+div#content .tabContainer .disabledTab * {
+	color: #A1A1A1;
+}
+
+/* END TAB CONTAINER FORMATTING */ /* ADVANCED TAB CONTAINER */
+div#content .advancedTabContainer {
+	position: relative;
+	background-color: white;
+	border-bottom: 2px solid #295D89;
+	height: 18px;
+	margin: 0px;
+	margin-top: 15px;
+}
+
+div#content .advancedTabContainer * {
+	color: black;
+	text-decoration: none;
+	font-size: 11px;
+}
+
+div#content .advancedTabContainer ul,div#content .advancedTabContainer li
+	{
+	padding: 0px;
+	margin: 0px;
+}
+
+div#content .advancedTabContainer ul ul {
+	display: none;
+}
+
+div#content .advancedTabContainer li {
+	list-style-type: none;
+	float: left;
+	padding-left: 6px;
+	padding-right: 6px;
+	white-space: nowrap;
+	line-height: 18px;
+	background-color: #B4C6D9;
+	border-right: 3px solid white;
+}
+
+* html div#content .advancedTabContainer li {
+	float: none;
+	display: inline;
+}
+
+div#content .advancedTabContainer a:hover {
+	color: black;
+}
+
+div#content .advancedTabContainer li.selectedTab {
+	background-color: #295D89;
+	color: white;
+	font-weight: bold;
+}
+
+div#content .advancedTabContainer li.selectedTab li {
+	font-weight: normal;
+}
+
+div#content .advancedTabContainer li.selectedTab .selectedTab {
+	font-weight: bold;
+}
+
+div#content .advancedTabContainer li.selectedTab *,div#content .advancedTabContainer li.selectedTab a:hover
+	{
+	color: white;
+}
+
+div#content .advancedTabContainer li.selectedTab ul {
+	display: block;
+	position: absolute;
+	background-color: #295D89;
+	width: 100%;
+	left: 0px;
+	top: 20px;
+}
+
+div#content .advancedTabContainer li.selectedTab ul li {
+	background-color: #295D89;
+	background-image: url(divider.gif);
+	background-repeat: no-repeat;
+	background-position: right center;
+	border-right: 0px solid white;
+}
+
+/* END OF ADVANCED TAB CONTAINER */ /* GROUP CONTAINER FORMATTING*/
+div#content .groupContainer h1 {
+	background-color: #E9EDF1;
+	color: #003B69;
+	margin-top: 18px;
+	margin-left: 0px;
+	border-bottom: 1px solid white;
+	padding-left: 6px;
+}
+
+div#content .groupContainer div {
+	border: 1px solid #B4C6D9;
+}
+
+/* END OF GROUP CONTAINER FORMATTING */
+.bright {
+	background-color: #FBFBFB;
+}
+
+.borderTopThinTd td {
+	border-top: 1px solid #153B63;
+}
+
+.borderBottomThinTd td {
+	border-bottom: 1px solid #153B63;
+}
+
+#content .paddingBottom {
+	padding-bottom: 4px;
+}
+
+.error1111,.mandatory {
+	color: #CC0000;
+}
+
+.error1111,.warning,.success {
+	padding-top: 4px !important;
+	background-image: url(messageerror1111.gif);
+	background-repeat: no-repeat;
+	background-position: left 5px;
+	padding-left: 16px !important;
+	margin-left: 5px;
+}
+
+.warning {
+	background-image: url(messageWarning.gif);
+	background-position: left 4px;
+}
+
+.success {
+	background-image: url(messageOk.gif);
+}
+
+tr.brightRow,.bright {
+	background-color: #FBFBFB;
+}
+
+.highlightedRow  td {
+	background-color: #B4C6D9;
+}
+
+tr.darkRow,.dark {
+	background-color: #F2F2F2;
+}
+
+.marginThinRow td {
+	/* used for tables which have a thin  border between the rows */
+	border-bottom: 1px solid #E2E8EE;
+}
+
+.noMarginBottom td {
+	/* use if there are margins between table rows, and one row must not have a margin. The <tr> must have the calss "noMarginBottom" */
+	border-bottom: none;
+}
+
+.marginThick {
+	margin-top: 15px;
+}
+
+.marginThin {
+	margin-top: 3px;
+}
+
+.em1 { /* background color i.e. for links below a table */
+	background-color: #b4c6d9;
+}
+
+.noBorders {
+	border: 0px;
+}
+
+#outer>#inner {
+	border-bottom: 1px solid #FFFFFF;
+}
+
+.clr {
+	clear: both;
+}
+
+.introduction {
+	background-color: #F1F1F1;
+	padding: 4px 4px 4px 12px;
+}
+
+.small { /* used for small text, i.e. for error1111 messages */
+	font-size: 0.6em;
+}
+
+.sortingLink img {
+	vertical-align: middle !important;
+}
+
+.noSorting .sortingLink {
+	display: none !important;
+}
+
+td.tooltipTd p,td.tooltipTd h2 {
+	padding-left: 3px;
+}
+
+td.tooltipTd {
+	padding: 1px !important;
+	text-align: left;
+}
+
+div.copyRight p {
+	color: #B2B5C1;
+	padding-left: 4px;
+	text-align: left;
+	font-size: 11px;
+}
+
+/* displayTag taglib paging navigation formatting */
+div#content span.pagebanner,div#content span.pagelinks {
+	display: block;
+	color: #225A8D;
+	text-align: center;
+}
+
+div#content span.pagebanner *,div#content span.pagelinks * {
+	color: inherit;
+	text-decoration: none;
+}
+
+div#content span.pagelinks {
+	border-bottom: 1px solid #225A8D;
+}
+
+div#content form .disabled {
+	background-color: #dddddd;
+}
+
+/* END of displayTag taglib paging navigation formatting */
+/* this formatting is for tables generated by using the displaytag taglib */
+div#content table.displayTagTable thead th {
+	background-color: #E2E8EE;
+	color: #003B69;
+	text-align: left;
+	padding: 2px 2px 3px 4px;
+	border-right: 1px solid #FFFFFF;
+	border-left: 1px solid #E2E8EE;
+	border-top: 1px solid #FFFFFF;
+}
+
+div#content table.displayTagTable thead th a {
+	background-repeat: no-repeat;
+	background-position: 0px 3px;
+}
+
+div#content table.displayTagTable thead th.sortable {
+	padding-left: 0px;
+}
+
+div#content table.displayTagTable thead th.sortable a {
+	background-image: url("iconSortNone.gif");
+	padding-left: 16px;
+	text-decoration: none;
+	color: #003B69;
+}
+
+div#content table.displayTagTable thead th.order1 a {
+	background-image: url("iconSortUp.gif");
+}
+
+div#content table.displayTagTable thead th.order2 a {
+	background-image: url("iconSortDown.gif");
+}
+
+div#content table.displayTagTable td {
+	padding: 2px 2px 2px 4px;
+}
+
+div#content * .textAlignRight {
+	text-align: right !important;
+}
+
+div#content * .textAlignCenter {
+	text-align: center !important;
+}
+
+/* END of displaytag taglib formatting */ /* dialog box formatting */
+#dBoxIframe {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	display: none;
+}
+
+#dBoxDiv {
+	background-color: silver;
+	display: none;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	-moz-opacity: 0.50; /* mozilla proprietary attribute */
+	width: 100px;
+	height: 100px;
+}
+
+html>body #dBoxDiv {
+	position: fixed;
+	/* fixed - real browser must not care about scrolling. For IE, window.onscroll is necessary in order to fill the window with the background when scrolling */
+}
+
+/* END of dialog box formatting */ /*printer styles*/
+@media print { /*hide the left column when printing*/
+	#navi {
+		display: none;
+	}
+	#outer {
+		border-left: 0;
+	}
+}
+
+.subMenuItemSeparator {
+	text-align: center;
+	padding-top: 8px;
+}
+
+input.rich-combobox-button-icon-inactive,input.rich-combobox-button-icon
+	{
+	background-image: url(../img/arrowBlueDown.gif);
+	background-color: #E9F2FA;
+	border-color: #84898D #84898D #84898D transparent;
+	border-width: 1px 1px 1px 0 !important;
+	cursor: pointer;
+}
+
+.rich-combobox-item {
+	text-align: left;
+}
+
+.rich-ddmenu-label {
+	font-size: 11px;
+	font-weight: 700;
+}
+
+.rich-table-cell {
+	vertical-align: middle !important;
+}
+
+.noMaskClass .rich-mpnl-mask-div {
+	background-color: transparent;
+}
+
+.checkBoxColumn {
+	width: 20px;
+	text-align: center;
+}
+
+.tisComboboxSelected {
+	background-color: #295D89;
+	border: none;
+	color: white;
+}
+
+.rich-calendar-month,.rich-calendar-tool {
+	background-color: #295D89;
+}
+
+.rich-calendar-popup {
+	border-left-color: #295D89;
+	border-right-color: #295D89;
+	border-top-color: #295D89;
+	border-color: #295D89;
+}
+
+.rich-calendar-days {
+	background-color: #B9BEAC;
+}
+
+.rich-calendar-toolfooter .rich-calendar-tool-btn {
+	background-color: #ECF4FE !important;
+	color: black !important;
+}
+
+.rich-spinner-input {
+	size: 2 !important;
+}
+
+.columnHeader {
+	text-decoration: none !important;
+	color: black !important;
+}
+
+.buttonFirstPage {
+	background-image: url("../img/pageableFirstPage.gif");
+}
+
+.buttonFirstPageDisabled {
+	background-image: url("../img/pageableFirstPageDisabled.gif");
+}
+
+.buttonLastPage {
+	background-image: url("../img/pageableLastPage.gif");
+}
+
+.buttonLastPageDisabled {
+	background-image: url("../img/pageableLastPageDisabled.gif");
+}
+
+.buttonNextPage {
+	background-image: url("../img/pageableNextPage.gif");
+}
+
+.buttonPrevPageDisabled {
+	background-image: url("../img/pageablePrevPageDisabled.gif");
+}
+
+.buttonPrevPage {
+	background-image: url("../img/pageablePrevPage.gif");
+}
+
+.buttonPrevPageDisabled {
+	background-image: url("../img/pageablePrevPageDisabled.gif");
+}
+
+.rich-panelbar-header {
+	background-image: none ! important;
+	color: white;
+}
+
+.dr-pnlbar-h {
+	border-color: #295D89 !important;
+	background-color: #295D89 !important;
+}
+
+.dr-pnlbar-h-act {
+	border-color: #295D89 !important;
+	background-color: #295D89 !important;
+}
+
+.header {
+	background-color: #E5E4EE;
+	text-align: center;
+}
+
+.header-big {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.header-small {
+	font-size: 11px;
+}
+
+.feedback-input-header {
+	float: left;
+	margin-top: 2px;
+}
+
+.feedback-input-value {
+	float: left;
+	margin-left: 10px;
+	margin-top: 2px;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+.feedback-textarea {
+	width: 99%;
+	height: 100%;
+	margin: 0px;
+	resize: none;
+	font-size: 12px;
+}
+
+.feedback-row {
+	height: 50px;
+	width: 100%;
+	vertical-align: middle;
+}
+
+.feedback-column-wrapper {
+	height: inherit;
+	width: 50%;
+	float: left;
+}
+
+.feedback-column {
+	height: inherit;
+	width: 100%;
+	border: 1px;
+	border-style: solid;
+}
+
+input[type="text"],input[type="password"],textarea {
+	font-size: 12px;
+	padding-left: 1px;
+}
+
+.rrEditleftColumn {
+	width: 200px;
+	border-style: solid;
+	border-width: 1px;
+	border-bottom: 0px;
+	height: 40px;
+	vertical-align: middle !important;
+}
+
+.rrEditRightColumn {
+	width: 700px;
+	border-style: solid;
+	border-width: 1px;
+	border-bottom: 0px;
+	word-wrap: break-word;
+	vertical-align: middle !important;
+}
+
+.rrEditleftColumnLast {
+	width: 200px;
+	border-style: solid;
+	border-width: 1px;
+	height: 40px;
+	vertical-align: middle !important;
+}
+
+.rrEditRightColumnLast {
+	width: 700px;
+	border-style: solid;
+	border-width: 1px;
+	word-wrap: break-word;
+	vertical-align: middle !important;
+}
+
+.formTable {
+	background: none repeat scroll 0 0 white !important;
+	border-collapse: collapse !important;
+	border-color: black !important;
+	border-style: solid !important;
+	border-width: 1px;
+}
+
+.simpleText {
+	font-weight: normal !important;
+	color: blue;
+}
+
+.brightRow {
+	background-color: #FBFBFB;
+}
+
+.darkRow {
+	background-color: #F2F2F2;
+}
+
+.tableMainHeader {
+	background-color: #295D89;
+	border-color: #FFFFFF;
+	border-style: solid;
+	border-width: 0 0 1px;
+	color: #FFFFFF;
+	cursor: default;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.8em;
+	height: 21px;
+	padding: 1px 4px 2px;
+	text-align: left;
+}
+
+.tableSubHeader {
+	background-color: #E2E8EE;
+	color: #000000;
+	cursor: default;
+	font-size: 0.8em;
+	font-weight: 700;
+	height: 21px;
+	padding: 3px 6px;
+	text-align: left;
+	border: 1px solid #ffffff !important;
+}
+
+.oddRow {
+	background-color: #F2F2F2 !important;
+	border-color: #E2E8EE !important;
+	border-style: solid;
+	border-width: 0 0 1px 1px;
+	color: #000000;
+	height: 21px;
+	padding: 3px 6px;
+}
+
+.evenRow {
+	background-color: #FBFBFB !important;
+	border-color: #E2E8EE !important;
+	border-style: solid;
+	border-width: 0 0 1px 1px;
+	color: #000000;
+	height: 21px;
+	padding: 3px 6px;
+}
+
+.dr-table-subheader {
+	background-color: #E2E8EE;
+}
+
+.tableFooter {
+	background-color: #E2E8EE;
+}
+
+.graybg  { background-color: #B4C6D9; }
+
+.whitebg { background-color: #FBFBFB; }
+

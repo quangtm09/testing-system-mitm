@@ -1,0 +1,86 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+	
+	<rich:modalPanel id="handledByModal" autosized="true">
+	        <f:facet name="header">
+	             <h:outputText value="#{resource['candidate.look.up.form']}"/>
+	        </f:facet>
+	        <f:facet name="controls">
+	            <h:panelGroup>
+	                <h:graphicImage value="/img/close.png" id="handledByHidelink" style="margin: 0px; cursor:pointer;"/>
+	                <rich:componentControl for="handledByModal" attachTo="handledByHidelink" operation="hide" event="onclick" sortOrder="ASCENDING"/>
+	            </h:panelGroup>
+	        </f:facet>
+	        <a:form ajaxSingle="true" id="handledByLookupForm" >
+	        	<rich:dataTable id="userLookUpTable" 
+	        		var="_ur"						
+					value="#{userHome.availableUsers}"					
+					width="100%"	
+					rows="#{messages['item.pagination.size']}"
+					rendered="#{not empty userHome.availableUsers}"
+					reRender="faPagination"
+					rowKeyVar="rowNo">						
+										
+					<rich:column sortable="true" filterBy="#{_ur.usrFullName}" filterEvent="onkeyup">	
+						<f:facet name="header">
+							<h:outputText value="#{resource['userId']}" />
+						</f:facet>	
+						<a:commandLink value="#{_ur.usrFullName}" 
+								action="#{candidateHome.populateUser(_ur.usrUserName)}" 
+								ajaxSingle="true" 
+								onclick="Richfaces.showModalPanel('ajaxLoadingModalBox')"
+								oncomplete="Richfaces.hideModalPanel('handledByModal');Richfaces.hideModalPanel('ajaxLoadingModalBox');"
+								reRender="handledByTextField">										
+						</a:commandLink>			
+					</rich:column>
+					
+					<rich:column sortable="true" filterBy="#{_ur.usrUserName}" filterEvent="onkeyup">	
+						<f:facet name="header">
+							<h:outputText value="#{resource['userId']}" />
+						</f:facet>	
+						<h:outputText value="#{_ur.usrUserName}" />				
+					</rich:column>
+					
+					<rich:column sortable="true" filterBy="#{_ur.usrUserName}" filterEvent="onkeyup">	
+						<f:facet name="header">
+							<h:outputText value="#{resource['userId']}" />
+						</f:facet>	
+						<h:outputText value="#{_ur.usrUserName}" />				
+					</rich:column> 
+						
+					<rich:column sortable="true" filterBy="#{_ur.usrEmail}" filterEvent="onkeyup">	
+						<f:facet name="header">
+							<h:outputText value="#{resource['userId']}" />
+						</f:facet>	
+						<h:outputText value="#{_ur.usrEmail}" />				
+					</rich:column> 
+					
+					<rich:column sortable="true" filterBy="#{_ur.usrIdNumber}" filterEvent="onkeyup">	
+						<f:facet name="header">
+							<h:outputText value="#{resource['userId']}" />
+						</f:facet>	
+						<h:outputText value="#{_ur.usrIdNumber}" />				
+					</rich:column> 		
+					
+					<f:facet name="footer">
+						<rich:datascroller for="userLookUpTable" 
+							renderIfSinglePage="false" 
+							align="center"
+							id="candidatePaginationId"
+							maxPages="#{messages['item.pagination.size']}"/>
+					</f:facet>
+										    
+				</rich:dataTable>
+				
+				<rich:spacer height="5"/>			
+			</a:form>
+		</rich:modalPanel>
+
+</ui:composition>

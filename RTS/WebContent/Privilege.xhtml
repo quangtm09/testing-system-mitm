@@ -1,0 +1,144 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Privilege Details</f:facet>
+
+
+        <s:decorate id="prvPrivilegeName" template="layout/display.xhtml">
+            <ui:define name="label">Prv privilege name</ui:define>
+            <h:outputText value="#{privilegeHome.instance.prvPrivilegeName}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/PrivilegeEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty privilegeFrom ? 'PrivilegeList' : privilegeFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Privilege transfers</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="privilegeTransfersChildren">
+
+        <h:outputText value="There are no privilegeTransfers associated with this privilege."
+                   rendered="#{empty privilegeHome.privilegeTransfers}"/>
+
+        <rich:dataTable value="#{privilegeHome.privilegeTransfers}"
+                       var="_privilegeTransfer"
+                  rendered="#{not empty privilegeHome.privilegeTransfers}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="privilegeTransfersTable">
+            <rich:column sortBy="#{_privilegeTransfer.rotPrivilegeTransferId}">
+                <f:facet name="header">Rot privilege transfer id</f:facet>
+                <h:outputText value="#{_privilegeTransfer.rotPrivilegeTransferId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_privilegeTransfer.rotDescription}">
+                <f:facet name="header">Rot description</f:facet>
+                <h:outputText value="#{_privilegeTransfer.rotDescription}"/>
+            </rich:column>
+            <rich:column sortBy="#{_privilegeTransfer.rotFromDate}">
+                <f:facet name="header">Rot from date</f:facet>
+                <h:outputText value="#{_privilegeTransfer.rotFromDate}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_privilegeTransfer.rotToDate}">
+                <f:facet name="header">Rot to date</f:facet>
+                <h:outputText value="#{_privilegeTransfer.rotToDate}">
+                    <s:convertDateTime type="both" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectprivilegeTransfer"
+                     value="Select"
+                      view="/PrivilegeTransfer.xhtml">
+                    <f:param name="privilegeTransferRotPrivilegeTransferId"
+                            value="#{_privilegeTransfer.rotPrivilegeTransferId}"/>
+                    <f:param name="privilegeTransferFrom" value="Privilege"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add privilegeTransfer"
+                view="/PrivilegeTransferEdit.xhtml">
+            <f:param name="privilegePrvPrivilegeId"
+                    value="#{privilegeHome.instance.prvPrivilegeId}"/>
+            <f:param name="privilegeTransferFrom" value="Privilege"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Role has privileges</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="roleHasPrivilegesChildren">
+
+        <h:outputText value="There are no roleHasPrivileges associated with this privilege."
+                   rendered="#{empty privilegeHome.roleHasPrivileges}"/>
+
+        <rich:dataTable value="#{privilegeHome.roleHasPrivileges}"
+                       var="_roleHasPrivilege"
+                  rendered="#{not empty privilegeHome.roleHasPrivileges}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="roleHasPrivilegesTable">
+            <rich:column sortBy="#{_roleHasPrivilege.rhpRolePrivilegeId}">
+                <f:facet name="header">Rhp role privilege id</f:facet>
+                <h:outputText value="#{_roleHasPrivilege.rhpRolePrivilegeId}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectroleHasPrivilege"
+                     value="Select"
+                      view="/RoleHasPrivilege.xhtml">
+                    <f:param name="roleHasPrivilegeRhpRolePrivilegeId"
+                            value="#{_roleHasPrivilege.rhpRolePrivilegeId}"/>
+                    <f:param name="roleHasPrivilegeFrom" value="Privilege"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add roleHasPrivilege"
+                view="/RoleHasPrivilegeEdit.xhtml">
+            <f:param name="privilegePrvPrivilegeId"
+                    value="#{privilegeHome.instance.prvPrivilegeId}"/>
+            <f:param name="roleHasPrivilegeFrom" value="Privilege"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

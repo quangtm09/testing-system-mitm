@@ -1,0 +1,236 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+		<style>
+			.featureList1 h2,a {
+				font-size: 15px;
+			}
+			
+			.featureList1 p {
+				margin-top: 0;
+			}
+			
+			p {
+				padding-top: 0px;
+			}
+			
+			h2 {
+				color: #3385D6;
+				border-bottom: none;
+				padding-bottom: 0px;
+				font-size: 18px;
+			}
+			h3{
+				color: #0066CC;
+				font-weight: bold;
+			}
+			featureList1 .alt {
+				margin-right: 26px;
+			}
+			
+			.featureList1 li,.featureList1 li img {
+				float: left;
+			}
+			
+			.featureList1 li {
+				font-size: 12px;
+				line-height: 20px;
+				list-style: none outside none;
+				margin: 0 0 20px;
+				padding: 0;
+				width: 448px;
+			}
+			
+			.alt {
+				clear: both;
+			}
+			
+			.icon1 {
+				background-image: url(img/candidate-icon.png);
+				background-repeat: no-repeat;
+				height: 54px;
+				width: 50px;
+				margin-right: 10px;
+				margin-top: 10px;
+				margin-bottom: 40px;
+			}
+			
+			.icon2 {
+				margin-bottom: 55px;
+				margin-right: 10px;
+				width: 50px;
+				height: 54px;
+				background-repeat: no-repeat;
+				background-image: url(img/interview-schedule.png);
+			}
+			
+			.icon3 {
+				margin-bottom: 45px;
+				margin-right: 10px;
+				width: 50px;
+				height: 50px;
+				background: #fff url(img/icon.jpg) 0 -0px no-repeat
+			}
+			
+			.icon4 {
+				margin-bottom: 40px;
+				margin-right: 10px;
+				width: 50px;
+				height: 54px;
+				background: #fff url(img/hr-feedback.png) 0 0 no-repeat;
+			}
+			
+			.icon5 {
+				margin-bottom: 20px;
+				margin-right: 10px;
+				width: 50px;
+				height: 54px;
+				background: #fff url(img/icon.jpg) 0 -216px no-repeat
+			}
+			
+			.icon6 {
+				margin-bottom: 25px;
+				margin-right: 10px;
+				width: 50px;
+				height: 54px;
+				background: #fff url(img/icon.jpg) 0 -108px no-repeat
+			}
+			
+			img,a:hover {
+				text-decoration: underline;
+			}
+			
+			img,a {
+				border: 0 none;
+				color: #1B6BBD;
+				outline: medium none;
+				text-decoration: none;
+			}
+			
+			.topreasons li {
+				list-style: decimal;
+				margin: 0 30px 10px 28px !important;
+				width: 428px !important
+			}
+			
+			.mheading {
+				margin-top: 10px;
+				margin-bottom: 10px;
+				padding: 0 0 10px;
+				text-align: center;
+				font-family: Georgia, "Times New Roman", Times, serif;
+				font-size: 3.2em;
+				font-weight: lighter;
+				color: #F7921E;
+			}
+			
+			.veryHeading {
+				color: #F7921E;
+				font-size: 18px;
+			}
+		</style>
+		
+		<div align="center">
+			<h1 class="mheading">#{messages['rts.title']}</h1>
+		</div>	
+		
+		<h:form id="homeForm" style="width:1024px;margin:0 auto;">
+			<div style="float: left;">
+				<ol class="featureList1 clearBoth">
+					<li class="alt"><img class="icon1" title="Candidates"
+						src="img/spacer.gif" height="54" width="50" />
+						<h2>Candidates</h2>
+						<p style="padding-top: 0; margin-top: 0">Source, Track and
+							Hire candidates more efficiently. RTS not only helps user to
+							gather the resumes and manage them from a single place but also
+							manage candidate documents.</p>
+					</li>
+					<li style="height: 85px"><img class="icon2"
+						title="Interview Schedule" src="img/spacer.gif" height="54"
+						width="50" />
+						<h2>Interview Schedule</h2>
+						<p>Schedule interview for potential candidates with only a
+							couple of clicks. RTS supports notification and canceled emails
+							to interviewers will be sent once an interview has been scheduled
+							or canceled.</p>
+					</li>
+
+					<li class="alt"><img class="icon3" title="Technical Feedback"
+						src="img/spacer.gif" height="54" width="50"
+						style="padding-top: 5px;" />
+						<h2>Technical Feedback</h2>
+						<p>Give technical feedback after interviewed more comfortable.
+							Interview assessment form will be populated by default whenever
+							interviewer giving his feedback. In addition, this form is able
+							to load given data even if form is no longer used.</p>
+					</li>
+
+					<li style="height: 85px"><img class="icon4"
+						title="HR Feedback" src="img/spacer.gif" height="54"
+						width="50" />
+						<h2>HR Feedback</h2>
+						<p>Give HR feedback more useful. RTS supports various forms
+							which contained needed information to HR associates enter
+							feedback or fill candidate personal details.</p>
+					</li>
+
+
+					<li class="alt"><img class="icon5" title="Recruit Request"
+						src="img/spacer.gif" height="54" width="50" />
+						<h2>Recruit Request</h2>
+						<p>Publish jobs and collect more resumes in a short span of
+							time. This gives your hiring process a much wider exposure.</p>
+					</li>
+					<li style="height: 105px"><img class="icon6"
+						title="Master Data" src="img/spacer.gif" height="54" width="50" />
+						<h2>Master Data</h2>
+						<p>Populate candidates from uploaded Excel files more quickly
+							than ever. Instead of trying to input in each candidate
+							separately, user can easily upload to RTS document storage.</p>
+					</li>
+				</ol>
+			</div>
+
+			<div style="float: left;">
+				<h2 class="veryHeading" style="">Top 5 functionalities</h2>
+
+				<ul class="resetMargin topreasons">
+					<li style="float: left; width: 480px;">
+						<h3>Comprehensive Applicant tracking</h3>
+						<p>A complete staffing and hiring solution to acquire, screen,
+							assess and position candidates in a short span of time.</p>
+					</li>
+					<li style="float: left; width: 480px;">
+						<h3>Faster way to get right candidates</h3>
+						<p>RTS has powerful features that helps user to get right
+							candidates without missing a talent faster than ever.</p>
+					</li>
+					<li style="float: left; width: 480px;">
+						<h3>Customize interview assessment</h3>
+						<p>Stop worrying about the changing feedback form. Customize
+							the RTS interview assessment to match the organization needs.</p>
+					</li>
+					<li style="float: left; width: 480px;">
+						<h3>Centralized database</h3>
+						<p>Stop juggling with multiple files. With RTS manage all data
+							from a single place in a secured way.</p>
+					</li>
+					<li style="float: left; width: 480px;">
+						<h3>Do More</h3>
+						<p>RTS automates and streamlines the hiring process, which
+							saves time and enhances your productivity.</p>
+					</li>
+				</ul>
+
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

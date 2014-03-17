@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+	<a:loadScript src="/script/utility.js" />
+	<a:region id="skillPickRegion" renderRegionOnly="true">
+		<s:div style="padding-left:2px">
+			<h:inputText value="#{skillPickBean.filter}" size="35">
+				<a:support event="onkeyup" reRender="skillPickList"
+					action="#{skillPickBean.doFilter()}"/>
+			</h:inputText>
+		</s:div>
+		<s:div>
+			<h:panelGrid columns="3" id="skillPickPanel">
+				<a:keepAlive beanName="skillPickBean"></a:keepAlive>
+				<h:selectManyListbox value="#{skillPickBean.selectedLeftSkills}"
+					style="width:200px;height:150px" id="skillPickList">
+					<s:selectItems value="#{skillPickBean.skillList}" 
+						var="sk"
+						label="#{sk.sklName}">
+					</s:selectItems>
+					<f:converter converterId="skillSelectManyConvert" />
+				</h:selectManyListbox>
+				<h:panelGroup>
+					<div>
+						<a:commandButton value="&gt;&gt;"
+							actionListener="#{skillPickBean.moveSkillLeftToRight()}"
+							reRender="skillPickPanel,skillPickList"
+							styleClass="submitStandard" />
+					</div>
+					<div>
+						<a:commandButton value="&lt;&lt;" immediate="true"
+							actionListener="#{skillPickBean.moveSkillRightToLelf()}"
+							reRender="skillPickPanel,skillPickList"
+							styleClass="submitStandard" />
+					</div>
+				</h:panelGroup>
+				<h:panelGroup>
+					<rich:extendedDataTable enableContextMenu="false" 
+						value="#{skillPickBean.chosenSkillMap.values().toArray()}"
+						var="item" selectionMode="multi" rows="20" selectedClass="extendedTBSelected"
+						selection="#{skillPickBean.selectedRightSkills}" width="700px"
+						height="150px" tableState="#{skillPickBean.tableState}"
+						rowClasses="brightRow,darkRow"
+						id="extededTable">
+						<rich:column width="200px">
+							<f:facet name="header">
+								<h:outputText value="#{messages['com.bosch.ui.skillname']}" />
+							</f:facet>
+							<h:outputText value=" #{item.skill.sklName}" />
+						</rich:column>
+						<rich:column sortable="false" width="200px"
+							rendered="#{skillPickBean.useYearColumn}"
+							styleClass="textCenterAlign">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['com.bosch.ui.yearofexperience']}" />
+							</f:facet>
+							 <h:panelGrid columns="5">
+								<h:outputLabel value="#{messages['com.bosch.ui.from']}:"
+									for="year1Spinner" 
+									rendered="#{skillPickBean.useTwoYear}" />
+								<rich:inputNumberSpinner 
+									id="year1Spinner" 
+									minValue="0"
+									onchange=" checkValueFromAndTo('#{rich:clientId('year1Spinner')}','#{rich:clientId('year2Spinner')}')"
+									maxValue="29" 
+									step="1" 
+									inputSize="2" 
+									value="#{item.year1}" enableManualInput="false">
+								</rich:inputNumberSpinner>
+								<h:outputLabel value="#{messages['com.bosch.ui.to']}:"
+									for="year2Spinner" 
+									rendered="#{skillPickBean.useTwoYear}" />
+								<rich:inputNumberSpinner 
+									id="year2Spinner" 
+									minValue="0"								
+									onchange=" checkValueFromAndTo('#{rich:clientId('year1Spinner')}','#{rich:clientId('year2Spinner')}')"
+									maxValue="30" 
+									step="1" 
+									inputSize="2" 
+									value="#{item.year2}"
+									rendered="#{skillPickBean.useTwoYear}" enableManualInput="false">
+								</rich:inputNumberSpinner>				
+							</h:panelGrid>
+						</rich:column>
+						<rich:column sortable="false" 
+							styleClass="textCenterAlign"
+							width="300px">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messages['candiadte.header.skill.level']}" />
+							</f:facet>									
+							<h:inputText value="#{item.skillLevel}" maxlength="50" style="width: 200px"/>
+						</rich:column>
+					</rich:extendedDataTable>
+				</h:panelGroup>
+
+			</h:panelGrid>
+		</s:div>
+	</a:region>
+</ui:composition>

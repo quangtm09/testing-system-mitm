@@ -1,0 +1,206 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" template="layout/template.xhtml">
+
+	<ui:define name="subMenu">
+		<s:decorate
+			rendered="#{identity.hasRole('gm') or identity.hasRole('grm') 
+			or identity.hasRole('dh') or identity.hasRole('pm')}">
+			<rich:toolBar itemSeparator="line"
+				separatorClass="subMenuItemSeparator" styleClass="subMenuBar">
+				<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
+					<f:facet name="label">
+						<s:link view="/PrivilegeTransferList.xhtml"
+							value="Transferred Privileges" propagation="none"
+							styleClass="menuItem">
+						</s:link>
+					</f:facet>
+				</rich:dropDownMenu>
+				<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none"
+					rendered="#{not identity.hasRole('interviewer')}">
+					<f:facet name="label">
+						<s:link view="/PrivilegeTransferEdit.xhtml"
+							value="Transfer Privileges" propagation="none"
+							styleClass="menuItemNotSelected">
+							<f:param name="isUpdate" value="false" />
+						</s:link>
+					</f:facet>
+				</rich:dropDownMenu>
+			</rich:toolBar>
+		</s:decorate>
+	</ui:define>
+
+	<h:outputText value="#{messages['com.bosch.ui.invalidURL']}"
+		rendered="#{not (identity.hasRole('gm') or identity.hasRole('grm') 
+			or identity.hasRole('dh') or identity.hasRole('pm'))}" />
+
+	<ui:define name="body">
+
+		<h:form id="privilegeTransferSearch" styleClass="edit"
+			rendered="#{identity.hasRole('gm') or identity.hasRole('grm') 
+			or identity.hasRole('dh') or identity.hasRole('pm')}">
+
+			<rich:simpleTogglePanel label="PrivilegeTransfer Search Filter"
+				switchType="ajax">
+				<h:panelGrid columns="2" style=" width : 710px;">
+					<h:panelGroup id="panelLeft" style="width: 400px;">
+						<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">Privilege</ui:define>
+							<rich:comboBox style="width: 150px"
+								suggestionValues="#{privilegeTransferList.privilegeList}"
+								value="#{privilegeTransferList.selectedPrivilege}"
+								directInputSuggestions="true"
+								itemSelectedClass="tisComboboxSelected"
+								selectFirstOnUpdate="true" enableManualInput="false">
+							</rich:comboBox>
+						</s:decorate>
+						<s:decorate template="layout/display.xhtml" style="display:none">
+							<ui:define name="label">Transferred User</ui:define>
+							<rich:comboBox style="width: 150px"
+								suggestionValues="#{privilegeTransferList.userList}"
+								directInputSuggestions="true" converter="commonConverter"
+								itemSelectedClass="tisComboboxSelected"
+								selectFirstOnUpdate="true" enableManualInput="false">
+							</rich:comboBox>
+						</s:decorate>
+						<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">Transferred User</ui:define>
+							<rich:comboBox style="width: 150px"
+								suggestionValues="#{privilegeTransferList.userList}"
+								value="#{privilegeTransferList.selectedUser}"
+								directInputSuggestions="true" converter="commonConverter"
+								itemSelectedClass="tisComboboxSelected"
+								selectFirstOnUpdate="true" enableManualInput="false">
+							</rich:comboBox>
+						</s:decorate>
+					</h:panelGroup>
+					<h:panelGroup id="panelRight">
+						<s:decorate id="startDateField" template="layout/display.xhtml">
+							<ui:define name="label">From</ui:define>
+							<rich:calendar id="startDate"
+								value="#{privilegeTransferList.fromDate}"
+								datePattern="MMM/dd/yyyy" showApplyButton="false">
+							</rich:calendar>
+						</s:decorate>
+						<s:decorate id="endDateField" template="layout/display.xhtml">
+							<ui:define name="label">To</ui:define>
+							<rich:calendar id="endDate"
+								value="#{privilegeTransferList.toDate}"
+								datePattern="MMM/dd/yyyy" showApplyButton="false">
+							</rich:calendar>
+						</s:decorate>
+					</h:panelGroup>
+				</h:panelGrid>
+				<div class="actionButtons">
+					<a:commandButton id="search" value="Search"
+						action="#{privilegeTransferList.btnSearchClicked()}"
+						reRender="PTList" styleClass="submitHighlighted"
+						ajaxSingle="false" />
+					<s:button id="reset" value="Reset" includePageParams="false"
+						styleClass="submitStandard" />
+				</div>
+			</rich:simpleTogglePanel>
+
+			<rich:panel id="PTList">
+				<f:facet name="header">PrivilegeTransfer Search Results (#{empty privilegeTransferList.resultList ? 0 : (privilegeTransferList.paginated ? privilegeTransferList.resultCount : privilegeTransferList.resultList.size)})</f:facet>
+				<div class="results" id="privilegeTransferList">
+
+					<h:outputText
+						value="The Privilege Transfer search returned no results."
+						rendered="#{empty privilegeTransferList.resultList}" />
+
+					<rich:dataTable id="privilegeTransferList" var="_privilegeTransfer"
+						value="#{privilegeTransferList.resultList}"
+						rendered="#{not empty privilegeTransferList.resultList}" rows="20"
+						rowClasses="whitebg,graybg"
+						rowKeyVar="index" reRender="PTListDataScroller">
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="No." styleClass="columnHeader" />
+							</f:facet>
+							<h:outputText value="#{index+1}" />
+						</rich:column>
+						<rich:column
+							sortBy="#{_privilegeTransfer.privilege.prvPrivilegeName}">
+							<f:facet name="header">
+								<h:outputText value="Privilege" styleClass="columnHeader" />
+							</f:facet>
+							<h:outputText
+								value="#{_privilegeTransfer.privilege.toString().replace('_',' ')}" />
+						</rich:column>
+						<rich:column sortBy="#{_privilegeTransfer.orgUnit}">
+							<f:facet name="header">
+								<h:outputText value="Org. Unit" styleClass="columnHeader" />
+							</f:facet>
+							<h:outputText value="#{_privilegeTransfer.orgUnit.unitName}" />
+						</rich:column>
+						<rich:column
+							sortBy="#{_privilegeTransfer.userByRotUsrToUserId.usrFullName}">
+							<f:facet name="header">
+								<h:outputText value="Transferred User" styleClass="columnHeader" />
+							</f:facet>
+							<h:outputText
+								value="#{_privilegeTransfer.userByRotUsrToUserId.toString()}" />
+						</rich:column>
+						<rich:column sortBy="#{_privilegeTransfer.rotFromDate}">
+							<f:facet name="header">
+								<h:outputText value="From" styleClass="columnHeader" />
+							</f:facet>
+							<h:outputText value="#{_privilegeTransfer.rotFromDate}">
+								<s:convertDateTime type="both" dateStyle="short"
+									pattern="MMM/dd/yyyy" />
+							</h:outputText>
+						</rich:column>
+						<rich:column sortBy="#{_privilegeTransfer.rotToDate}">
+							<f:facet name="header">
+								<h:outputText value="To" styleClass="columnHeader" />
+							</f:facet>
+							<h:outputText value="#{_privilegeTransfer.rotToDate}">
+								<s:convertDateTime type="both" dateStyle="short"
+									pattern="MMM/dd/yyyy" />
+							</h:outputText>
+						</rich:column>
+						<rich:column styleClass="action">
+							<f:facet name="header">Action</f:facet>
+							<s:link view="/PrivilegeTransfer.xhtml"
+								id="PrivilegeTransferViewId">
+								<h:graphicImage value="/img/icon_view_detail.gif" />
+								<rich:toolTip value="View" />
+								<f:param name="selectedPT"
+									value="#{_privilegeTransfer.rotPrivilegeTransferId}" />
+							</s:link>
+            #{' '}
+            <s:link view="/PrivilegeTransferEdit.xhtml"
+								propagation="none" id="InterviewScheduleEdit">
+								<h:graphicImage value="/img/TextEditIcon.jpg" />
+								<rich:toolTip value="Edit" />
+								<f:param name="isUpdate" value="true" />
+								<f:param name="selectedPT"
+									value="#{_privilegeTransfer.rotPrivilegeTransferId}" />
+							</s:link>
+            #{' '}  <a:commandLink
+								onclick="if(!confirm('Do you really want to delete #{_privilegeTransfer.privilege.toString()} transfer to #{_privilegeTransfer.userByRotUsrToUserId.toString()}?')) {cancel();}"
+								action="#{privilegeTransferBLO.removePT(_privilegeTransfer)}"
+								reRender="PTList">
+								<h:graphicImage value="/img/false.png" />
+								<rich:toolTip value="Remove" />
+							</a:commandLink>
+						</rich:column>
+					</rich:dataTable>
+					<rich:datascroller for="privilegeTransferList" ajaxSingle="true"
+						id="PTListDataScroller"
+						page="#{privilegeTransferList.currentPage}"
+						renderIfSinglePage="false" />
+
+				</div>
+			</rich:panel>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

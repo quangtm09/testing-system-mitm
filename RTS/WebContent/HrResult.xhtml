@@ -1,0 +1,762 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a4j="http://richfaces.org/a4j" template="/layout/template.xhtml">
+
+	<ui:define name="body">
+		<script type="text/javascript" src="#{request.getContextPath()}/script/hrResult.js"/>	
+
+		<h:form name="feedbackForm">
+			<s:div style="padding-top: 20px;">
+				<h:outputLabel
+					value="#{messages['int.sch.view.interview.hr.feedback']}"
+					styleClass="header-label" />
+			</s:div>
+			<s:div styleClass="header-border">
+				<h:panelGrid columns="2">
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['candidate.name']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewSchedule.candidate.cddName}" />
+					</s:decorate>
+					
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.email']}:" />
+						</ui:define>
+						<h:outputLink value="mailto:#{interviewSchedule.candidate.cddEmail}">
+							<h:outputText value="#{interviewSchedule.candidate.cddEmail}" />
+						</h:outputLink>
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['org.unit']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewSchedule.candidate.orgUnit.unitName}" />
+					</s:decorate>
+					
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['recruit.request']}:" />
+						</ui:define>
+						<h:outputText
+							value="#{interviewSchedule.candidate.recruitRequest.recruitRequestName}" />
+					</s:decorate>
+					
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['interview.schedule.hr']} #{' '} #{messages['interview.schedule.time']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewSchedule.itsHrInterviewTime}">
+							<s:convertDateTime type="both" pattern="#{messages['calendar.pattern.long']}" locale="#{calendarBean.locale}"/>
+						</h:outputText>
+					</s:decorate>					
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['interview.schedule.hr.mode']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewSchedule.itsHRInterviewType}" />
+					</s:decorate>
+					
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['interview.schedule.hr.location']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewSchedule.itsHrLocation}" />
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['com.bosch.ui.source']}:" />
+						</ui:define>
+						<h:outputText value="#{interviewSchedule.candidate.cddSource}"
+							rendered="#{interviewSchedule.candidate.cddSource ne 'Referral'}"
+							cols="30" rows="5" />
+						<h:outputText value="#{interviewSchedule.candidate.cddEmployeeId}"
+							rendered="#{interviewSchedule.candidate.cddSource eq 'Referral'}" />
+						<h:outputText value="#{' - '}"
+							rendered="#{not empty (interviewSchedule.candidate.cddEmployeeId) and not empty (interviewSchedule.candidate.cddEmployeeName)}" />
+						<h:outputText
+							value="#{interviewSchedule.candidate.cddEmployeeName}"
+							rendered="#{ interviewSchedule.candidate.cddSource eq 'Referral'}" />
+					</s:decorate>
+
+				</h:panelGrid>
+
+				
+				
+				
+				
+				
+				<rich:panel>
+					<f:facet name="header">
+						Academics
+					</f:facet>
+					<h2>Academics: (To gather academic track record, learning
+							curve during employment etc</h2>
+						<h3>Academic Performance: (mention Achievements, gap in
+							academics with reasons)</h3>
+							
+						<h:panelGrid columns="2">
+							<s:decorate template="layout/edit.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="Degree:" />
+								</ui:define>
+								<h:outputText styleClass="rtsTextBox"
+									value="#{hrResult.ihrAcademicDegree}" />
+							</s:decorate>
+
+							<s:decorate template="layout/edit.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="Master:" />
+								</ui:define>
+								<h:outputText styleClass="rtsTextBox"
+									value="#{hrResult.ihrAcademicMaster}" />
+							</s:decorate>
+
+							<s:decorate template="layout/edit.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="Certification:" />
+								</ui:define>
+								<h:outputText styleClass="rtsTextBox"
+									value="#{hrResult.ihrAcademicCertification}" />
+							</s:decorate>
+
+							<s:decorate template="layout/edit.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="Others:" />
+								</ui:define>
+								<h:outputText styleClass="rtsTextBox"
+									value="#{hrResult.ihrAcademicOther}" />
+							</s:decorate>
+
+						</h:panelGrid>	
+							
+						<s:decorate template="layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Foreign Languages known( if relevant):" />
+							</ui:define>
+							<h:selectOneRadio value="#{hrResultBLO.ihrForeignLanguage}" disabled="true"
+								styleClass="resetRadio">
+								<f:selectItem itemLabel="Yes" itemValue="#{true}" />
+								<f:selectItem itemLabel="No" itemValue="#{false}" />
+								<a4j:support event="onclick" ajaxSingle="true"
+									action="#{hrResultBLO.resetForeignLanguageKnow()}"
+									reRender="foreignLangluageField" limitToList="true"
+									ignoreDupResponses="true" />
+							</h:selectOneRadio>
+						</s:decorate>
+						<s:decorate id="foreignLangluageField">
+							<s:div rendered="#{hrResultBLO.ihrForeignLanguage eq true}">
+								<s:decorate template="layout/edit.xhtml">
+									<ui:define name="label">
+										<h:outputLabel value="#{messages['form.foreign.languages']}:"/>
+									</ui:define>
+									<h:outputText id="foreignLangluageKnow" 
+										required="true"
+										requiredMessage="#{messages['error.enter.required']} #{' '} #{messages['form.foreign.languages']}"
+										maxlength="50" 
+										value="#{hrResultBLO.ihrforeignLanguageKnow}"
+										styleClass="rtsTextBox">
+										<a4j:support event="onblur" ajaxSingle="true" reRender="foreignLangluageKnow"/>
+									</h:outputText>
+								</s:decorate>
+							</s:div>
+						</s:decorate>								
+							
+				</rich:panel>	
+				
+				<rich:panel>
+					<f:facet name="header">Experience</f:facet>
+					<h3>Experience: (To capture qualitative feedback based on
+							relevancy to the role with RBVH)</h3>
+
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Current Role" />
+								<br />
+								<h:outputLabel
+									value="(including team size handled,
+												client interface, key goal etc):" />
+							</ui:define>
+							<h:outputText value="#{hrResult.ihrCurrentRole}" cols="40"
+								rows="2">
+							</h:outputText>
+						</s:decorate>
+
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Current company" />
+								<br />
+								<h:outputLabel
+									value="(Observations on current
+											company in terms of size, brand, any other relevant
+											information etc):" />
+							</ui:define>
+							<h:outputText value="#{hrResult.ihrCurrentCompany}" cols="40"
+								rows="2">
+							</h:outputText>
+						</s:decorate>
+
+
+						<h3>Years of experience (capture overall experience and also
+							the relevant no. years of experience for the current role at
+							RBVH)</h3>
+
+						<h:panelGrid columns="2">
+							<s:decorate template="layout/edit.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="Total	Exp:" />
+								</ui:define>
+								<h:outputText styleClass="rtsTextBox"
+									value="#{hrResult.ihrYearsOfExpTotal}" />
+							</s:decorate>
+
+							<s:decorate template="layout/edit.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="Rel. Exp:" />
+								</ui:define>
+								<h:outputText styleClass="rtsTextBox"
+									value="#{hrResult.ihrYearsOfExpRel}" />
+							</s:decorate>
+						</h:panelGrid>
+
+						<h3>Overseas Experience (state duration of assignments,
+							location etc)</h3>
+
+						<h:panelGrid columns="2">
+							<s:decorate template="layout/edit.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="Location:" />
+								</ui:define>
+								<a4j:region>
+									<li class="overseasExperience"><h:outputText
+											styleClass="rtsTextBox"
+											value="#{hrResult.ihrOverseasExpLocation1}" /></li>
+									<li class="overseasExperience"><h:outputText
+											styleClass="rtsTextBox"
+											value="#{hrResult.ihrOverseasExpLocation2}" /></li>
+									<li class="overseasExperience"><h:outputText
+											styleClass="rtsTextBox"
+											value="#{hrResult.ihrOverseasExpLocation3}" /></li>
+								</a4j:region>
+							</s:decorate>
+
+							<s:decorate template="layout/edit.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="Duration:" />
+								</ui:define>
+								<a4j:region>
+									<li class="overseasExperience"><h:outputText
+											styleClass="rtsTextBox"
+											value="#{hrResult.ihrOverseasExpDuration1}" /></li>
+									<li class="overseasExperience"><h:outputText
+											styleClass="rtsTextBox"
+											value="#{hrResult.ihrOverseasExpDuration2}" /></li>
+									<li class="overseasExperience"><h:outputText
+											styleClass="rtsTextBox"
+											value="#{hrResult.ihrOverseasExpDuration3}" /></li>
+								</a4j:region>
+
+							</s:decorate>
+						</h:panelGrid>
+				</rich:panel>
+				
+				<rich:panel>
+					<f:facet name="header">Personality traits</f:facet>
+					<h2>Personality traits(to be assessed based on the proposed
+							role)</h2>
+
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="General Attitude" />
+								<br />
+								<h:outputLabel
+									value="(seriousness in job change,
+														flexibility, career focus, ability to align with RBVH
+														culture):" />
+							</ui:define>
+							<h:outputText value="#{hrResult.ihrGeneralAttitude}" cols="40"
+								rows="2">
+							</h:outputText>
+						</s:decorate>
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Articulation" />
+								<br />
+								<h:outputLabel
+									value="(Ability to understand,
+												analyse and respond with conviction):" />
+							</ui:define>
+							<h:outputText value="#{hrResult.ihrArticulation}" cols="40"
+								rows="2">
+							</h:outputText>
+						</s:decorate>
+
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Communication" />
+								<br />
+								<h:outputLabel
+									value="(based on past experience,
+												overall judgment in terms of projectability to client):" />
+							</ui:define>
+							<h:outputText value="#{hrResult.ihrCommunication}" cols="40"
+								rows="2">
+							</h:outputText>
+						</s:decorate>
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Flexibility" />
+								<br />
+								<h:outputLabel
+									value="(in term of location,
+												expectations, domain, technology etc):" />
+							</ui:define>
+							<h:outputText value="#{hrResult.ihrFlexibility}" cols="40"
+								rows="2">
+							</h:outputText>
+						</s:decorate>
+
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Leadership" />
+								<br />
+								<h:outputLabel
+									value="(ability to work with a team
+												/ inspire team-mates, overall ability to project self as a
+												leader, past record):" />
+							</ui:define>
+							<h:outputText value="#{hrResult.ihrLeadership}" cols="40"
+								rows="2">
+							</h:outputText>
+						</s:decorate>
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Personality" />
+								<br />
+								<h:outputLabel
+									value="Personality(Overall personality,
+												appearance, seriousness in approach confidence level,
+												turn-out dress, body language etc):" />
+							</ui:define>
+							<h:outputText value="#{hrResult.ihrPersonality}" cols="40"
+								rows="2">
+							</h:outputText>
+						</s:decorate>
+
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Service Stability" />
+								<br />
+								<h:outputLabel
+									value="(Judgment to be based on past
+												record and commitment to stay with RBVH):" />
+							</ui:define>
+							<h:outputText value="#{hrResult.ihrServiceStability}"
+								cols="40" rows="2">
+							</h:outputText>
+						</s:decorate>
+
+						<h3>Any Other qualities(What drives the individual, Key
+							strengths, self-development initiatives)</h3>
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Key Strengths:" />
+							</ui:define>
+							<h:outputText value="#{hrResult.ihrKeyStrength}" cols="40"
+								rows="2">
+							</h:outputText>
+						</s:decorate>
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Areas to Improve:" />
+							</ui:define>
+							<h:outputText value="#{hrResult.ihrAreasToImprove}" cols="40"
+								rows="2">
+							</h:outputText>
+						</s:decorate>			
+					
+				</rich:panel>
+				
+				<rich:panel>
+					<f:facet name="header">Other Details</f:facet>
+					<h2>Other Details(Related to expectations, Personal
+							Preference etc)</h2>
+
+						<h3>Current Salary(After verification of pay-slip or last
+							revision letter)</h3>
+
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Fixed:" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrCurrentSalaryFixed}" />
+						</s:decorate>
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Variable:" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrCurrentSalaryVariable}" />
+						</s:decorate>
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Expected Salary" />
+								<br />
+								<h:outputLabel value="(Broad and minimum expectation):" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrExpectedSalary}" />
+						</s:decorate>
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Other Expectations" />
+								<br />
+								<h:outputLabel
+									value="(Such as location preference,
+												on-site, role, career path etc):" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrOtherExpectation}" />
+						</s:decorate>
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Other Expectations" />
+								<br />
+								<h:outputLabel
+									value="(Such as location preference,
+												on-site, role, career path etc):" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrOtherExpectation}" />
+						</s:decorate>
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Reasons for job change" />
+								<br />
+								<h:outputLabel
+									value="(list the pushing factors to
+												look-out for a company change):" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrReasonForChange}" />
+						</s:decorate>
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Career Plan" />
+								<br />
+								<h:outputLabel
+									value="(Candidates aspirations on
+												short-term and medium term career goals):" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrReasonForChange}" />
+						</s:decorate>
+
+
+						<h3>Career Plan(Candidates aspirations on short-term and
+							medium term career goals)</h3>
+							<s:decorate template="layout/feedbackEdit.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="3 years:" />
+								</ui:define>
+								<h:outputText value="#{hrResult.ihrCareerPlan3yrs}"
+									cols="40"
+									rows="2"/>
+							</s:decorate>
+							<s:decorate template="layout/feedbackEdit.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="5 years:" />
+								</ui:define>
+								<h:outputText value="#{hrResult.ihrCareerPlan5yrs}"
+									cols="40"
+									rows="2"/>
+							</s:decorate>
+
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Motivating factors" />
+								<br />
+								<h:outputLabel
+									value="(What motivates the
+												candidates - role, challenge, compensation, brand,
+												assignment etc):" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrMotivatingFactor}" />
+						</s:decorate>
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Key Technical Skill" />
+								<br />
+								<h:outputLabel
+									value="(List down the key skill that
+												the candidate claims to have expertise on):" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrTechnicalSkill}" />
+						</s:decorate>
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Details of offers in hand" />
+								<br />
+								<h:outputLabel
+									value="(List the offers s/he carries
+												and details on it):" />
+							</ui:define>
+							<a4j:region>
+								<h:selectOneRadio value="#{hrResult.ihrOfferInHand}" disabled="true">
+									<f:selectItem itemLabel="Yes" itemValue="true" />
+									<f:selectItem itemLabel="No" itemValue="false" />
+								</h:selectOneRadio>
+								<h:outputText styleClass="rtsTextBox"
+									value="#{hrResult.ihrOfferInHandDetail}"
+									rendered="#{hrResult.ihrOfferInHand eq 'true'}" />
+							</a4j:region>
+						</s:decorate>
+
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Location Preference" />
+								<br />
+								<h:outputLabel
+									value="(Preference or willingness
+												for a possible relocation in future):" />
+							</ui:define>
+							<a4j:region>
+								<h:selectOneRadio value="#{hrResult.ihrLocationPreference}" disabled="true">
+									<f:selectItem itemLabel="Vietnam" itemValue="Vietnam" />
+									<f:selectItem itemLabel="Others" itemValue="Others" />
+									<f:selectItem itemLabel="Either is ok" itemValue="Either" />
+								</h:selectOneRadio>
+							</a4j:region>
+						</s:decorate>
+
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel
+									value="Any bond signed with current
+												company" />
+								<br />
+								<h:outputLabel value="(Lock-in period in current job):" />
+							</ui:define>
+							<h:selectOneRadio value="#{hrResult.ihrCurrentBond}" disabled="true">
+								<f:selectItem itemLabel="Yes" itemValue="#{true}" />
+								<f:selectItem itemLabel="No" itemValue="#{false}" />
+								<a4j:support event="onclick" ajaxSingle="true"
+									reRender="duration" limitToList="true"
+									ignoreDupResponses="true" />
+							</h:selectOneRadio>
+						</s:decorate>
+
+					<s:div id="duration">
+						<s:decorate rendered="#{hrResult.ihrCurrentBond eq true}"
+							template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="If yes, Lock-in
+														duration:" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrCurrentBondDuration}" />
+						</s:decorate>
+					</s:div>
+
+					<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Amount payable:" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrCurrentBondAmount}" />
+						</s:decorate>
+
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Willing for contractual model" />
+								<br />
+								<h:outputLabel
+									value="(applicable for positions
+												that lacks long-term visibility or the candidates does not
+												possess exact skill base):" />
+							</ui:define>
+							<h:selectOneRadio value="#{hrResult.ihrContractualModel}" disabled="true">
+								<f:selectItem itemLabel="Yes" itemValue="#{true}" />
+								<f:selectItem itemLabel="No" itemValue="#{false}" />
+							</h:selectOneRadio>
+						</s:decorate>
+
+						<h3>Notice period(Lead time required to join, if selected)</h3>
+
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Can join in (days):" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrNoticePeriodDays}">
+							</h:outputText>
+						</s:decorate>
+						
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Agreed DOJ:" />
+							</ui:define>
+						<rich:calendar styleClass="rtsCalendar"
+							value="#{hrResult.ihrNoticePeriodDate}"
+							datePattern="#{messages['calendar.pattern']}"
+							enableManualInput="false"
+							locale="#{calendarBean.locale}"
+							monthLabels="#{messages['calendar.month.labels']}" 
+							isDayEnabled="disablementFunction"
+							dayStyleClass="disabledClassesProv"
+							boundaryDatesMode="scroll"/>
+					</s:decorate>
+
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Passport details(Visa stamping details):" />
+							</ui:define>
+							<h:outputText value="#{hrResult.ihrPassportDetail}" cols="40"
+								rows="2">
+							</h:outputText>
+						</s:decorate>
+						<s:decorate template="layout/feedbackEdit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Completion of application form:" />
+							</ui:define>
+							<h:selectOneRadio value="#{hrResult.ihrApplicationForm}" disabled="true"
+								styleClass="resetRadio">
+								<f:selectItem itemLabel="Done" itemValue="Done" />
+								<f:selectItem itemLabel="Partially Done"
+									itemValue="Partially Done" />
+								<f:selectItem itemLabel="Not Done" itemValue="Not Done" />
+							</h:selectOneRadio>
+						</s:decorate>
+					
+				</rich:panel>
+				
+				<rich:panel>
+					<f:facet name="header">Final Comments / Recommendations</f:facet>
+					
+					<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="#{messages['com.bosch.validator.HrResult.Recommended']}:" />
+							</ui:define>
+							<h:selectOneRadio value="#{hrResult.ihrRecommended}" disabled="true"
+								styleClass="resetRadio">
+								<f:selectItem itemLabel="Yes" itemValue="0" />
+								<f:selectItem itemLabel="No" itemValue="1" />
+								<f:selectItem itemLabel="Contract Hiring" itemValue="2" />
+							</h:selectOneRadio>
+						</s:decorate>
+
+						<h3>Family Details</h3>
+
+						<s:decorate template="layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Father:" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrFather}" />
+						</s:decorate>
+						<s:decorate template="layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Mother:" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrMother}" />
+						</s:decorate>
+						<s:decorate template="layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Spouse:" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrSpouse}" />
+						</s:decorate>
+						<s:decorate template="layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Children:" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrChildren}" />
+						</s:decorate>
+						<s:decorate template="layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Siblings:" />
+							</ui:define>
+							<h:outputText styleClass="rtsTextBox"
+								value="#{hrResult.ihrSibling}" />
+						</s:decorate>
+
+						<s:decorate template="layout/edit.xhtml">
+							<ui:define name="label">
+								<h:outputLabel value="Comments, if any:" />
+							</ui:define>
+							<h:outputText value="#{hrResult.ihrComment}" cols="40"
+								rows="2">
+							</h:outputText>
+						</s:decorate>		
+						
+						<h:panelGrid columns="2">	
+						
+							<s:decorate template="layout/display.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="Created By:" />
+								</ui:define>
+								<h:outputText value="#{hrResult.createdBy}" />
+							</s:decorate>	
+							
+							<s:decorate template="layout/display.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="Created On:" />
+								</ui:define>
+								<h:outputText value="#{hrResult.createdOn}" >
+									<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+								</h:outputText>
+							</s:decorate>	
+							
+							<s:decorate template="layout/display.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="Last Updated By:" />
+								</ui:define>
+								<h:outputText value="#{hrResult.updatedBy}" />
+							</s:decorate>	
+							
+							<s:decorate template="layout/display.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="Last Updated On:" />
+								</ui:define>
+								<h:outputText value="#{hrResult.updatedOn}" >
+									<s:convertDateTime type="both" pattern="#{messages['calendar.pattern']}" locale="#{calendarBean.locale}"/>
+								</h:outputText>
+							</s:decorate>	
+						
+						</h:panelGrid>
+										
+				</rich:panel>
+
+				<div class="actionButtons" style="clear: both;">
+					<rich:toolBar style="margin:0; padding:0; margin-top: 10px;">
+
+						<s:button includePageParams="false" 
+							propagation="join"
+							styleClass="submitStandard" 
+							view="/InterviewScheduleList.xhtml"
+							id="back" value="#{resource['Button.Back']}"
+							onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});" />
+					
+					</rich:toolBar>
+				</div>
+			</s:div>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,280 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" template="../layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<h:form>
+			<s:div style="padding-top: 20px;">
+				<h:outputLabel
+					value="#{messages['interview.assessment.attribute.create']}"
+					styleClass="header-label" />
+			</s:div>
+			<s:div styleClass="header-border">
+				<h:panelGrid columns="2">
+					<s:decorate template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['form.name']}:" />
+						</ui:define>
+						<h:inputText
+							value="#{technicalResultLineAttributeHome.newInstance().name}"
+							rendered="#{!technicalResultLineAttributeHome.error}"
+							required="true" styleClass="rtsTextBox" />
+						<h:inputText
+							value="#{technicalResultLineAttributeHome.instance.name}"
+							rendered="#{technicalResultLineAttributeHome.error}"
+							required="true" styleClass="rtsTextBox" />
+					</s:decorate>
+
+					<s:decorate template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['form.label']}:" />
+						</ui:define>
+						<h:inputText
+							value="#{technicalResultLineAttributeHome.instance.label}"
+							required="true" styleClass="rtsTextBox" />
+					</s:decorate>
+
+					<s:decorate template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['form.description']}:" />
+						</ui:define>
+						<h:inputTextarea
+							value="#{technicalResultLineAttributeHome.instance.description}"
+							styleClass="rtsTextarea" />
+					</s:decorate>
+
+					<s:decorate template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['form.colspan']}:" />
+						</ui:define>
+						<rich:inputNumberSpinner minValue="1" maxValue="5" inputSize="1"
+							value="#{technicalResultLineAttributeHome.instance.colSpan}"
+							required="true">
+						</rich:inputNumberSpinner>
+					</s:decorate>
+
+					<s:decorate template="../layout/edit.xhtml" id="typeField">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['form.control.type']}:" />
+						</ui:define>
+						<h:selectOneMenu
+							value="#{technicalResultLineAttributeHome.instance.controlType}"
+							styleClass="rtsSelectOneMenu" required="true"
+							id="controlTypeField">
+							<s:selectItems
+								value="#{technicalResultLineAttributeHome.controlTypes}"
+								var="item" label="#{item.description}">
+							</s:selectItems>
+							<s:convertEntity />
+							<a:support event="onchange" ajaxSingle="true" limitToList="true"
+								reRender="layouts,requiredFieldLayout" ignoreDupResponses="true" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+					<s:decorate id="layouts">
+						<s:div
+							rendered="#{(not empty technicalResultLineAttributeHome.instance.controlType) and (technicalResultLineAttributeHome.instance.controlType.name eq 'RADIO_BUTTON')}">
+							<s:decorate template="../layout/edit.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="#{messages['form.layout']}:" />
+								</ui:define>
+								<h:selectOneMenu
+									value="#{technicalResultLineAttributeHome.instance.layout}">
+									<f:selectItem itemLabel="#{messages['form.layout.line']}"
+										itemValue="lineDirection" />
+									<f:selectItem itemLabel="#{messages['form.layout.page']}"
+										itemValue="pageDirection" />
+								</h:selectOneMenu>
+							</s:decorate>
+						</s:div>
+					</s:decorate>
+
+					<s:decorate id="requiredFieldLayout">
+						<s:div
+							rendered="#{(not empty technicalResultLineAttributeHome.instance.controlType) and (technicalResultLineAttributeHome.instance.controlType.name != 'TEXT')}">
+							<s:decorate template="../layout/edit.xhtml">
+								<ui:define name="label">
+									<h:outputLabel value="#{messages['form.required']}:" />
+								</ui:define>
+								<h:selectOneMenu
+									value="#{technicalResultLineAttributeHome.instance.required}"
+									required="true">
+									<f:selectItem itemLabel="#{messages['yes']}" itemValue="Y" />
+									<f:selectItem itemLabel="#{messages['no']}" itemValue="N" />
+								</h:selectOneMenu>
+							</s:decorate>
+						</s:div>
+					</s:decorate>
+
+					<s:decorate template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['form.align']}:" />
+						</ui:define>
+						<h:selectOneMenu
+							value="#{technicalResultLineAttributeHome.instance.align}"
+							required="true">
+							<f:selectItem itemLabel="#{messages['form.align.left']}"
+								itemValue="left" />
+							<f:selectItem itemLabel="#{messages['form.align.center']}"
+								itemValue="center" />
+							<f:selectItem itemLabel="#{messages['form.align.right']}"
+								itemValue="right" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+					<s:decorate template="../layout/edit.xhtml">
+						<ui:define name="label">
+							<h:outputLabel value="#{messages['form.position']}:" />
+						</ui:define>
+						<rich:inputNumberSpinner minValue="1" maxValue="5" inputSize="1"
+							value="#{technicalResultLineHome.instance.position}"
+							required="true">
+						</rich:inputNumberSpinner>
+					</s:decorate>
+
+				</h:panelGrid>
+			</s:div>
+
+			<div style="clear: both">
+				<rich:spacer />
+			</div>
+
+			<s:div>
+				<h:commandButton value="#{messages['Button.Save']}"
+					action="#{technicalResultLineAttributeHome.createAttribute()}"
+					id="saveButton" styleClass="submitStandard"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+					<s:defaultAction />
+				</h:commandButton>
+
+				<s:button id="resetButton" value="#{resource['Button.Reset']}"
+					styleClass="submitStandard" includePageParams="none"
+					onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+				</s:button>
+			</s:div>
+
+			<s:div id="searchResultPanel" styleClass="table-align">
+				<h:outputLabel value="#{messages['no.results.found']}"
+					rendered="#{empty technicalResultLineAttributeHome.technicalResultLineAttributes}" />
+
+				<rich:dataTable id="technicalResultAttributesTable" 
+					var="item"
+					value="#{technicalResultLineAttributeHome.technicalResultLineAttributes}"
+					rowKeyVar="index" 
+					rowClasses="brightRow,darkRow"
+					rendered="#{not empty technicalResultLineAttributeHome.technicalResultLineAttributes}"
+					reRender="paginationId" width="100%"
+					rows="#{messages['pagination.size']}">
+
+					<rich:column filterBy="#{item.name}" filterEvent="onkeyup"
+						sortBy="#{item.name}" sortable="true">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['form.name']}" />
+						</f:facet>
+						<s:link value="#{item.name}"
+							view="/ia/AttributeEdit.xhtml" propagation="join"
+							onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+							<f:param name="technicalResultLineAttributeId" value="#{item.id}" />
+							<f:param name="fromView"
+								value="/ia/AttributeList.xhtml" />
+						</s:link>
+
+					</rich:column>
+
+					<rich:column filterBy="#{item.technicalResultLine.name}"
+						filterEvent="onkeyup" sortBy="#{item.technicalResultLine.name}"
+						sortable="true">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['form.applied.for.line']}" />
+						</f:facet>
+
+						<s:link value="#{item.technicalResultLine.name}"
+							view="/ia/LineEdit.xhtml" propagation="join"
+							onclick="Richfaces.showModalPanel('ajaxLoadingModalBox',{width:50, top:200});">
+							<f:param name="technicalResultLineId"
+								value="#{item.technicalResultLine.id}" />
+							<f:param name="fromView"
+								value="/ia/AttributeList.xhtml" />
+						</s:link>
+
+					</rich:column>
+
+					<rich:column filterBy="#{item.description}" filterEvent="onkeyup"
+						sortBy="#{item.description}" sortable="true">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['form.description']}" />
+						</f:facet>
+						<h:outputText value="#{item.description}" />
+					</rich:column>
+
+					<rich:column filterBy="#{item.label}" filterEvent="onkeyup"
+						sortBy="#{item.label}" sortable="true">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['form.label']}" />
+						</f:facet>
+						<h:outputText value="#{item.label}" />
+					</rich:column>
+
+					<rich:column filterBy="#{item.controlType.description}"
+						filterEvent="onkeyup" sortBy="#{item.controlType.description}"
+						sortable="true">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['form.control.type']}" />
+						</f:facet>
+						<h:outputLabel value="#{item.controlType.description}" />
+					</rich:column>
+
+					<rich:column filterBy="#{item.colSpan}" filterEvent="onkeyup"
+						sortBy="#{item.colSpan}" sortable="true">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['form.colspan']}" />
+						</f:facet>
+						<h:outputText value="#{item.colSpan}" />
+					</rich:column>
+
+					<rich:column filterBy="#{item.layout}" filterEvent="onkeyup"
+						sortBy="#{item.position}" sortable="true">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['form.layout']}" />
+						</f:facet>
+						<h:outputText value="#{item.layout}" />
+					</rich:column>
+
+					<rich:column filterBy="#{item.position}" filterEvent="onkeyup"
+						sortBy="#{item.position}" sortable="true">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['form.position']}" />
+						</f:facet>
+						<h:outputText value="#{item.position}" />
+					</rich:column>
+
+					<rich:column filterBy="#{item.createdBy}" filterEvent="onkeyup"
+						sortBy="#{item.createdBy}" sortable="true">
+						<f:facet name="header">
+							<h:outputLabel value="#{messages['createdBy']}" />
+						</f:facet>
+						<h:outputText value="#{item.createdBy}" />
+					</rich:column>
+
+					<f:facet name="footer">
+						<rich:datascroller for="technicalResultAttributesTable"
+							renderIfSinglePage="false" 
+							align="center" 
+							id="paginationId"
+							maxPages="#{messages['item.pagination.size']}"/>
+					</f:facet>
+
+				</rich:dataTable>
+			</s:div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
