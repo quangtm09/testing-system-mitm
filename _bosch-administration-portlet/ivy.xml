@@ -1,0 +1,33 @@
+<ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
+    <info organisation="@organisation@" module="@module@" revision="@revision@" />
+
+    <configurations>
+        <conf name="deploy" description="public, third-party libraries" />
+        <conf name="dependentprojects" description="the dependent project artifact" />
+    </configurations>
+
+    <publications>
+        <artifact name="@artifactName@" type="@ext@" ext="@ext@" />
+        <artifact name="@artifactName@" type="descriptor" ext="pom" />
+    </publications>
+
+    <dependencies>
+        <dependency org="org.apache.httpcomponents" name="httpclient" rev="4.2.1" conf="deploy->default" transitive="false">
+            <artifact name="httpclient" type="jar" />
+        </dependency>
+        <dependency org="org.apache.httpcomponents" name="httpcore" rev="4.2.1" conf="deploy->default" transitive="false">
+            <artifact name="httpcore" type="jar" />
+        </dependency>
+        <dependency org="com.bosch" name="_bosch-layout-importer-portlet" rev="regexp(6.0.12.v1.0.*_.*)" conf="dependentprojects->default">
+            <artifact name="_bosch-layout-importer-portlet" ext="war" />
+        </dependency>
+        <!-- LRD-1628: Temporarily disable DI2  -->
+        <!-- <dependency org="com.bosch" name="_document-importer2-portlet" rev="regexp(6.0.12.2.*.*)" conf="dependentprojects->default">
+            <artifact name="_document-importer2-portlet" ext="war" />
+        </dependency> -->
+        <dependency org="com.bosch" name="_portletbridge2-portlet" rev="regexp(6.0.12.v2.0.*_.*)" conf="dependentprojects->default">
+            <artifact name="_portletbridge2-portlet" ext="war" />
+        </dependency>
+    </dependencies>
+
+</ivy-module>

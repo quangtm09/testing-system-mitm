@@ -1,0 +1,86 @@
+<script type="text/javascript">
+//<![CDATA[
+	if('true'==='<%=baLiTabs.equals(StringPool.BLANK) || baLiTabs.equals("manage-layout")%>'){
+		
+		var layoutImporterForm;
+		var allRowCheckerBoschLayoutId;
+		var liScAllRowIds;
+		var manageLayoutPanel;
+		var rowCheckerBoschLayoutId;
+		AUI().use(function(A) {
+			// disable un manually updated layout
+			layoutImporterForm = A.one('#<portlet:namespace/>layoutImporterForm');
+			allRowCheckerBoschLayoutId = layoutImporterForm.all('input[name=<portlet:namespace/>rowCheckerBoschLayoutId]');
+			liScAllRowIds = A.one('input[name=<portlet:namespace/>allRowIds]');
+			manageLayoutPanel = A.one('#manageLayoutPanel');
+			if(null!==manageLayoutPanel && null!==liScAllRowIds){
+				var liSCrowIds = layoutImporterForm.all('input[name=<portlet:namespace/>rowIds]');
+				liSCrowIds.each(
+					function(item, index, collection) {
+						//var val = item.val();
+						rowCheckerBoschLayoutId= allRowCheckerBoschLayoutId.item(index).get('value');
+						if(rowCheckerBoschLayoutId.indexOf('<%=BAConstants.MANUALLY_UPDATED_LAYOUT_RESET_HASH_VALUE%>') === -1){
+							//item.set('disabled','disabled');
+							//item.setStyle('display','none');
+							item.remove();
+						}
+					}
+				);
+			} 	
+			
+			// magic
+			if('false'==='<%= StringPool.BLANK.equals(cmd) %>'){
+				A.one('body').set('scrollTop',(A.one('#layoutImporterPanelContainer').get('offsetTop')));
+				
+			}
+			
+			// ready
+			AUI().ready('node', function(A) {
+				if(null!==manageLayoutPanel && null!==liScAllRowIds){
+					liScAllRowIds.on('click',function(){
+						liSCrowIds.each(
+							function(item, index, collection) {
+								//var val = item.val();
+								rowCheckerBoschLayoutId= allRowCheckerBoschLayoutId.item(index).get('value');
+								if(!('<%=BAConstants.MANUALLY_UPDATED_LAYOUT_RESET_HASH_VALUE%>'===rowCheckerBoschLayoutId)){
+									item.set('checked',false);								
+								}
+							}
+						);
+					});
+				}
+			});
+			
+		});
+	};
+	
+	AUI().ready('aui-form-validator', 'aui-overlay-context-panel', function(A) {
+	   var layoutImporterFormValidator = new A.FormValidator({
+	        boundingBox: '#<portlet:namespace />layoutImporterForm',
+	
+	       // fieldContainer: 'p', 
+	       // errorClass: 'aui-form-validator-error', 
+	       // validClass: 'aui-form-validator-valid',
+	       containerValidClass: 'aui-form-validator-valid-container',
+	       validateOnBlur: true,
+	       selectText: true,
+	       rules: {
+	    	   <portlet:namespace />boschLayoutId: {
+	           },
+        	},
+	        fieldStrings: {
+	        	<portlet:namespace />boschLayoutId: {
+	           },
+	        },
+	        on: {
+				submit: function(event) {
+					<portlet:namespace />showLoadingMask();
+					// set default command
+					A.one('#<portlet:namespace />cmd').set('value','<%=Constants.SEARCH%>');
+					A.one('#<portlet:namespace />layoutImporterForm').submit();
+				}
+			}
+	    });
+	});
+// ]]>
+</script>

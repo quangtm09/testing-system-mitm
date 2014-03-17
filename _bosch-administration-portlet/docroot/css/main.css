@@ -1,0 +1,163 @@
+.serefButtonRow {
+	padding: 10px;
+	margin: 20px auto;
+	
+	background: none repeat scroll 0 0 #DDE1E6;
+	
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	
+	-webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), inset 2px 1px 1px rgba(255, 255, 255, 0.5);
+	-moz-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), inset 2px 1px 1px rgba(255, 255, 255, 0.5);
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2), inset 2px 1px 1px rgba(255, 255, 255, 0.5);
+	
+	overflow: hidden;
+}
+
+.word-break{
+	width: 100%;
+	-ms-word-break: break-all;
+     word-break: break-all;
+
+     /* Non standard for webkit */
+     word-break: break-word;
+
+	-webkit-hyphens: auto;
+	   -moz-hyphens: auto;
+	        hyphens: auto;
+}
+
+.legendText {
+	border-bottom: 1px solid #000;
+	clear: both;
+	font-size: 13px;
+	font-weight: 700;
+	width: 80%;
+	margin-top: 10px;
+}
+
+.reimportWrapper{
+	margin-bottom: 10px;
+}
+
+.reimportLabel{
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.radioButtunOption{
+	margin-right: 10px;
+	margin-top: 2px;
+}
+
+
+.lfr-form-row{
+	border-bottom: 0px;
+}
+
+.rightDiv {
+	text-align: right;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+.leftDiv {
+	float: left;
+	margin-bottom: 10px;
+}
+
+.layoutTypeColumn{
+	width: 50px;
+}
+
+.layoutMandatorColumn{
+	width: 70px;
+}
+.layoutLayoutTemplateIdColumn{
+	width: 115px;
+}
+.layoutBoschLayoutIdColumn{
+	width: 60px;
+}
+
+.w20{
+	width: 20%;
+}
+
+.w30{
+	width: 30%;
+}
+
+.w50{
+	width: 50%;
+}
+
+.w60{
+	width: 60%;
+}
+
+.w80{
+	width: 80%;
+}
+
+.w100left{
+	text-align: left;
+	width: 100%;
+}
+
+.urlInputText input{
+	width: 500px;
+}
+.cacheNameInput input{
+	width: 300px;
+}
+
+
+
+.liLabelForInput{
+	width: 15%;
+	font-weight: bold;
+	margin-top: 5px;
+}
+.liSearchName select{
+	width:159px;
+}
+.liSearchName input{
+	width:155px;
+}
+
+
+.lfr-ctrl-panel #portletBridgePanel .lfr-panel-titlebar{
+	background: url(/html/themes/control_panel/images/common/category_portal_bg.png) repeat-x 0 0;
+}
+
+.lfr-ctrl-panel #xmlConfigPanel .lfr-panel-titlebar{
+	background: url(/html/themes/control_panel/images/common/category_server_bg.png) repeat-x 0 0;
+}
+
+.lfr-ctrl-panel #documentImporterPanel .lfr-panel-titlebar{
+	background: url(/html/themes/control_panel/images/common/category_portal_bg.png) repeat-x 0 0;
+}
+
+.lfr-ctrl-panel #mandatorDocumentLayoutImporterPanel .lfr-panel-titlebar{
+	background: url(/html/themes/control_panel/images/common/category_server_bg.png) repeat-x 0 0;
+}
+
+.lfr-ctrl-panel #sessionAccessedURLsPanels .lfr-panel-titlebar{
+	background: url(/html/themes/control_panel/images/common/category_portal_bg.png) repeat-x 0 0;
+}
+
+.lfr-ctrl-panel #enterpriseAdminSessionAttributesPanel .lfr-panel-titlebar{
+	background: url(/html/themes/control_panel/images/common/category_server_bg.png) repeat-x 0 0;
+}
+
+.lfr-ctrl-panel #deteleLayoutImporterPanel .lfr-panel-titlebar{
+	background: url(/html/themes/control_panel/images/common/category_bg.png) repeat-x 0 0;
+}
+.lfr-ctrl-panel #manuallyUpdatedLayoutImporterPanel .lfr-panel-titlebar{
+	background: url(/html/themes/control_panel/images/common/category_portal_bg.png) repeat-x 0 0;
+}
+.lfr-ctrl-panel #manageLayoutPanel .lfr-panel-titlebar{
+	background: url(/html/themes/control_panel/images/common/category_server_bg.png) repeat-x 0 0;
+}
+

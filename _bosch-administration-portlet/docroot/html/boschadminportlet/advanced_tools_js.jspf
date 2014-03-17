@@ -1,0 +1,88 @@
+<script type="text/javascript">
+
+	AUI().use('aui-aria',
+			  'aui-dialog',
+			  'aui-overlay-manager',
+			  'dd-constrain', function(A) {
+		
+		var adv_accept = Liferay.Language.get('accept');
+		var adv_decline = Liferay.Language.get('decline');
+		var title = Liferay.Language.get('alert-window');
+		var threadDumpBodyContent = '<span style="font-size: 1.3em"><strong>' +Liferay.Language.get('important-notice') + '</strong><br>' + Liferay.Language.get('thread-dump-alert-message') + '</span>';
+		var heapDumpBodyContent = '<span style="font-size: 1.3em"><strong>' +Liferay.Language.get('important-notice') + '</strong><br>' + Liferay.Language.get('heap-dump-alert-message') + '</span>';
+		
+	    var threadDumpButtons = [
+	                     {
+	                       handler: function() {
+	                    	   window[ba_namespace+'submitAdvToolsForm']('<%=BAConstants.GENERATE_THREAD_DUMP%>');
+	                       },
+	                       text: adv_accept
+	                     },
+	                     {
+	                       handler: function() {
+	                    	   this.close();
+	                       },
+	                       text: adv_decline
+	                     }
+	                   ];
+	    
+	    A.one('input[id=' + ba_namespace + '<%=BAConstants.GENERATE_THREAD_DUMP%>]').on(
+	      'click',
+	      function() {
+	        var dialog = new A.Dialog(
+	          {
+	            bodyContent: threadDumpBodyContent,
+	            centered: true,
+	            height: 250,
+	            title: title,
+	            width: 610,
+	            resizable: false,
+	            modal: true,
+	            draggable: false,
+				buttons: threadDumpButtons
+	          }
+	        ).render();
+
+	      }
+	    );
+	    
+	    
+	    var heapDumpButtons = [
+	  	                     {
+	  	                       handler: function() {
+	  	                    	   window[ba_namespace+'submitAdvToolsForm']('<%=BAConstants.GENERATE_HEAP_DUMP%>');
+	  	                       },
+	  	                       text: adv_accept
+	  	                     },
+	  	                     {
+	  	                       handler: function() {
+	  	                    	   this.close();
+	  	                       },
+	  	                       text: adv_decline
+	  	                     }
+	  	                   ];
+	    
+	    
+	    A.one('input[id=' + ba_namespace + '<%=BAConstants.GENERATE_HEAP_DUMP%>]').on(
+	  	      'click',
+	  	      function() {
+	  	        var dialog = new A.Dialog(
+	  	          {
+	  	            bodyContent: heapDumpBodyContent,
+	  	            centered: true,
+	  	            height: 300,
+	  	            title: title,
+	  	            width: 610,
+	  	            resizable: false,
+	  	            modal: true,
+	  	            draggable: false,
+	  				buttons: heapDumpButtons
+	  	          }
+	  	        ).render();
+
+	  	      }
+	  	    );
+
+		
+	});
+</script>

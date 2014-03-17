@@ -1,0 +1,38 @@
+<script type="text/javascript">
+	var userSearchForm;
+	var userAllRowIds;
+	
+	AUI().use(function(A) {
+		userSearchForm = A.one('#<portlet:namespace/>searchUserForm');
+		userAllRowIds = A.one('input[name=<portlet:namespace/>allRowIds]');
+		
+		// hide allRowIds
+		userAllRowIds.hide();	
+		
+		// ready
+		AUI().ready('node', function(A) {
+			var userRowIds = userSearchForm.all('input[name=<portlet:namespace/>rowIds]');
+			if(null!==userRowIds){
+								
+				// Set click function for each row checker
+				userRowIds.each(
+					function(item, index, collection) {
+						item.on('click', function(event){
+							// uncheck all checked boxes
+							userRowIds.each(
+								function(item2, index, collection) {
+									item2.set('checked',false);
+								}
+							);
+							
+							// after unchecking all boxes, set clicked box to checked
+							item.set('checked', true);
+						});
+					}
+				);
+				
+			}
+		});
+		
+	});
+</script>
