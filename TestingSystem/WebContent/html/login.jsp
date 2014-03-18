@@ -4,7 +4,14 @@
 
 <%
 	boolean isLoginSuccess = (Boolean) TSUtil.getAttribute(request, "isLoginSuccess", true);
+	//if(session.getAttribute("username") != null){
+	//	response.sendRedirect(TSConstants.TESTING_SYSTEM_SERVLET);
+	//}
 %>
+
+<c:if test='<%=session.getAttribute("username") != null %>'>
+	<c:redirect url="<%=TSConstants.TESTING_SYSTEM_SERVLET %>"/>
+</c:if>
 
 <!-- Begin Page Content -->
 <div id="container">

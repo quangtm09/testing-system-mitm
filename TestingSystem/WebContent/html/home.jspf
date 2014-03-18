@@ -1,0 +1,56 @@
+<div id="content">
+	<div class="post">
+		<h2 class="title"><a href="#">Welcome to Testing System</a></h2>
+		<div style="clear: both;">&nbsp;</div>
+		<div class="entry">
+			<p><a href="#" class="image-shadow"><img src="images/online-testing-assessments2.jpg" width="500" height="150" alt="" /></a></p>
+			<p>This is <strong>Testing System</strong>, a free, fully standards-compliant test system designed by Group 4</p>
+		</div>
+	</div>
+	<div class="post">
+		<h2 class="title"><a href="#">Account Management</a></h2>
+		<div style="clear: both;">&nbsp;</div>
+		<div class="entry">
+			<p><a href="#"><img src="images/Customers.png" width="500" height="150" alt="" /></a></p>
+			<p>This tab allows you to manage accounts in this system.</p>
+		</div>
+	</div>
+	<div class="post">
+		<h2 class="title"><a href="#">User Management</a></h2>
+		<div style="clear: both;">&nbsp;</div>
+		<div class="entry">
+			<p><a href="#"><img src="images/multy-user.png" width="500" height="150" alt="" /></a></p>
+			<p>This tab allows you to manage users in this system.</p>
+		</div>
+	</div>
+	<div style="clear: both;">&nbsp;</div>
+</div>
+<!-- end #content -->
+<div id="sidebar">
+	<div class="post">
+		<h2 class="title"><a href="#">Role Management</a></h2>
+		<div style="clear: both;">&nbsp;</div>
+		<div class="entry">
+			<p>This tab allows you to manage roles in this system!</p>
+		</div>
+	</div>
+	<div class="post">
+		<h2 class="title"><a href="#">Log Management</a></h2>
+		<div style="clear: both;">&nbsp;</div>
+		<div class="entry">
+			<p>This tab allows you to manage logs in this system!</p>
+		</div>
+	</div>
+</div>
+<!-- end #sidebar -->
+
+<div id="sidebar2">
+	<div class="post">
+		<h2 class="title"><a href="#">Contact Us</a></h2>
+		<div style="clear: both;">&nbsp;</div>
+		<div class="entry">
+			<p>If you have any queries, please contact us for more supports!</p>
+		</div>
+	</div>
+</div>
+<div style="clear: both;">&nbsp;</div>

@@ -5,9 +5,11 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,14 +32,25 @@ public class TestingSystemServlet extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response){
 		// Get command
 		final String cmd = TSUtil.getParameter(request, TSConstants.CMD, StringPool.BLANK);
+		final String tsTabParam = TSUtil.getParameter(request, "ts-tab", StringPool.BLANK);
+		final String jspPage = TSUtil.getParameter(request, "jspPage", TSConstants.LOGIN_JSP);
 		
 		try {
 			// User submits login form
 			if(cmd.equals(TSConstants.LOGIN)){
 				login(request, response);
 			} else {
-				// Go to login page
-				goToPage(TSConstants.LOGIN_JSP, request, response);
+
+				HttpSession session = request.getSession();
+				// Already logged in
+				if(session.getAttribute("username") != null){
+					request.setAttribute("ts-tab", tsTabParam);
+					goToPage(TSConstants.INDEX_JSP, request, response);
+				} else {
+					// Go to login page
+					goToPage(TSConstants.LOGIN_JSP, request, response);
+				}
+				
 			}
 		} catch (final Exception ex){
 			ex.printStackTrace();
@@ -52,7 +65,16 @@ public class TestingSystemServlet extends HttpServlet {
 		
 		try {
 			if(username.equals("test") && password.equals("test")){
-				goToPage(TSConstants.INDEX_JSP, request, response);
+				
+				HttpSession session = request.getSession(); 
+				session.setAttribute("username", username);
+				session.setMaxInactiveInterval(1*60);
+				
+				Cookie userName = new Cookie("username", username);
+	            userName.setMaxAge(30*60);
+	            
+	            response.addCookie(userName);
+	            goToPage(TSConstants.INDEX_JSP, request, response);
 			} else {
 				request.setAttribute("isLoginSuccess", false);
 				request.setAttribute("errorMessage", "Failed to login!");

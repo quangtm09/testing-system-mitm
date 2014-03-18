@@ -15,7 +15,9 @@ public class TSConstants {
 	
 	public static final String LOGIN_JSP = "/html/login.jsp";
 	
-	public static final String TESTING_SYSTEM_SERVLET = "/TestingSystem/TestingSystemServlet";
+	public static final String TESTING_SYSTEM_SERVLET = TESTING_SYSTEM_PATH + "/TestingSystemServlet";
+	
+	public static final String TESTING_SYSTEM_SERVLET_URL_PATTERN = "/TestingSystemServlet";
 	
 	// Command parameter (for login, edit, add, delete, etc)
 	public static final String CMD = "cmd";
