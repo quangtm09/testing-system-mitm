@@ -47,11 +47,11 @@ public class TestingSystemServlet extends HttpServlet {
 	
 	private void login(HttpServletRequest request, HttpServletResponse response){
 		// check userId & password, then login, redirect to index page
-		final String userId = TSUtil.getParameter(request, "userId", StringPool.BLANK);
+		final String username = TSUtil.getParameter(request, "username", StringPool.BLANK);
 		final String password = TSUtil.getParameter(request, "password", StringPool.BLANK);
 		
 		try {
-			if(userId.equals("test") && password.equals("test")){
+			if(username.equals("test") && password.equals("test")){
 				goToPage(TSConstants.INDEX_JSP, request, response);
 			} else {
 				request.setAttribute("isLoginSuccess", false);
