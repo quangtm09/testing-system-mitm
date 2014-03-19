@@ -1,0 +1,8 @@
+div.code {
+	width:auto;border:1px solid #d4d4d4;background-color:#F6F4F0;color:#444444;padding:5px;margin:0;
+	font-family: "courier new";
+}
+
+div.example_code {
+	width:auto;background-color:#ffffff;padding:5px;border:1px solid #d4d4d4;font-size:14px;font-family:"courier new";
+}
