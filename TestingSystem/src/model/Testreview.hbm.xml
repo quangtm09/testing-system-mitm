@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 24, 2014 2:19:37 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="model.Testreview" table="testreview" catalog="testingsystem">
+        <id name="testRevId" type="java.lang.Integer">
+            <column name="TEST_REV_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="test" class="model.Test" fetch="select">
+            <column name="TEST_ID" />
+        </many-to-one>
+        <many-to-one name="lecturer" class="model.Lecturer" fetch="select">
+            <column name="LECTR_ID" length="10" />
+        </many-to-one>
+        <property name="testRevComment" type="string">
+            <column name="TEST_REV_COMMENT" length="65535" />
+        </property>
+        <property name="testRevDate" type="date">
+            <column name="TEST_REV_DATE" length="10" />
+        </property>
+        <property name="testRevApproved" type="java.lang.Boolean">
+            <column name="TEST_REV_APPROVED">
+                <comment>This field = TRUE: the test has been checked by the reviewer</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

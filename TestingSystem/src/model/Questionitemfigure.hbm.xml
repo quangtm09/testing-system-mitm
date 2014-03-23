@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 24, 2014 2:19:37 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="model.Questionitemfigure" table="questionitemfigure" catalog="testingsystem">
+        <id name="itemFigId" type="java.lang.Integer">
+            <column name="ITEM_FIG_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="questionitem" class="model.Questionitem" fetch="select">
+            <column name="QUEST_ITEM_ID" />
+        </many-to-one>
+        <many-to-one name="figurelink" class="model.Figurelink" fetch="select">
+            <column name="FIGURE_ID" />
+        </many-to-one>
+        <property name="itemFigDesc" type="string">
+            <column name="ITEM_FIG_DESC" length="65535" />
+        </property>
+    </class>
+</hibernate-mapping>

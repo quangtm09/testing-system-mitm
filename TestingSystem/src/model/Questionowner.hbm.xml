@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 24, 2014 2:19:37 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="model.Questionowner" table="questionowner" catalog="testingsystem">
+        <id name="questOwnerId" type="java.lang.Integer">
+            <column name="QUEST_OWNER_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="question" class="model.Question" fetch="select">
+            <column name="QUESTION_ID" />
+        </many-to-one>
+        <many-to-one name="lecturer" class="model.Lecturer" fetch="select">
+            <column name="LECTR_ID" length="10" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

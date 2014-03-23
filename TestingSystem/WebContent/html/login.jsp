@@ -24,8 +24,8 @@
 		</c:choose>
 		
 		<input name="<%=TSConstants.CMD%>" type="hidden" /> <label
-			for="username">Username:</label> <input type="text" id="username"
-			name="username"> <label for="password">Password:</label> <input
+			for="accountId">Username:</label> <input type="text" id="accountId"
+			name="accountId"> <label for="password">Password:</label> <input
 			type="password" id="password" name="password">
 		<div id="lower">
 			<input type="checkbox"><label class="check" for="checkbox">Keep

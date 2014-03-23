@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 24, 2014 2:19:37 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="model.Figurelink" table="figurelink" catalog="testingsystem">
+        <id name="figureId" type="java.lang.Integer">
+            <column name="FIGURE_ID" />
+            <generator class="identity" />
+        </id>
+        <property name="figureDesc" type="string">
+            <column name="FIGURE_DESC" length="65535" />
+        </property>
+        <property name="figurePath" type="string">
+            <column name="FIGURE_PATH" length="65535" not-null="true" />
+        </property>
+        <set name="questionfigures" table="questionfigure" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="FIGURE_ID" />
+            </key>
+            <one-to-many class="model.Questionfigure" />
+        </set>
+        <set name="questionitemfigures" table="questionitemfigure" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="FIGURE_ID" />
+            </key>
+            <one-to-many class="model.Questionitemfigure" />
+        </set>
+    </class>
+</hibernate-mapping>

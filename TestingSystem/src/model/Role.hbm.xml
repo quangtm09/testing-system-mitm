@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 24, 2014 2:19:37 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="model.Role" table="role" catalog="testingsystem">
+        <id name="roleId" type="java.lang.Integer">
+            <column name="ROLE_ID" />
+            <generator class="identity" />
+        </id>
+        <property name="roleName" type="string">
+            <column name="ROLE_NAME" not-null="true">
+                <comment>Roles: Lecturer, Student, AAOAdmin, SysAdmin, etc</comment>
+            </column>
+        </property>
+        <property name="roleDesc" type="string">
+            <column name="ROLE_DESC" length="65535" />
+        </property>
+        <set name="rolePermissionMaps" table="role_permission_map" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ROLE_ID" />
+            </key>
+            <one-to-many class="model.RolePermissionMap" />
+        </set>
+        <set name="accountRoleMaps" table="account_role_map" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ROLE_ID" />
+            </key>
+            <one-to-many class="model.AccountRoleMap" />
+        </set>
+    </class>
+</hibernate-mapping>

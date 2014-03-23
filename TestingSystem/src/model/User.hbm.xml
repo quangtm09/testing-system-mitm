@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 24, 2014 2:19:37 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="model.User" table="user" catalog="testingsystem">
+        <id name="userId" type="string">
+            <column name="USER_ID" length="10" />
+            <generator class="assigned" />
+        </id>
+        <property name="fname" type="string">
+            <column name="FNAME" length="100" not-null="true" />
+        </property>
+        <property name="lname" type="string">
+            <column name="LNAME" length="100" />
+        </property>
+        <property name="email" type="string">
+            <column name="EMAIL" length="100" />
+        </property>
+        <property name="mobile" type="string">
+            <column name="MOBILE" length="12" />
+        </property>
+        <property name="bdate" type="date">
+            <column name="BDATE" length="10" />
+        </property>
+        <property name="address" type="string">
+            <column name="ADDRESS" length="65535" />
+        </property>
+        <set name="accounts" table="account" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="USER_ID" length="10" />
+            </key>
+            <one-to-many class="model.Account" />
+        </set>
+        <set name="logses" table="logs" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="USER_ID" length="10" not-null="true" />
+            </key>
+            <one-to-many class="model.Logs" />
+        </set>
+    </class>
+</hibernate-mapping>

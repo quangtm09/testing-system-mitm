@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 24, 2014 2:19:37 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="model.AccountRoleMap" table="account_role_map" catalog="testingsystem">
+        <id name="accRoleId" type="java.lang.Integer">
+            <column name="ACC_ROLE_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="role" class="model.Role" fetch="select">
+            <column name="ROLE_ID" />
+        </many-to-one>
+        <many-to-one name="accountByCreatorAccRoleId" class="model.Account" fetch="select">
+            <column name="CREATOR_ACC_ROLE_ID" length="100" />
+        </many-to-one>
+        <many-to-one name="accountByAccId" class="model.Account" fetch="select">
+            <column name="ACC_ID" length="100" />
+        </many-to-one>
+        <property name="accRoleGrantedDate" type="timestamp">
+            <column name="ACC_ROLE_GRANTED_DATE" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>

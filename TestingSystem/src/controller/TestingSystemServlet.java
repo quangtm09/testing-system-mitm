@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,12 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.Account;
+import model.User;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import util.StringPool;
 import util.TSUtil;
 import constants.TSConstants;
+import dao.AccountDao;
+import dao.impl.AccountDaoImpl;
 
 /**
  * Servlet implementation class TestingSystemServlet
@@ -59,28 +65,43 @@ public class TestingSystemServlet extends HttpServlet {
 
 	private void login(final HttpServletRequest request, final HttpServletResponse response){
 		// check userId & password, then login, redirect to index page
-		final String username = TSUtil.getParameter(request, "username", StringPool.BLANK);
+		final String accountId = TSUtil.getParameter(request, "accountId", StringPool.BLANK);
 		final String password = TSUtil.getParameter(request, "password", StringPool.BLANK);
 
+		final AccountDao accountDao = new AccountDaoImpl();
+
 		try {
-			if(username.equals("test") && password.equals("test")){
+			Account account = null;
+
+			final List<Account> accounts = accountDao.getAccountsById(accountId);
+
+			if(null != accounts && !accounts.isEmpty()){
+				account = accounts.get(0);
+			}
+
+			if(null != account && account.getAccPwd().equals(password)){
+				final User accountUser = account.getUser();
+				final String fullName = accountUser.getFname() + StringPool.SPACE + accountUser.getLname();
 
 				final HttpSession session = request.getSession();
-				session.setAttribute("username", username);
+				session.setAttribute("account", account);
+				session.setAttribute("user", accountUser);
+				session.setAttribute("username", fullName);
 
 				// set session to be expired in 1 minutes
 				session.setMaxInactiveInterval(1*60);
 
-				final Cookie userName = new Cookie("username", username);
-				userName.setMaxAge(30*60);
+				final Cookie accountIdCookie = new Cookie("accountId", accountId);
+				accountIdCookie.setMaxAge(30*60);
 
-				response.addCookie(userName);
+				response.addCookie(accountIdCookie);
 				this.goToPage(TSConstants.INDEX_JSP, request, response);
 			} else {
 				request.setAttribute("isWrongUsernameOrPassword", false);
 				request.setAttribute("errorMessage", "Failed to login!");
 				this.goToPage(TSConstants.LOGIN_JSP, request, response);
 			}
+
 		} catch (final Exception ex){
 			ex.printStackTrace();
 			log.error("Error while login!");
