@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -224,6 +225,51 @@ public class AccountDaoImp implements AccountDao {
 		} catch (RuntimeException re) {
 			sessionfactory.getCurrentSession().getTransaction().rollback();
 			log.error("change Password failed", re);
+			throw re;
+		} finally {
+			HibernateUtil.closeSession();
+		}
+	}
+
+	@Override
+	public boolean checkAccount(String accountID, String accountPwd) {
+		// TODO Auto-generated method stub
+		List<Account> acc = findAccountByAccIDandPwd(accountID, accountPwd);
+		Iterator<Account> iterator = acc.iterator();
+		if (iterator.hasNext()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Account> findAccountByAccIDandPwd(String accountID,
+			String accountPwd) {
+		log.debug("find Account by AccID and Pwd: " + accountID);
+		try {
+			// TODO Auto-generated method stub
+			StringBuilder sql = new StringBuilder("");
+			sql.append(" SELECT ");
+			sql.append(" acc.ACC_ID accId ,");
+			sql.append(" acc.ACC_PWD accPwd ");
+			sql.append(" FROM  ACCOUNT acc");
+			sql.append(" WHERE");
+			sql.append(" UCASE(acc.ACC_ID) = UCASE(:accID)");
+			sql.append(" AND acc.ACC_PWD = :accPWD");
+			sessionfactory = HibernateUtil.getSessionFactory();
+			Session session = sessionfactory.getCurrentSession();
+			session.beginTransaction();
+			SQLQuery query = session.createSQLQuery(sql.toString());
+			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP)
+					.setParameter("accID", accountID)
+					.setParameter("accPWD", accountPwd);
+			log.debug("get successful");
+			return (List<Account>) query.list();
+		} catch (RuntimeException re) {
+			sessionfactory.getCurrentSession().getTransaction().rollback();
+			log.error("get failed", re);
 			throw re;
 		} finally {
 			HibernateUtil.closeSession();
