@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -71,13 +70,7 @@ public class TestingSystemServlet extends HttpServlet {
 		final AccountDao accountDao = new AccountDaoImpl();
 
 		try {
-			Account account = null;
-
-			final List<Account> accounts = accountDao.getAccountsById(accountId);
-
-			if(null != accounts && !accounts.isEmpty()){
-				account = accounts.get(0);
-			}
+			final Account account = accountDao.getAccountById(accountId);
 
 			if(null != account && account.getAccPwd().equals(password)){
 				final User accountUser = account.getUser();

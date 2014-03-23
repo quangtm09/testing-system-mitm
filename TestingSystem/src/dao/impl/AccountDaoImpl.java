@@ -38,9 +38,9 @@ AbstractHibernateDaoSupport<Account, String> implements AccountDao {
 	}
 
 	@Override
-	public List<Account> getAccountsById(final String accountId) {
+	public Account getAccountById(final String accountId) {
 		final Criteria crit = getSession().createCriteria(Account.class);
-		crit.add(Restrictions.like("accId", "%" + accountId + "%"));
+		crit.add(Restrictions.eq("accId", accountId));
 		crit.addOrder(Order.asc("accId"));
 
 		final List<Account> accountList = new ArrayList<Account>();
@@ -50,7 +50,7 @@ AbstractHibernateDaoSupport<Account, String> implements AccountDao {
 			final Account account = lct.next();
 			accountList.add(account);
 		}
-		return accountList;
+		return accountList.get(0);
 	}
 
 	@Override
