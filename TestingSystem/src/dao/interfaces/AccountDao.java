@@ -30,4 +30,14 @@ public interface AccountDao {
 	 * change password
 	 */
 	public void changePassword(String accountID, String accountPwd);
+	
+	/*
+	 * Authenticate Account
+	 */
+	public boolean checkAccount(String accountID, String accountPwd);
+	
+	/*
+	 * find Account By AccountID and Password
+	 */
+	List<Account> findAccountByAccIDandPwd(String accountID, String accountPwd);
 }
