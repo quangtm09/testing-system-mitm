@@ -24,7 +24,7 @@
 		</c:choose>
 		
 		<input name="<%=TSConstants.CMD%>" type="hidden" /> <label
-			for="accountId">Username:</label> <input type="text" id="accountId"
+			for="accountId">Account ID:</label> <input type="text" id="accountId"
 			name="accountId"> <label for="password">Password:</label> <input
 			type="password" id="password" name="password">
 		<div id="lower">
