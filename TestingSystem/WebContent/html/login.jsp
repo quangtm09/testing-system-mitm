@@ -3,13 +3,11 @@
 	href="<%=TSConstants.LOGIN_PAGE_CSS%>" />
 
 <%
-	boolean isLoginSuccess = (Boolean) TSUtil.getAttribute(request, "isLoginSuccess", true);
-	//if(session.getAttribute("username") != null){
-	//	response.sendRedirect(TSConstants.TESTING_SYSTEM_SERVLET);
-	//}
+	boolean isWrongUsernameOrPassword = (Boolean) TSUtil.getAttribute(request, "isWrongUsernameOrPassword", true);
+	boolean isUserLoggedIn = TSUtil.isUserLoggedIn(session);
 %>
 
-<c:if test='<%=session.getAttribute("username") != null %>'>
+<c:if test='<%=isUserLoggedIn %>'>
 	<c:redirect url="<%=TSConstants.TESTING_SYSTEM_SERVLET %>"/>
 </c:if>
 
@@ -20,7 +18,7 @@
 		<!-- Display error message if login is not success -->
 		<!-- error message can be configured in servlet -->
 		<c:choose>
-			<c:when test="<%=!isLoginSuccess%>">
+			<c:when test="<%=!isWrongUsernameOrPassword%>">
 				<%@ include file="/html/message/errorMessage.jspf"%>
 			</c:when>
 		</c:choose>

@@ -17,68 +17,69 @@ import org.apache.commons.logging.LogFactory;
 import util.StringPool;
 import util.TSUtil;
 import constants.TSConstants;
-import dao.AccountHome;
 
 /**
  * Servlet implementation class TestingSystemServlet
  */
 @WebServlet("/TestingSystemServlet")
 public class TestingSystemServlet extends HttpServlet {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final Log log = LogFactory.getLog(TestingSystemServlet.class);
-	
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response){
+
+	protected void processRequest(final HttpServletRequest request, final HttpServletResponse response){
 		// Get command
 		final String cmd = TSUtil.getParameter(request, TSConstants.CMD, StringPool.BLANK);
-		final String tsTabParam = TSUtil.getParameter(request, "ts-tab", StringPool.BLANK);
-		final String jspPage = TSUtil.getParameter(request, "jspPage", TSConstants.LOGIN_JSP);
-		
+		final String tsTabParam = TSUtil.getParameter(request, "tsTab", StringPool.BLANK);
+		TSUtil.getParameter(request, "jspPage", TSConstants.LOGIN_JSP);
+
 		try {
 			// User submits login form
 			if(cmd.equals(TSConstants.LOGIN)){
-				login(request, response);
+				this.login(request, response);
 			} else {
 
-				HttpSession session = request.getSession();
+				final HttpSession session = request.getSession();
 				// Already logged in
 				if(session.getAttribute("username") != null){
-					request.setAttribute("ts-tab", tsTabParam);
-					goToPage(TSConstants.INDEX_JSP, request, response);
+					request.setAttribute("tsTab", tsTabParam);
+					this.goToPage(TSConstants.INDEX_JSP, request, response);
 				} else {
 					// Go to login page
-					goToPage(TSConstants.LOGIN_JSP, request, response);
+					this.goToPage(TSConstants.LOGIN_JSP, request, response);
 				}
-				
+
 			}
 		} catch (final Exception ex){
 			ex.printStackTrace();
 			log.error("Error while processing request!");
 		}
 	}
-	
-	private void login(HttpServletRequest request, HttpServletResponse response){
+
+	private void login(final HttpServletRequest request, final HttpServletResponse response){
 		// check userId & password, then login, redirect to index page
 		final String username = TSUtil.getParameter(request, "username", StringPool.BLANK);
 		final String password = TSUtil.getParameter(request, "password", StringPool.BLANK);
-		
+
 		try {
 			if(username.equals("test") && password.equals("test")){
-				
-				HttpSession session = request.getSession(); 
+
+				final HttpSession session = request.getSession();
 				session.setAttribute("username", username);
+
+				// set session to be expired in 1 minutes
 				session.setMaxInactiveInterval(1*60);
-				
-				Cookie userName = new Cookie("username", username);
-	            userName.setMaxAge(30*60);
-	            
-	            response.addCookie(userName);
-	            goToPage(TSConstants.INDEX_JSP, request, response);
+
+				final Cookie userName = new Cookie("username", username);
+				userName.setMaxAge(30*60);
+
+				response.addCookie(userName);
+				this.goToPage(TSConstants.INDEX_JSP, request, response);
 			} else {
-				request.setAttribute("isLoginSuccess", false);
+				request.setAttribute("isWrongUsernameOrPassword", false);
 				request.setAttribute("errorMessage", "Failed to login!");
-				goToPage(TSConstants.LOGIN_JSP, request, response);
+				this.goToPage(TSConstants.LOGIN_JSP, request, response);
 			}
 		} catch (final Exception ex){
 			ex.printStackTrace();
@@ -89,21 +90,23 @@ public class TestingSystemServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
+	@Override
+	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+		this.processRequest(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
+	@Override
+	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+		this.processRequest(request, response);
 	}
-	
-	
-	public void goToPage(String page, HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = getServletContext()
+
+
+	public void goToPage(final String page, final HttpServletRequest request,
+			final HttpServletResponse response) throws ServletException, IOException {
+		final RequestDispatcher dispatcher = this.getServletContext()
 				.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 	}

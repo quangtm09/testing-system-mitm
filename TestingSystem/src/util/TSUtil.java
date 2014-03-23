@@ -1,8 +1,27 @@
 package util;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class TSUtil {
+	/**
+	 * 
+	 * Set default value of attribute if the attribute is null
+	 * 
+	 * @param request
+	 * @param attributeName
+	 * @param defaultValue
+	 * @return
+	 */
+	public static Object getAttribute(final HttpServletRequest request, final String attributeName, final Object defaultValue){
+		Object attributeValue = request.getAttribute(attributeName);
+		if(null == attributeValue){
+			attributeValue = defaultValue;
+		}
+		return attributeValue;
+	}
+
 	/**
 	 * Set default value of parameter if parameter is null
 	 * 
@@ -11,19 +30,46 @@ public class TSUtil {
 	 * @param defaultValue
 	 * @return
 	 */
-	public static String getParameter(HttpServletRequest request, String paramName, String defaultValue){
+	public static String getParameter(final HttpServletRequest request, final String paramName, final String defaultValue){
 		String paramValue = request.getParameter(paramName);
 		if(null == paramValue){
 			paramValue = defaultValue;
 		}
 		return paramValue;
 	}
-	
-	public static Object getAttribute(HttpServletRequest request, String attributeName, Object defaultValue){
-		Object attributeValue = request.getAttribute(attributeName);
-		if(null == attributeValue){
-			attributeValue = defaultValue;
+
+	public static String getUsernameByCookie(final HttpServletRequest request){
+		String username = null;
+		final Cookie[] cookies = request.getCookies();
+
+		if(null != cookies){
+			for(final Cookie cookie: cookies){
+				if(cookie.getName().equals("username")){
+					username = cookie.getName();
+				}
+			}
 		}
-		return attributeValue;
+		return username;
+	}
+
+	public static String getUsernameByHttpSession(final HttpSession session){
+		return (String) session.getAttribute("username");
+	}
+
+	/**
+	 * Check if user is logged in or not
+	 * 
+	 * @param session
+	 * @return
+	 */
+	public static boolean isUserLoggedIn(final HttpSession session) {
+		boolean isUserLoggedIn = false;
+
+		if(session.getAttribute("username") != null){
+			isUserLoggedIn = true;
+		}
+
+		return isUserLoggedIn;
+
 	}
 }

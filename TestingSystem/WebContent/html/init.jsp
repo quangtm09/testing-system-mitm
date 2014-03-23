@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="constants.TSConstants"%>
 <%@page import="util.TSUtil"%>
+<%@page import="util.StringPool"%>
 
 <link rel="stylesheet" type="text/css" href="<%=TSConstants.JQUERY_CSS%>"/>
 
