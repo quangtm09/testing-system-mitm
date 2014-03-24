@@ -3,7 +3,7 @@ package constants;
 public class TSConstants {
 	public static final String TESTING_SYSTEM_PATH = "/TestingSystem";
 
-	public static final String TESTING_SYSTEM_CSS = TESTING_SYSTEM_PATH + "/css/testing_system.css";
+	public static final String TESTING_SYSTEM_IMG_FOLDER = TESTING_SYSTEM_PATH + "/images";
 
 	public static final String LOGIN_PAGE_CSS = TESTING_SYSTEM_PATH + "/css/login_page.css";
 
@@ -23,6 +23,8 @@ public class TSConstants {
 	public static final String CMD = "cmd";
 
 	public static final String LOGIN = "login";
+
+	public static final String EDIT_USER = "editUser";
 
 	public static final String USERNAME = "username";
 

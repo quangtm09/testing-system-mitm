@@ -1,0 +1,73 @@
+<%
+	UserDao userDao = new UserDaoImpl();
+	String userId = (String) request.getAttribute("userId");
+	User user = userDao.findById(userId);
+	Set<Account> accountList = user.getAccounts();
+	
+	String fullName = user.getFname() + StringPool.SPACE + user.getLname();
+	
+	SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
+	String date = formatter.format(user.getBdate());
+%>
+
+
+<div style="font-size: 2.5em; text-align: center">
+	<%=fullName%>'s User Details
+</div>
+
+<table>
+	<tr>
+		<td>First Name:</td>
+		<td><%=user.getFname()%></td>
+	</tr>
+	<tr>
+		<td>Last Name:</td>
+		<td><%=user.getLname()%></td>
+	</tr>
+	<tr>
+		<td>Email:</td>
+		<td><%=user.getEmail()%></td>
+	</tr>
+	<tr>
+		<td>Mobile:</td>
+		<td><%=user.getMobile()%></td>
+	</tr>
+	<tr>
+		<td>Birthday:</td>
+		<td><%=date%></td>
+	</tr>
+	<tr>
+		<td>Address:</td>
+		<td>
+			<c:choose>
+				<c:when test='<%=user.getAddress() == null %>'>
+					None
+				</c:when>
+				<c:otherwise>
+					<%=user.getAddress()%>
+				</c:otherwise>
+			</c:choose>
+		</td>
+	</tr>
+	<tr>
+		<td>Accounts:</td>
+		<td>
+			<div class="CSSTableGenerator" >
+   				<table>
+   					<tr>
+   						<td>No.</td>
+   						<td>Account ID</td>
+   					</tr>
+   					<c:set var="count" value="0"/>
+					<c:forEach items="<%=accountList %>" var="account">
+						<tr>
+							<c:set var="count" value="${count + 1}"/>
+							<td>${count}.</td>
+							<td>${account.accId}</td>
+						</tr>
+					</c:forEach>
+   				</table>
+   			</div>
+		</td>
+	</tr>
+</table>

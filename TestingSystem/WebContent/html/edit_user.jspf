@@ -1,0 +1,97 @@
+<%
+	UserDao userDao = new UserDaoImpl();
+	String userId = (String) request.getAttribute("userId");
+	User user = userDao.findById(userId);
+	Set<Account> accountList = user.getAccounts();
+	
+	String fullName = user.getFname() + StringPool.SPACE + user.getLname();
+	String address = user.getAddress();
+	
+	if(address == null){
+		address = StringPool.BLANK;
+	}
+	
+	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+	String date = formatter.format(user.getBdate());
+	
+	boolean isUpdatedSuccessfully = (Boolean) TSUtil.getAttribute(request, "isUpdatedSuccessfully", true);
+	boolean isClickedEditButton = (Boolean) TSUtil.getAttribute(request, "isClickedEditButton", false);
+%>
+
+
+<div style="font-size: 2.5em;">
+	<div style="display: inline; text-align: left">Edit User - <%=fullName%></div>
+	<div style="display: inline; text-align: right; text-decoration: underline;">
+		<a href="${user_management_url}">&lt;&lt;&nbsp;Back</a>
+	</div>
+	<hr>
+</div>
+
+<c:choose>
+	<c:when test="<%=!isUpdatedSuccessfully%>">
+		<%@ include file="/html/message/errorMessage.jspf"%>
+	</c:when>
+</c:choose>
+
+<c:choose>
+	<c:when test="<%=isUpdatedSuccessfully && isClickedEditButton%>">
+		<%@ include file="/html/message/successMessage.jspf"%>
+	</c:when>
+</c:choose>
+
+<form action="<%=TSConstants.TESTING_SYSTEM_SERVLET%>" method="POST">
+	<input type="hidden" name="<%=TSConstants.CMD%>" value="<%=TSConstants.EDIT_USER%>"/>
+	<input type="hidden" name="userId" value="<%=user.getUserId()%>"/>
+	<table>
+		<tr>
+			<td>First Name:</td>
+			<td><input type="text" value="<%=user.getFname()%>" name="fname"/></td>
+		</tr>
+		<tr>
+			<td>Last Name:</td>
+			<td><input type="text" value="<%=user.getLname()%>" name="lname"/></td>
+		</tr>
+		<tr>
+			<td>Email:</td>
+			<td><input type="text" value="<%=user.getEmail()%>" name="email"/></td>
+		</tr>
+		<tr>
+			<td>Mobile:</td>
+			<td><input type="text" value="<%=user.getMobile()%>" name="mobile"/></td>
+		</tr>
+		<tr>
+			<td>Birthday:</td>
+			<td><input type="text" value="<%=date%>" name="bdate" id="datepicker"/></td>
+		</tr>
+		<tr>
+			<td>Address:</td>
+			<td>
+				<input type="text" value="<%=address%>" name="address"/>
+			</td>
+		</tr>
+		<tr>
+			<td>Accounts:</td>
+			<td>
+				<div class="CSSTableGenerator" >
+	   				<table>
+	   					<tr>
+	   						<td>No.</td>
+	   						<td>Account ID</td>
+	   						<td>Actions</td>
+	   					</tr>
+	   					<c:set var="count" value="0"/>
+						<c:forEach items="<%=accountList %>" var="account">
+							<tr>
+								<c:set var="count" value="${count + 1}"/>
+								<td>${count}.</td>
+								<td>${account.accId}</td>
+								<td>Change Password | Delete</td>
+							</tr>
+						</c:forEach>
+	   				</table>
+	   			</div>
+			</td>
+		</tr>
+	</table>
+	<input type="submit" value="Edit">
+</form>

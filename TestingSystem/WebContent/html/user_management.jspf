@@ -1,1 +1,84 @@
-User Management
+<%
+	UserDao userDao = new UserDaoImpl();
+	List<User> userList = userDao.findAll();
+%>
+
+<div class="CSSTableGenerator" >
+    <table >
+        <tr>
+            <td>No.</td>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Email</td>
+            <td>Mobile</td>
+            <td>Birthday</td>
+            <td>Address</td>
+            <td>Actions</td>
+        </tr>
+        <c:set var="count" value="0"/>
+		<c:forEach items="<%=userList %>" var="user">
+			<tr>
+				<c:set var="count" value="${count + 1}"/>
+				<td>${count}.</td>
+				<td>${user.fname}</td>
+				<td>${user.lname}</td>
+				<td>${user.email}</td>
+				<td>${user.mobile}</td>
+				<td>${user.bdate}</td>
+				<td>${user.address}</td>
+				
+				<c:url value="<%=TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN%>" var="editUserURL">
+					<c:param name="tsTab" value="edit-user"/>
+					<c:param name="userId" value="${user.userId}"/>
+				</c:url>
+				
+				<c:url value="<%=TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN%>" var="viewUserURL">
+					<c:param name="tsTab" value="user-details"/>
+					<c:param name="userId" value="${user.userId}"/>
+				</c:url>
+				
+				<td>
+					<a title="View details" href="${viewUserURL}"><img src="/TestingSystem/images/view_icon.png"/></a>
+					<a title="Edit" href="${editUserURL}"><img src="/TestingSystem/images/edit_icon.png"/></a>
+					<a title="Delete"><img src="/TestingSystem/images/delete_icon.png"/></a>
+				</td>
+
+				<%-- <c:url value="../SubjectManagement/ViewSubject.html"
+					var="urlView">
+					<c:param name="subjectId"
+						value="${SubjectManagement.subjectId}"></c:param>
+				</c:url>
+				<td title="${SubjectManagement.subjectId}"><a
+					href='<c:out value="${urlView}"/>' class="state">Details</a>
+				</td>
+				<c:url value="../SubjectManagement/Modify.html" var="urlModify">
+					<c:param name="subjectId"
+						value="${SubjectManagement.subjectId}"></c:param>
+				</c:url>
+				<td><a href='<c:out value="${urlModify}"></c:out>'
+					class="state">Modify</a>
+				</td>
+				<c:url value="../SubjectManagement/DeleteSubject.html"
+					var="urlDelete">
+					<c:param name="subjectId"
+						value="${SubjectManagement.subjectId}"></c:param>
+				</c:url>
+				<td><a href='<c:out value="${urlDelete}"></c:out>'
+					class="state"
+					onclick="return confirm('Delete this subject, <c:out value="${SubjectManagement.subjectName}"/> ?')">Delete</a>
+				</td>
+				<c:url value="../SubjectManagement/Upload.html" var="urlUpload">
+					<c:param name="subjectId"
+						value="${SubjectManagement.subjectId}"></c:param>
+				</c:url>
+				<td><a href='<c:out value="${urlUpload}"></c:out>'
+					class="state">Upload</a>
+				</td>--%>
+
+			</tr>
+		</c:forEach>
+    </table>
+</div>
+
+<div style="height: 40px"></div>
+            

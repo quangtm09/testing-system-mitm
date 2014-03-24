@@ -89,6 +89,12 @@
 					<c:when test='<%=tsTab.equals("contact-us") %>'>
 						<%@include file="/html/contact_us.jspf" %>
 					</c:when>
+					<c:when test='<%=tsTab.equals("user-details") %>'>
+						<%@include file="/html/user_details.jspf" %>
+					</c:when>
+					<c:when test='<%=tsTab.equals("edit-user") %>'>
+						<%@include file="/html/edit_user.jspf" %>
+					</c:when>
 					<c:otherwise>
 						<%@include file="/html/home.jspf" %>
 					</c:otherwise>

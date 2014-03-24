@@ -28,12 +28,17 @@ public abstract class AbstractHibernateDaoSupport<C, ID extends Serializable>
 	 */
 	@SuppressWarnings("unchecked")
 	protected final List<C> findByCriteria(final Criterion... criterion) {
+		HibernateUtil.beginTransaction();
 		final Criteria crit = getSession().createCriteria(this.getPersistentClass());
 		for (final Criterion c : criterion) {
 			crit.add(c);
 		}
 
-		return crit.list();
+		final List<C> critList = crit.list();
+
+		HibernateUtil.commitTransaction();
+
+		return critList;
 	}
 
 	/**
@@ -53,7 +58,9 @@ public abstract class AbstractHibernateDaoSupport<C, ID extends Serializable>
 		C entity = null;
 
 		try {
+			HibernateUtil.beginTransaction();
 			entity = (C) getSession().get(this.getPersistentClass(), id);
+			HibernateUtil.commitTransaction();
 		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
@@ -67,12 +74,15 @@ public abstract class AbstractHibernateDaoSupport<C, ID extends Serializable>
 	@SuppressWarnings("unchecked")
 	public final List<C> findByProperty(final String propertyName, final Object value) {
 		try {
+			HibernateUtil.beginTransaction();
 			final String queryString = "from " + this.classPersistent.getSimpleName()
 					+ " as model where model." + propertyName
 					+ "= :propertyVal";
 			final Query queryObject = getSession().createQuery(queryString);
 			queryObject.setParameter("propertyVal", value);
-			return queryObject.list();
+			final List<C> list = queryObject.list();
+			HibernateUtil.commitTransaction();
+			return list;
 		} catch (final RuntimeException re) {
 			re.printStackTrace();
 			return new ArrayList<C>();
@@ -86,13 +96,16 @@ public abstract class AbstractHibernateDaoSupport<C, ID extends Serializable>
 	public final List<C> findByPropertyIgnoreCase(final String propertyName,
 			Object value) {
 		try {
+			HibernateUtil.beginTransaction();
 			final String queryString = "from " + this.classPersistent.getSimpleName()
 					+ " as model where upper(model." + propertyName
 					+ ")= :propertyVal";
 			final Query queryObject = getSession().createQuery(queryString);
 			value = ((String) value).toUpperCase();
 			queryObject.setParameter("propertyVal", value);
-			return queryObject.list();
+			final List<C> list = queryObject.list();
+			HibernateUtil.commitTransaction();
+			return list;
 		} catch (final RuntimeException re) {
 			re.printStackTrace();
 			return new ArrayList<C>();
@@ -105,7 +118,9 @@ public abstract class AbstractHibernateDaoSupport<C, ID extends Serializable>
 	@Override
 	public final boolean save(final C obj) {
 		try {
+			HibernateUtil.beginTransaction();
 			AbstractHibernateDaoSupport.getSession().save(obj);
+			HibernateUtil.commitTransaction();
 			return true;
 		} catch (final Exception ex) {
 			ex.printStackTrace();
@@ -120,6 +135,9 @@ public abstract class AbstractHibernateDaoSupport<C, ID extends Serializable>
 	public final boolean update(final C obj) {
 		try {
 			AbstractHibernateDaoSupport.getSession().update(obj);
+			this.flush();
+			getSession().clear();
+			HibernateUtil.closeSession();
 			return true;
 		} catch (final Exception ex) {
 			ex.printStackTrace();
@@ -137,7 +155,9 @@ public abstract class AbstractHibernateDaoSupport<C, ID extends Serializable>
 		}
 
 		try {
+			HibernateUtil.beginTransaction();
 			AbstractHibernateDaoSupport.getSession().delete(obj);
+			HibernateUtil.commitTransaction();
 			return true;
 		} catch (final Exception ex) {
 			ex.printStackTrace();
@@ -152,7 +172,11 @@ public abstract class AbstractHibernateDaoSupport<C, ID extends Serializable>
 	@SuppressWarnings("unchecked")
 	public final C merge(final C obj) {
 		try {
+			HibernateUtil.beginTransaction();
 			final C result = (C) AbstractHibernateDaoSupport.getSession().merge(obj);
+			HibernateUtil.commitTransaction();
+			this.flush();
+			getSession().clear();
 			return result;
 		} catch (final RuntimeException ex) {
 			ex.printStackTrace();

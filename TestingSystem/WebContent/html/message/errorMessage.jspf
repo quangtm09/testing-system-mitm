@@ -1,6 +1,6 @@
 <%@include file="/html/init.jsp"%>
 <%
-	final String errorMessage = (String)TSUtil.getAttribute(request, "errorMessage", "Failed to process your request!");
+	final String errorMessage = (String) TSUtil.getAttribute(request, "errorMessage", "Failed to process your request!");
 %>
 <div class="ui-widget">
 	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">

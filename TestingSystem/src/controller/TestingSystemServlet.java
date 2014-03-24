@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,7 +22,9 @@ import util.StringPool;
 import util.TSUtil;
 import constants.TSConstants;
 import dao.AccountDao;
+import dao.UserDao;
 import dao.impl.AccountDaoImpl;
+import dao.impl.UserDaoImpl;
 
 /**
  * Servlet implementation class TestingSystemServlet
@@ -33,22 +36,30 @@ public class TestingSystemServlet extends HttpServlet {
 
 	private static final Log log = LogFactory.getLog(TestingSystemServlet.class);
 
+	private final AccountDao accountDao = new AccountDaoImpl();
+	private final UserDao userDao = new UserDaoImpl();
+
 	protected void processRequest(final HttpServletRequest request, final HttpServletResponse response){
 		// Get command
 		final String cmd = TSUtil.getParameter(request, TSConstants.CMD, StringPool.BLANK);
 		final String tsTabParam = TSUtil.getParameter(request, "tsTab", StringPool.BLANK);
-		TSUtil.getParameter(request, "jspPage", TSConstants.LOGIN_JSP);
+		final String userId = TSUtil.getParameter(request, "userId", null);
+		//TSUtil.getParameter(request, "jspPage", TSConstants.LOGIN_JSP);
 
 		try {
 			// User submits login form
 			if(cmd.equals(TSConstants.LOGIN)){
 				this.login(request, response);
+			} else if(cmd.equals(TSConstants.EDIT_USER)){
+				this.editUser(request, response);
 			} else {
 
 				final HttpSession session = request.getSession();
 				// Already logged in
-				if(session.getAttribute("username") != null){
+				if(session.getAttribute("user") != null){
 					request.setAttribute("tsTab", tsTabParam);
+					request.setAttribute("userId", userId);
+
 					this.goToPage(TSConstants.INDEX_JSP, request, response);
 				} else {
 					// Go to login page
@@ -67,10 +78,8 @@ public class TestingSystemServlet extends HttpServlet {
 		final String accountId = TSUtil.getParameter(request, "accountId", StringPool.BLANK);
 		final String password = TSUtil.getParameter(request, "password", StringPool.BLANK);
 
-		final AccountDao accountDao = new AccountDaoImpl();
-
 		try {
-			final Account account = accountDao.getAccountById(accountId);
+			final Account account = this.accountDao.getAccountById(accountId);
 
 			if(null != account && account.getAccPwd().equals(password)){
 				final User accountUser = account.getUser();
@@ -81,8 +90,8 @@ public class TestingSystemServlet extends HttpServlet {
 				session.setAttribute("user", accountUser);
 				session.setAttribute("username", fullName);
 
-				// set session to be expired in 1 minutes
-				session.setMaxInactiveInterval(1*60);
+				// set session to be expired in 30 minutes
+				session.setMaxInactiveInterval(30*60);
 
 				final Cookie accountIdCookie = new Cookie("accountId", accountId);
 				accountIdCookie.setMaxAge(30*60);
@@ -99,6 +108,48 @@ public class TestingSystemServlet extends HttpServlet {
 			ex.printStackTrace();
 			log.error("Error while login!");
 		}
+	}
+
+	private void editUser(final HttpServletRequest request, final HttpServletResponse response){
+		final String firstName = request.getParameter("fname");
+		final String lastName = request.getParameter("lname");
+		final String email = request.getParameter("email");
+		final String mobile = request.getParameter("mobile");
+		final String birthDay = request.getParameter("bdate");
+		final String address = request.getParameter("address");
+		final String userId = request.getParameter("userId");
+
+		final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+		try {
+			final User user = this.userDao.findById(userId);
+			user.setAddress(address);
+			user.setBdate(formatter.parse(birthDay));
+			user.setEmail(email);
+			user.setFname(firstName);
+			user.setLname(lastName);
+			user.setMobile(mobile);
+
+			if(this.userDao.updateUser(user)){
+				request.setAttribute("successMessage", "Updated user successfully!");
+				request.setAttribute("tsTab", "edit-user");
+				request.setAttribute("userId", userId);
+				request.setAttribute("isUpdatedSucessfully", true);
+				request.setAttribute("isClickedEditButton", true);
+
+			} else {
+				request.setAttribute("isUpdatedSucessfully", false);
+				request.setAttribute("isClickedEditButton", true);
+				request.setAttribute("errorMessage", "Failed to update!");
+			}
+
+			this.goToPage(TSConstants.INDEX_JSP, request, response);
+		} catch (final Exception ex){
+			ex.printStackTrace();
+			log.debug("Failed to edit user");
+		}
+
+
 	}
 
 	/**
