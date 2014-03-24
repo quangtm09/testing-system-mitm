@@ -1,12 +1,11 @@
 package dao.interfaces;
 
-import java.util.List;
+import model.Role;
+import dao.Dao;
 
-import model.Permission;
-
-public interface RoleDao {
-	/*
-	 * list Permission by RoleID
-	 */
-	List<Permission> getPermissionbyRole();
+public interface RoleDao extends Dao<Role, Integer>{
+	public boolean saveRole(Role role);
+	public Role getRoleById(Integer roleId);
+	public boolean updateRole(Role role);
+	public boolean deleteRole(Role role);
 }
