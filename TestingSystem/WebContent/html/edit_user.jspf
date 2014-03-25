@@ -21,7 +21,7 @@
 
 <div style="font-size: 2.5em;">
 	<div style="display: inline; text-align: left">Edit User - <%=fullName%></div>
-	<div style="display: inline; text-align: right; text-decoration: underline;">
+	<div style="display: inline; text-align: right; text-decoration: underline; float: right">
 		<a href="${user_management_url}">&lt;&lt;&nbsp;Back</a>
 	</div>
 	<hr>
@@ -85,7 +85,10 @@
 								<c:set var="count" value="${count + 1}"/>
 								<td>${count}.</td>
 								<td>${account.accId}</td>
-								<td>Change Password | Delete</td>
+								<td>
+									<a title="Change Password" href="javascript:openChangePasswordDialog(${account.accId});" onclick=";"><img src="/TestingSystem/images/change-password-icon.png"/></a>
+									<a title="Delete" onclick=""><img src="/TestingSystem/images/delete_icon.png"/></a>
+								</td>
 							</tr>
 						</c:forEach>
 	   				</table>
@@ -95,3 +98,17 @@
 	</table>
 	<input type="submit" value="Edit">
 </form>
+
+<div id="changePasswordDialog" title="Change password">
+	<input type="hidden" id="accountId">
+	<table>
+		<tr>
+			<td>New password:</td>
+			<td><input type="password" id="newPassword"></td>
+		</tr>
+		<tr>
+			<td>Confirm password:</td>
+			<td><input type="password" id="confirmedPassword"></td>
+		</tr>
+	</table>
+</div>
