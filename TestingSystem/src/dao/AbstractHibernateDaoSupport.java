@@ -62,16 +62,14 @@ implements Dao<C, ID> {
 	@SuppressWarnings("unchecked")
 	public final C findById(final ID id) {
 		C entity = null;
-		AbstractHibernateDaoSupport.log.debug("Find By ID " + id);
+		log.debug("Find By ID " + id);
 		try {
-			// HibernateUtil.beginTransaction();
 			entity = (C) AbstractHibernateDaoSupport.getSession().get(
 					this.getPersistentClass(), id);
-			// HibernateUtil.commitTransaction();
-			AbstractHibernateDaoSupport.log.debug("Find successful");
+			log.debug("Find successful");
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			AbstractHibernateDaoSupport.log.error("Find failed " + ex);
+			log.error("Find failed " + ex);
 		}
 
 		return entity;
@@ -83,7 +81,7 @@ implements Dao<C, ID> {
 	@SuppressWarnings("unchecked")
 	public final List<C> findByProperty(final String propertyName,
 			final Object value) {
-		AbstractHibernateDaoSupport.log.debug("Find By Property "
+		log.debug("Find By Property "
 				+ propertyName);
 		try {
 			HibernateUtil.beginTransaction();
@@ -96,11 +94,11 @@ implements Dao<C, ID> {
 			queryObject.setParameter("propertyVal", value);
 			final List<C> list = queryObject.list();
 			HibernateUtil.commitTransaction();
-			AbstractHibernateDaoSupport.log.debug("Find successful");
+			log.debug("Find successful");
 			return list;
 		} catch (final RuntimeException re) {
 			re.printStackTrace();
-			AbstractHibernateDaoSupport.log.error("Find failed " + re);
+			log.error("Find failed " + re);
 			return new ArrayList<C>();
 		}
 	}
@@ -111,7 +109,7 @@ implements Dao<C, ID> {
 	@SuppressWarnings("unchecked")
 	public final List<C> findByPropertyIgnoreCase(final String propertyName,
 			Object value) {
-		AbstractHibernateDaoSupport.log.debug("Find By Property Ignore Case "
+		log.debug("Find By Property Ignore Case "
 				+ propertyName);
 		try {
 			HibernateUtil.beginTransaction();
@@ -125,11 +123,11 @@ implements Dao<C, ID> {
 			queryObject.setParameter("propertyVal", value);
 			final List<C> list = queryObject.list();
 			HibernateUtil.commitTransaction();
-			AbstractHibernateDaoSupport.log.debug("Find successful");
+			log.debug("Find successful");
 			return list;
 		} catch (final RuntimeException re) {
 			re.printStackTrace();
-			AbstractHibernateDaoSupport.log.error("Find failed " + re);
+			log.error("Find failed " + re);
 			return new ArrayList<C>();
 		}
 	}
@@ -139,16 +137,16 @@ implements Dao<C, ID> {
 	 */
 	@Override
 	public final boolean save(final C obj) {
-		AbstractHibernateDaoSupport.log.debug("Save Object " + obj);
+		log.debug("Save Object " + obj);
 		try {
 			HibernateUtil.beginTransaction();
 			AbstractHibernateDaoSupport.getSession().save(obj);
 			HibernateUtil.commitTransaction();
-			AbstractHibernateDaoSupport.log.debug("Save successful");
+			log.debug("Save successful");
 			return true;
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			AbstractHibernateDaoSupport.log.error("Save failed" + ex);
+			log.error("Save failed" + ex);
 			return false;
 		}
 	}
@@ -158,17 +156,16 @@ implements Dao<C, ID> {
 	 */
 	@Override
 	public final boolean update(final C obj) {
-		AbstractHibernateDaoSupport.log.debug("Update Object " + obj);
+		log.debug("Update Object " + obj);
 		try {
-			AbstractHibernateDaoSupport.getSession().update(obj);
+			getSession().update(obj);
 			this.flush();
-			AbstractHibernateDaoSupport.getSession().clear();
-			HibernateUtil.closeSession();
-			AbstractHibernateDaoSupport.log.debug("Update successful");
+			getSession().clear();
+			log.debug("Update successful");
 			return true;
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			AbstractHibernateDaoSupport.log.error("Update failed" + ex);
+			log.error("Update failed" + ex);
 			return false;
 		}
 	}
@@ -178,20 +175,20 @@ implements Dao<C, ID> {
 	 */
 	@Override
 	public final boolean delete(final C obj) {
-		AbstractHibernateDaoSupport.log.debug("Delete Object " + obj);
+		log.debug("Delete Object " + obj);
 		if (obj == null) {
 			AbstractHibernateDaoSupport.log.debug("No data is deleted");
 			return false;
 		}
 		try {
 			HibernateUtil.beginTransaction();
-			AbstractHibernateDaoSupport.getSession().delete(obj);
+			getSession().delete(obj);
 			HibernateUtil.commitTransaction();
-			AbstractHibernateDaoSupport.log.debug("Delete successful");
+			log.debug("Delete successful");
 			return true;
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			AbstractHibernateDaoSupport.log.error("Delete failed");
+			log.error("Delete failed");
 			return false;
 		}
 	}
@@ -202,19 +199,19 @@ implements Dao<C, ID> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public final C merge(final C obj) {
-		AbstractHibernateDaoSupport.log.debug("Merge Object " + obj);
+		log.debug("Merge Object " + obj);
 		try {
 			HibernateUtil.beginTransaction();
 			final C result = (C) AbstractHibernateDaoSupport.getSession()
 					.merge(obj);
 			HibernateUtil.commitTransaction();
 			this.flush();
-			AbstractHibernateDaoSupport.getSession().clear();
-			AbstractHibernateDaoSupport.log.debug("Merge successful");
+			getSession().clear();
+			log.debug("Merge successful");
 			return result;
 		} catch (final RuntimeException ex) {
 			ex.printStackTrace();
-			AbstractHibernateDaoSupport.log.error("Merge failed" + ex);
+			log.error("Merge failed" + ex);
 			return null;
 		}
 	}
@@ -224,14 +221,14 @@ implements Dao<C, ID> {
 	 */
 	@Override
 	public final boolean flush() {
-		AbstractHibernateDaoSupport.log.debug("Flush Object");
+		log.debug("Flush Object");
 		try {
-			AbstractHibernateDaoSupport.getSession().flush();
-			AbstractHibernateDaoSupport.log.debug("Flush successful");
+			getSession().flush();
+			log.debug("Flush successful");
 			return true;
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			AbstractHibernateDaoSupport.log.error("Flush failed");
+			log.error("Flush failed");
 			return false;
 		}
 	}
@@ -239,7 +236,7 @@ implements Dao<C, ID> {
 	@Override
 	public final boolean close() {
 		try {
-			final Session session = AbstractHibernateDaoSupport.getSession();
+			final Session session = getSession();
 
 			if (session != null) {
 				session.flush();
