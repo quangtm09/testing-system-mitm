@@ -12,7 +12,7 @@ import dao.AccountDao;
 
 /**
  * Home object for domain model class Account.
- * 
+ *
  * @see .Account
  * @author Hibernate Tools
  */
@@ -26,7 +26,7 @@ AbstractHibernateDaoSupport<Account, String> implements AccountDao {
 
 	@Override
 	public void addAccount(final Account account) {
-		AccountDaoImpl.log.info("Add Account "+ account);
+		log.info("Add Account "+ account);
 		this.save(account);
 	}
 
@@ -44,13 +44,13 @@ AbstractHibernateDaoSupport<Account, String> implements AccountDao {
 		// accountList.add(account);
 		// }
 		// return accountList.get(0);
-		AccountDaoImpl.log.info("Get Accounts By ID "+ accountId);
+		log.info("Get Accounts By ID "+ accountId);
 		return this.findById(accountId);
 	}
 
 	@Override
 	public void deleteAccount(final Account account) {
-		AccountDaoImpl.log.info("Delete Account "+ account);
+		log.info("Delete Account "+ account);
 		this.delete(account);
 	}
 

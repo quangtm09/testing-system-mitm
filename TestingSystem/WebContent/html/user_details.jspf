@@ -58,14 +58,22 @@
    						<td>No.</td>
    						<td>Account ID</td>
    					</tr>
-   					<c:set var="count" value="0"/>
-					<c:forEach items="<%=accountList %>" var="account">
-						<tr>
-							<c:set var="count" value="${count + 1}"/>
-							<td>${count}.</td>
-							<td>${account.accId}</td>
-						</tr>
-					</c:forEach>
+   					<c:choose>
+   						<c:when test="<%=accountList.size() > 0 %>">
+   							<c:set var="count" value="0"/>
+							<c:forEach items="<%=accountList %>" var="account">
+								<tr>
+									<c:set var="count" value="${count + 1}"/>
+									<td>${count}.</td>
+									<td>${account.accId}</td>
+								</tr>
+							</c:forEach>
+   						</c:when>
+   						<c:otherwise>
+   							No accounts found!
+   						</c:otherwise>
+   					</c:choose>
+   					
    				</table>
    			</div>
 		</td>

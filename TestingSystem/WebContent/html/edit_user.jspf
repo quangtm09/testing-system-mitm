@@ -79,18 +79,25 @@
 	   						<td>Account ID</td>
 	   						<td>Actions</td>
 	   					</tr>
-	   					<c:set var="count" value="0"/>
-						<c:forEach items="<%=accountList %>" var="account">
-							<tr>
-								<c:set var="count" value="${count + 1}"/>
-								<td>${count}.</td>
-								<td>${account.accId}</td>
-								<td>
-									<a title="Change Password" href="javascript:openChangePasswordDialog(${account.accId});" onclick=";"><img src="/TestingSystem/images/change-password-icon.png"/></a>
-									<a title="Delete" onclick=""><img src="/TestingSystem/images/delete_icon.png"/></a>
-								</td>
-							</tr>
-						</c:forEach>
+	   					<c:choose>
+   							<c:when test="<%=accountList.size() > 0 %>">
+			   					<c:set var="count" value="0"/>
+								<c:forEach items="<%=accountList %>" var="account">
+									<tr>
+										<c:set var="count" value="${count + 1}"/>
+										<td>${count}.</td>
+										<td>${account.accId}</td>
+										<td>
+											<a title="Change Password" href="javascript:openChangePasswordDialog('${account.accId}');" onclick=";"><img src="/TestingSystem/images/change-password-icon.png"/></a>
+											<a title="Delete" onclick=""><img src="/TestingSystem/images/delete_icon.png"/></a>
+										</td>
+									</tr>
+								</c:forEach>
+							</c:when>
+	   						<c:otherwise>
+	   							No accounts found!
+	   						</c:otherwise>
+	   					</c:choose>
 	   				</table>
 	   			</div>
 			</td>
@@ -103,6 +110,10 @@
 	<input type="hidden" id="accountId">
 	<table>
 		<tr>
+			<td>Old password:</td>
+			<td><input type="password" id="oldPassword"></td>
+		</tr>
+		<tr>
 			<td>New password:</td>
 			<td><input type="password" id="newPassword"></td>
 		</tr>
@@ -111,4 +122,5 @@
 			<td><input type="password" id="confirmedPassword"></td>
 		</tr>
 	</table>
+	<div id="changePasswordResult"/>
 </div>

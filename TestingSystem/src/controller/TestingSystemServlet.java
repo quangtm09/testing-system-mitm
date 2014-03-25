@@ -54,7 +54,7 @@ public class TestingSystemServlet extends HttpServlet {
 			} else if(cmd.equals(TSConstants.EDIT_USER)){
 				this.editUser(request, response);
 			} else if(cmd.equals(TSConstants.CHANGE_PASSWORD)){
-
+				this.changePassword(request, response);
 			} else {
 
 				final HttpSession session = request.getSession();
@@ -156,17 +156,25 @@ public class TestingSystemServlet extends HttpServlet {
 	}
 
 	private void changePassword(final HttpServletRequest request, final HttpServletResponse response){
+		final String oldPassword = request.getParameter("oldPassword");
 		final String newPassword = TSUtil.getParameter(request, "newPassword", StringPool.BLANK);
 		final String accountId = request.getParameter("accountId");
 
-		try {
-			final Account account = this.accountDao.findById(accountId);
-			account.setAccPwd(newPassword);
-			this.accountDao.update(account);
+		response.setContentType("text/html");
 
-			response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
+		try {
 			final PrintWriter printWriter = response.getWriter();
-			printWriter.write("Updated successfully!");
+			final Account account = this.accountDao.findById(accountId);
+
+			if(account.getAccPwd().equals(oldPassword) && !oldPassword.equals(newPassword)){
+				account.setAccPwd(newPassword);
+				this.accountDao.update(account);
+				printWriter.println("<span style=\"color: green\">Updated successfully!</span>");
+			} else {
+				printWriter.println("<span style=\"color: red\">Updating failed! Your entered old password do not match or the new password is equal to the old one!</span>");
+			}
+
+			printWriter.close();
 
 		} catch (final Exception ex) {
 			ex.printStackTrace();
