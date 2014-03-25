@@ -133,6 +133,8 @@ implements Dao<C, ID> {
 		log.debug("Save Object " + obj);
 		try {
 			getSession().save(obj);
+			this.flush();
+			getSession().clear();
 			log.debug("Save successful");
 			return true;
 		} catch (final Exception ex) {
