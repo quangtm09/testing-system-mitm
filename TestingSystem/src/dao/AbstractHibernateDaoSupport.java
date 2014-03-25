@@ -33,7 +33,6 @@ implements Dao<C, ID> {
 	 */
 	@SuppressWarnings("unchecked")
 	protected final List<C> findByCriteria(final Criterion... criterion) {
-		HibernateUtil.beginTransaction();
 		final Criteria crit = AbstractHibernateDaoSupport.getSession()
 				.createCriteria(this.getPersistentClass());
 		for (final Criterion c : criterion) {
@@ -41,8 +40,6 @@ implements Dao<C, ID> {
 		}
 
 		final List<C> critList = crit.list();
-
-		HibernateUtil.commitTransaction();
 
 		return critList;
 	}
@@ -84,7 +81,6 @@ implements Dao<C, ID> {
 		log.debug("Find By Property "
 				+ propertyName);
 		try {
-			HibernateUtil.beginTransaction();
 			final String queryString = "from "
 					+ this.classPersistent.getSimpleName()
 					+ " as model where model." + propertyName
@@ -93,7 +89,6 @@ implements Dao<C, ID> {
 					.createQuery(queryString);
 			queryObject.setParameter("propertyVal", value);
 			final List<C> list = queryObject.list();
-			HibernateUtil.commitTransaction();
 			log.debug("Find successful");
 			return list;
 		} catch (final RuntimeException re) {
@@ -112,7 +107,6 @@ implements Dao<C, ID> {
 		log.debug("Find By Property Ignore Case "
 				+ propertyName);
 		try {
-			HibernateUtil.beginTransaction();
 			final String queryString = "from "
 					+ this.classPersistent.getSimpleName()
 					+ " as model where upper(model." + propertyName
@@ -122,7 +116,6 @@ implements Dao<C, ID> {
 			value = ((String) value).toUpperCase();
 			queryObject.setParameter("propertyVal", value);
 			final List<C> list = queryObject.list();
-			HibernateUtil.commitTransaction();
 			log.debug("Find successful");
 			return list;
 		} catch (final RuntimeException re) {
@@ -139,9 +132,7 @@ implements Dao<C, ID> {
 	public final boolean save(final C obj) {
 		log.debug("Save Object " + obj);
 		try {
-			HibernateUtil.beginTransaction();
-			AbstractHibernateDaoSupport.getSession().save(obj);
-			HibernateUtil.commitTransaction();
+			getSession().save(obj);
 			log.debug("Save successful");
 			return true;
 		} catch (final Exception ex) {
@@ -177,13 +168,11 @@ implements Dao<C, ID> {
 	public final boolean delete(final C obj) {
 		log.debug("Delete Object " + obj);
 		if (obj == null) {
-			AbstractHibernateDaoSupport.log.debug("No data is deleted");
+			log.debug("No data is deleted");
 			return false;
 		}
 		try {
-			HibernateUtil.beginTransaction();
 			getSession().delete(obj);
-			HibernateUtil.commitTransaction();
 			log.debug("Delete successful");
 			return true;
 		} catch (final Exception ex) {
@@ -201,10 +190,8 @@ implements Dao<C, ID> {
 	public final C merge(final C obj) {
 		log.debug("Merge Object " + obj);
 		try {
-			HibernateUtil.beginTransaction();
 			final C result = (C) AbstractHibernateDaoSupport.getSession()
 					.merge(obj);
-			HibernateUtil.commitTransaction();
 			this.flush();
 			getSession().clear();
 			log.debug("Merge successful");
