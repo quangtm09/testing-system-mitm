@@ -1,10 +1,45 @@
 <%
 	UserDao userDao = new UserDaoImpl();
-	List<User> userList = userDao.findAll();
+	
+	String firstName = (String) TSUtil.getAttribute(request, "fname", StringPool.BLANK);
+	String lastName = (String) TSUtil.getAttribute(request, "lname", StringPool.BLANK);
+	String email = (String) TSUtil.getAttribute(request, "email", StringPool.BLANK);
+	
+	List<User> userList = userDao.searchUser(firstName, lastName, email);
 %>
+
+<div style="font-size: 2.5em;">
+	<div style="display: inline; text-align: left">User Management</div>
+	<div style="display: inline; text-align: right; text-decoration: underline; float: right">
+		<a href="${home_url}">&lt;&lt;&nbsp;Back</a>
+	</div>
+	<hr>
+</div>
+
+<form action="<%=TSConstants.TESTING_SYSTEM_SERVLET%>" method="POST" style="margin-bottom:15px">
+	<input type="hidden" name="<%=TSConstants.CMD%>" value="<%=TSConstants.SEARCH_USER%>"/>
+	<table>
+		<tr>
+			<td>First Name:</td>
+			<td><input type="text" name="fname" value="<%=firstName%>"/></td>
+		</tr>
+		<tr>
+			<td>Last Name:</td>
+			<td><input type="text" name="lname" value="<%=lastName%>"/></td>
+		</tr>
+		<tr>
+			<td>Email:</td>
+			<td><input type="text" name="email" value="<%=email%>"/></td>
+		</tr>
+	</table>
+	<input type="submit" value="Search">
+</form>
+
+<hr>
+
 <c:choose>
    	<c:when test="<%=userList.size() > 0 %>">
-		<div class="CSSTableGenerator" >
+		<div class="CSSTableGenerator" style="margin-top: 20px" >
 		    <table >
 		        <tr>
 		            <td>No.</td>

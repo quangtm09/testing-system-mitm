@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 
 import util.HibernateUtil;
+import util.StringPool;
 
 public abstract class AbstractHibernateDaoSupport<C, ID extends Serializable>
 implements Dao<C, ID> {
@@ -242,5 +243,18 @@ implements Dao<C, ID> {
 	public static Session getSession() {
 		return HibernateUtil.getSession();
 	}
+
+	public static String criteriaStringForDynamicQuery(String criteriaString) {
+        criteriaString = criteriaString.toLowerCase();
+        // allow to search with ? and * option
+        if (criteriaString.contains(StringPool.STAR)) {
+            criteriaString = criteriaString.replace(StringPool.STAR, StringPool.PERCENT);
+        }
+        if (criteriaString.contains(StringPool.QUESTION)) {
+            criteriaString = criteriaString.replace(StringPool.QUESTION, StringPool.UNDERLINE);
+        }
+        criteriaString = StringPool.PERCENT + criteriaString + StringPool.PERCENT;
+        return criteriaString;
+    }
 
 }

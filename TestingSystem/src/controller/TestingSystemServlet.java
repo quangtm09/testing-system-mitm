@@ -55,6 +55,8 @@ public class TestingSystemServlet extends HttpServlet {
 				this.editUser(request, response);
 			} else if(cmd.equals(TSConstants.CHANGE_PASSWORD)){
 				this.changePassword(request, response);
+			} else if(cmd.equals(TSConstants.SEARCH_USER)) {
+				this.searchUser(request, response);
 			} else {
 
 				final HttpSession session = request.getSession();
@@ -180,6 +182,26 @@ public class TestingSystemServlet extends HttpServlet {
 			ex.printStackTrace();
 		}
 
+	}
+
+	private void searchUser(final HttpServletRequest request, final HttpServletResponse response){
+		final String firstName = request.getParameter("fname");
+		final String lastName = request.getParameter("lname");
+		final String email = request.getParameter("email");
+		final String mobile = request.getParameter("mobile");
+		final String address = request.getParameter("address");
+
+		request.setAttribute("fname", firstName);
+		request.setAttribute("lname", lastName);
+		request.setAttribute("email", email);
+		request.setAttribute("mobile", mobile);
+		request.setAttribute("address", address);
+		request.setAttribute("tsTab", "user-management");
+		try {
+			this.goToPage(TSConstants.INDEX_JSP, request, response);
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
