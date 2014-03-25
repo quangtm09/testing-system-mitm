@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 
 import javax.servlet.RequestDispatcher;
@@ -52,6 +53,8 @@ public class TestingSystemServlet extends HttpServlet {
 				this.login(request, response);
 			} else if(cmd.equals(TSConstants.EDIT_USER)){
 				this.editUser(request, response);
+			} else if(cmd.equals(TSConstants.CHANGE_PASSWORD)){
+
 			} else {
 
 				final HttpSession session = request.getSession();
@@ -69,7 +72,7 @@ public class TestingSystemServlet extends HttpServlet {
 			}
 		} catch (final Exception ex){
 			ex.printStackTrace();
-			log.error("Error while processing request!");
+			TestingSystemServlet.log.error("Error while processing request!");
 		}
 	}
 
@@ -106,7 +109,7 @@ public class TestingSystemServlet extends HttpServlet {
 
 		} catch (final Exception ex){
 			ex.printStackTrace();
-			log.error("Error while login!");
+			TestingSystemServlet.log.error("Error while login!");
 		}
 	}
 
@@ -146,9 +149,28 @@ public class TestingSystemServlet extends HttpServlet {
 			this.goToPage(TSConstants.INDEX_JSP, request, response);
 		} catch (final Exception ex){
 			ex.printStackTrace();
-			log.debug("Failed to edit user");
+			TestingSystemServlet.log.debug("Failed to edit user");
 		}
 
+
+	}
+
+	private void changePassword(final HttpServletRequest request, final HttpServletResponse response){
+		final String newPassword = TSUtil.getParameter(request, "newPassword", StringPool.BLANK);
+		final String accountId = request.getParameter("accountId");
+
+		try {
+			final Account account = this.accountDao.findById(accountId);
+			account.setAccPwd(newPassword);
+			this.accountDao.update(account);
+
+			response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
+			final PrintWriter printWriter = response.getWriter();
+			printWriter.write("Updated successfully!");
+
+		} catch (final Exception ex) {
+			ex.printStackTrace();
+		}
 
 	}
 

@@ -10,9 +10,6 @@
             <td>First Name</td>
             <td>Last Name</td>
             <td>Email</td>
-            <td>Mobile</td>
-            <td>Birthday</td>
-            <td>Address</td>
             <td>Actions</td>
         </tr>
         <c:set var="count" value="0"/>
@@ -23,9 +20,6 @@
 				<td>${user.fname}</td>
 				<td>${user.lname}</td>
 				<td>${user.email}</td>
-				<td>${user.mobile}</td>
-				<td>${user.bdate}</td>
-				<td>${user.address}</td>
 				
 				<c:url value="<%=TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN%>" var="editUserURL">
 					<c:param name="tsTab" value="edit-user"/>
