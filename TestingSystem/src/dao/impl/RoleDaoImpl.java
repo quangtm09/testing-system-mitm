@@ -2,12 +2,13 @@ package dao.impl;
 
 import javax.ejb.Stateless;
 
+import model.Role;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import model.Role;
 import dao.AbstractHibernateDaoSupport;
-import dao.interfaces.RoleDao;
+import dao.RoleDao;
 
 /**
  * Home object for domain model class Account.
@@ -17,7 +18,7 @@ import dao.interfaces.RoleDao;
  */
 @Stateless
 public class RoleDaoImpl extends AbstractHibernateDaoSupport<Role, Integer>
-		implements RoleDao {
+implements RoleDao {
 	private static final Log log = LogFactory.getLog(RoleDaoImpl.class);
 
 	public RoleDaoImpl() {
@@ -27,25 +28,25 @@ public class RoleDaoImpl extends AbstractHibernateDaoSupport<Role, Integer>
 	@Override
 	public boolean saveRole(final Role role) {
 		log.info("Save Role " + role);
-		return this.save(role);
+		return save(role);
 	}
 
 	@Override
 	public Role getRoleById(final Integer roleId) {
 		log.info("Get Role " + roleId);
-		return this.findById(roleId);
+		return findById(roleId);
 	}
 
 	@Override
 	public boolean updateRole(final Role role) {
 		log.info("Update Role " + role);
-		return this.update(role);
+		return update(role);
 	}
 
 	@Override
 	public boolean deleteRole(final Role role) {
 		log.info("Delete Role " + role);
-		return this.delete(role);
+		return delete(role);
 	}
 
 }
