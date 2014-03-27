@@ -19,6 +19,10 @@ public class TSConstants {
 
 	public static final String TESTING_SYSTEM_SERVLET_URL_PATTERN = "/TestingSystemServlet";
 
+	public static final String ROLE_MANAGEMENT_SERVLET = TSConstants.TESTING_SYSTEM_PATH + "/RoleManagementServlet";
+
+	public static final String ROLE_MANAGEMENT_SERVLET_URL_PATTERN = "/RoleManagementServlet";
+
 	// Command parameter (for login, edit, add, delete, etc)
 	public static final String CMD = "cmd";
 
