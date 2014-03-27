@@ -1,7 +1,6 @@
 package dao;
 
 import model.Role;
-import dao.Dao;
 
 public interface RoleDao extends Dao<Role, Integer>{
 	public boolean saveRole(Role role);
