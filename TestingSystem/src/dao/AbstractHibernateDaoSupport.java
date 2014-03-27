@@ -60,14 +60,14 @@ implements Dao<C, ID> {
 	@SuppressWarnings("unchecked")
 	public final C findById(final ID id) {
 		C entity = null;
-		log.debug("Find By ID " + id);
+		AbstractHibernateDaoSupport.log.debug("Find By ID " + id);
 		try {
 			entity = (C) AbstractHibernateDaoSupport.getSession().get(
 					this.getPersistentClass(), id);
-			log.debug("Find successful");
+			AbstractHibernateDaoSupport.log.debug("Find successful");
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			log.error("Find failed " + ex);
+			AbstractHibernateDaoSupport.log.error("Find failed " + ex);
 		}
 
 		return entity;
@@ -79,7 +79,7 @@ implements Dao<C, ID> {
 	@SuppressWarnings("unchecked")
 	public final List<C> findByProperty(final String propertyName,
 			final Object value) {
-		log.debug("Find By Property "
+		AbstractHibernateDaoSupport.log.debug("Find By Property "
 				+ propertyName);
 		try {
 			final String queryString = "from "
@@ -90,11 +90,11 @@ implements Dao<C, ID> {
 					.createQuery(queryString);
 			queryObject.setParameter("propertyVal", value);
 			final List<C> list = queryObject.list();
-			log.debug("Find successful");
+			AbstractHibernateDaoSupport.log.debug("Find successful");
 			return list;
 		} catch (final RuntimeException re) {
 			re.printStackTrace();
-			log.error("Find failed " + re);
+			AbstractHibernateDaoSupport.log.error("Find failed " + re);
 			return new ArrayList<C>();
 		}
 	}
@@ -105,7 +105,7 @@ implements Dao<C, ID> {
 	@SuppressWarnings("unchecked")
 	public final List<C> findByPropertyIgnoreCase(final String propertyName,
 			Object value) {
-		log.debug("Find By Property Ignore Case "
+		AbstractHibernateDaoSupport.log.debug("Find By Property Ignore Case "
 				+ propertyName);
 		try {
 			final String queryString = "from "
@@ -117,11 +117,11 @@ implements Dao<C, ID> {
 			value = ((String) value).toUpperCase();
 			queryObject.setParameter("propertyVal", value);
 			final List<C> list = queryObject.list();
-			log.debug("Find successful");
+			AbstractHibernateDaoSupport.log.debug("Find successful");
 			return list;
 		} catch (final RuntimeException re) {
 			re.printStackTrace();
-			log.error("Find failed " + re);
+			AbstractHibernateDaoSupport.log.error("Find failed " + re);
 			return new ArrayList<C>();
 		}
 	}
@@ -131,16 +131,18 @@ implements Dao<C, ID> {
 	 */
 	@Override
 	public final boolean save(final C obj) {
-		log.debug("Save Object " + obj);
+		AbstractHibernateDaoSupport.log.debug("Save Object " + obj);
 		try {
-			getSession().save(obj);
+			HibernateUtil.beginTransaction();
+			AbstractHibernateDaoSupport.getSession().save(obj);
+			HibernateUtil.commitTransaction();
 			this.flush();
-			getSession().clear();
-			log.debug("Save successful");
+			AbstractHibernateDaoSupport.getSession().clear();
+			AbstractHibernateDaoSupport.log.debug("Save successful");
 			return true;
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			log.error("Save failed" + ex);
+			AbstractHibernateDaoSupport.log.error("Save failed" + ex);
 			return false;
 		}
 	}
@@ -150,16 +152,16 @@ implements Dao<C, ID> {
 	 */
 	@Override
 	public final boolean update(final C obj) {
-		log.debug("Update Object " + obj);
+		AbstractHibernateDaoSupport.log.debug("Update Object " + obj);
 		try {
-			getSession().update(obj);
+			AbstractHibernateDaoSupport.getSession().update(obj);
 			this.flush();
-			getSession().clear();
-			log.debug("Update successful");
+			AbstractHibernateDaoSupport.getSession().clear();
+			AbstractHibernateDaoSupport.log.debug("Update successful");
 			return true;
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			log.error("Update failed" + ex);
+			AbstractHibernateDaoSupport.log.error("Update failed" + ex);
 			return false;
 		}
 	}
@@ -169,18 +171,18 @@ implements Dao<C, ID> {
 	 */
 	@Override
 	public final boolean delete(final C obj) {
-		log.debug("Delete Object " + obj);
+		AbstractHibernateDaoSupport.log.debug("Delete Object " + obj);
 		if (obj == null) {
-			log.debug("No data is deleted");
+			AbstractHibernateDaoSupport.log.debug("No data is deleted");
 			return false;
 		}
 		try {
-			getSession().delete(obj);
-			log.debug("Delete successful");
+			AbstractHibernateDaoSupport.getSession().delete(obj);
+			AbstractHibernateDaoSupport.log.debug("Delete successful");
 			return true;
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			log.error("Delete failed");
+			AbstractHibernateDaoSupport.log.error("Delete failed");
 			return false;
 		}
 	}
@@ -191,17 +193,17 @@ implements Dao<C, ID> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public final C merge(final C obj) {
-		log.debug("Merge Object " + obj);
+		AbstractHibernateDaoSupport.log.debug("Merge Object " + obj);
 		try {
 			final C result = (C) AbstractHibernateDaoSupport.getSession()
 					.merge(obj);
 			this.flush();
-			getSession().clear();
-			log.debug("Merge successful");
+			AbstractHibernateDaoSupport.getSession().clear();
+			AbstractHibernateDaoSupport.log.debug("Merge successful");
 			return result;
 		} catch (final RuntimeException ex) {
 			ex.printStackTrace();
-			log.error("Merge failed" + ex);
+			AbstractHibernateDaoSupport.log.error("Merge failed" + ex);
 			return null;
 		}
 	}
@@ -211,14 +213,14 @@ implements Dao<C, ID> {
 	 */
 	@Override
 	public final boolean flush() {
-		log.debug("Flush Object");
+		AbstractHibernateDaoSupport.log.debug("Flush Object");
 		try {
-			getSession().flush();
-			log.debug("Flush successful");
+			AbstractHibernateDaoSupport.getSession().flush();
+			AbstractHibernateDaoSupport.log.debug("Flush successful");
 			return true;
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			log.error("Flush failed");
+			AbstractHibernateDaoSupport.log.error("Flush failed");
 			return false;
 		}
 	}
@@ -226,7 +228,7 @@ implements Dao<C, ID> {
 	@Override
 	public final boolean close() {
 		try {
-			final Session session = getSession();
+			final Session session = AbstractHibernateDaoSupport.getSession();
 
 			if (session != null) {
 				session.flush();
@@ -245,16 +247,16 @@ implements Dao<C, ID> {
 	}
 
 	public static String criteriaStringForDynamicQuery(String criteriaString) {
-        criteriaString = criteriaString.toLowerCase();
-        // allow to search with ? and * option
-        if (criteriaString.contains(StringPool.STAR)) {
-            criteriaString = criteriaString.replace(StringPool.STAR, StringPool.PERCENT);
-        }
-        if (criteriaString.contains(StringPool.QUESTION)) {
-            criteriaString = criteriaString.replace(StringPool.QUESTION, StringPool.UNDERLINE);
-        }
-        criteriaString = StringPool.PERCENT + criteriaString + StringPool.PERCENT;
-        return criteriaString;
-    }
+		criteriaString = criteriaString.toLowerCase();
+		// allow to search with ? and * option
+		if (criteriaString.contains(StringPool.STAR)) {
+			criteriaString = criteriaString.replace(StringPool.STAR, StringPool.PERCENT);
+		}
+		if (criteriaString.contains(StringPool.QUESTION)) {
+			criteriaString = criteriaString.replace(StringPool.QUESTION, StringPool.UNDERLINE);
+		}
+		criteriaString = StringPool.PERCENT + criteriaString + StringPool.PERCENT;
+		return criteriaString;
+	}
 
 }

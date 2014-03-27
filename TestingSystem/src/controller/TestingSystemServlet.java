@@ -57,6 +57,8 @@ public class TestingSystemServlet extends HttpServlet {
 				this.changePassword(request, response);
 			} else if(cmd.equals(TSConstants.SEARCH_USER)) {
 				this.searchUser(request, response);
+			} else if(cmd.equals(TSConstants.ADD_USER)) {
+				this.addUser(request, response);
 			} else {
 
 				final HttpSession session = request.getSession();
@@ -199,6 +201,36 @@ public class TestingSystemServlet extends HttpServlet {
 		request.setAttribute("tsTab", "user-management");
 		try {
 			this.goToPage(TSConstants.INDEX_JSP, request, response);
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void addUser(final HttpServletRequest request, final HttpServletResponse response) throws IOException{
+		final String firstName = request.getParameter("firstName");
+		final String lastName = request.getParameter("lastName");
+		final String email = request.getParameter("email");
+		final String userId = request.getParameter("userId");
+
+		response.setContentType("text/html");
+
+		final PrintWriter printWriter = response.getWriter();
+
+		try {
+			final User user = new User();
+			user.setUserId(userId);
+			user.setFname(firstName);
+			user.setLname(lastName);
+			user.setEmail(email);
+
+			final boolean isAddedSuccessully = this.userDao.saveUser(user);
+
+			if(isAddedSuccessully){
+				printWriter.print("<span style=\"color: green\">Adding new user successfully!</span>");
+			} else {
+				printWriter.print("<span style=\"color: red\">Failed to add new user!</span>");
+			}
+
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}

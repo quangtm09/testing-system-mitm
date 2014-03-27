@@ -38,4 +38,6 @@ public class TSConstants {
 
 	public static final String PASSWORD = "password";
 
+	public static final String ADD_USER = "addUser";
+
 }

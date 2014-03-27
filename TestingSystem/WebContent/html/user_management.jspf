@@ -9,9 +9,11 @@
 %>
 
 <div style="font-size: 2.5em;">
-	<div style="display: inline; text-align: left">User Management</div>
+	<div style="display: inline; text-align: left">
+		User Management
+	</div>
 	<div style="display: inline; text-align: right; text-decoration: underline; float: right">
-		<a href="${home_url}">&lt;&lt;&nbsp;Back</a>
+		<a href="javascript:openAddUserDialog();" style="color: blue; font-size: 0.6em;" id="addUser">Add User</a>
 	</div>
 	<hr>
 </div>
@@ -43,6 +45,7 @@
 		    <table >
 		        <tr>
 		            <td>No.</td>
+		            <td>User ID</td>
 		            <td>First Name</td>
 		            <td>Last Name</td>
 		            <td>Email</td>
@@ -53,6 +56,7 @@
 					<tr>
 						<c:set var="count" value="${count + 1}"/>
 						<td>${count}.</td>
+						<td>${user.userId}</td>
 						<td>${user.fname}</td>
 						<td>${user.lname}</td>
 						<td>${user.email}</td>
@@ -84,4 +88,25 @@
 </c:choose>
 		
 <div style="height: 40px"></div>
-            
+
+<div id="addUserDialog" title="Add User">
+	<table>
+		<tr>
+			<td>User ID:</td>
+			<td><input type="text" id="userId"></td>
+		</tr>
+		<tr>
+			<td>First name:</td>
+			<td><input type="text" id="firstName"></td>
+		</tr>
+		<tr>
+			<td>Last name:</td>
+			<td><input type="text" id="lastName"></td>
+		</tr>
+		<tr>
+			<td>Email:</td>
+			<td><input type="text" id="email"></td>
+		</tr>
+	</table>
+	<div id="addUserResult"/>
+</div>    

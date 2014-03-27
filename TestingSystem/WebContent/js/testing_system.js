@@ -15,6 +15,15 @@ function openChangePasswordDialog(accountId){
 	$( "#changePasswordDialog" ).dialog("open");
 }
 
+function openAddUserDialog(accountId){
+	$('#userId').val('');
+	$('#firstName').val('');
+  	$('#lastName').val('');
+  	$('#email').val('');
+  	$('#addUserResult').html('');
+	$( "#addUserDialog" ).dialog("open");
+}
+
 function checkAdminRole(roleID){
 	$('#roleID').val(roleID);
 	$('#createUser').val('8');
@@ -38,6 +47,11 @@ function checkAdminRole(roleID){
 	$('#viewHist').val('10');
 	$('#viewResult').val('6');
 }
+
+function validateEmail(email) { 
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+} 
 
 // Document ready
 $(function() {
@@ -87,4 +101,51 @@ $(function() {
     });
 
     $( "#changePasswordDialog" ).dialog( "option", "hide");
+    
+    $( "#addUserDialog" ).dialog({
+        resizable: false,
+        height:250,
+        width: 350,
+        modal: true,
+        autoOpen: false,
+        buttons: {
+          'Add': function() {
+
+          	var firstName = $.trim($('#firstName').val());
+          	var lastName = $.trim($('#lastName').val());
+          	var email = $.trim($('#email').val());
+          	var userId = $.trim($('#userId').val());
+
+          	if(firstName.length == 0 || lastName.length == 0 || email == 0 ||userId == 0){
+          		alert('Inputs cannot be blank.');
+          	} else if(!validateEmail(email)){
+          		alert('Wrong email pattern!');
+          	} else {
+          		$.ajax({
+          		  type: "POST",
+      			  url: "/TestingSystem/TestingSystemServlet",
+      			  data: {
+      				  cmd: 'addUser',
+      				  userId: userId,
+      				  firstName: firstName,
+      				  lastName: lastName,
+      				  email: email
+      			  },
+      			  success: function(data){
+      				  $('#addUserResult').html(data);
+                    }
+      			}).done(function() {
+      				setTimeout(function(){
+      					location.reload();
+      				}, 3000);
+      			});
+          	}
+          },
+          'Cancel': function() {
+            $( this ).dialog( "close" );
+          }
+        }
+      });
+    
+    $( "#addUserDialog" ).dialog( "option", "hide");
 });
