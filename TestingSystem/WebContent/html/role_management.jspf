@@ -1,15 +1,24 @@
-<link rel="stylesheet" type="text/css" href="css\testing_system.css">
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
-	
-</script>
+<%@page import="constants.TSConstants"%>
 <script>
 	$(document).ready(function() {
-		$("#header").click(function() {
-			$("#panel").slideToggle("slow");
+		$(".flip").click(function() {
+			$(this).next().slideToggle("slow");
 		});
 	});
 </script>
+<style type="text/css">
+.panel,.flip {
+	padding: 5px;
+	text-align: left;
+	background-color: #e5eecc;
+	border: solid 1px #c3c3c3;
+}
+
+.panel {
+	padding: 20px;
+	display: none;
+}
+</style>
 <div style="font-size: 2.5em;">
 	<div style="display: inline; text-align: left">Role Management</div>
 	<div
@@ -18,23 +27,148 @@
 	</div>
 	<hr>
 </div>
-<div id="header">Administrator</div>
-<div id="panel">
-	<table>
-		<tr>
-			<td><input type="checkbox" name="Create User" value="8">Create
-				User</td>
-			<td><input type="checkbox" name="Update Profile" value="9">Update
-				Profile</td>
-			<td><input type="checkbox" name="removeUser" value="12">Remove
-				User</td>
-			<td><input type="checkbox" name="manageUser" value="11">Manage
-				Users</td>
-		</tr>
-		<tr>
-			<td><input type="checkbox" name="createAccount" value="7">Create Account</td>
-			<td><input type="checkbox" name="dropAccount" value="16">Drop Account</td>
-		</tr>
+<form id="adminRoles" name="adminRoles"
+	action="<%=TSConstants.ROLE_MANAGEMENT_SERVLET%>" method="post">
+	<div class="flip" id="admin"
+		style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Administrator</div>
+	<div class="panel">
+		<table>
+			<tr>
+				<td><input id="adCreateUser" type="checkbox" name="createUser"
+					value="8">Create User</td>
+				<td><input id="adUpdateProfile" type="checkbox"
+					name="updateProfile" value="9">Update Profile</td>
+				<td><input id="adRemoveUser" type="checkbox" name="removeUser"
+					value="12">Remove User</td>
+				<td><input id="adManageUser" type="checkbox" name="manageUser"
+					value="11">Manage Users</td>
+			</tr>
+			<tr>
+				<td><input id="adCreateQuest" type="checkbox"
+					name="createQuest" value="17">Create Questions</td>
+				<td><input id="adUpdateQuest" type="checkbox"
+					name="updateQuest" value="19">Update Questions</td>
+				<td><input id="adViewQuest" type="checkbox" name="viewQuest"
+					value="18">View Questions</td>
+				<td><input id="adDropQuest" type="checkbox" name="dropQuest"
+					value="20">Drop Questions</td>
+			</tr>
+			<tr>
+				<td><input id="adCreateAccount" type="checkbox"
+					name="createAccount" value="7">Create Account</td>
+				<td><input id="adDropAccount" type="checkbox"
+					name="dropAccount" value="16">Drop Account</td>
+				<td><input id="adViewAccount" type="checkbox"
+					name="viewAccount" value="15">View Account</td>
+				<td><input id="adCreateTest" type="checkbox" name="createTest"
+					value="1">Create Tests</td>
+			</tr>
 
-	</table>
-</div>
+			<tr>
+				<td><input id="adEditTest" type="checkbox" name="editTest"
+					value="2">Edit Tests</td>
+				<td><input id="adTakeTest" type="checkbox" name="takeTest"
+					value="3">Take Tests</td>
+				<td><input id="adViewTest" type="checkbox" name="viewTest"
+					value="4">View Tests</td>
+				<td><input id="adUpdateTest" type="checkbox" name="updateTest"
+					value="13">Update Tests</td>
+			</tr>
+			<tr>
+				<td><input id="adDeployTest" type="checkbox" name="deployTest"
+					value="14">Deploy Tests</td>
+				<td><input id="adDeleteTest" type="checkbox" name="deleteTest"
+					value="5">Delete Tests</td>
+				<td><input id="adViewHist" type="checkbox" name="viewHist"
+					value="10">View History</td>
+				<td><input id="adViewResult" type="checkbox" name="viewResult"
+					value="6">View Results</td>
+			</tr>
+		</table>
+	</div>
+	<div class="flip" id="lecturer"
+		style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Lecturer</div>
+	<div class="panel">
+		<table>
+			<tr>
+				<td><input id="lecUpdateProfile" type="checkbox"
+					name="updateProfile" value="9">Update Profile</td>
+				<td><input id="lecManageUser" type="checkbox" name="manageUser"
+					value="11">Manage Users</td>
+			</tr>
+			<tr>
+				<td><input id="lecCreateQuest" type="checkbox"
+					name="createQuest" value="17">Create Questions</td>
+				<td><input id="lecUpdateQuest" type="checkbox"
+					name="updateQuest" value="19">Update Questions</td>
+				<td><input id="lecViewQuest" type="checkbox" name="viewQuest"
+					value="18">View Questions</td>
+				<td><input id="lecDropQuest" type="checkbox" name="dropQuest"
+					value="20">Drop Questions</td>
+			</tr>
+			<tr>
+				<td><input id="lecCreateAccount" type="checkbox"
+					name="createAccount" value="7">Create Account</td>
+				<td><input id="lecDropAccount" type="checkbox"
+					name="dropAccount" value="16">Drop Account</td>
+				<td><input id="lecViewAccount" type="checkbox"
+					name="viewAccount" value="15">View Account</td>
+				<td><input id="lecCreateTest" type="checkbox" name="createTest"
+					value="1">Create Tests</td>
+			</tr>
+
+			<tr>
+				<td><input id="lecEditTest" type="checkbox" name="editTest"
+					value="2">Edit Tests</td>
+				<td><input id="lecTakeTest" type="checkbox" name="takeTest"
+					value="3">Take Tests</td>
+				<td><input id="lecViewTest" type="checkbox" name="viewTest"
+					value="4">View Tests</td>
+				<td><input id="lecUpdateTest" type="checkbox" name="updateTest"
+					value="13">Update Tests</td>
+			</tr>
+			<tr>
+				<td><input id="lecDeployTest" type="checkbox" name="deployTest"
+					value="14">Deploy Tests</td>
+				<td><input id="lecDeleteTest" type="checkbox" name="deleteTest"
+					value="5">Delete Tests</td>
+				<td><input id="lecViewHist" type="checkbox" name="viewHist"
+					value="10">View History</td>
+				<td><input id="lecViewResult" type="checkbox" name="viewResult"
+					value="6">View Results</td>
+			</tr>
+		</table>
+	</div>
+	<div class="flip" id="student"
+		style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Student</div>
+	<div class="panel">
+		<table>
+			<tr>
+				<td><input id="stuUpdateProfile" type="checkbox"
+					name="updateProfile" value="9">Update Profile</td>
+				<td><input id="stuViewQuest" type="checkbox" name="viewQuest"
+					value="18">View Questions</td>
+				<td><input id="stuTakeTest" type="checkbox" name="takeTest"
+					value="3">Take Tests</td>
+				<td><input id="stuViewTest" type="checkbox" name="viewTest"
+					value="4">View Tests</td>
+			</tr>
+			<tr>
+				<td><input id="stuDeployTest" type="checkbox" name="deployTest"
+					value="14">Deploy Tests</td>
+				<td><input id="stuViewHist" type="checkbox" name="viewHist"
+					value="10">View History</td>
+				<td><input id="stuViewResult" type="checkbox" name="viewResult"
+					value="6">View Results</td>
+				<td></td>
+			</tr>
+		</table>
+	</div>
+	<br />
+	<div>
+		<input type="button" name="btSaveRole" value="Save" id="btSaveRole"
+			style="COLOR: #000000; FONT-SIZE: medium;"> &nbsp;&nbsp; <input
+			type="button" name="btCancelRole" value="Cancel" id="btCancelRole"
+			style="COLOR: #000000; FONT-SIZE: medium;">
+	</div>
+</form>
