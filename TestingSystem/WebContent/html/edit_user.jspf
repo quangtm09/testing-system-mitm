@@ -4,19 +4,9 @@
 	
 	List<Role> roleList = roleDao.findAll();
 	
-	for(Role role: roleList){
-		System.out.println(role.getRoleName());
-	}
-	
 	String userId = (String) request.getAttribute("userId");
 	User user = userDao.findById(userId);
 	Set<Account> accountList = user.getAccounts();
-	
-	for(Account account: accountList){
-		for(AccountRoleMap arm: account.getAccountRoleMapsForAccId()){
-			System.out.println(arm.getRole().getRoleName());	
-		}
-	}
 	
 	String fullName = user.getFname() + StringPool.SPACE + user.getLname();
 	String address = user.getAddress();
@@ -26,7 +16,12 @@
 	}
 	
 	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-	String date = formatter.format(user.getBdate());
+	Date userBDate = user.getBdate();
+	String date = "";
+	
+	if(null != userBDate){
+		date = formatter.format(user.getBdate());
+	}
 	
 	boolean isUpdatedSuccessfully = (Boolean) TSUtil.getAttribute(request, "isUpdatedSuccessfully", true);
 	boolean isClickedEditButton = (Boolean) TSUtil.getAttribute(request, "isClickedEditButton", false);
@@ -89,63 +84,64 @@
 			</td>
 		</tr>
 	</table>
+	
+	<c:choose>
+		<c:when test="<%=accountList.size() > 0 %>">
+			<table id="hor-minimalist-b" summary="User Accounts" style="margin-left: 80px; margin-bottom: 20px">
+				<thead>
+			    	<tr>
+			    		<th scope="col">No.</th>
+			        	<th scope="col">Account ID</th>
+			            <th scope="col">Role</th>
+			            <th scope="col">Actions</th>
+			        </tr>
+			    </thead>
+				<c:set var="count" value="0"/>
+				<c:forEach items="<%=accountList %>" var="account">
+					<tr>
+						<c:set var="count" value="${count + 1}"/>
+						<td>${count}.</td>
+						<td>${account.accId}</td>
+						<td>
+							<select id="changeRoleCombobox" name="changeRoleCombobox">
+								<c:choose>
+									<c:when test="${account.accountRoleMapsForAccId != null && not empty account.accountRoleMapsForAccId}">
+										<c:forEach items="<%=roleList%>" var="role">
+											<c:choose>
+												<c:when test="${account.accountRoleMapsForAccId.toArray()[0].role eq role}">
+													<option selected="selected" value="${role.roleId}">${role.roleName}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${role.roleId}">${role.roleName}</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<option selected="selected">None</option>
+										<c:forEach items="<%=roleList%>" var="role">
+											<option value="${role.roleId}">${role.roleName}</option>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</select>
+							
+							<%-- <c:forEach items="${account.accountRoleMapsForAccId}" var="aRM">
+								${aRM.role.roleName}<br/>
+							</c:forEach>--%>
+						</td>
+						<td>
+							<a title="Change Password" href="javascript:openChangePasswordDialog('${account.accId}');" onclick=";"><img src="/TestingSystem/images/change-password-icon.png"/></a>
+							<a title="Delete" onclick=""><img src="/TestingSystem/images/delete_icon.png"/></a>
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</c:when>
+	</c:choose>
 	<input type="submit" value="Edit">
 </form>
-<c:choose>
-	<c:when test="<%=accountList.size() > 0 %>">
-		<table id="hor-minimalist-b" summary="User Accounts">
-			<thead>
-		    	<tr>
-		    		<th scope="col">No.</th>
-		        	<th scope="col">Account ID</th>
-		            <th scope="col">Role</th>
-		            <th scope="col">Actions</th>
-		        </tr>
-		    </thead>
-			<c:set var="count" value="0"/>
-			<c:forEach items="<%=accountList %>" var="account">
-				<tr>
-					<c:set var="count" value="${count + 1}"/>
-					<td>${count}.</td>
-					<td>${account.accId}</td>
-					<td>
-						<select id="changeRoleCombobox" name="changeRoleCombobox">
-							<c:choose>
-								<c:when test="${account.accountRoleMapsForAccId != null}">
-									<c:forEach items="<%=roleList%>" var="role">
-										<c:choose>
-											<c:when test="${account.accountRoleMapsForAccId[0].role eq role}">
-												<option selected="selected" value="${role.roleId}">${role.roleName}</option>
-											</c:when>
-											<c:otherwise>
-												<option value="${role.roleId}">${role.roleName}</option>
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									<option selected="selected">None</option>
-									<c:forEach items="<%=roleList%>" var="role">
-										<option value="${role.roleId}">${role.roleName}</option>
-									</c:forEach>
-								</c:otherwise>
-							</c:choose>
-						</select>
-						
-						<%-- <c:forEach items="${account.accountRoleMapsForAccId}" var="aRM">
-							${aRM.role.roleName}<br/>
-						</c:forEach>--%>
-					</td>
-					<td>
-						<a title="Change Password" href="javascript:openChangePasswordDialog('${account.accId}');" onclick=";"><img src="/TestingSystem/images/change-password-icon.png"/></a>
-						<a title="Edit Roles" href=""><img src="/TestingSystem/images/add_role_icon.png"/></a>
-						<a title="Delete" onclick=""><img src="/TestingSystem/images/delete_icon.png"/></a>
-					</td>
-				</tr>
-			</c:forEach>
-		</table>
-	</c:when>
-</c:choose>
+
 <div id="changePasswordDialog" title="Change password">
 	<input type="hidden" id="accountId">
 	<table>
