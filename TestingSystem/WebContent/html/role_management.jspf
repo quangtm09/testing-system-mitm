@@ -31,12 +31,12 @@
 	<table>
 		<tr>
 			<td></td>
-			<td>Administrator</td>
-			<td>Lecturers</td>
-			<td>Student</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Administrator</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Lecturers</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Student</td>
 		</tr>
 		<tr>
-			<td>Create User</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Create User</td>
 			<td align="center"><input id="adCreateUser" type="checkbox"
 				name="adcreateUser" value="8"></td>
 			<td align="center"><input id="lecCreateUser" type="checkbox"
@@ -45,7 +45,7 @@
 				name="createUser" value="8"></td>
 		</tr>
 		<tr>
-			<td>Update Profile</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Update Profile</td>
 			<td align="center"><input id="adUpdateProfile" type="checkbox"
 				name="updateProfile" value="9"></td>
 			<td align="center"><input id="adUpdateProfile" type="checkbox"
@@ -54,7 +54,7 @@
 				name="updateProfile" value="9"></td>
 		</tr>
 		<tr>
-			<td>Remove User</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Remove User</td>
 			<td align="center"><input id="adRemoveUser" type="checkbox"
 				name="removeUser" value="12"></td>
 			<td align="center"><input id="adRemoveUser" type="checkbox"
@@ -63,7 +63,7 @@
 				name="removeUser" value="12"></td>
 		</tr>
 		<tr>
-			<td>Manage Users</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Manage Users</td>
 			<td align="center"><input id="adManageUser" type="checkbox"
 				name="manageUser" value="11"></td>
 			<td align="center"><input id="adManageUser" type="checkbox"
@@ -72,7 +72,7 @@
 				name="manageUser" value="11"></td>
 		</tr>
 		<tr>
-			<td>Create Account</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Create Account</td>
 			<td align="center"><input id="adCreateAccount" type="checkbox"
 				name="createAccount" value="7"></td>
 			<td align="center"><input id="adCreateAccount" type="checkbox"
@@ -81,7 +81,7 @@
 				name="createAccount" value="7"></td>
 		</tr>
 		<tr>
-			<td>View Account</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">View Account</td>
 			<td align="center"><input id="adViewAccount" type="checkbox"
 				name="viewAccount" value="15"></td>
 			<td align="center"><input id="adViewAccount" type="checkbox"
@@ -90,7 +90,7 @@
 				name="viewAccount" value="15"></td>
 		</tr>
 		<tr>
-			<td>Drop Account</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Drop Account</td>
 			<td align="center"><input id="adDropAccount" type="checkbox"
 				name="dropAccount" value="16"></td>
 			<td align="center"><input id="adDropAccount" type="checkbox"
@@ -99,7 +99,7 @@
 				name="dropAccount" value="16"></td>
 		</tr>
 		<tr>
-			<td>Create Test</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Create Test</td>
 			<td align="center"><input id="adCreateTest" type="checkbox"
 				name="createTest" value="1"></td>
 			<td align="center"><input id="adCreateTest" type="checkbox"
@@ -108,7 +108,7 @@
 				name="createTest" value="1"></td>
 		</tr>
 		<tr>
-			<td>Edit Test</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Edit Test</td>
 			<td align="center"><input id="adEditTest" type="checkbox" name="editTest"
 					value="2"></td>
 			<td align="center"><input id="adEditTest" type="checkbox" name="editTest"
@@ -117,7 +117,7 @@
 					value="2"></td>
 		</tr>
 		<tr>
-			<td>Take Test</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Take Test</td>
 			<td align="center"><input id="adTakeTest" type="checkbox" name="takeTest"
 					value="3"></td>
 			<td align="center"><input id="adTakeTest" type="checkbox" name="takeTest"
@@ -126,153 +126,95 @@
 					value="3"></td>
 		</tr>
 		<tr>
-			<td>View Test</td>
-			<td align="center"></td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">View Test</td>
+			<td align="center"><input id="adViewTest" type="checkbox" name="viewTest"
+					value="4"></td>
+			<td align="center"><input id="adViewTest" type="checkbox" name="viewTest"
+					value="4"></td>
+			<td align="center"><input id="adViewTest" type="checkbox" name="viewTest"
+					value="4"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Update Test</td>
+			<td align="center"><input id="adUpdateTest" type="checkbox" name="updateTest"
+					value="13"></td>
+			<td align="center"><input id="adUpdateTest" type="checkbox" name="updateTest"
+					value="13"></td>
+			<td align="center"><input id="adUpdateTest" type="checkbox" name="updateTest"
+					value="13"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Deploy Test</td>
+			<td align="center"><input id="lecDeployTest" type="checkbox" name="deployTest"
+					value="14"></td>
+			<td align="center"><input id="lecDeployTest" type="checkbox" name="deployTest"
+					value="14"></td>
+			<td align="center"><input id="lecDeployTest" type="checkbox" name="deployTest"
+					value="14"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Delete Test</td>
+			<td align="center"><input id="adDeleteTest" type="checkbox" name="deleteTest"
+					value="5"></td>
+			<td align="center"><input id="adDeleteTest" type="checkbox" name="deleteTest"
+					value="5"></td>
+			<td align="center"><input id="adDeleteTest" type="checkbox" name="deleteTest"
+					value="5"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Create Question</td>
+			<td align="center"><input id="lecCreateQuest" type="checkbox"
+					name="createQuest" value="17"></td>
+			<td align="center"><input id="lecCreateQuest" type="checkbox"
+					name="createQuest" value="17"></td>
+			<td align="center"><input id="lecCreateQuest" type="checkbox"
+					name="createQuest" value="17"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Update Question</td>
+			<td align="center"><input id="adUpdateQuest" type="checkbox"
+					name="updateQuest" value="19"></td>
+			<td align="center"><input id="adUpdateQuest" type="checkbox"
+					name="updateQuest" value="19"></td>
+			<td align="center"><input id="adUpdateQuest" type="checkbox"
+					name="updateQuest" value="19"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">View Question</td>
+			<td align="center"><input id="adViewQuest" type="checkbox" name="viewQuest"
+					value="18"></td>
+			<td align="center"><input id="adViewQuest" type="checkbox" name="viewQuest"
+					value="18"></td>
+			<td align="center"><input id="adViewQuest" type="checkbox" name="viewQuest"
+					value="18"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Drop Question</td>
+			<td align="center"><input id="adDropQuest" type="checkbox" name="dropQuest"
+					value="20"></td>
+			<td align="center"><input id="adDropQuest" type="checkbox" name="dropQuest"
+					value="20"></td>
+			<td align="center"><input id="adDropQuest" type="checkbox" name="dropQuest"
+					value="20"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">View History</td>
+			<td align="center"><input id="stuViewHist" type="checkbox" name="viewHist"
+					value="10"></td>
+			<td align="center"><input id="stuViewHist" type="checkbox" name="viewHist"
+					value="10"></td>
+			<td align="center"><input id="stuViewHist" type="checkbox" name="viewHist"
+					value="10"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">View Results</td>
+			<td align="center"><input id="stuViewResult" type="checkbox" name="viewResult"
+					value="6"></td>
+			<td align="center"><input id="stuViewResult" type="checkbox" name="viewResult"
+					value="6"></td>
+			<td align="center"><input id="stuViewResult" type="checkbox" name="viewResult"
+					value="6"></td>
 		</tr>
 	</table>
 </div>
-<form id="adminRoles" name="adminRoles"
-	action="<%=TSConstants.ROLE_MANAGEMENT_SERVLET%>" method="post">
-	<div class="flip" id="admin"
-		style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Administrator</div>
-	<div class="panel">
-		<table>
-			<tr>
-				<td><input id="adCreateUser" type="checkbox" name="createUser"
-					value="8">Create User</td>
-				<td><input id="adUpdateProfile" type="checkbox"
-					name="updateProfile" value="9">Update Profile</td>
-				<td><input id="adRemoveUser" type="checkbox" name="removeUser"
-					value="12">Remove User</td>
-				<td><input id="adManageUser" type="checkbox" name="manageUser"
-					value="11">Manage Users</td>
-			</tr>
-			<tr>
-				<td><input id="adCreateQuest" type="checkbox"
-					name="createQuest" value="17">Create Questions</td>
-				<td><input id="adUpdateQuest" type="checkbox"
-					name="updateQuest" value="19">Update Questions</td>
-				<td><input id="adViewQuest" type="checkbox" name="viewQuest"
-					value="18">View Questions</td>
-				<td><input id="adDropQuest" type="checkbox" name="dropQuest"
-					value="20">Drop Questions</td>
-			</tr>
-			<tr>
-				<td><input id="adCreateAccount" type="checkbox"
-					name="createAccount" value="7">Create Account</td>
-				<td><input id="adDropAccount" type="checkbox"
-					name="dropAccount" value="16">Drop Account</td>
-				<td><input id="adViewAccount" type="checkbox"
-					name="viewAccount" value="15">View Account</td>
-				<td><input id="adCreateTest" type="checkbox" name="createTest"
-					value="1">Create Tests</td>
-			</tr>
 
-			<tr>
-				<td><input id="adEditTest" type="checkbox" name="editTest"
-					value="2">Edit Tests</td>
-				<td><input id="adTakeTest" type="checkbox" name="takeTest"
-					value="3">Take Tests</td>
-				<td><input id="adViewTest" type="checkbox" name="viewTest"
-					value="4">View Tests</td>
-				<td><input id="adUpdateTest" type="checkbox" name="updateTest"
-					value="13">Update Tests</td>
-			</tr>
-			<tr>
-				<td><input id="adDeployTest" type="checkbox" name="deployTest"
-					value="14">Deploy Tests</td>
-				<td><input id="adDeleteTest" type="checkbox" name="deleteTest"
-					value="5">Delete Tests</td>
-				<td><input id="adViewHist" type="checkbox" name="viewHist"
-					value="10">View History</td>
-				<td><input id="adViewResult" type="checkbox" name="viewResult"
-					value="6">View Results</td>
-			</tr>
-		</table>
-	</div>
-	<div class="flip" id="lecturer"
-		style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Lecturer</div>
-	<div class="panel">
-		<table>
-			<tr>
-				<td><input id="lecUpdateProfile" type="checkbox"
-					name="updateProfile" value="9">Update Profile</td>
-				<td><input id="lecManageUser" type="checkbox" name="manageUser"
-					value="11">Manage Users</td>
-			</tr>
-			<tr>
-				<td><input id="lecCreateQuest" type="checkbox"
-					name="createQuest" value="17">Create Questions</td>
-				<td><input id="lecUpdateQuest" type="checkbox"
-					name="updateQuest" value="19">Update Questions</td>
-				<td><input id="lecViewQuest" type="checkbox" name="viewQuest"
-					value="18">View Questions</td>
-				<td><input id="lecDropQuest" type="checkbox" name="dropQuest"
-					value="20">Drop Questions</td>
-			</tr>
-			<tr>
-				<td><input id="lecCreateAccount" type="checkbox"
-					name="createAccount" value="7">Create Account</td>
-				<td><input id="lecDropAccount" type="checkbox"
-					name="dropAccount" value="16">Drop Account</td>
-				<td><input id="lecViewAccount" type="checkbox"
-					name="viewAccount" value="15">View Account</td>
-				<td><input id="lecCreateTest" type="checkbox" name="createTest"
-					value="1">Create Tests</td>
-			</tr>
-
-			<tr>
-				<td><input id="lecEditTest" type="checkbox" name="editTest"
-					value="2">Edit Tests</td>
-				<td><input id="lecTakeTest" type="checkbox" name="takeTest"
-					value="3">Take Tests</td>
-				<td><input id="lecViewTest" type="checkbox" name="viewTest"
-					value="4">View Tests</td>
-				<td><input id="lecUpdateTest" type="checkbox" name="updateTest"
-					value="13">Update Tests</td>
-			</tr>
-			<tr>
-				<td><input id="lecDeployTest" type="checkbox" name="deployTest"
-					value="14">Deploy Tests</td>
-				<td><input id="lecDeleteTest" type="checkbox" name="deleteTest"
-					value="5">Delete Tests</td>
-				<td><input id="lecViewHist" type="checkbox" name="viewHist"
-					value="10">View History</td>
-				<td><input id="lecViewResult" type="checkbox" name="viewResult"
-					value="6">View Results</td>
-			</tr>
-		</table>
-	</div>
-	<div class="flip" id="student"
-		style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Student</div>
-	<div class="panel">
-		<table>
-			<tr>
-				<td><input id="stuUpdateProfile" type="checkbox"
-					name="updateProfile" value="9">Update Profile</td>
-				<td><input id="stuViewQuest" type="checkbox" name="viewQuest"
-					value="18">View Questions</td>
-				<td><input id="stuTakeTest" type="checkbox" name="takeTest"
-					value="3">Take Tests</td>
-				<td><input id="stuViewTest" type="checkbox" name="viewTest"
-					value="4">View Tests</td>
-			</tr>
-			<tr>
-				<td><input id="stuDeployTest" type="checkbox" name="deployTest"
-					value="14">Deploy Tests</td>
-				<td><input id="stuViewHist" type="checkbox" name="viewHist"
-					value="10">View History</td>
-				<td><input id="stuViewResult" type="checkbox" name="viewResult"
-					value="6">View Results</td>
-				<td></td>
-			</tr>
-		</table>
-	</div>
-	<br />
-	<div>
-		<input type="button" name="btSaveRole" value="Save" id="btSaveRole"
-			style="COLOR: #000000; FONT-SIZE: medium;"> &nbsp;&nbsp; <input
-			type="button" name="btCancelRole" value="Cancel" id="btCancelRole"
-			style="COLOR: #000000; FONT-SIZE: medium;">
-	</div>
-</form>
