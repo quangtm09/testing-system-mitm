@@ -1,15 +1,15 @@
 <%@include file="/html/init.jsp"%>
 <%
+	RoleDao roleDao = new RoleDaoImpl();
 	Account selAccount = (Account) request.getAttribute("selAccount");
+	List<Role> roleList = roleDao.findAll();
 %>
 
 <table id="hor-minimalist-b" summary="User Accounts">
 	<thead>
     	<tr>
-    		<th scope="col">No.</th>
-        	<th scope="col">Account ID</th>
             <th scope="col">Role</th>
-            <th scope="col">Actions</th>
+            <th scope="col"></th>
         </tr>
     </thead>
 	<c:set var="count" value="0"/>

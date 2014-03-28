@@ -1,8 +1,22 @@
 <%
 	UserDao userDao = new UserDaoImpl();
+	RoleDao roleDao = new RoleDaoImpl();
+	
+	List<Role> roleList = roleDao.findAll();
+	
+	for(Role role: roleList){
+		System.out.println(role.getRoleName());
+	}
+	
 	String userId = (String) request.getAttribute("userId");
 	User user = userDao.findById(userId);
 	Set<Account> accountList = user.getAccounts();
+	
+	for(Account account: accountList){
+		for(AccountRoleMap arm: account.getAccountRoleMapsForAccId()){
+			System.out.println(arm.getRole().getRoleName());	
+		}
+	}
 	
 	String fullName = user.getFname() + StringPool.SPACE + user.getLname();
 	String address = user.getAddress();
@@ -72,9 +86,6 @@
 		<tr>
 			<td>Accounts:</td>
 			<td>
-				<div class="CSSTableGenerator" >
-	   				
-	   			</div>
 			</td>
 		</tr>
 	</table>
@@ -98,9 +109,32 @@
 					<td>${count}.</td>
 					<td>${account.accId}</td>
 					<td>
-						<c:forEach items="${account.accountRoleMapsForAccId}" var="aRM">
+						<select id="changeRoleCombobox" name="changeRoleCombobox">
+							<c:choose>
+								<c:when test="${account.accountRoleMapsForAccId != null}">
+									<c:forEach items="<%=roleList%>" var="role">
+										<c:choose>
+											<c:when test="${account.accountRoleMapsForAccId[0].role eq role}">
+												<option selected="selected" value="${role.roleId}">${role.roleName}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${role.roleId}">${role.roleName}</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<option selected="selected">None</option>
+									<c:forEach items="<%=roleList%>" var="role">
+										<option value="${role.roleId}">${role.roleName}</option>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</select>
+						
+						<%-- <c:forEach items="${account.accountRoleMapsForAccId}" var="aRM">
 							${aRM.role.roleName}<br/>
-						</c:forEach>
+						</c:forEach>--%>
 					</td>
 					<td>
 						<a title="Change Password" href="javascript:openChangePasswordDialog('${account.accId}');" onclick=";"><img src="/TestingSystem/images/change-password-icon.png"/></a>

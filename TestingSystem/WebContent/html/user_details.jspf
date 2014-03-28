@@ -85,7 +85,7 @@
 </table>
 <c:choose>
 	<c:when test="<%=accountList.size() > 0 %>">
-		<table id="hor-minimalist-b" summary="User Accounts">
+		<table id="hor-minimalist-b" summary="User Accounts" style="margin-left: 70px">
 		    <thead>
 		    	<tr>
 		    		<th scope="col">No.</th>
