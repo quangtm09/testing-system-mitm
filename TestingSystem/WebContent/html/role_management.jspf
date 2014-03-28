@@ -27,6 +27,110 @@
 	</div>
 	<hr>
 </div>
+<div>
+	<table>
+		<tr>
+			<td></td>
+			<td>Administrator</td>
+			<td>Lecturers</td>
+			<td>Student</td>
+		</tr>
+		<tr>
+			<td>Create User</td>
+			<td align="center"><input id="adCreateUser" type="checkbox"
+				name="adcreateUser" value="8"></td>
+			<td align="center"><input id="lecCreateUser" type="checkbox"
+				name="createUser" value="8"></td>
+			<td align="center"><input id="stuCreateUser" type="checkbox"
+				name="createUser" value="8"></td>
+		</tr>
+		<tr>
+			<td>Update Profile</td>
+			<td align="center"><input id="adUpdateProfile" type="checkbox"
+				name="updateProfile" value="9"></td>
+			<td align="center"><input id="adUpdateProfile" type="checkbox"
+				name="updateProfile" value="9"></td>
+			<td align="center"><input id="adUpdateProfile" type="checkbox"
+				name="updateProfile" value="9"></td>
+		</tr>
+		<tr>
+			<td>Remove User</td>
+			<td align="center"><input id="adRemoveUser" type="checkbox"
+				name="removeUser" value="12"></td>
+			<td align="center"><input id="adRemoveUser" type="checkbox"
+				name="removeUser" value="12"></td>
+			<td align="center"><input id="adRemoveUser" type="checkbox"
+				name="removeUser" value="12"></td>
+		</tr>
+		<tr>
+			<td>Manage Users</td>
+			<td align="center"><input id="adManageUser" type="checkbox"
+				name="manageUser" value="11"></td>
+			<td align="center"><input id="adManageUser" type="checkbox"
+				name="manageUser" value="11"></td>
+			<td align="center"><input id="adManageUser" type="checkbox"
+				name="manageUser" value="11"></td>
+		</tr>
+		<tr>
+			<td>Create Account</td>
+			<td align="center"><input id="adCreateAccount" type="checkbox"
+				name="createAccount" value="7"></td>
+			<td align="center"><input id="adCreateAccount" type="checkbox"
+				name="createAccount" value="7"></td>
+			<td align="center"><input id="adCreateAccount" type="checkbox"
+				name="createAccount" value="7"></td>
+		</tr>
+		<tr>
+			<td>View Account</td>
+			<td align="center"><input id="adViewAccount" type="checkbox"
+				name="viewAccount" value="15"></td>
+			<td align="center"><input id="adViewAccount" type="checkbox"
+				name="viewAccount" value="15"></td>
+			<td align="center"><input id="adViewAccount" type="checkbox"
+				name="viewAccount" value="15"></td>
+		</tr>
+		<tr>
+			<td>Drop Account</td>
+			<td align="center"><input id="adDropAccount" type="checkbox"
+				name="dropAccount" value="16"></td>
+			<td align="center"><input id="adDropAccount" type="checkbox"
+				name="dropAccount" value="16"></td>
+			<td align="center"><input id="adDropAccount" type="checkbox"
+				name="dropAccount" value="16"></td>
+		</tr>
+		<tr>
+			<td>Create Test</td>
+			<td align="center"><input id="adCreateTest" type="checkbox"
+				name="createTest" value="1"></td>
+			<td align="center"><input id="adCreateTest" type="checkbox"
+				name="createTest" value="1"></td>
+			<td align="center"><input id="adCreateTest" type="checkbox"
+				name="createTest" value="1"></td>
+		</tr>
+		<tr>
+			<td>Edit Test</td>
+			<td align="center"><input id="adEditTest" type="checkbox" name="editTest"
+					value="2"></td>
+			<td align="center"><input id="adEditTest" type="checkbox" name="editTest"
+					value="2"></td>
+			<td align="center"><input id="adEditTest" type="checkbox" name="editTest"
+					value="2"></td>
+		</tr>
+		<tr>
+			<td>Take Test</td>
+			<td align="center"><input id="adTakeTest" type="checkbox" name="takeTest"
+					value="3"></td>
+			<td align="center"><input id="adTakeTest" type="checkbox" name="takeTest"
+					value="3"></td>
+			<td align="center"><input id="adTakeTest" type="checkbox" name="takeTest"
+					value="3"></td>
+		</tr>
+		<tr>
+			<td>View Test</td>
+			<td align="center"></td>
+		</tr>
+	</table>
+</div>
 <form id="adminRoles" name="adminRoles"
 	action="<%=TSConstants.ROLE_MANAGEMENT_SERVLET%>" method="post">
 	<div class="flip" id="admin"
