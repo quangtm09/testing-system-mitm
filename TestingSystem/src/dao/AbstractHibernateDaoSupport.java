@@ -131,13 +131,15 @@ implements Dao<C, ID> {
 	 */
 	@Override
 	public final boolean save(final C obj) {
-		AbstractHibernateDaoSupport.log.debug("Save Object " + obj);
+		log.debug("Save Object " + obj);
 		try {
+			getSession();
 			HibernateUtil.beginTransaction();
-			AbstractHibernateDaoSupport.getSession().save(obj);
+			getSession().save(obj);
 			HibernateUtil.commitTransaction();
 			this.flush();
-			AbstractHibernateDaoSupport.getSession().clear();
+			getSession().clear();
+
 			AbstractHibernateDaoSupport.log.debug("Save successful");
 			return true;
 		} catch (final Exception ex) {
@@ -152,12 +154,15 @@ implements Dao<C, ID> {
 	 */
 	@Override
 	public final boolean update(final C obj) {
-		AbstractHibernateDaoSupport.log.debug("Update Object " + obj);
+		log.debug("Update Object " + obj);
 		try {
-			AbstractHibernateDaoSupport.getSession().update(obj);
+			HibernateUtil.beginTransaction();
+			getSession().update(obj);
+			HibernateUtil.commitTransaction();
 			this.flush();
-			AbstractHibernateDaoSupport.getSession().clear();
-			AbstractHibernateDaoSupport.log.debug("Update successful");
+			getSession().clear();
+
+			log.debug("Update successful");
 			return true;
 		} catch (final Exception ex) {
 			ex.printStackTrace();

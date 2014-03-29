@@ -48,6 +48,7 @@ public class HibernateUtil {
 		try {
 			if (tx != null && !tx.wasCommitted() && !tx.wasRolledBack()) {
 				tx.commit();
+				tx = null;
 			}
 		} catch (final StaleObjectStateException ex) {
 			rollbackTransaction();

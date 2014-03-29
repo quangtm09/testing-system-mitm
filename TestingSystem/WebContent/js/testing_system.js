@@ -6,6 +6,26 @@ function logout(){
 	window.location.href = '/TestingSystem/LogoutServlet';
 }
 
+function changeAccountRole(accountId){
+	$.ajax({
+	  type: "POST",
+		  url: "/TestingSystem/TestingSystemServlet",
+		  data: {
+			  cmd: 'changeAccountRole',
+			  accountId: accountId,
+			  userId: $('#userId').val(),
+			  roleId: $('select[name=\'changeRole' + accountId + '\']').val()
+		  },
+		  success: function(data){
+			  if(data === false){
+				  alert('Error while changing role[=' + $('select[name=\'changeRole' + accountId + '\']').text() + '] for ' + accountId);
+			  }
+		  }
+	}).done(function() {
+			
+	});
+}
+
 function openAddAccountDialog(){
 	$('#newAccountId').val('');
 	$('#accountPassword').val('');

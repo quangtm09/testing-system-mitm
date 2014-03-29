@@ -3,6 +3,8 @@ package controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -58,17 +60,19 @@ public class TestingSystemServlet extends HttpServlet {
 		try {
 			// User submits login form
 			if(cmd.equals(TSConstants.LOGIN)){
-				login(request, response);
+				this.login(request, response);
 			} else if(cmd.equals(TSConstants.EDIT_USER)){
-				editUser(request, response);
+				this.editUser(request, response);
 			} else if(cmd.equals(TSConstants.CHANGE_PASSWORD)){
-				changePassword(request, response);
+				this.changePassword(request, response);
 			} else if(cmd.equals(TSConstants.SEARCH_USER)) {
-				searchUser(request, response);
+				this.searchUser(request, response);
 			} else if(cmd.equals(TSConstants.ADD_USER)) {
-				addUser(request, response);
+				this.addUser(request, response);
 			} else if(cmd.equals(TSConstants.ADD_ACCOUNT)){
-				addAccount(request, response);
+				this.addAccount(request, response);
+			} else if(cmd.equals(TSConstants.CHANGE_ACCOUNT_ROLE)){
+				this.changeAccountRole(request, response);
 			} else {
 
 				final HttpSession session = request.getSession();
@@ -85,10 +89,10 @@ public class TestingSystemServlet extends HttpServlet {
 					request.setAttribute("tsTab", tsTabParam);
 					request.setAttribute("userId", userId);
 
-					goToPage(TSConstants.INDEX_JSP, request, response);
+					this.goToPage(TSConstants.INDEX_JSP, request, response);
 				} else {
 					// Go to login page
-					goToPage(TSConstants.LOGIN_JSP, request, response);
+					this.goToPage(TSConstants.LOGIN_JSP, request, response);
 				}
 
 			}
@@ -122,11 +126,11 @@ public class TestingSystemServlet extends HttpServlet {
 				accountIdCookie.setMaxAge(30*60);
 
 				response.addCookie(accountIdCookie);
-				goToPage(TSConstants.INDEX_JSP, request, response);
+				this.goToPage(TSConstants.INDEX_JSP, request, response);
 			} else {
 				request.setAttribute("isWrongUsernameOrPassword", false);
 				request.setAttribute("errorMessage", "Failed to login!");
-				goToPage(TSConstants.LOGIN_JSP, request, response);
+				this.goToPage(TSConstants.LOGIN_JSP, request, response);
 			}
 
 		} catch (final Exception ex){
@@ -174,7 +178,7 @@ public class TestingSystemServlet extends HttpServlet {
 				request.setAttribute("errorMessage", "Failed to update!");
 			}
 
-			goToPage(TSConstants.INDEX_JSP, request, response);
+			this.goToPage(TSConstants.INDEX_JSP, request, response);
 		} catch (final Exception ex){
 			ex.printStackTrace();
 			TestingSystemServlet.log.debug("Failed to edit user");
@@ -224,7 +228,7 @@ public class TestingSystemServlet extends HttpServlet {
 		request.setAttribute("address", address);
 		request.setAttribute("tsTab", "user-management");
 		try {
-			goToPage(TSConstants.INDEX_JSP, request, response);
+			this.goToPage(TSConstants.INDEX_JSP, request, response);
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
@@ -315,12 +319,60 @@ public class TestingSystemServlet extends HttpServlet {
 		}
 	}
 
+	private void changeAccountRole(final HttpServletRequest request, final HttpServletResponse response) throws IOException{
+		final String accountId = request.getParameter("accountId");
+		final Integer roleId = Integer.parseInt(request.getParameter("roleId"));
+
+		final Account account = accountDao.findById(accountId);
+		final Role selectedRole = roleDao.getRoleById(roleId);
+
+		final PrintWriter printWriter = response.getWriter();
+
+		boolean isChangedSuccess = false;
+
+		if(selectedRole != null){
+			final HttpSession currentSession = request.getSession();
+
+			final Set<AccountRoleMap> arms = account.getAccountRoleMapsForAccId();
+
+			if(arms.size() != 0){
+				AccountRoleMap oldARM = null;
+
+				for(final AccountRoleMap arm: arms){
+					oldARM = arm;
+				}
+
+				final Role oldRole = oldARM.getRole();
+
+				if(oldRole.getRoleId() != selectedRole.getRoleId()){
+					oldARM.setRole(selectedRole);
+					oldARM.setAccountByCreatorAccRoleId((Account) currentSession.getAttribute("account"));
+					oldARM.setAccRoleGrantedDate(new Date());
+
+					isChangedSuccess = aRMDao.update(oldARM);
+				}
+			} else {
+				final AccountRoleMap arm = new AccountRoleMap();
+				arm.setAccountByAccId(account);
+				arm.setRole(selectedRole);
+				arm.setAccountByCreatorAccRoleId((Account) currentSession.getAttribute("account"));
+				arm.setAccRoleGrantedDate(new Date());
+
+				isChangedSuccess = aRMDao.save(arm);
+			}
+		}
+
+		if(!isChangedSuccess){
+			printWriter.print(isChangedSuccess);
+		}
+	}
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
+		this.processRequest(request, response);
 	}
 
 	/**
@@ -328,13 +380,13 @@ public class TestingSystemServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
+		this.processRequest(request, response);
 	}
 
 
 	public void goToPage(final String page, final HttpServletRequest request,
 			final HttpServletResponse response) throws ServletException, IOException {
-		final RequestDispatcher dispatcher = getServletContext()
+		final RequestDispatcher dispatcher = this.getServletContext()
 				.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 	}

@@ -42,4 +42,6 @@ public class TSConstants {
 
 	public static final String ADD_ACCOUNT = "addAccount";
 
+	public static final String CHANGE_ACCOUNT_ROLE = "changeAccountRole";
+
 }

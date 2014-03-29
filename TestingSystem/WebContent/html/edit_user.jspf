@@ -36,7 +36,7 @@
 
 <div style="font-size: 2.5em;">
 	<div style="display: inline; text-align: left">Edit User - <%=fullName%></div>
-	<a href="${user_management_url}" id="backButton" class="rightButton">Back</a>
+	<a href="${user_management_url}" id="backButton" class="rightButton" style="font-size: 0.5em">Back</a>
 	<hr>
 </div>
 
@@ -111,7 +111,7 @@
 									<td>${count}.</td>
 									<td>${account.accId}</td>
 									<td>
-										<select id="changeRoleCombobox" name="changeRoleCombobox">
+										<select id="changeRoleCombobox" name="changeRole${account.accId}" onchange="changeAccountRole('${account.accId}')">
 											<c:choose>
 												<c:when test="${account.accountRoleMapsForAccId != null && not empty account.accountRoleMapsForAccId}">
 													<c:forEach items="<%=roleList%>" var="role">
@@ -126,7 +126,7 @@
 													</c:forEach>
 												</c:when>
 												<c:otherwise>
-													<option selected="selected">None</option>
+													<option selected="selected" value="0">None</option>
 													<c:forEach items="<%=roleList%>" var="role">
 														<option value="${role.roleId}">${role.roleName}</option>
 													</c:forEach>
@@ -150,8 +150,6 @@
 			</td>
 		</tr>
 	</table>
-	
-	
 	<button type="submit" value="Edit" id="editUserButton" style="margin-top: 20px">Edit</button>
 </form>
 
