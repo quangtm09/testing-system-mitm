@@ -60,6 +60,8 @@ $(function() {
 		changeYear: true,
 		dateFormat: 'dd-mm-yy'
     });
+	
+	$("#datepicker").attr( 'readOnly' , 'true' );
 
     $( "#changePasswordDialog" ).dialog({
       resizable: false,
@@ -70,12 +72,14 @@ $(function() {
       buttons: {
         'Change': function() {
 
-        	var newPassword = $('#newPassword').val();
-        	var oldPassword = $('#oldPassword').val();
-        	var confirmedPassword = $('#confirmedPassword').val();
+        	var newPassword = $.trim($('#newPassword').val());
+        	var oldPassword = $.trim($('#oldPassword').val());
+        	var confirmedPassword = $.trim($('#confirmedPassword').val());
 
         	if(newPassword !== confirmedPassword){
         		alert('Passwords do not match!');
+        	} else if(newPassword == 0 || oldPassword == 0 || confirmedPassword == 0){
+        		alert('Inputs cannot be blank!');
         	} else {
         		$.ajax({
         		  type: "POST",
@@ -116,7 +120,7 @@ $(function() {
           	var email = $.trim($('#email').val());
           	var userId = $.trim($('#userId').val());
 
-          	if(firstName.length == 0 || lastName.length == 0 || email == 0 ||userId == 0){
+          	if(firstName.length == 0 || lastName.length == 0 || email.length == 0 || userId.length == 0){
           		alert('Inputs cannot be blank.');
           	} else if(!validateEmail(email)){
           		alert('Wrong email pattern!');
@@ -148,4 +152,31 @@ $(function() {
       });
     
     $( "#addUserDialog" ).dialog( "option", "hide");
+    
+    $( "#addAccountButton" ).button({
+        icons: {
+          primary: "ui-icon-circle-plus"
+        }
+     });
+    
+    $( "#searchButton" ).button({
+        icons: {
+          primary: "ui-icon-search"
+        }
+     });
+    
+    $( "#addUser" ).button({
+        icons: {
+          primary: "ui-icon-plusthick"
+        }
+     });
+    
+    $( "#editUserButton" ).button({
+        icons: {
+          primary: "ui-icon-wrench"
+        }
+     });
+    
+    
+    
 });

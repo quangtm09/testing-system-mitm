@@ -8,7 +8,7 @@
 	
 	SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
 	
-	String date = "N/A";
+	String date = StringPool.BLANK;
 	
 	Date userBdate = user.getBdate();
 	
@@ -49,10 +49,10 @@
 		<td>
 			<c:choose>
 				<c:when test='<%=user.getMobile() == null %>'>
-					N/A
+					
 				</c:when>
 				<c:otherwise>
-					<%=user.getAddress()%>
+					<%=user.getMobile()%>
 				</c:otherwise>
 			</c:choose>
 		</td>
@@ -66,7 +66,7 @@
 		<td>
 			<c:choose>
 				<c:when test='<%=user.getAddress() == null %>'>
-					N/A
+					
 				</c:when>
 				<c:otherwise>
 					<%=user.getAddress()%>

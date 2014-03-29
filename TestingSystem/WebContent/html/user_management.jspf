@@ -12,8 +12,9 @@
 	<div style="display: inline; text-align: left">
 		User Management
 	</div>
-	<div style="display: inline; text-align: right; text-decoration: underline; float: right">
-		<a href="javascript:openAddUserDialog();" style="color: blue; font-size: 0.6em;" id="addUser">Add User</a>
+	<div style="display: inline; text-align: right; float: right">
+		<a href="javascript:openAddUserDialog();" style="font-size: 0.5em;"
+		 id="addUser">Add User</a>
 	</div>
 	<hr>
 </div>
@@ -34,7 +35,7 @@
 			<td><input type="text" name="email" value="<%=email%>"/></td>
 		</tr>
 	</table>
-	<input type="submit" value="Search">
+	<button type="submit" value="Search" id="searchButton">Search</button>
 </form>
 
 <hr>
