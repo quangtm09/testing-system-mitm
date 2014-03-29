@@ -112,43 +112,50 @@ $(function() {
         width: 350,
         modal: true,
         autoOpen: false,
-        buttons: {
-          'Add': function() {
+        buttons: [
+                  {
+                      text: 'Add',
+                      icons: {primary: "ui-icon-circle-plus"},
+                      click: function(){
+                    	var firstName = $.trim($('#firstName').val());
+                    	var lastName = $.trim($('#lastName').val());
+                    	var email = $.trim($('#email').val());
+                    	var userId = $.trim($('#userId').val());
 
-          	var firstName = $.trim($('#firstName').val());
-          	var lastName = $.trim($('#lastName').val());
-          	var email = $.trim($('#email').val());
-          	var userId = $.trim($('#userId').val());
-
-          	if(firstName.length == 0 || lastName.length == 0 || email.length == 0 || userId.length == 0){
-          		alert('Inputs cannot be blank.');
-          	} else if(!validateEmail(email)){
-          		alert('Wrong email pattern!');
-          	} else {
-          		$.ajax({
-          		  type: "POST",
-      			  url: "/TestingSystem/TestingSystemServlet",
-      			  data: {
-      				  cmd: 'addUser',
-      				  userId: userId,
-      				  firstName: firstName,
-      				  lastName: lastName,
-      				  email: email
-      			  },
-      			  success: function(data){
-      				  $('#addUserResult').html(data);
-                    }
-      			}).done(function() {
-      				setTimeout(function(){
-      					location.reload();
-      				}, 3000);
-      			});
-          	}
-          },
-          'Cancel': function() {
-            $( this ).dialog( "close" );
-          }
-        }
+                    	if(firstName.length == 0 || lastName.length == 0 || email.length == 0 || userId.length == 0){
+                    		$('#addUserResult').html('Inputs cannot be blank.');
+                    	} else if(!validateEmail(email)){
+                    		$('#addUserResult').html('Wrong email pattern!');
+                    	} else {
+                    		$.ajax({
+                    		  type: "POST",
+                			  url: "/TestingSystem/TestingSystemServlet",
+                			  data: {
+                				  cmd: 'addUser',
+                				  userId: userId,
+                				  firstName: firstName,
+                				  lastName: lastName,
+                				  email: email
+                			  },
+                			  success: function(data){
+                				  $('#addUserResult').html(data);
+                              }
+                			}).done(function() {
+                				setTimeout(function(){
+                					location.reload();
+                				}, 3000);
+                			});
+                    	}
+                      }
+                  },
+                  {
+                      text: 'Cancel',
+                      icons: { primary: "ui-icon-circle-close"},
+                  	  click: function(){
+                  		$( this ).dialog( "close" );
+                  	  }
+                  }
+              ]
       });
     
     $( "#addUserDialog" ).dialog( "option", "hide");
@@ -178,5 +185,16 @@ $(function() {
      });
     
     
+    $( "#logoutButton" ).button({
+        icons: {
+          primary: "ui-icon-power"
+        }
+     });
+    
+    $( "#backButton" ).button({
+        icons: {
+          primary: "ui-icon-arrowreturnthick-1-w"
+        }
+     });
     
 });

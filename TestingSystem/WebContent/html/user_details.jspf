@@ -20,10 +20,7 @@
 
 <div style="font-size: 2.5em;">
 	<div style="display: inline; text-align: left"><%=fullName%>'s User Details</div>
-	<div
-		style="display: inline; text-align: right; text-decoration: underline; float: right">
-		<a href="${user_management_url}">&lt;&lt;&nbsp;Back</a>
-	</div>
+	<a href="${user_management_url}" id="backButton" class="rightButton">Back</a>
 	<hr>
 </div>
 

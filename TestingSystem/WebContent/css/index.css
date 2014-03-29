@@ -628,3 +628,9 @@ img
 {
 	color: #009;
 }
+
+.rightButton{
+	float: right;
+	font-size: 0.5em;
+	margin-top: 5px;
+}
