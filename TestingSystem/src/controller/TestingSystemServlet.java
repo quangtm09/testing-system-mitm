@@ -43,34 +43,42 @@ public class TestingSystemServlet extends HttpServlet {
 	protected void processRequest(final HttpServletRequest request, final HttpServletResponse response){
 		// Get command
 		final String cmd = TSUtil.getParameter(request, TSConstants.CMD, StringPool.BLANK);
-		final String tsTabParam = TSUtil.getParameter(request, "tsTab", StringPool.BLANK);
+		String tsTabParam = TSUtil.getParameter(request, "tsTab", StringPool.BLANK);
 		final String userId = TSUtil.getParameter(request, "userId", null);
 		//TSUtil.getParameter(request, "jspPage", TSConstants.LOGIN_JSP);
 
 		try {
 			// User submits login form
 			if(cmd.equals(TSConstants.LOGIN)){
-				this.login(request, response);
+				login(request, response);
 			} else if(cmd.equals(TSConstants.EDIT_USER)){
-				this.editUser(request, response);
+				editUser(request, response);
 			} else if(cmd.equals(TSConstants.CHANGE_PASSWORD)){
-				this.changePassword(request, response);
+				changePassword(request, response);
 			} else if(cmd.equals(TSConstants.SEARCH_USER)) {
-				this.searchUser(request, response);
+				searchUser(request, response);
 			} else if(cmd.equals(TSConstants.ADD_USER)) {
-				this.addUser(request, response);
+				addUser(request, response);
 			} else {
 
 				final HttpSession session = request.getSession();
 				// Already logged in
 				if(session.getAttribute("user") != null){
+
+					if(tsTabParam.equals("edit-user") || tsTabParam.equals("user-details")){
+						final User user = userDao.findById(userId);
+						if(user == null){
+							tsTabParam = "404";
+						}
+					}
+
 					request.setAttribute("tsTab", tsTabParam);
 					request.setAttribute("userId", userId);
 
-					this.goToPage(TSConstants.INDEX_JSP, request, response);
+					goToPage(TSConstants.INDEX_JSP, request, response);
 				} else {
 					// Go to login page
-					this.goToPage(TSConstants.LOGIN_JSP, request, response);
+					goToPage(TSConstants.LOGIN_JSP, request, response);
 				}
 
 			}
@@ -86,7 +94,7 @@ public class TestingSystemServlet extends HttpServlet {
 		final String password = TSUtil.getParameter(request, "password", StringPool.BLANK);
 
 		try {
-			final Account account = this.accountDao.getAccountById(accountId);
+			final Account account = accountDao.getAccountById(accountId);
 
 			if(null != account && account.getAccPwd().equals(password)){
 				final User accountUser = account.getUser();
@@ -104,11 +112,11 @@ public class TestingSystemServlet extends HttpServlet {
 				accountIdCookie.setMaxAge(30*60);
 
 				response.addCookie(accountIdCookie);
-				this.goToPage(TSConstants.INDEX_JSP, request, response);
+				goToPage(TSConstants.INDEX_JSP, request, response);
 			} else {
 				request.setAttribute("isWrongUsernameOrPassword", false);
 				request.setAttribute("errorMessage", "Failed to login!");
-				this.goToPage(TSConstants.LOGIN_JSP, request, response);
+				goToPage(TSConstants.LOGIN_JSP, request, response);
 			}
 
 		} catch (final Exception ex){
@@ -129,15 +137,21 @@ public class TestingSystemServlet extends HttpServlet {
 		final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
 		try {
-			final User user = this.userDao.findById(userId);
+			final User user = userDao.findById(userId);
 			user.setAddress(address);
-			user.setBdate(formatter.parse(birthDay));
+
+			if(birthDay == null || birthDay == StringPool.BLANK){
+				user.setBdate(null);
+			} else {
+				user.setBdate(formatter.parse(birthDay));
+			}
+
 			user.setEmail(email);
 			user.setFname(firstName);
 			user.setLname(lastName);
 			user.setMobile(mobile);
 
-			if(this.userDao.updateUser(user)){
+			if(userDao.updateUser(user)){
 				request.setAttribute("successMessage", "Updated user successfully!");
 				request.setAttribute("tsTab", "edit-user");
 				request.setAttribute("userId", userId);
@@ -150,7 +164,7 @@ public class TestingSystemServlet extends HttpServlet {
 				request.setAttribute("errorMessage", "Failed to update!");
 			}
 
-			this.goToPage(TSConstants.INDEX_JSP, request, response);
+			goToPage(TSConstants.INDEX_JSP, request, response);
 		} catch (final Exception ex){
 			ex.printStackTrace();
 			TestingSystemServlet.log.debug("Failed to edit user");
@@ -168,11 +182,11 @@ public class TestingSystemServlet extends HttpServlet {
 
 		try {
 			final PrintWriter printWriter = response.getWriter();
-			final Account account = this.accountDao.findById(accountId);
+			final Account account = accountDao.findById(accountId);
 
 			if(account.getAccPwd().equals(oldPassword) && !oldPassword.equals(newPassword)){
 				account.setAccPwd(newPassword);
-				this.accountDao.update(account);
+				accountDao.update(account);
 				printWriter.println("<span style=\"color: green\">Updated successfully!</span>");
 			} else {
 				printWriter.println("<span style=\"color: red\">Updating failed! Your entered old password do not match or the new password is equal to the old one!</span>");
@@ -200,7 +214,7 @@ public class TestingSystemServlet extends HttpServlet {
 		request.setAttribute("address", address);
 		request.setAttribute("tsTab", "user-management");
 		try {
-			this.goToPage(TSConstants.INDEX_JSP, request, response);
+			goToPage(TSConstants.INDEX_JSP, request, response);
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
@@ -223,7 +237,7 @@ public class TestingSystemServlet extends HttpServlet {
 			user.setLname(lastName);
 			user.setEmail(email);
 
-			final boolean isAddedSuccessully = this.userDao.saveUser(user);
+			final boolean isAddedSuccessully = userDao.saveUser(user);
 
 			if(isAddedSuccessully){
 				printWriter.print("<span style=\"color: green\">Adding new user successfully!</span>");
@@ -241,7 +255,7 @@ public class TestingSystemServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		this.processRequest(request, response);
+		processRequest(request, response);
 	}
 
 	/**
@@ -249,13 +263,13 @@ public class TestingSystemServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		this.processRequest(request, response);
+		processRequest(request, response);
 	}
 
 
 	public void goToPage(final String page, final HttpServletRequest request,
 			final HttpServletResponse response) throws ServletException, IOException {
-		final RequestDispatcher dispatcher = this.getServletContext()
+		final RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 	}

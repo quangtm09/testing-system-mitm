@@ -159,6 +159,7 @@
 
 <div id="changePasswordDialog" title="Change password">
 	<input type="hidden" id="accountId">
+	<div id="changePasswordResult"></div>
 	<table>
 		<tr>
 			<td>Old password:</td>
@@ -173,5 +174,4 @@
 			<td><input type="password" id="confirmedPassword"></td>
 		</tr>
 	</table>
-	<div id="changePasswordResult"/>
 </div>

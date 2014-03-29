@@ -66,50 +66,58 @@ $(function() {
     $( "#changePasswordDialog" ).dialog({
       resizable: false,
       height:250,
-      width: 350,
+      width: 400,
       modal: true,
       autoOpen: false,
-      buttons: {
-        'Change': function() {
-
-        	var newPassword = $.trim($('#newPassword').val());
-        	var oldPassword = $.trim($('#oldPassword').val());
-        	var confirmedPassword = $.trim($('#confirmedPassword').val());
-
-        	if(newPassword !== confirmedPassword){
-        		alert('Passwords do not match!');
-        	} else if(newPassword == 0 || oldPassword == 0 || confirmedPassword == 0){
-        		alert('Inputs cannot be blank!');
-        	} else {
-        		$.ajax({
-        		  type: "POST",
-    			  url: "/TestingSystem/TestingSystemServlet",
-    			  data: {
-    				  cmd: 'changePassword',
-    				  accountId: $('#accountId').val(),
-    				  newPassword: newPassword,
-    				  oldPassword: oldPassword
-    			  },
-    			  success: function(data){
-    				  $('#changePasswordResult').html(data);
-                  }
-    			}).done(function() {
-    				// Do something
-    			});
-        	}
-        },
-        'Cancel': function() {
-          $( this ).dialog( "close" );
-        }
-      }
+      buttons: 
+    	  [
+           {
+               text: 'Change',
+               icons: {primary: "ui-icon-pencil"},
+               click: function(){
+	            	var newPassword = $.trim($('#newPassword').val());
+	               	var oldPassword = $.trim($('#oldPassword').val());
+	               	var confirmedPassword = $.trim($('#confirmedPassword').val());
+	
+	               	if(newPassword !== confirmedPassword){
+	               		$('#changePasswordResult').html('<span style="color: red">Passwords do not match!</span>');
+	               	} else if(newPassword == 0 || oldPassword == 0 || confirmedPassword == 0){
+	               		$('#changePasswordResult').html('<span style="color: red">Inputs cannot be blank!</span>');
+	               	} else {
+	               		$.ajax({
+	               		  type: "POST",
+	           			  url: "/TestingSystem/TestingSystemServlet",
+	           			  data: {
+	           				  cmd: 'changePassword',
+	           				  accountId: $('#accountId').val(),
+	           				  newPassword: newPassword,
+	           				  oldPassword: oldPassword
+	           			  },
+	           			  success: function(data){
+	           				  $('#changePasswordResult').html(data);
+	                         }
+	           			}).done(function() {
+	           				// Do something
+	           			});
+	               	}
+               }
+           },
+           {
+               text: 'Cancel',
+               icons: { primary: "ui-icon-circle-close"},
+           	  click: function(){
+           		$( this ).dialog( "close" );
+           	  }
+           }
+       ]
     });
 
     $( "#changePasswordDialog" ).dialog( "option", "hide");
     
     $( "#addUserDialog" ).dialog({
         resizable: false,
-        height:250,
-        width: 350,
+        height:270,
+        width: 360,
         modal: true,
         autoOpen: false,
         buttons: [

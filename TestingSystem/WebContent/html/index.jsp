@@ -95,6 +95,9 @@
 					<c:when test='<%=tsTab.equals("edit-user") %>'>
 						<%@include file="/html/edit_user.jspf" %>
 					</c:when>
+					<c:when test='<%=tsTab.equals("404") %>'>
+						<%@include file="/html/404.jspf" %>
+					</c:when>
 					<c:otherwise>
 						<%@include file="/html/home.jspf" %>
 					</c:otherwise>

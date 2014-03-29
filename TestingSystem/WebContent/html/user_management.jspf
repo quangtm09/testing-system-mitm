@@ -81,7 +81,7 @@
 		</div>
 	</c:when>
 	<c:otherwise>
-		No users found!
+		<div style="color: red">No users found!</div>
 	</c:otherwise>
 </c:choose>
 		
