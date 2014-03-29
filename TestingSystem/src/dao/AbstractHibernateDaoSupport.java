@@ -176,18 +176,23 @@ implements Dao<C, ID> {
 	 */
 	@Override
 	public final boolean delete(final C obj) {
-		AbstractHibernateDaoSupport.log.debug("Delete Object " + obj);
+		log.debug("Delete Object " + obj);
 		if (obj == null) {
-			AbstractHibernateDaoSupport.log.debug("No data is deleted");
+			log.debug("No data is deleted");
 			return false;
 		}
 		try {
-			AbstractHibernateDaoSupport.getSession().delete(obj);
-			AbstractHibernateDaoSupport.log.debug("Delete successful");
+			HibernateUtil.beginTransaction();
+			getSession().delete(obj);
+			HibernateUtil.commitTransaction();
+			this.flush();
+			getSession().clear();
+
+			log.debug("Delete successful");
 			return true;
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			AbstractHibernateDaoSupport.log.error("Delete failed");
+			log.error("Delete failed");
 			return false;
 		}
 	}

@@ -139,8 +139,8 @@
 										</c:forEach>--%>
 									</td>
 									<td>
-										<a title="Change Password" href="javascript:openChangePasswordDialog('${account.accId}');" onclick=";"><img src="/TestingSystem/images/change-password-icon.png"/></a>
-										<a title="Delete" onclick=""><img src="/TestingSystem/images/delete_icon.png"/></a>
+										<a title="Change Password" href="javascript:openChangePasswordDialog('${account.accId}');"><img src="/TestingSystem/images/change-password-icon.png"/></a>
+										<a title="Delete" onclick="deleteAccount('${account.accId}')" href="javascript:;"><img src="/TestingSystem/images/delete_icon.png"/></a>
 									</td>
 								</tr>
 							</c:forEach>
@@ -201,4 +201,8 @@
 			</td>
 		</tr>
 	</table>
+</div>
+
+<div id="deleteAccountDialog" title="Delete Account">
+<span id="deleteAccountMessage"></span>
 </div>

@@ -5,6 +5,8 @@ package model;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,15 +36,15 @@ public class Account implements java.io.Serializable {
 	public Account() {
 	}
 
-	public Account(String accId, String accPwd) {
+	public Account(final String accId, final String accPwd) {
 		this.accId = accId;
 		this.accPwd = accPwd;
 	}
 
-	public Account(String accId, User user, String accPwd,
-			Set<AccountRoleMap> accountRoleMapsForCreatorAccRoleId,
-			Set<RolePermissionMap> rolePermissionMaps,
-			Set<AccountRoleMap> accountRoleMapsForAccId) {
+	public Account(final String accId, final User user, final String accPwd,
+			final Set<AccountRoleMap> accountRoleMapsForCreatorAccRoleId,
+			final Set<RolePermissionMap> rolePermissionMaps,
+			final Set<AccountRoleMap> accountRoleMapsForAccId) {
 		this.accId = accId;
 		this.user = user;
 		this.accPwd = accPwd;
@@ -57,7 +59,7 @@ public class Account implements java.io.Serializable {
 		return this.accId;
 	}
 
-	public void setAccId(String accId) {
+	public void setAccId(final String accId) {
 		this.accId = accId;
 	}
 
@@ -67,7 +69,7 @@ public class Account implements java.io.Serializable {
 		return this.user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(final User user) {
 		this.user = user;
 	}
 
@@ -76,7 +78,7 @@ public class Account implements java.io.Serializable {
 		return this.accPwd;
 	}
 
-	public void setAccPwd(String accPwd) {
+	public void setAccPwd(final String accPwd) {
 		this.accPwd = accPwd;
 	}
 
@@ -86,7 +88,7 @@ public class Account implements java.io.Serializable {
 	}
 
 	public void setAccountRoleMapsForCreatorAccRoleId(
-			Set<AccountRoleMap> accountRoleMapsForCreatorAccRoleId) {
+			final Set<AccountRoleMap> accountRoleMapsForCreatorAccRoleId) {
 		this.accountRoleMapsForCreatorAccRoleId = accountRoleMapsForCreatorAccRoleId;
 	}
 
@@ -95,17 +97,17 @@ public class Account implements java.io.Serializable {
 		return this.rolePermissionMaps;
 	}
 
-	public void setRolePermissionMaps(Set<RolePermissionMap> rolePermissionMaps) {
+	public void setRolePermissionMaps(final Set<RolePermissionMap> rolePermissionMaps) {
 		this.rolePermissionMaps = rolePermissionMaps;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "accountByAccId")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "accountByAccId", cascade = {CascadeType.ALL}, orphanRemoval = true)
 	public Set<AccountRoleMap> getAccountRoleMapsForAccId() {
 		return this.accountRoleMapsForAccId;
 	}
 
 	public void setAccountRoleMapsForAccId(
-			Set<AccountRoleMap> accountRoleMapsForAccId) {
+			final Set<AccountRoleMap> accountRoleMapsForAccId) {
 		this.accountRoleMapsForAccId = accountRoleMapsForAccId;
 	}
 

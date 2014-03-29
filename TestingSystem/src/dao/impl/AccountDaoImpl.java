@@ -27,44 +27,18 @@ AbstractHibernateDaoSupport<Account, String> implements AccountDao {
 	@Override
 	public boolean addAccount(final Account account) {
 		log.info("Add Account "+ account);
-		return save(account);
+		return this.save(account);
 	}
 
 	@Override
 	public Account getAccountById(final String accountId) {
-		// final Criteria crit = getSession().createCriteria(Account.class);
-		// crit.add(Restrictions.eq("accId", accountId));
-		// crit.addOrder(Order.asc("accId"));
-		//
-		// final List<Account> accountList = new ArrayList<Account>();
-		// final Iterator<Account> lct = crit.list().iterator();
-		//
-		// while (lct.hasNext()) {
-		// final Account account = lct.next();
-		// accountList.add(account);
-		// }
-		// return accountList.get(0);
 		log.info("Get Accounts By ID "+ accountId);
-		return findById(accountId);
+		return this.findById(accountId);
 	}
 
 	@Override
-	public void deleteAccount(final Account account) {
+	public boolean deleteAccount(final Account account) {
 		log.info("Delete Account "+ account);
-		delete(account);
+		return this.delete(account);
 	}
-
-	// @Override
-	// public List<Account> getAllAccounts() {
-	// final Criteria crit = getSession().createCriteria(Account.class);
-	// final List<Account> accountList = new ArrayList<Account>();
-	// final Iterator<Account> lct = crit.list().iterator();
-	//
-	// while (lct.hasNext()) {
-	// final Account account = lct.next();
-	// accountList.add(account);
-	// }
-	// return accountList;
-	// return this.findAll();
-	// }
 }

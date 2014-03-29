@@ -1,9 +1,18 @@
+var deleteAccountId;
+
 function login(cmd){
 	$('input[name="cmd"]').val(cmd);
 }
 
 function logout(){
 	window.location.href = '/TestingSystem/LogoutServlet';
+}
+
+function deleteAccount(accountId){
+	deleteAccountId = accountId;
+	var message = 'Are you sure you want to delete <span style="color: red">' + accountId + '</span> account?';
+	$('#deleteAccountMessage').html(message);
+	$( "#deleteAccountDialog" ).dialog("open");
 }
 
 function changeAccountRole(accountId){
@@ -17,8 +26,8 @@ function changeAccountRole(accountId){
 			  roleId: $('select[name=\'changeRole' + accountId + '\']').val()
 		  },
 		  success: function(data){
-			  if(data === false){
-				  alert('Error while changing role[=' + $('select[name=\'changeRole' + accountId + '\']').text() + '] for ' + accountId);
+			  if(data === 'false'){
+				  alert('Error while changing role[=' + $('select[name=\'changeRole' + accountId + '\']').find('option:selected').text() + '] for ' + accountId);
 			  }
 		  }
 	}).done(function() {
@@ -255,6 +264,50 @@ $(function() {
       });
 
       $( "#addAccountDialog" ).dialog( "option", "hide");
+      
+      $( "#deleteAccountDialog" ).dialog({
+          resizable: false,
+          width:'auto',
+          height: 'auto',
+          modal: true,
+          autoOpen: false,
+          buttons: 
+        	  [
+               {
+                   text: 'Delete',
+                   icons: {primary: "ui-icon-trash"},
+                   click: function(){
+                	   $.ajax({
+            			  type: "POST",
+            				  url: "/TestingSystem/TestingSystemServlet",
+            				  data: {
+            					  cmd: 'deleteAccount',
+            					  accountId: deleteAccountId,
+            				  },
+            				  success: function(data){
+            					  if(data === 'false'){
+            						  alert('Error while deleting account: ' + deleteAccountId);
+            					  } else {
+            						  alert('Deleted ' + deleteAccountId + ' successfully!');
+            						  location.reload();
+            					  }
+            				  }
+            			}).done(function() {
+            					
+            			});
+                   }
+               },
+               {
+                   text: 'Cancel',
+                   icons: { primary: "ui-icon-circle-close"},
+               	  click: function(){
+               		$( this ).dialog( "close" );
+               	  }
+               }
+           ]
+        });
+
+        $( "#deleteAccountDialog" ).dialog( "option", "hide");
     
     $( "#addAccountButton" ).button({
         icons: {

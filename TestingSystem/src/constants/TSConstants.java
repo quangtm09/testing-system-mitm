@@ -44,4 +44,8 @@ public class TSConstants {
 
 	public static final String CHANGE_ACCOUNT_ROLE = "changeAccountRole";
 
+	public static final String DELETE_ACCOUNT = "deleteAccount";
+
+	public static final String DELETE_USER = "deleteUser";
+
 }

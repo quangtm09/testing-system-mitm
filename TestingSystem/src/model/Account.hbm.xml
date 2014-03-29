@@ -14,19 +14,19 @@
         <property name="accPwd" type="string">
             <column name="ACC_PWD" length="100" not-null="true" />
         </property>
-        <set name="accountRoleMapsForCreatorAccRoleId" table="account_role_map" inverse="true" lazy="true" fetch="select">
+        <set name="accountRoleMapsForCreatorAccRoleId" table="account_role_map" inverse="true" lazy="true" fetch="select" cascade="all,delete-orphan">
             <key>
                 <column name="CREATOR_ACC_ROLE_ID" length="100" />
             </key>
             <one-to-many class="model.AccountRoleMap" />
         </set>
-        <set name="rolePermissionMaps" table="role_permission_map" inverse="true" lazy="true" fetch="select">
+        <set name="rolePermissionMaps" table="role_permission_map" inverse="true" lazy="true" fetch="select" cascade="all,delete-orphan">
             <key>
                 <column name="ACC_ID" length="100" />
             </key>
             <one-to-many class="model.RolePermissionMap" />
         </set>
-        <set name="accountRoleMapsForAccId" table="account_role_map" inverse="true" lazy="true" fetch="select">
+        <set name="accountRoleMapsForAccId" table="account_role_map" inverse="true" lazy="true" fetch="select" cascade="all,delete-orphan">
             <key>
                 <column name="ACC_ID" length="100" />
             </key>

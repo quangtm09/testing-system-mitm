@@ -73,6 +73,10 @@ public class TestingSystemServlet extends HttpServlet {
 				this.addAccount(request, response);
 			} else if(cmd.equals(TSConstants.CHANGE_ACCOUNT_ROLE)){
 				this.changeAccountRole(request, response);
+			} else if (cmd.equals(TSConstants.DELETE_ACCOUNT)){
+				this.deleteAccount(request, response);
+			} else if(cmd.equals(TSConstants.DELETE_USER)){
+				this.deleteUser(request, response);
 			} else {
 
 				final HttpSession session = request.getSession();
@@ -262,6 +266,8 @@ public class TestingSystemServlet extends HttpServlet {
 		} catch (final Exception e) {
 			e.printStackTrace();
 			printWriter.print("<span style=\"color: red\">Error while adding user!</span>");
+		} finally {
+			printWriter.close();
 		}
 	}
 
@@ -316,6 +322,8 @@ public class TestingSystemServlet extends HttpServlet {
 		} catch (final Exception e) {
 			e.printStackTrace();
 			printWriter.print("<span style=\"color: red\">Error while adding account!</span>");
+		} finally {
+			printWriter.close();
 		}
 	}
 
@@ -325,6 +333,8 @@ public class TestingSystemServlet extends HttpServlet {
 
 		final Account account = accountDao.findById(accountId);
 		final Role selectedRole = roleDao.getRoleById(roleId);
+
+		response.setContentType("text/html");
 
 		final PrintWriter printWriter = response.getWriter();
 
@@ -365,6 +375,26 @@ public class TestingSystemServlet extends HttpServlet {
 		if(!isChangedSuccess){
 			printWriter.print(isChangedSuccess);
 		}
+
+		printWriter.close();
+	}
+
+	private void deleteAccount(final HttpServletRequest request, final HttpServletResponse response) throws IOException{
+		final String accountId = request.getParameter("accountId");
+		final Account account = accountDao.findById(accountId);
+
+		final boolean isAccountDeleted = accountDao.deleteAccount(account);
+
+		response.setContentType("text/html");
+
+		final PrintWriter printWriter = response.getWriter();
+
+		printWriter.print(isAccountDeleted);
+		printWriter.close();
+	}
+
+	private void deleteUser(final HttpServletRequest request, final HttpServletResponse response){
+
 	}
 
 	/**
