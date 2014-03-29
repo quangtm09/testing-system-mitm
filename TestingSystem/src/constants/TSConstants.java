@@ -40,4 +40,6 @@ public class TSConstants {
 
 	public static final String ADD_USER = "addUser";
 
+	public static final String ADD_ACCOUNT = "addAccount";
+
 }

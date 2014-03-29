@@ -6,6 +6,16 @@ function logout(){
 	window.location.href = '/TestingSystem/LogoutServlet';
 }
 
+function openAddAccountDialog(){
+	$('#newAccountId').val('');
+	$('#accountPassword').val('');
+	$('#accountConfirmedPassword').val('');
+	$('#addAccountResult').html('');
+	$("#selectRoleCombobox").find('option:selected').attr('selected', false);
+    $("#selectRoleCombobox").find('option:first').attr('selected', true);
+	$( "#addAccountDialog" ).dialog("open");
+}
+
 function openChangePasswordDialog(accountId){
 	$('#accountId').val(accountId);
 	$('#newPassword').val('');
@@ -97,7 +107,9 @@ $(function() {
 	           				  $('#changePasswordResult').html(data);
 	                         }
 	           			}).done(function() {
-	           				// Do something
+	           				setTimeout(function(){
+	           					$( this ).dialog( "close" );
+            				}, 2000);
 	           			});
 	               	}
                }
@@ -167,6 +179,62 @@ $(function() {
       });
     
     $( "#addUserDialog" ).dialog( "option", "hide");
+    
+    $( "#addAccountDialog" ).dialog({
+        resizable: false,
+        height:270,
+        width: 400,
+        modal: true,
+        autoOpen: false,
+        buttons: 
+      	  [
+             {
+                 text: 'Add',
+                 icons: {primary: "ui-icon-circle-plus"},
+                 click: function(){
+  	            	var password = $.trim($('#accountPassword').val());
+  	               	var confirmedPassword = $.trim($('#accountConfirmedPassword').val());
+  	               	var newAccountId = $.trim($('#newAccountId').val());
+  	               	var accountRoleId = $.trim($('#selectRoleCombobox').val());
+  	               	var userId = $('#userId').val();
+  	
+  	               	if(password !== confirmedPassword){
+  	               		$('#addAccountResult').html('<span style="color: red">Passwords do not match!</span>');
+  	               	} else if(accountId == 0 || password == 0 || confirmedPassword == 0){
+  	               		$('#addAccountResult').html('<span style="color: red">Inputs cannot be blank!</span>');
+  	               	} else {
+  	               		$.ajax({
+  	               		  type: "POST",
+  	           			  url: "/TestingSystem/TestingSystemServlet",
+  	           			  data: {
+  	           				  cmd: 'addAccount',
+  	           				  userId: userId,
+  	           				  newAccountId: newAccountId,
+  	           				  password: password,
+  	           				  accountRoleId: accountRoleId
+  	           			  },
+  	           			  success: function(data){
+  	           				  $('#addAccountResult').html(data);
+  	                         }
+  	           			}).done(function() {
+	  	           			setTimeout(function(){
+	  	           				location.reload();
+	        				}, 3000);
+  	           			});
+  	               	}
+                 }
+             },
+             {
+                 text: 'Cancel',
+                 icons: { primary: "ui-icon-circle-close"},
+             	  click: function(){
+             		$( this ).dialog( "close" );
+             	  }
+             }
+         ]
+      });
+
+      $( "#addAccountDialog" ).dialog( "option", "hide");
     
     $( "#addAccountButton" ).button({
         icons: {

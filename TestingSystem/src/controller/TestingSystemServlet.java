@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.Account;
+import model.AccountRoleMap;
+import model.Role;
 import model.User;
 
 import org.apache.commons.logging.Log;
@@ -23,8 +25,12 @@ import util.StringPool;
 import util.TSUtil;
 import constants.TSConstants;
 import dao.AccountDao;
+import dao.AccountRoleMapDao;
+import dao.RoleDao;
 import dao.UserDao;
 import dao.impl.AccountDaoImpl;
+import dao.impl.AccountRoleMapDaoImpl;
+import dao.impl.RoleDaoImpl;
 import dao.impl.UserDaoImpl;
 
 /**
@@ -37,15 +43,17 @@ public class TestingSystemServlet extends HttpServlet {
 
 	private static final Log log = LogFactory.getLog(TestingSystemServlet.class);
 
-	private final AccountDao accountDao = new AccountDaoImpl();
-	private final UserDao userDao = new UserDaoImpl();
+	private static final AccountDao accountDao = new AccountDaoImpl();
+	private static final UserDao userDao = new UserDaoImpl();
+	private static final RoleDao roleDao = new RoleDaoImpl();
+	private static final AccountRoleMapDao aRMDao = new AccountRoleMapDaoImpl();
+
 
 	protected void processRequest(final HttpServletRequest request, final HttpServletResponse response){
 		// Get command
 		final String cmd = TSUtil.getParameter(request, TSConstants.CMD, StringPool.BLANK);
 		String tsTabParam = TSUtil.getParameter(request, "tsTab", StringPool.BLANK);
 		final String userId = TSUtil.getParameter(request, "userId", null);
-		//TSUtil.getParameter(request, "jspPage", TSConstants.LOGIN_JSP);
 
 		try {
 			// User submits login form
@@ -59,6 +67,8 @@ public class TestingSystemServlet extends HttpServlet {
 				searchUser(request, response);
 			} else if(cmd.equals(TSConstants.ADD_USER)) {
 				addUser(request, response);
+			} else if(cmd.equals(TSConstants.ADD_ACCOUNT)){
+				addAccount(request, response);
 			} else {
 
 				final HttpSession session = request.getSession();
@@ -237,9 +247,9 @@ public class TestingSystemServlet extends HttpServlet {
 			user.setLname(lastName);
 			user.setEmail(email);
 
-			final boolean isAddedSuccessully = userDao.saveUser(user);
+			final boolean isAddedSuccessfully = userDao.saveUser(user);
 
-			if(isAddedSuccessully){
+			if(isAddedSuccessfully){
 				printWriter.print("<span style=\"color: green\">Adding new user successfully!</span>");
 			} else {
 				printWriter.print("<span style=\"color: red\">Failed to add new user!</span>");
@@ -247,6 +257,61 @@ public class TestingSystemServlet extends HttpServlet {
 
 		} catch (final Exception e) {
 			e.printStackTrace();
+			printWriter.print("<span style=\"color: red\">Error while adding user!</span>");
+		}
+	}
+
+	private void addAccount(final HttpServletRequest request, final HttpServletResponse response) throws IOException{
+		final String newAccountId = request.getParameter("newAccountId");
+		final String accountPassword = request.getParameter("password");
+		final String roleId = request.getParameter("accountRoleId");
+		final String userId = request.getParameter("userId");
+		Integer parsedRoleId = 0;
+
+		response.setContentType("text/html");
+
+		final PrintWriter printWriter = response.getWriter();
+
+		try {
+			parsedRoleId = Integer.parseInt(roleId);
+		} catch (final NumberFormatException ex){
+		}
+
+		try {
+
+			final User user = userDao.findById(userId);
+			final Role role = roleDao.findById(parsedRoleId);
+
+			final Account account = new Account();
+			account.setAccId(newAccountId);
+			account.setAccPwd(accountPassword);
+			account.setUser(user);
+
+			final boolean isAddAccountSuccess = accountDao.addAccount(account);
+
+			if(isAddAccountSuccess){
+				printWriter.print("<span style=\"color: green\">Adding new account successfully!</span><br>");
+			} else {
+				printWriter.print("<span style=\"color: red\">Failed to add new account!</span>");
+			}
+
+			if(role != null && isAddAccountSuccess != false){
+				final AccountRoleMap accountRoleMap = new AccountRoleMap();
+				accountRoleMap.setAccountByAccId(account);
+				accountRoleMap.setRole(role);
+
+				final boolean isAssignRoleAccountSuccess = aRMDao.save(accountRoleMap);
+
+				if(isAssignRoleAccountSuccess){
+					printWriter.print("<span style=\"color: green\">Assigning role for this account successfully!</span>");
+				} else {
+					printWriter.print("<span style=\"color: red\">Failed to assign role for this account!</span>");
+				}
+			}
+
+		} catch (final Exception e) {
+			e.printStackTrace();
+			printWriter.print("<span style=\"color: red\">Error while adding account!</span>");
 		}
 	}
 

@@ -54,7 +54,7 @@
 
 <form action="<%=TSConstants.TESTING_SYSTEM_SERVLET%>" method="POST">
 	<input type="hidden" name="<%=TSConstants.CMD%>" value="<%=TSConstants.EDIT_USER%>"/>
-	<input type="hidden" name="userId" value="<%=user.getUserId()%>"/>
+	<input type="hidden" name="userId" id="userId" value="<%=user.getUserId()%>"/>
 	<table>
 		<tr>
 			<td>First Name:</td>
@@ -84,74 +84,74 @@
 		</tr>
 		<tr>
 			<td>Accounts:</td>
-			<c:choose>
-				<c:when test="<%=accountList.size() == 0 %>">
-					<td>
-						<a href="javascript:;" id="addAccountButton">
-							Add account
-						</a>
-					</td>
-					<td>
-					</td>
-				</c:when>
-			</c:choose>
+			<td>
+				<a href="javascript:openAddAccountDialog();" id="addAccountButton">
+					Add account
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>
+				<c:choose>
+					<c:when test="<%=accountList.size() > 0 %>">
+						<table id="hor-minimalist-b" summary="User Accounts" style="margin-bottom: 20px">
+							<thead>
+						    	<tr>
+						    		<th scope="col">No.</th>
+						        	<th scope="col">Account ID</th>
+						            <th scope="col">Role</th>
+						            <th scope="col">Actions</th>
+						        </tr>
+						    </thead>
+							<c:set var="count" value="0"/>
+							<c:forEach items="<%=accountList %>" var="account">
+								<tr>
+									<c:set var="count" value="${count + 1}"/>
+									<td>${count}.</td>
+									<td>${account.accId}</td>
+									<td>
+										<select id="changeRoleCombobox" name="changeRoleCombobox">
+											<c:choose>
+												<c:when test="${account.accountRoleMapsForAccId != null && not empty account.accountRoleMapsForAccId}">
+													<c:forEach items="<%=roleList%>" var="role">
+														<c:choose>
+															<c:when test="${account.accountRoleMapsForAccId.toArray()[0].role eq role}">
+																<option selected="selected" value="${role.roleId}">${role.roleName}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${role.roleId}">${role.roleName}</option>
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+												</c:when>
+												<c:otherwise>
+													<option selected="selected">None</option>
+													<c:forEach items="<%=roleList%>" var="role">
+														<option value="${role.roleId}">${role.roleName}</option>
+													</c:forEach>
+												</c:otherwise>
+											</c:choose>
+										</select>
+										
+										<%-- <c:forEach items="${account.accountRoleMapsForAccId}" var="aRM">
+											${aRM.role.roleName}<br/>
+										</c:forEach>--%>
+									</td>
+									<td>
+										<a title="Change Password" href="javascript:openChangePasswordDialog('${account.accId}');" onclick=";"><img src="/TestingSystem/images/change-password-icon.png"/></a>
+										<a title="Delete" onclick=""><img src="/TestingSystem/images/delete_icon.png"/></a>
+									</td>
+								</tr>
+							</c:forEach>
+						</table>
+					</c:when>
+				</c:choose>
+			</td>
 		</tr>
 	</table>
 	
-	<c:choose>
-		<c:when test="<%=accountList.size() > 0 %>">
-			<table id="hor-minimalist-b" summary="User Accounts" style="margin-left: 80px; margin-bottom: 20px">
-				<thead>
-			    	<tr>
-			    		<th scope="col">No.</th>
-			        	<th scope="col">Account ID</th>
-			            <th scope="col">Role</th>
-			            <th scope="col">Actions</th>
-			        </tr>
-			    </thead>
-				<c:set var="count" value="0"/>
-				<c:forEach items="<%=accountList %>" var="account">
-					<tr>
-						<c:set var="count" value="${count + 1}"/>
-						<td>${count}.</td>
-						<td>${account.accId}</td>
-						<td>
-							<select id="changeRoleCombobox" name="changeRoleCombobox">
-								<c:choose>
-									<c:when test="${account.accountRoleMapsForAccId != null && not empty account.accountRoleMapsForAccId}">
-										<c:forEach items="<%=roleList%>" var="role">
-											<c:choose>
-												<c:when test="${account.accountRoleMapsForAccId.toArray()[0].role eq role}">
-													<option selected="selected" value="${role.roleId}">${role.roleName}</option>
-												</c:when>
-												<c:otherwise>
-													<option value="${role.roleId}">${role.roleName}</option>
-												</c:otherwise>
-											</c:choose>
-										</c:forEach>
-									</c:when>
-									<c:otherwise>
-										<option selected="selected">None</option>
-										<c:forEach items="<%=roleList%>" var="role">
-											<option value="${role.roleId}">${role.roleName}</option>
-										</c:forEach>
-									</c:otherwise>
-								</c:choose>
-							</select>
-							
-							<%-- <c:forEach items="${account.accountRoleMapsForAccId}" var="aRM">
-								${aRM.role.roleName}<br/>
-							</c:forEach>--%>
-						</td>
-						<td>
-							<a title="Change Password" href="javascript:openChangePasswordDialog('${account.accId}');" onclick=";"><img src="/TestingSystem/images/change-password-icon.png"/></a>
-							<a title="Delete" onclick=""><img src="/TestingSystem/images/delete_icon.png"/></a>
-						</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</c:when>
-	</c:choose>
+	
 	<button type="submit" value="Edit" id="editUserButton" style="margin-top: 20px">Edit</button>
 </form>
 
@@ -172,6 +172,35 @@
 		<tr>
 			<td>Confirm password:</td>
 			<td><input type="password" id="confirmedPassword"></td>
+		</tr>
+	</table>
+</div>
+
+<div id="addAccountDialog" title="Add account">
+	<div id="addAccountResult"></div>
+	<table>
+		<tr>
+			<td>Account ID:</td>
+			<td><input type="text" id="newAccountId"></td>
+		</tr>
+		<tr>
+			<td>Password:</td>
+			<td><input type="password" id="accountPassword"></td>
+		</tr>
+		<tr>
+			<td>Confirm password:</td>
+			<td><input type="password" id="accountConfirmedPassword"></td>
+		</tr>
+		<tr>
+			<td>Role:</td>
+			<td>
+				<select id="selectRoleCombobox" name="selectRoleCombobox">
+					<option value="none">None</option>
+					<c:forEach items="<%=roleList%>" var="role">
+						<option value="${role.roleId}">${role.roleName}</option>
+					</c:forEach>
+				</select>
+			</td>
 		</tr>
 	</table>
 </div>

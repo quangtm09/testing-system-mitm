@@ -25,9 +25,9 @@ AbstractHibernateDaoSupport<Account, String> implements AccountDao {
 	}
 
 	@Override
-	public void addAccount(final Account account) {
+	public boolean addAccount(final Account account) {
 		log.info("Add Account "+ account);
-		this.save(account);
+		return save(account);
 	}
 
 	@Override
@@ -45,13 +45,13 @@ AbstractHibernateDaoSupport<Account, String> implements AccountDao {
 		// }
 		// return accountList.get(0);
 		log.info("Get Accounts By ID "+ accountId);
-		return this.findById(accountId);
+		return findById(accountId);
 	}
 
 	@Override
 	public void deleteAccount(final Account account) {
 		log.info("Delete Account "+ account);
-		this.delete(account);
+		delete(account);
 	}
 
 	// @Override
