@@ -1,13 +1,11 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -17,11 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.Account;
-import model.Permission;
-import model.Role;
-import model.RolePermissionMap;
 import model.User;
-import constants.RoleConstants;
 import constants.TSConstants;
 
 /**
@@ -59,29 +53,29 @@ public class TSFilter implements Filter {
 		final Account currentLoggedInAccount = (Account) session.getAttribute("account");
 
 		if(currentLoggedInAccount == null) {
-			httpServletResponse.sendRedirect(TSConstants.LOGIN_JSP);
+			this.goToPage(TSConstants.LOGIN_JSP, httpServletRequest, httpServletResponse);
 			return;
 		} else {
-			final Role accountRole = (Role) currentLoggedInAccount.getAccountRoleMapsForAccId().toArray()[0];
-			final Set<RolePermissionMap> rpms = accountRole.getRolePermissionMaps();
-
-			final List<Permission> permissionList = new ArrayList<Permission>();
-
-			for(final RolePermissionMap rpm: rpms){
-				permissionList.add(rpm.getPermission());
-			}
-
-			final Integer roleId = accountRole.getRoleId();
-
-			if(roleId.equals(RoleConstants.ROLE_ADMIN)){
-
-			} else if(roleId.equals(RoleConstants.ROLE_LECTURER)){
-				// Cannot access something??
-
-
-			} else if(roleId.equals(RoleConstants.ROLE_STUDENT)){
-
-			}
+//			final Role accountRole = (Role) currentLoggedInAccount.getAccountRoleMapsForAccId().toArray()[0];
+//			final Set<RolePermissionMap> rpms = accountRole.getRolePermissionMaps();
+//
+//			final List<Permission> permissionList = new ArrayList<Permission>();
+//
+//			for(final RolePermissionMap rpm: rpms){
+//				permissionList.add(rpm.getPermission());
+//			}
+//
+//			final Integer roleId = accountRole.getRoleId();
+//
+//			if(roleId.equals(RoleConstants.ROLE_ADMIN)){
+//
+//			} else if(roleId.equals(RoleConstants.ROLE_LECTURER)){
+//				// Cannot access something??
+//
+//
+//			} else if(roleId.equals(RoleConstants.ROLE_STUDENT)){
+//
+//			}
 		}
 
 		chain.doFilter(request, response);
@@ -93,6 +87,13 @@ public class TSFilter implements Filter {
 	@Override
 	public void init(final FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub
+	}
+
+	public void goToPage(final String page, final HttpServletRequest request,
+			final HttpServletResponse response) throws ServletException, IOException {
+		final RequestDispatcher dispatcher = request.getServletContext()
+				.getRequestDispatcher(page);
+		dispatcher.forward(request, response);
 	}
 
 }
