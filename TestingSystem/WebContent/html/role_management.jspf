@@ -1,8 +1,26 @@
+<%@page import="constants.RoleConstants"%>
+<%@page import="dao.impl.*"%>
+<%@page import="dao.*"%>
 <%@page import="constants.TSConstants"%>
+<%@page import="util.*"%>
+<%@page import="model.*"%>
+<%@page import="java.util.*"%>
+<% 	PermissionDao permissionDao = new PermissionDaoImpl();
+	List<Permission> permissionList = permissionDao.findAll();
+	RoleDao roleDao = new RoleDaoImpl();
+	Role adRole = roleDao.findById(RoleConstants.ROLE_ADMIN);
+	Role lecRole = roleDao.findById(RoleConstants.ROLE_LECTURER);
+	Role stuRole = roleDao.findById(RoleConstants.ROLE_STUDENT);
+	RolePermissionMapDao rpm = new RolePermissionMapDaoImpl();
+	//Role role = (Role)TSUtil.getAttribute(request, "roleId", RoleConstants.ROLE_ADMIN );
+	List<RolePermissionMap> adListPermission = rpm.searchPermissionByRole(adRole);
+	List<RolePermissionMap> lecListPermission = rpm.searchPermissionByRole(lecRole);
+	List<RolePermissionMap> stuListPermission = rpm.searchPermissionByRole(stuRole);
+%>
 <script>
 	$(document).ready(function() {
-		$(".flip").click(function() {
-			$(this).next().slideToggle("slow");
+		$(".checkAdRole").click(function() {
+			
 		});
 	});
 </script>
@@ -27,7 +45,102 @@
 	</div>
 	<hr>
 </div>
-<div>
+<div class="CSSTableGenerator" style="margin-top: 20px">
+	<table>
+		<tr>
+			<td></td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Administrator
+				<a title="Edit Permission" href="javascript:openAdminPermissionDialog('${role.roleId}');" onclick=";"><img src="/TestingSystem/images/edit_icon.png"/></a>
+			</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Lecturers</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Student</td>
+		</tr>
+		<c:forEach items="<%=permissionList %>" var="permission">
+			<tr>
+				<td>${permission.permissionName}</td>
+				<td><c:forEach items="<%= adListPermission %>"
+						var="adPermission">
+						<c:if
+							test="${adPermission.permission.permissionId == permission.permissionId}">
+							<input type="checkbox" name="adRole" id="adRole"
+								value="${adPermission.permission.permissionId}"
+								checked="checked" onclick = "return false">
+						</c:if>
+					</c:forEach></td>
+				<td><c:forEach items="<%= lecListPermission %>"
+						var="lecPermission">
+						<c:if
+							test="${lecPermission.permission.permissionId == permission.permissionId}">
+							<input type="checkbox" name="lecRole" id="lecRole"
+								value="${lecPermission.permission.permissionId}"
+								checked="checked" onclick = "return false">
+						</c:if>
+					</c:forEach></td>
+				<td><c:forEach items="<%= stuListPermission %>"
+						var="stuPermission">
+						<c:if
+							test="${stuPermission.permission.permissionId == permission.permissionId}">
+							<input type="checkbox" name="stuRole" id="stuRole"
+								value="${stuPermission.permission.permissionId}"
+								checked="checked" onclick="return false">
+						</c:if>
+					</c:forEach></td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
+
+<div id="adminPermissionDialog" title ="Edit Permission">
+	<div id="adminPremissionResult"></div>
+	<table>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Permission</td>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Select</td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0;">Create User</td>
+			<td align="center"><input id="adCreateUser" type="checkbox"
+				name="adcreateUser" value="8"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0;">Update Profile</td>
+			<td align="center"><input id="adUpdateProfile" type="checkbox"
+				name="updateProfile" value="9"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0;">Remove User</td>
+			<td align="center"><input id="adRemoveUser" type="checkbox"
+				name="removeUser" value="12"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0;">Manage Users</td>
+			<td align="center"><input id="adManageUser" type="checkbox"
+				name="manageUser" value="11"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0;">Create Account</td>
+			<td align="center"><input id="adCreateAccount" type="checkbox"
+				name="createAccount" value="7"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0;">View Account</td>
+			<td align="center"><input id="adViewAccount" type="checkbox"
+				name="viewAccount" value="15"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0;">Drop Account</td>
+			<td align="center"><input id="adDropAccount" type="checkbox"
+				name="dropAccount" value="16"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: medium; COLOR: #0080c0;">View History</td>
+			<td align="center"><input id="adViewHist" type="checkbox" name="viewHist"
+					value="10"></td>
+		</tr>
+	</table>
+</div>
+
+<!--  <div class="CSSTableGenerator" style="margin-top: 20px">
 	<table>
 		<tr>
 			<td></td>
@@ -217,4 +330,5 @@
 		</tr>
 	</table>
 </div>
+-->
 
