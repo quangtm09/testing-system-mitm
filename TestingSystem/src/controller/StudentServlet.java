@@ -68,7 +68,7 @@ public class StudentServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		this.processRequest(request, response);
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class StudentServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		this.processRequest(request, response);
 	}
 
 	public void goToPage(final String page, final HttpServletRequest request,

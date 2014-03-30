@@ -85,7 +85,7 @@
 						<%@include file="/html/404.jspf" %>
 					</c:when>
 					<c:otherwise>
-						<%@include file="/html/home.jspf" %>
+						<%@include file="/html/lecturer/home.jspf" %>
 					</c:otherwise>
 				</c:choose>
 				

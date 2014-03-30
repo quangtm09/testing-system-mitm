@@ -18,6 +18,14 @@
     <filter-name>TSFilter</filter-name>
     <url-pattern>/RoleManagementServlet</url-pattern>
   </filter-mapping>
+   <filter-mapping>
+    <filter-name>TSFilter</filter-name>
+    <url-pattern>/StudentServlet</url-pattern>
+  </filter-mapping>
+   <filter-mapping>
+    <filter-name>TSFilter</filter-name>
+    <url-pattern>/LecturerServlet</url-pattern>
+  </filter-mapping>
   <welcome-file-list>
     <welcome-file>TestingSystemServlet</welcome-file>
   </welcome-file-list>

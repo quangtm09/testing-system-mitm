@@ -74,6 +74,7 @@
 <form action="<%=TSConstants.TESTING_SYSTEM_SERVLET%>" method="POST">
 	<input type="hidden" name="<%=TSConstants.CMD%>" value="<%=TSConstants.EDIT_USER%>"/>
 	<input type="hidden" name="userId" id="userId" value="<%=user.getUserId()%>"/>
+	<input type="hidden" name="tsTab" value="<%=tsTab%>"/>
 	<table>
 		<tr>
 			<td>First Name:</td>

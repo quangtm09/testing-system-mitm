@@ -39,7 +39,7 @@
 	<div id="menu">
 		<ul>
 			<li class="current_page_item"><a href="${home_url}">Homepage</a></li>
-			<li><a href="${account_management_url}">User Profile</a></li>
+			<li><a href="${user_profile_url}">User Profile</a></li>
 			<li><a href="${take_test_url}">Take Test</a></li>
 			<li><a href="${result_management_url}">Result Management</a></li>
 			<li style="color: yellow;">

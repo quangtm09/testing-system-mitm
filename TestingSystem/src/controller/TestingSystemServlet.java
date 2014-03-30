@@ -90,7 +90,16 @@ public class TestingSystemServlet extends HttpServlet {
 				request.setAttribute("tsTab", tsTabParam);
 				request.setAttribute("userId", userId);
 
-				this.goToPage(TSConstants.INDEX_JSP, request, response);
+				final HttpSession session = request.getSession();
+				final Integer roleId = ((Role)session.getAttribute("role")).getRoleId();
+
+				if(roleId == RoleConstants.ROLE_ADMIN){
+					this.goToPage(TSConstants.INDEX_JSP, request, response);
+				} else if(roleId == RoleConstants.ROLE_LECTURER){
+					this.goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
+				} else if(roleId == RoleConstants.ROLE_STUDENT){
+					this.goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
+				}
 
 			}
 		} catch (final Exception ex){
@@ -124,6 +133,7 @@ public class TestingSystemServlet extends HttpServlet {
 				session.setAttribute("account", account);
 				session.setAttribute("user", accountUser);
 				session.setAttribute("username", fullName);
+				session.setAttribute("role", accountRole);
 
 				// set session to be expired in 30 minutes
 				session.setMaxInactiveInterval(30*60);
@@ -163,6 +173,7 @@ public class TestingSystemServlet extends HttpServlet {
 		final String birthDay = request.getParameter("bdate");
 		final String address = request.getParameter("address");
 		final String userId = request.getParameter("userId");
+		final String tsTabParam = TSUtil.getParameter(request, "tsTab", StringPool.BLANK);
 
 		final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -183,7 +194,7 @@ public class TestingSystemServlet extends HttpServlet {
 
 			if(userDao.updateUser(user)){
 				request.setAttribute("successMessage", "Updated user successfully!");
-				request.setAttribute("tsTab", "edit-user");
+				request.setAttribute("tsTab", tsTabParam);
 				request.setAttribute("userId", userId);
 				request.setAttribute("isUpdatedSucessfully", true);
 				request.setAttribute("isClickedEditButton", true);
@@ -194,7 +205,17 @@ public class TestingSystemServlet extends HttpServlet {
 				request.setAttribute("errorMessage", "Failed to update!");
 			}
 
-			this.goToPage(TSConstants.INDEX_JSP, request, response);
+			final HttpSession session = request.getSession();
+			final Integer roleId = ((Role)session.getAttribute("role")).getRoleId();
+
+			if(roleId == RoleConstants.ROLE_ADMIN){
+				this.goToPage(TSConstants.INDEX_JSP, request, response);
+			} else if(roleId == RoleConstants.ROLE_LECTURER){
+				this.goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
+			} else if(roleId == RoleConstants.ROLE_STUDENT){
+				this.goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
+			}
+
 		} catch (final Exception ex){
 			ex.printStackTrace();
 			TestingSystemServlet.log.debug("Failed to edit user");
