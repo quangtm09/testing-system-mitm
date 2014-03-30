@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
 
 import model.Account;
 import model.User;
+import util.StringPool;
+import util.TSUtil;
 import constants.TSConstants;
 
 /**
@@ -52,7 +54,9 @@ public class TSFilter implements Filter {
 		final User currentLoggedInUser = (User)session.getAttribute("user");
 		final Account currentLoggedInAccount = (Account) session.getAttribute("account");
 
-		if(currentLoggedInAccount == null) {
+		final String cmd = TSUtil.getParameter(httpServletRequest, TSConstants.CMD, StringPool.BLANK);
+
+		if(currentLoggedInAccount == null && !cmd.equals(TSConstants.LOGIN)) {
 			this.goToPage(TSConstants.LOGIN_JSP, httpServletRequest, httpServletResponse);
 			return;
 		} else {

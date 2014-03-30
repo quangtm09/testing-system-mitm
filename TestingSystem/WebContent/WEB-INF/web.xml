@@ -13,7 +13,12 @@
 	</filter>
 	<filter-mapping>
 	    <filter-name>TSFilter</filter-name>
-	    <url-pattern>/*</url-pattern>
+	    <url-pattern>/TestingSystemServlet</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+	   <filter-name>TSFilter</filter-name>
+	   <url-pattern>/RoleManagementServlet</url-pattern>
 	</filter-mapping>
 
   <welcome-file-list>
