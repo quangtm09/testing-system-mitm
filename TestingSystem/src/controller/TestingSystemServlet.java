@@ -309,6 +309,7 @@ public class TestingSystemServlet extends HttpServlet {
 				final AccountRoleMap accountRoleMap = new AccountRoleMap();
 				accountRoleMap.setAccountByAccId(account);
 				accountRoleMap.setRole(role);
+				accountRoleMap.setAccRoleGrantedDate(new Date());
 
 				final boolean isAssignRoleAccountSuccess = aRMDao.save(accountRoleMap);
 
@@ -356,7 +357,6 @@ public class TestingSystemServlet extends HttpServlet {
 
 				if(oldRole.getRoleId() != selectedRole.getRoleId()){
 					oldARM.setRole(selectedRole);
-					oldARM.setAccountByCreatorAccRoleId((Account) currentSession.getAttribute("account"));
 					oldARM.setAccRoleGrantedDate(new Date());
 
 					isChangedSuccess = aRMDao.update(oldARM);
@@ -365,7 +365,6 @@ public class TestingSystemServlet extends HttpServlet {
 				final AccountRoleMap arm = new AccountRoleMap();
 				arm.setAccountByAccId(account);
 				arm.setRole(selectedRole);
-				arm.setAccountByCreatorAccRoleId((Account) currentSession.getAttribute("account"));
 				arm.setAccRoleGrantedDate(new Date());
 
 				isChangedSuccess = aRMDao.save(arm);
