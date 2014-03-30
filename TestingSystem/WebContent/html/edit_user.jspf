@@ -165,11 +165,12 @@
 										</c:choose>
 									</td>
 									<td>
+										<!-- If  -->
 										<c:if test="${account.accountRoleMapsForAccId.toArray()[0].role.roleId ne adminRoleId}">
 											<a title="Change Password" href="javascript:openChangePasswordDialog('${account.accId}');"><img src="/TestingSystem/images/change-password-icon.png"/></a>
-										</c:if>
-										<c:if test="${isCurrentAccountAdmin && (account.accId ne currentAccountId) && account.accountRoleMapsForAccId.toArray()[0].role.roleId ne adminRoleId}">
-											<a title="Delete" onclick="deleteAccount('${account.accId}')" href="javascript:;"><img src="/TestingSystem/images/delete_icon.png"/></a>
+											<c:if test="${isCurrentAccountAdmin && account.accId ne currentAccountId}">
+												<a title="Delete" onclick="deleteAccount('${account.accId}')" href="javascript:;"><img src="/TestingSystem/images/delete_icon.png"/></a>
+											</c:if>
 										</c:if>
 									</td>
 								</tr>
