@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 
 import util.StringPool;
 import util.TSUtil;
+import constants.RoleConstants;
 import constants.TSConstants;
 import dao.AccountDao;
 import dao.AccountRoleMapDao;
@@ -51,7 +52,7 @@ public class TestingSystemServlet extends HttpServlet {
 	private static final AccountRoleMapDao aRMDao = new AccountRoleMapDaoImpl();
 
 
-	protected void processRequest(final HttpServletRequest request, final HttpServletResponse response){
+	protected void processRequest(final HttpServletRequest request, final HttpServletResponse response) {
 		// Get command
 		final String cmd = TSUtil.getParameter(request, TSConstants.CMD, StringPool.BLANK);
 		String tsTabParam = TSUtil.getParameter(request, "tsTab", StringPool.BLANK);
@@ -79,30 +80,28 @@ public class TestingSystemServlet extends HttpServlet {
 				this.deleteUser(request, response);
 			} else {
 
-				final HttpSession session = request.getSession();
-				// Already logged in
-				if(session.getAttribute("user") != null){
-
-					if(tsTabParam.equals("edit-user") || tsTabParam.equals("user-details")){
-						final User user = userDao.findById(userId);
-						if(user == null){
-							tsTabParam = "404";
-						}
+				if(tsTabParam.equals("edit-user") || tsTabParam.equals("user-details")){
+					final User user = userDao.findById(userId);
+					if(user == null){
+						tsTabParam = "404";
 					}
-
-					request.setAttribute("tsTab", tsTabParam);
-					request.setAttribute("userId", userId);
-
-					this.goToPage(TSConstants.INDEX_JSP, request, response);
-				} else {
-					// Go to login page
-					this.goToPage(TSConstants.LOGIN_JSP, request, response);
 				}
+
+				request.setAttribute("tsTab", tsTabParam);
+				request.setAttribute("userId", userId);
+
+				this.goToPage(TSConstants.INDEX_JSP, request, response);
 
 			}
 		} catch (final Exception ex){
+			tsTabParam = "404";
 			ex.printStackTrace();
 			TestingSystemServlet.log.error("Error while processing request!");
+			try {
+				this.goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -116,6 +115,9 @@ public class TestingSystemServlet extends HttpServlet {
 
 			if(null != account && account.getAccPwd().equals(password)){
 				final User accountUser = account.getUser();
+				final Role accountRole = ((AccountRoleMap) account.getAccountRoleMapsForAccId().toArray()[0]).getRole();
+				final Integer accountRoleId = accountRole.getRoleId();
+
 				final String fullName = accountUser.getFname() + StringPool.SPACE + accountUser.getLname();
 
 				final HttpSession session = request.getSession();
@@ -130,7 +132,17 @@ public class TestingSystemServlet extends HttpServlet {
 				accountIdCookie.setMaxAge(30*60);
 
 				response.addCookie(accountIdCookie);
-				this.goToPage(TSConstants.INDEX_JSP, request, response);
+
+				if(accountRoleId == RoleConstants.ROLE_ADMIN){
+					this.goToPage(TSConstants.INDEX_JSP, request, response);
+				} else if(accountRoleId == RoleConstants.ROLE_LECTURER){
+					this.goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
+				} else if(accountRoleId == RoleConstants.ROLE_STUDENT){
+					this.goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
+				} else {
+					this.goToPage(TSConstants.LOGIN_JSP, request, response);
+				}
+
 			} else {
 				request.setAttribute("isWrongUsernameOrPassword", false);
 				request.setAttribute("errorMessage", "Failed to login!");

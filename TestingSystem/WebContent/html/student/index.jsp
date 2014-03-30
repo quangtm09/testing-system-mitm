@@ -15,28 +15,20 @@
 </head>
 <body>
 
-<c:url value="<%=TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN%>" var="home_url">
+<c:url value="<%=TSConstants.STUDENT_SERVLET_URL_PATTERN%>" var="home_url">
 	<c:param name="tsTab" value="home"/>
 </c:url>
 
-<c:url value="<%=TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN%>" var="account_management_url">
-	<c:param name="tsTab" value="account-management"/>
+<c:url value="<%=TSConstants.STUDENT_SERVLET_URL_PATTERN%>" var="user_profile_url">
+	<c:param name="tsTab" value="user-profile"/>
 </c:url>
 
-<c:url value="<%=TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN%>" var="user_management_url">
-	<c:param name="tsTab" value="user-management"/>
+<c:url value="<%=TSConstants.STUDENT_SERVLET_URL_PATTERN%>" var="take_test_url">
+	<c:param name="tsTab" value="take-test"/>
 </c:url>
 
-<c:url value="<%=TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN%>" var="role_management_url">
-	<c:param name="tsTab" value="role-management"/>
-</c:url>
-
-<c:url value="<%=TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN%>" var="log_management_url">
-	<c:param name="tsTab" value="log-management"/>
-</c:url>
-
-<c:url value="<%=TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN%>" var="contact_us_url">
-	<c:param name="tsTab" value="contact-us"/>
+<c:url value="<%=TSConstants.STUDENT_SERVLET_URL_PATTERN%>" var="result_management_url">
+	<c:param name="tsTab" value="result-management"/>
 </c:url>
 
 <%
@@ -47,11 +39,9 @@
 	<div id="menu">
 		<ul>
 			<li class="current_page_item"><a href="${home_url}">Homepage</a></li>
-			<li><a href="${account_management_url}">Account Management</a></li>
-			<li><a href="${user_management_url}">User Management</a></li>
-			<li><a href="${role_management_url}">Role Management</a></li>
-			<li><a href="${log_management_url}">Log Management</a></li>
-			<!-- <li><a href="${contact_us_url}">Contact Us</a></li> -->
+			<li><a href="${account_management_url}">User Profile</a></li>
+			<li><a href="${take_test_url}">Take Test</a></li>
+			<li><a href="${result_management_url}">Result Management</a></li>
 			<li style="color: yellow;">
 				&nbsp;Welcome, <%=username %>!&nbsp;
 				<button id="logoutButton" onclick="logout();">Logout</button>
@@ -74,17 +64,14 @@
 		<div id="page-bgtop">
 			<div id="page-bgbtm">
 				<c:choose>
-					<c:when test='<%=tsTab.equals("account-management") %>'>
-						<%@include file="/html/account_management.jspf" %>
+					<c:when test='<%=tsTab.equals("user-profile") %>'>
+						<%@include file="/html/user_profile.jspf" %>
 					</c:when>
-					<c:when test='<%=tsTab.equals("user-management") %>'>
-						<%@include file="/html/user_management.jspf" %>
+					<c:when test='<%=tsTab.equals("take-test") %>'>
+						<%@include file="/html/student/take_test.jspf" %>
 					</c:when>
-					<c:when test='<%=tsTab.equals("role-management") %>'>
-						<%@include file="/html/role_management.jspf" %>
-					</c:when>
-					<c:when test='<%=tsTab.equals("log-management") %>'>
-						<%@include file="/html/log_management.jspf" %>
+					<c:when test='<%=tsTab.equals("result-management") %>'>
+						<%@include file="/html/student/result_management.jspf" %>
 					</c:when>
 					<c:when test='<%=tsTab.equals("contact-us") %>'>
 						<%@include file="/html/contact_us.jspf" %>
@@ -92,14 +79,11 @@
 					<c:when test='<%=tsTab.equals("user-details") %>'>
 						<%@include file="/html/user_details.jspf" %>
 					</c:when>
-					<c:when test='<%=tsTab.equals("edit-user") %>'>
-						<%@include file="/html/edit_user.jspf" %>
-					</c:when>
 					<c:when test='<%=tsTab.equals("404") %>'>
 						<%@include file="/html/404.jspf" %>
 					</c:when>
 					<c:otherwise>
-						<%@include file="/html/home.jspf" %>
+						<%@include file="/html/student/home.jspf" %>
 					</c:otherwise>
 				</c:choose>
 				

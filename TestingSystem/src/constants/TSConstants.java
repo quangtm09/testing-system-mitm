@@ -13,6 +13,10 @@ public class TSConstants {
 
 	public static final String INDEX_JSP = "/html/index.jsp";
 
+	public static final String LECTURER_INDEX_JSP = "/html/lecturer/index.jsp";
+
+	public static final String STUDENT_INDEX_JSP = "/html/student/index.jsp";
+
 	public static final String LOGIN_JSP = "/html/login.jsp";
 
 	public static final String TESTING_SYSTEM_SERVLET = TSConstants.TESTING_SYSTEM_PATH + "/TestingSystemServlet";
@@ -22,6 +26,14 @@ public class TSConstants {
 	public static final String ROLE_MANAGEMENT_SERVLET = TSConstants.TESTING_SYSTEM_PATH + "/RoleManagementServlet";
 
 	public static final String ROLE_MANAGEMENT_SERVLET_URL_PATTERN = "/RoleManagementServlet";
+
+	public static final String LECTURER_SERVLET_URL_PATTERN = "/LecturerServlet";
+
+	public static final String LECTURER_SERVLET = TSConstants.TESTING_SYSTEM_PATH + "/LecturerServlet";
+
+	public static final String STUDENT_SERVLET_URL_PATTERN = "/StudentServlet";
+
+	public static final String STUDENT_SERVLET = TSConstants.TESTING_SYSTEM_PATH + "/StudentServlet";
 
 	// Command parameter (for login, edit, add, delete, etc)
 	public static final String CMD = "cmd";

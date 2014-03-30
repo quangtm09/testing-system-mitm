@@ -46,7 +46,7 @@
 
 <div id="sidebar2">
 	<div class="post">
-		<h2 class="title"><a href="#">Contact Us</a></h2>
+		<h2 class="title"><a href="?tsTab=contact-us">Contact Us</a></h2>
 		<div style="clear: both;">&nbsp;</div>
 		<div class="entry">
 			<p>If you have any queries, please contact us for more supports!</p>
