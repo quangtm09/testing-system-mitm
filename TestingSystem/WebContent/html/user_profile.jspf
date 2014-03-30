@@ -1,0 +1,6 @@
+<%
+	User _user = (User) session.getAttribute("user");
+	request.setAttribute("userId", _user.getUserId());
+%>
+
+<%@include file="/html/edit_user.jspf" %>

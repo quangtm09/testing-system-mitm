@@ -97,7 +97,8 @@ $(function() {
 	$( "#datepicker" ).datepicker({
 		changeMonth: true,
 		changeYear: true,
-		dateFormat: 'dd-mm-yy'
+		dateFormat: 'dd-mm-yy',
+		yearRange: "1900:" + (new Date().getFullYear() + 100)
     });
 	
 	$("#datepicker").attr( 'readOnly' , 'true' );

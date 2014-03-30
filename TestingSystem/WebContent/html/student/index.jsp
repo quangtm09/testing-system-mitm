@@ -15,10 +15,6 @@
 </head>
 <body>
 
-<c:url value="<%=TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN%>" var="user_profile_url">
-	<c:param name="tsTab" value="user-profile"/>
-</c:url>
-
 <c:url value="<%=TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN%>" var="home_url">
 	<c:param name="tsTab" value="home"/>
 </c:url>
@@ -51,7 +47,6 @@
 	<div id="menu">
 		<ul>
 			<li class="current_page_item"><a href="${home_url}">Homepage</a></li>
-			<li><a href="${user_profile_url}">User Profile</a></li>
 			<li><a href="${account_management_url}">Account Management</a></li>
 			<li><a href="${user_management_url}">User Management</a></li>
 			<li><a href="${role_management_url}">Role Management</a></li>
@@ -79,9 +74,6 @@
 		<div id="page-bgtop">
 			<div id="page-bgbtm">
 				<c:choose>
-					<c:when test='<%=tsTab.equals("user-profile") %>'>
-						<%@include file="/html/user_profile.jspf" %>
-					</c:when>
 					<c:when test='<%=tsTab.equals("account-management") %>'>
 						<%@include file="/html/account_management.jspf" %>
 					</c:when>
