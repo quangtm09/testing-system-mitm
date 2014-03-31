@@ -1,1 +1,95 @@
-Account Management
+<%
+	AccountDao accountDao = new AccountDaoImpl();
+	
+	String firstName = (String) TSUtil.getAttribute(request, "fname", StringPool.BLANK);
+	String lastName = (String) TSUtil.getAttribute(request, "lname", StringPool.BLANK);
+	String email = (String) TSUtil.getAttribute(request, "email", StringPool.BLANK);
+	
+	String accountId = (String) TSUtil.getAttribute(request, "accId", StringPool.BLANK);
+	
+	List<Account> accountList = accountDao.searchAccount(accountId, firstName, lastName, email);
+%>
+
+<div style="font-size: 2.5em;">
+	<div style="display: inline; text-align: left">Account Management</div>
+	<a href="${home_url}" id="backButton" class="rightButton" style="font-size: 0.5em">Back</a>
+	<hr>
+</div>
+
+<form action="<%=TSConstants.TESTING_SYSTEM_SERVLET%>" method="POST" style="margin-bottom:15px">
+	<input type="hidden" name="<%=TSConstants.CMD%>" value="<%=TSConstants.SEARCH_ACCOUNT%>"/>
+	<table>
+		<tr>
+			<td>Account ID:</td>
+			<td><input type="text" name="accId" value="<%=accountId%>"/></td>
+		</tr>
+		<tr>
+			<td>First Name:</td>
+			<td><input type="text" name="fname" value="<%=firstName%>"/></td>
+		</tr>
+		<tr>
+			<td>Last Name:</td>
+			<td><input type="text" name="lname" value="<%=lastName%>"/></td>
+		</tr>
+		<tr>
+			<td>Email:</td>
+			<td><input type="text" name="email" value="<%=email%>"/></td>
+		</tr>
+	</table>
+	<button type="submit" value="Search" id="searchButton" style="margin-top: 20px">Search</button>
+</form>
+
+<hr>
+
+<c:choose>
+   	<c:when test="<%=accountList.size() > 0 %>">
+	    <table id="hor-minimalist-b" summary="Account Management"  style="margin-top: 20px">
+	    	<thead>
+		        <tr>
+		            <td>No.</td>
+		            <td>Account ID</td>
+		            <td>User Full Name</td>
+		            <td>Email</td>
+		            <td>Actions</td>
+		        </tr>
+	        </thead>
+	        <c:set var="count" value="0"/>
+			<c:forEach items="<%=accountList %>" var="account">
+				<tr>
+					<c:set var="count" value="${count + 1}"/>
+					<td>${count}.</td>
+					<td>${account.accId}</td>
+					<td>${account.user.fname}&nbsp;${account.user.lname}</td>
+					<td>${account.user.email}</td>
+					
+					<c:url value="<%=TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN%>" var="editUserURL">
+						<c:param name="tsTab" value="edit-user"/>
+						<c:param name="userId" value="${account.user.userId}"/>
+					</c:url>
+					
+					<c:url value="<%=TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN%>" var="viewUserURL">
+						<c:param name="tsTab" value="user-details"/>
+						<c:param name="userId" value="${account.user.userId}"/>
+					</c:url>
+					
+					<td>
+						<a title="View details" href="${viewUserURL}"><img src="/TestingSystem/images/view_icon.png"/></a>
+						<a title="Edit" href="${editUserURL}"><img src="/TestingSystem/images/edit_icon.png"/></a>
+						<a title="Delete" onclick="deleteAccount('${account.accId}')" href="javascript:;"><img src="/TestingSystem/images/delete_icon.png"/></a>
+						
+					</td>
+	
+				</tr>
+			</c:forEach>
+	    </table>
+	</c:when>
+	<c:otherwise>
+		<div style="color: red">No accounts found!</div>
+	</c:otherwise>
+</c:choose>
+		
+<div style="height: 40px"></div>
+
+<div id="deleteAccountDialog" title="Delete Account">
+	<span id="deleteAccountMessage"></span>
+</div>

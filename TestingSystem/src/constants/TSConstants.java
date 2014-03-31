@@ -67,4 +67,6 @@ public class TSConstants {
 	public static final String UPDATE_LEC_PERMISSION ="updateLecPermission";
 
 	public static final String UPDATE_ROLE_PERMISSION = "updateRolePermission";
+
+	public static final String SEARCH_ACCOUNT = "searchAccount";
 }

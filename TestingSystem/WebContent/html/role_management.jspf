@@ -23,10 +23,7 @@
 </style>
 <div style="font-size: 2.5em;">
 	<div style="display: inline; text-align: left">Role Management</div>
-	<div
-		style="display: inline; text-align: right; text-decoration: underline; float: right">
-		<a href="${home_url}">&lt;&lt;&nbsp;Back</a>
-	</div>
+	<a href="${home_url}" id="backButton" class="rightButton" style="font-size: 0.5em">Back</a>
 	<hr>
 </div>
 <div class="CSSTableGenerator" style="margin-top: 20px">

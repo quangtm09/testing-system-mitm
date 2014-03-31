@@ -78,6 +78,8 @@ public class TestingSystemServlet extends HttpServlet {
 				this.deleteAccount(request, response);
 			} else if(cmd.equals(TSConstants.DELETE_USER)){
 				this.deleteUser(request, response);
+			} else if(cmd.equals(TSConstants.SEARCH_ACCOUNT)){
+				this.searchAccount(request, response);
 			} else {
 
 				if(tsTabParam.equals("edit-user") || tsTabParam.equals("user-details")){
@@ -120,7 +122,7 @@ public class TestingSystemServlet extends HttpServlet {
 		final String password = TSUtil.getParameter(request, "password", StringPool.BLANK);
 
 		try {
-			final Account account = accountDao.getAccountById(accountId);
+			final Account account = accountDao.getAccountById(accountId.toUpperCase());
 
 			if(null != account && account.getAccPwd().equals(password)){
 				final User accountUser = account.getUser();
@@ -271,6 +273,24 @@ public class TestingSystemServlet extends HttpServlet {
 		}
 	}
 
+	private void searchAccount(final HttpServletRequest request, final HttpServletResponse response){
+		final String firstName = request.getParameter("fname");
+		final String lastName = request.getParameter("lname");
+		final String email = request.getParameter("email");
+		final String accountId = request.getParameter("accId");
+
+		request.setAttribute("fname", firstName);
+		request.setAttribute("lname", lastName);
+		request.setAttribute("email", email);
+		request.setAttribute("accId", accountId);
+		request.setAttribute("tsTab", "account-management");
+		try {
+			this.goToPage(TSConstants.INDEX_JSP, request, response);
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void addUser(final HttpServletRequest request, final HttpServletResponse response) throws IOException{
 		final String firstName = request.getParameter("firstName");
 		final String lastName = request.getParameter("lastName");
@@ -326,7 +346,7 @@ public class TestingSystemServlet extends HttpServlet {
 			final Role role = roleDao.findById(parsedRoleId);
 
 			final Account account = new Account();
-			account.setAccId(newAccountId);
+			account.setAccId(newAccountId.toUpperCase());
 			account.setAccPwd(accountPassword);
 			account.setUser(user);
 
