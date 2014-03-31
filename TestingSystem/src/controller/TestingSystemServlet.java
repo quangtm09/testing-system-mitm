@@ -116,7 +116,7 @@ public class TestingSystemServlet extends HttpServlet {
 		}
 	}
 
-	private void login(final HttpServletRequest request, final HttpServletResponse response){
+	private void login(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException{
 		// check userId & password, then login, redirect to index page
 		final String accountId = TSUtil.getParameter(request, "accountId", StringPool.BLANK);
 		final String password = TSUtil.getParameter(request, "password", StringPool.BLANK);
@@ -163,6 +163,9 @@ public class TestingSystemServlet extends HttpServlet {
 
 		} catch (final Exception ex){
 			ex.printStackTrace();
+			request.setAttribute("isWrongUsernameOrPassword", false);
+			request.setAttribute("errorMessage", "Your account is not granted for login!");
+			this.goToPage(TSConstants.LOGIN_JSP, request, response);
 			TestingSystemServlet.log.error("Error while login!");
 		}
 	}
@@ -266,6 +269,10 @@ public class TestingSystemServlet extends HttpServlet {
 		request.setAttribute("mobile", mobile);
 		request.setAttribute("address", address);
 		request.setAttribute("tsTab", "user-management");
+
+		request.setAttribute("isSearchSuccess", true);
+		request.setAttribute("isClickedSearchButton", true);
+
 		try {
 			this.goToPage(TSConstants.INDEX_JSP, request, response);
 		} catch (final Exception e) {
@@ -284,6 +291,10 @@ public class TestingSystemServlet extends HttpServlet {
 		request.setAttribute("email", email);
 		request.setAttribute("accId", accountId);
 		request.setAttribute("tsTab", "account-management");
+
+		request.setAttribute("isSearchSuccess", true);
+		request.setAttribute("isClickedSearchButton", true);
+
 		try {
 			this.goToPage(TSConstants.INDEX_JSP, request, response);
 		} catch (final Exception e) {

@@ -6,6 +6,9 @@
 	String email = (String) TSUtil.getAttribute(request, "email", StringPool.BLANK);
 	
 	List<User> userList = userDao.searchUser(firstName, lastName, email);
+	
+	boolean isSearchSuccess = (Boolean) TSUtil.getAttribute(request, "isSearchSuccess", true);
+	boolean isClickedSearchButton = (Boolean) TSUtil.getAttribute(request, "isClickedSearchButton", false);
 %>
 
 <div style="font-size: 2.5em;">
@@ -15,6 +18,12 @@
 	<a href="javascript:openAddUserDialog();" id="addUser" class="rightButton">Add User</a>
 	<hr>
 </div>
+
+<c:choose>
+	<c:when test="<%=isSearchSuccess && isClickedSearchButton%>">
+		<%@ include file="/html/message/successMessage.jspf"%>
+	</c:when>
+</c:choose>
 
 <form action="<%=TSConstants.TESTING_SYSTEM_SERVLET%>" method="POST" style="margin-bottom:15px">
 	<input type="hidden" name="<%=TSConstants.CMD%>" value="<%=TSConstants.SEARCH_USER%>"/>
