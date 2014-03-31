@@ -1,41 +1,25 @@
 <%@page import="constants.RoleConstants"%>
 <%@page import="dao.impl.*"%>
 <%@page import="dao.*"%>
-<%@page import="constants.TSConstants"%>
+<%@page import="constants.*"%>
 <%@page import="util.*"%>
 <%@page import="model.*"%>
 <%@page import="java.util.*"%>
-<% 	PermissionDao permissionDao = new PermissionDaoImpl();
+<%
+	PermissionDao permissionDao = new PermissionDaoImpl();
 	List<Permission> permissionList = permissionDao.findAll();
 	RoleDao roleDao = new RoleDaoImpl();
 	Role adRole = roleDao.findById(RoleConstants.ROLE_ADMIN);
 	Role lecRole = roleDao.findById(RoleConstants.ROLE_LECTURER);
 	Role stuRole = roleDao.findById(RoleConstants.ROLE_STUDENT);
 	RolePermissionMapDao rpm = new RolePermissionMapDaoImpl();
-	//Role role = (Role)TSUtil.getAttribute(request, "roleId", RoleConstants.ROLE_ADMIN );
-	List<RolePermissionMap> adListPermission = rpm.searchPermissionByRole(adRole);
-	List<RolePermissionMap> lecListPermission = rpm.searchPermissionByRole(lecRole);
-	List<RolePermissionMap> stuListPermission = rpm.searchPermissionByRole(stuRole);
+	List<RolePermissionMap> adListPermission = rpm
+			.searchPermissionByRole(adRole);
+	List<RolePermissionMap> lecListPermission = rpm
+			.searchPermissionByRole(lecRole);
+	List<RolePermissionMap> stuListPermission = rpm
+			.searchPermissionByRole(stuRole);
 %>
-<script>
-	$(document).ready(function() {
-		$(".checkAdRole").click(function() {
-			
-		});
-	});
-</script>
-<style type="text/css">
-.panel,.flip {
-	padding: 5px;
-	text-align: left;
-	background-color: #e5eecc;
-	border: solid 1px #c3c3c3;
-}
-
-.panel {
-	padding: 20px;
-	display: none;
-}
 </style>
 <div style="font-size: 2.5em;">
 	<div style="display: inline; text-align: left">Role Management</div>
@@ -49,34 +33,44 @@
 	<table>
 		<tr>
 			<td></td>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Administrator
-				<a title="Edit Permission" href="javascript:openAdminPermissionDialog('${role.roleId}');" onclick=";"><img src="/TestingSystem/images/edit_icon.png"/></a>
+			<td style="COLOR: #ffff80; FONT-SIZE: medium; FONT-WEIGHT: bold;">Administrator
+				<a title="Update Admin Permission"
+				href="javascript:openAdminPermissionDialog('<%=RoleConstants.ROLE_ADMIN%>');"
+				onclick=";"><img src="/TestingSystem/images/edit_icon.png" /></a>
 			</td>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Lecturers</td>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Student</td>
+			<td style="COLOR: #ffff80; FONT-SIZE: medium; FONT-WEIGHT: bold;">Lecturers
+				<a title="Update Lecturer Permission"
+				href="javascript:openLecPermissionDialog('<%=RoleConstants.ROLE_LECTURER%>');"
+				onclick=";"><img src="/TestingSystem/images/edit_icon.png" /></a>
+			</td>
+			<td style="COLOR: #ffff80; FONT-SIZE: medium; FONT-WEIGHT: bold;">Student
+				<a title="Update Student Permission"
+				href="javascript:openStuPermissionDialog('<%=RoleConstants.ROLE_STUDENT%>');"
+				onclick=";"><img src="/TestingSystem/images/edit_icon.png" /></a>
+			</td>
 		</tr>
-		<c:forEach items="<%=permissionList %>" var="permission">
+		<c:forEach items="<%=permissionList%>" var="permission">
 			<tr>
 				<td>${permission.permissionName}</td>
-				<td><c:forEach items="<%= adListPermission %>"
+				<td><c:forEach items="<%=adListPermission%>"
 						var="adPermission">
 						<c:if
 							test="${adPermission.permission.permissionId == permission.permissionId}">
 							<input type="checkbox" name="adRole" id="adRole"
 								value="${adPermission.permission.permissionId}"
-								checked="checked" onclick = "return false">
+								checked="checked" onclick="return false">
 						</c:if>
 					</c:forEach></td>
-				<td><c:forEach items="<%= lecListPermission %>"
+				<td><c:forEach items="<%=lecListPermission%>"
 						var="lecPermission">
 						<c:if
 							test="${lecPermission.permission.permissionId == permission.permissionId}">
 							<input type="checkbox" name="lecRole" id="lecRole"
 								value="${lecPermission.permission.permissionId}"
-								checked="checked" onclick = "return false">
+								checked="checked" onclick="return false">
 						</c:if>
 					</c:forEach></td>
-				<td><c:forEach items="<%= stuListPermission %>"
+				<td><c:forEach items="<%=stuListPermission%>"
 						var="stuPermission">
 						<c:if
 							test="${stuPermission.permission.permissionId == permission.permissionId}">
@@ -90,245 +84,253 @@
 	</table>
 </div>
 
-<div id="adminPermissionDialog" title ="Edit Permission">
+<div id="adminPermissionDialog" title="Update Admin Permission">
+	<input type="hidden" id="roleId">
 	<div id="adminPremissionResult"></div>
 	<table>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Permission</td>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Select</td>
+			<td
+				style="COLOR: #ff8000; FONT-SIZE: medium; FONT-WEIGHT: bold; width: 150px">Permission</td>
+			<td
+				style="FONT-SIZE: medium; COLOR: #ff8000; BACKGROUND-COLOR: #ffffff; FONT-WEIGHT: bold;">Select</td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: small; COLOR: #0080c0;">Create User</td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
+				User</td>
 			<td align="center"><input id="adCreateUser" type="checkbox"
-				name="adcreateUser" value="8"></td>
+				name="adPermission" value="8"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: small; COLOR: #0080c0;">Update Profile</td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
+				Profile</td>
 			<td align="center"><input id="adUpdateProfile" type="checkbox"
-				name="updateProfile" value="9"></td>
+				name="adPermission" value="9"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0;">Remove User</td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Remove
+				User</td>
 			<td align="center"><input id="adRemoveUser" type="checkbox"
-				name="removeUser" value="12"></td>
+				name="adPermission" value="12"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0;">Manage Users</td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Manage
+				Users</td>
 			<td align="center"><input id="adManageUser" type="checkbox"
-				name="manageUser" value="11"></td>
+				name="adPermission" value="11"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0;">Create Account</td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
+				Account</td>
 			<td align="center"><input id="adCreateAccount" type="checkbox"
-				name="createAccount" value="7"></td>
+				name="adPermission" value="7"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0;">View Account</td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
+				Account</td>
 			<td align="center"><input id="adViewAccount" type="checkbox"
-				name="viewAccount" value="15"></td>
+				name="adPermission" value="15"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0;">Drop Account</td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Drop
+				Account</td>
 			<td align="center"><input id="adDropAccount" type="checkbox"
-				name="dropAccount" value="16"></td>
+				name="adPermission" value="16"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0;">View History</td>
-			<td align="center"><input id="adViewHist" type="checkbox" name="viewHist"
-					value="10"></td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
+				History</td>
+			<td align="center"><input id="adViewHist" type="checkbox"
+				name="adPermission" value="10"></td>
 		</tr>
 	</table>
 </div>
 
-<!--  <div class="CSSTableGenerator" style="margin-top: 20px">
+<div id="lecPermissionDialog" title="Update Lecturer Permission">
+	<input type="hidden" id="roleId">
+	<div id="lecPremissionResult"></div>
 	<table>
 		<tr>
-			<td></td>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Administrator</td>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Lecturers</td>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Student</td>
+			<td
+				style="COLOR: #ff8000; FONT-SIZE: medium; FONT-WEIGHT: bold; width: 150px">Permission</td>
+			<td
+				style="FONT-SIZE: medium; COLOR: #ff8000; BACKGROUND-COLOR: #ffffff; FONT-WEIGHT: bold;">Select</td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Create User</td>
-			<td align="center"><input id="adCreateUser" type="checkbox"
-				name="adcreateUser" value="8"></td>
-			<td align="center"><input id="lecCreateUser" type="checkbox"
-				name="createUser" value="8"></td>
-			<td align="center"><input id="stuCreateUser" type="checkbox"
-				name="createUser" value="8"></td>
-		</tr>
-		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Update Profile</td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
+				Profile</td>
 			<td align="center"><input id="adUpdateProfile" type="checkbox"
-				name="updateProfile" value="9"></td>
-			<td align="center"><input id="adUpdateProfile" type="checkbox"
-				name="updateProfile" value="9"></td>
-			<td align="center"><input id="adUpdateProfile" type="checkbox"
-				name="updateProfile" value="9"></td>
+				name="lecPermission" value="9"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Remove User</td>
-			<td align="center"><input id="adRemoveUser" type="checkbox"
-				name="removeUser" value="12"></td>
-			<td align="center"><input id="adRemoveUser" type="checkbox"
-				name="removeUser" value="12"></td>
-			<td align="center"><input id="adRemoveUser" type="checkbox"
-				name="removeUser" value="12"></td>
-		</tr>
-		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Manage Users</td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Manage
+				Users</td>
 			<td align="center"><input id="adManageUser" type="checkbox"
-				name="manageUser" value="11"></td>
-			<td align="center"><input id="adManageUser" type="checkbox"
-				name="manageUser" value="11"></td>
-			<td align="center"><input id="adManageUser" type="checkbox"
-				name="manageUser" value="11"></td>
+				name="lecPermission" value="11"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Create Account</td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
+				Account</td>
 			<td align="center"><input id="adCreateAccount" type="checkbox"
-				name="createAccount" value="7"></td>
-			<td align="center"><input id="adCreateAccount" type="checkbox"
-				name="createAccount" value="7"></td>
-			<td align="center"><input id="adCreateAccount" type="checkbox"
-				name="createAccount" value="7"></td>
+				name="lecPermission" value="7"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">View Account</td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
+				Account</td>
 			<td align="center"><input id="adViewAccount" type="checkbox"
-				name="viewAccount" value="15"></td>
+				name="lecPermission" value="15"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Drop
+				Account</td>
+			<td align="center"><input id="adDropAccount" type="checkbox"
+				name="lecPermission" value="16"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
+				History</td>
+			<td align="center"><input id="adViewHist" type="checkbox"
+				name="lecPermission" value="10"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
+				Test</td>
+			<td align="center"><input id="lecCreateTest" type="checkbox"
+				name="lecPermission" value="1"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Edit
+				Test</td>
+			<td align="center"><input id="lecEditTest" type="checkbox"
+				name="lecPermission" value="2"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Take
+				Test</td>
+			<td align="center"><input id="lecEditTest" type="checkbox"
+				name="lecPermission" value="3"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
+				Test</td>
+			<td align="center"><input id="lecViewTest" type="checkbox"
+				name="lecPermission" value="4"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Take
+				Test</td>
+			<td align="center"><input id="lecEditTest" type="checkbox"
+				name="lecPermission" value="3"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
+				Test</td>
+			<td align="center"><input id="lecUpdateTest" type="checkbox"
+				name="lecPermission" value="13"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Deploy
+				Test</td>
+			<td align="center"><input id="lecDeployTest" type="checkbox"
+				name="lecPermission" value="14"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Delete
+				Test</td>
+			<td align="center"><input id="lecDeleteTest" type="checkbox"
+				name="lecPermission" value="5"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
+				Question</td>
+			<td align="center"><input id="lecCreateQuest" type="checkbox"
+				name="lecPermission" value="17"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
+				Question</td>
+			<td align="center"><input id="lecUpdateQuest" type="checkbox"
+				name="lecPermission" value="19"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
+				Question</td>
+			<td align="center"><input id="lecViewQuest" type="checkbox"
+				name="lecPermission" value="18"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Drop
+				Question</td>
+			<td align="center"><input id="lecDropQuest" type="checkbox"
+				name="lecPermission" value="20"></td>
+		</tr>
+
+	</table>
+</div>
+
+<div id="stuPermissionDialog" title="Update Student Permission">
+	<input type="hidden" id="roleId">
+	<div id="stuPremissionResult"></div>
+	<table>
+		<tr>
+			<td
+				style="COLOR: #ff8000; FONT-SIZE: medium; FONT-WEIGHT: bold; width: 150px">Permission</td>
+			<td
+				style="FONT-SIZE: medium; COLOR: #ff8000; BACKGROUND-COLOR: #ffffff; FONT-WEIGHT: bold;">Select</td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
+				Profile</td>
+			<td align="center"><input id="stuUpdateProfile" type="checkbox"
+				name="stuPermission" value="9"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
+				Account</td>
 			<td align="center"><input id="adViewAccount" type="checkbox"
-				name="viewAccount" value="15"></td>
-			<td align="center"><input id="adViewAccount" type="checkbox"
-				name="viewAccount" value="15"></td>
+				name="stuPermission"  value="15"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Drop Account</td>
-			<td align="center"><input id="adDropAccount" type="checkbox"
-				name="dropAccount" value="16"></td>
-			<td align="center"><input id="adDropAccount" type="checkbox"
-				name="dropAccount" value="16"></td>
-			<td align="center"><input id="adDropAccount" type="checkbox"
-				name="dropAccount" value="16"></td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
+				History</td>
+			<td align="center"><input id="adViewHist" type="checkbox"
+				name="stuPermission"  value="10"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Create Test</td>
-			<td align="center"><input id="adCreateTest" type="checkbox"
-				name="createTest" value="1"></td>
-			<td align="center"><input id="adCreateTest" type="checkbox"
-				name="createTest" value="1"></td>
-			<td align="center"><input id="adCreateTest" type="checkbox"
-				name="createTest" value="1"></td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Take
+				Test</td>
+			<td align="center"><input id="lecEditTest" type="checkbox"
+				name="stuPermission"  value="3"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Edit Test</td>
-			<td align="center"><input id="adEditTest" type="checkbox" name="editTest"
-					value="2"></td>
-			<td align="center"><input id="adEditTest" type="checkbox" name="editTest"
-					value="2"></td>
-			<td align="center"><input id="adEditTest" type="checkbox" name="editTest"
-					value="2"></td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
+				Test</td>
+			<td align="center"><input id="lecViewTest" type="checkbox"
+				name="stuPermission"  value="4"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Take Test</td>
-			<td align="center"><input id="adTakeTest" type="checkbox" name="takeTest"
-					value="3"></td>
-			<td align="center"><input id="adTakeTest" type="checkbox" name="takeTest"
-					value="3"></td>
-			<td align="center"><input id="adTakeTest" type="checkbox" name="takeTest"
-					value="3"></td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
+				Test</td>
+			<td align="center"><input id="lecUpdateTest" type="checkbox"
+				name="stuPermission"  value="13"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">View Test</td>
-			<td align="center"><input id="adViewTest" type="checkbox" name="viewTest"
-					value="4"></td>
-			<td align="center"><input id="adViewTest" type="checkbox" name="viewTest"
-					value="4"></td>
-			<td align="center"><input id="adViewTest" type="checkbox" name="viewTest"
-					value="4"></td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Deploy
+				Test</td>
+			<td align="center"><input id="lecDeployTest" type="checkbox"
+				name="stuPermission"  value="14"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Update Test</td>
-			<td align="center"><input id="adUpdateTest" type="checkbox" name="updateTest"
-					value="13"></td>
-			<td align="center"><input id="adUpdateTest" type="checkbox" name="updateTest"
-					value="13"></td>
-			<td align="center"><input id="adUpdateTest" type="checkbox" name="updateTest"
-					value="13"></td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
+				Question</td>
+			<td align="center"><input id="lecViewQuest" type="checkbox"
+				name="stuPermission" value="18"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Deploy Test</td>
-			<td align="center"><input id="lecDeployTest" type="checkbox" name="deployTest"
-					value="14"></td>
-			<td align="center"><input id="lecDeployTest" type="checkbox" name="deployTest"
-					value="14"></td>
-			<td align="center"><input id="lecDeployTest" type="checkbox" name="deployTest"
-					value="14"></td>
-		</tr>
-		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Delete Test</td>
-			<td align="center"><input id="adDeleteTest" type="checkbox" name="deleteTest"
-					value="5"></td>
-			<td align="center"><input id="adDeleteTest" type="checkbox" name="deleteTest"
-					value="5"></td>
-			<td align="center"><input id="adDeleteTest" type="checkbox" name="deleteTest"
-					value="5"></td>
-		</tr>
-		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Create Question</td>
-			<td align="center"><input id="lecCreateQuest" type="checkbox"
-					name="createQuest" value="17"></td>
-			<td align="center"><input id="lecCreateQuest" type="checkbox"
-					name="createQuest" value="17"></td>
-			<td align="center"><input id="lecCreateQuest" type="checkbox"
-					name="createQuest" value="17"></td>
-		</tr>
-		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Update Question</td>
-			<td align="center"><input id="adUpdateQuest" type="checkbox"
-					name="updateQuest" value="19"></td>
-			<td align="center"><input id="adUpdateQuest" type="checkbox"
-					name="updateQuest" value="19"></td>
-			<td align="center"><input id="adUpdateQuest" type="checkbox"
-					name="updateQuest" value="19"></td>
-		</tr>
-		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">View Question</td>
-			<td align="center"><input id="adViewQuest" type="checkbox" name="viewQuest"
-					value="18"></td>
-			<td align="center"><input id="adViewQuest" type="checkbox" name="viewQuest"
-					value="18"></td>
-			<td align="center"><input id="adViewQuest" type="checkbox" name="viewQuest"
-					value="18"></td>
-		</tr>
-		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">Drop Question</td>
-			<td align="center"><input id="adDropQuest" type="checkbox" name="dropQuest"
-					value="20"></td>
-			<td align="center"><input id="adDropQuest" type="checkbox" name="dropQuest"
-					value="20"></td>
-			<td align="center"><input id="adDropQuest" type="checkbox" name="dropQuest"
-					value="20"></td>
-		</tr>
-		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">View History</td>
-			<td align="center"><input id="stuViewHist" type="checkbox" name="viewHist"
-					value="10"></td>
-			<td align="center"><input id="stuViewHist" type="checkbox" name="viewHist"
-					value="10"></td>
-			<td align="center"><input id="stuViewHist" type="checkbox" name="viewHist"
-					value="10"></td>
-		</tr>
-		<tr>
-			<td style="FONT-SIZE: medium; COLOR: #0080c0; FONT-WEIGHT: bold;">View Results</td>
-			<td align="center"><input id="stuViewResult" type="checkbox" name="viewResult"
-					value="6"></td>
-			<td align="center"><input id="stuViewResult" type="checkbox" name="viewResult"
-					value="6"></td>
-			<td align="center"><input id="stuViewResult" type="checkbox" name="viewResult"
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View Results</td>
+			<td align="center"><input id="stuViewResult" type="checkbox" name="stuPermission" 
 					value="6"></td>
 		</tr>
 	</table>
 </div>
--->
+
 

@@ -1,71 +1,223 @@
 function openAdminPermissionDialog(roleId) {
-//	$('#roleId').val(roleId);
-	$('#createUser').val('');
-	$('#updateProfile').val('');
-	$('#removeUser').val('');
-	$('#manageUser').val('');
-	$('#createAccount').val('');
-	$('#viewAccount').val('');
-	$('#dropAccount').val('');
-	$('#viewHist').val('');
-  	$('#adminPremissionResult').html('');
-	$( "#adminPermissionDialog" ).dialog("open");
+	$('#roleId').val(roleId);
+	$('#adminPremissionResult').html('');
+	$("#adminPermissionDialog").dialog("open");
+}
+
+function openLecPermissionDialog(roleId){
+	$('#roleId').val(roleId);
+	$('#lecPremissionResult').html('');
+	$("#lecPermissionDialog").dialog("open");
+}
+
+function openStuPermissionDialog(roleId){
+	$('#roleId').val(roleId);
+	$('#stuPremissionResult').html('');
+	$("#stuPermissionDialog").dialog("open");
 }
 
 $(function() {
-	$("#adminPermissionDialog").dialog({
-		resizable : false,
-		height : 250,
-		width : 400,
-		modal : true,
-		autoOpen : false,
-		buttons : [ {
-			text : 'Update',
-			icons : {
-				primary : "ui-icon-pencil"
-			},
-			click : function() {
-				var createUser = $.trim($('#createUser').val());
-				var updateProfile = $.trim($('#updateProfile').val());
-				var removeUser = $.trim($('#removeUser').val());
-				var manageUser = $.trim($('#manageUser').val());
-				var createAccount = $.trim($('#createAccount').val());
-				var viewAccount = $.trim($('#viewAccount').val());
-				var dropAccount = $.trim($('#dropAccount').val());
-				var viewHist = $.trim($('#viewHist').val());
-				$.ajax({
-					type : "POST",
-					url : "/TestingSystem/RoleManagementServlet",
-					data : {
-						cmd : 'updateAdminPermission',
-						accountId : $('#roleId').val(),
-						createUser : createUser,
-						updateProfile : updateProfile,
-						removeUser : removeUser,
-						manageUser : manageUser,
-						createAccount : createAccount,
-						viewAccount : viewAccount,
-						dropAccount : dropAccount,
-						viewHist : viewHist
-					},
-					success : function(data) {
-						$('#adminPremissionResult').html(data);
-					}
-				}).done(function() {
-					setTimeout(function() {
-						$(this).dialog("close");
-					}, 2000);
-				});
-			}
-		}, {
-			text : 'Cancel',
-			icons : {
-				primary : "ui-icon-circle-close"
-			},
-			click : function() {
-				$(this).dialog("close");
-			}
-		} ]
-	});
+	$("#adminPermissionDialog")
+	.dialog(
+			{
+				resizable : false,
+				height : 350,
+				width : 300,
+				modal : true,
+				autoOpen : false,
+				buttons : [
+				           {
+				        	   text : 'Update',
+				        	   icons : {
+				        		   primary : "ui-icon-pencil"
+				        	   },
+				        	   click : function() {
+				        		   var adPermission = '';
+				        		   $("input[name=adPermission]:Checked")
+				        		   .each(
+				        				   function() {
+				        					   adPermission = adPermission
+				        					   + $(this)
+				        					   .val()
+				        					   + ",";
+				        				   });
+				        		   if (adPermission == '') {
+				        			   $('#adminPremissionResult')
+				        			   .html(
+				        			   '<span style="color: red">No value is checked</span>');
+				        		   } else {
+				        			   $
+				        			   .ajax(
+				        					   {
+				        						   type : "POST",
+				        						   url : "/TestingSystem/RoleManagementServlet",
+				        						   data : {
+				        							   cmd: 'updateRolePermission',
+				        							   adPermission: adPermission,
+				        							   roleId: $('#roleId').val()
+				        						   },
+				        						   success : function() {
+				        							   $(
+				        							   '#adminPremissionResult')
+				        							   .html(
+				        							   '<span style="color: green">Update Permission successfully</span>');
+				        						   }
+				        					   })
+				        					   .done(
+				        							   function() {
+				        								   setTimeout(
+				        										   function() {
+				        											   location.reload();
+				        										   }, 3000);
+				        							   });
+				        		   }
+
+				        	   }
+				           }, {
+				        	   text : 'Cancel',
+				        	   icons : {
+				        		   primary : "ui-icon-circle-close"
+				        	   },
+				        	   click : function() {
+				        		   $(this).dialog("close");
+				        	   }
+				           } ]
+			});
 	$("#adminPermissionDialog").dialog("option", "hide");
+
+	$("#lecPermissionDialog")
+	.dialog(
+			{
+				resizable : false,
+				height : 450,
+				width : 300,
+				modal : true,
+				autoOpen : false,
+				buttons : [
+				           {
+				        	   text : 'Update',
+				        	   icons : {
+				        		   primary : "ui-icon-pencil"
+				        	   },
+				        	   click : function() {
+				        		   var lecPermission = '';
+				        		   $("input[name=lecPermission]:Checked")
+				        		   .each(
+				        				   function() {
+				        					   lecPermission = lecPermission
+				        					   + $(this)
+				        					   .val()
+				        					   + ",";
+				        				   });
+				        		   if (lecPermission == '') {
+				        			   $('#lecPremissionResult')
+				        			   .html(
+				        			   '<span style="color: red">No value is checked</span>');
+				        		   } else {
+				        			   $
+				        			   .ajax(
+				        					   {
+				        						   type : "POST",
+				        						   url : "/TestingSystem/RoleManagementServlet",
+				        						   data : {
+				        							   cmd : 'updateLecPermission',
+				        							   lecPermission : lecPermission,
+				        							   roleId: $('#roleId').val()
+				        						   },
+				        						   success : function() {
+				        							   $(
+				        							   '#lecPremissionResult')
+				        							   .html(
+				        							   '<span style="color: green">Update Permission successfully</span>');
+				        						   }
+				        					   })
+				        					   .done(
+				        							   function() {
+				        								   setTimeout(
+				        										   function() {
+				        											   location.reload();
+				        										   }, 3000);
+				        							   });
+				        		   }
+
+				        	   }
+				           }, {
+				        	   text : 'Cancel',
+				        	   icons : {
+				        		   primary : "ui-icon-circle-close"
+				        	   },
+				        	   click : function() {
+				        		   $(this).dialog("close");
+				        	   }
+				           } ]
+			});
+	$("#lecPermissionDialog").dialog("option", "hide");
+
+	$("#stuPermissionDialog")
+	.dialog(
+			{
+				resizable : false,
+				height : 450,
+				width : 300,
+				modal : true,
+				autoOpen : false,
+				buttons : [
+				           {
+				        	   text : 'Update',
+				        	   icons : {
+				        		   primary : "ui-icon-pencil"
+				        	   },
+				        	   click : function() {
+				        		   var stuPermission = '';
+				        		   $("input[name=stuPermission]:Checked")
+				        		   .each(
+				        				   function() {
+				        					   stuPermission = stuPermission
+				        					   + $(this)
+				        					   .val()
+				        					   + ",";
+				        				   });
+				        		   if (stuPermission == '') {
+				        			   $('#stuPremissionResult')
+				        			   .html(
+				        			   '<span style="color: red">No value is checked</span>');
+				        		   } else {
+				        			   $
+				        			   .ajax(
+				        					   {
+				        						   type : "POST",
+				        						   url : "/TestingSystem/RoleManagementServlet",
+				        						   data : {
+				        							   cmd : 'updateRolePermission',
+				        							   stuPermission : stuPermission,
+				        							   roleId: $('#roleId').val()
+				        						   },
+				        						   success : function() {
+				        							   $(
+				        							   '#stuPremissionResult')
+				        							   .html(
+				        							   '<span style="color: green">Update Permission successfully</span>');
+				        						   }
+				        					   })
+				        					   .done(
+				        							   function() {
+				        								   setTimeout(
+				        										   function() {
+				        											   location.reload();
+				        										   }, 3000);
+				        							   });
+				        		   }
+
+				        	   }
+				           }, {
+				        	   text : 'Cancel',
+				        	   icons : {
+				        		   primary : "ui-icon-circle-close"
+				        	   },
+				        	   click : function() {
+				        		   $(this).dialog("close");
+				        	   }
+				           } ]
+			});
+	$("#stuPermissionDialog").dialog("option", "hide");
 });

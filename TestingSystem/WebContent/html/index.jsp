@@ -31,7 +31,7 @@
 	<c:param name="tsTab" value="user-management"/>
 </c:url>
 
-<c:url value="<%=TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN%>" var="role_management_url">
+<c:url value="<%=TSConstants.ROLE_MANAGEMENT_SERVLET_URL_PATTERN%>" var="role_management_url">
 	<c:param name="tsTab" value="role-management"/>
 </c:url>
 
