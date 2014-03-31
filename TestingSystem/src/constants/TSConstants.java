@@ -10,7 +10,7 @@ public class TSConstants {
 	public static final String JQUERY_CSS = TSConstants.TESTING_SYSTEM_PATH + "/css/jQueryCSS/jquery-ui-1.10.4.custom.min.css";
 
 	public static final String TESTING_SYSTEM_JS = TSConstants.TESTING_SYSTEM_PATH + "/js/testing_system.js";
-	
+
 	public static final String ROLE_MANAGEMENT_JS = TSConstants.TESTING_SYSTEM_PATH + "/js/role_management.js";
 
 	public static final String INDEX_JSP = "/html/index.jsp";
@@ -55,7 +55,7 @@ public class TSConstants {
 	public static final String ADD_USER = "addUser";
 
 	public static final String ADD_ACCOUNT = "addAccount";
-	
+
 	public static final String CHANGE_ACCOUNT_ROLE = "changeAccountRole";
 
 	public static final String DELETE_ACCOUNT = "deleteAccount";
@@ -63,4 +63,8 @@ public class TSConstants {
 	public static final String DELETE_USER = "deleteUser";
 
 	public static final String UPDATE_ADMIN_PERMISSION ="updateAdminPermission";
+
+	public static final String UPDATE_LEC_PERMISSION ="updateLecPermission";
+
+	public static final String UPDATE_ROLE_PERMISSION = "updateRolePermission";
 }

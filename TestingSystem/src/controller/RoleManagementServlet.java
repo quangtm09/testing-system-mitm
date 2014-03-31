@@ -2,13 +2,17 @@ package controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.Account;
 import model.AccountRoleMap;
@@ -42,7 +46,7 @@ public class RoleManagementServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Log log = LogFactory
 			.getLog(RoleManagementServlet.class);
-	private final PermissionDao permisionDao = new PermissionDaoImpl();
+	// private final PermissionDao permisionDao = new PermissionDaoImpl();
 	private final RoleDao roleDao = new RoleDaoImpl();
 	RolePermissionMapDao rolePermissionMapDao = new RolePermissionMapDaoImpl();
 	RolePermissionMap rolePermissionMap;
@@ -50,13 +54,6 @@ public class RoleManagementServlet extends HttpServlet {
 
 	private void processActions(final HttpServletRequest request,
 			final HttpServletResponse response) {
-		// final Role role = this.roleDao.findById(1);
-		// final List<RolePermissionMap> list =
-		// this.rolePermissionMapDao.searchPermissionByRole(role);
-		// for(final RolePermissionMap rpm: list){
-		// System.out.println(rpm.getPermission().getPermissionName());
-		// }
-		// System.out.println(list.toString());
 		// Get command
 		final String cmd = TSUtil.getParameter(request, TSConstants.CMD,
 				StringPool.BLANK);
@@ -66,8 +63,22 @@ public class RoleManagementServlet extends HttpServlet {
 
 		try {
 			// User submits login form
-			if (cmd.equals(TSConstants.UPDATE_ADMIN_PERMISSION)) {
-				updateAdminPermission(request, response);
+			if (cmd.equals(TSConstants.UPDATE_ROLE_PERMISSION)) {
+				updatePermission(request, response);
+			} else {
+				request.setAttribute("tsTab", tsTabParam);
+				request.setAttribute("userId", userId);
+
+				final HttpSession session = request.getSession();
+				final Integer roleId = ((Role) session.getAttribute("role"))
+						.getRoleId();
+
+				if (roleId == RoleConstants.ROLE_ADMIN) {
+					this.goToPage(TSConstants.INDEX_JSP, request, response);
+				} else if (roleId == RoleConstants.ROLE_LECTURER) {
+					this.goToPage(TSConstants.LECTURER_INDEX_JSP, request,
+							response);
+				}
 			}
 
 		} catch (final Exception ex) {
@@ -106,48 +117,69 @@ public class RoleManagementServlet extends HttpServlet {
 		this.processActions(request, response);
 	}
 
-	private void updateAdminPermission(final HttpServletRequest request,
+	private void updatePermission(final HttpServletRequest request,
 			final HttpServletResponse response) {
+		final String adPermisson = request.getParameter("adPermission");
 		final String roleId = request.getParameter("roleId");
-		final String createUser = request.getParameter("createUser");
-		final String updateProfile = request.getParameter("updateProfile");
-		final String removeUser = request.getParameter("removeUser");
-		final String manageUser = request.getParameter("manageUser");
-		final String createAccount = request.getParameter("createAccount");
-		final String viewAccount = request.getParameter("viewAccount");
-		final String dropAccount = request.getParameter("dropAccount");
-		final String viewHist = request.getParameter("viewHist");
-		final AccountDao accountDao = new AccountDaoImpl();
+		System.out.println(roleId);
+		List<String> listPermission = new ArrayList<String>(
+				Arrays.asList(adPermisson.split(",")));
 		final PermissionDao permissionDao = new PermissionDaoImpl();
-		Permission permission ;
+		Permission permission;
 		try {
-			final Role role = roleDao.findById(RoleConstants.ROLE_ADMIN);
-			List<AccountRoleMap> accountList = accountRoleMapDao.searchAccountByRoleId(role);
+			final Role role = roleDao.findById(Integer.parseInt(roleId.trim()));
+			List<AccountRoleMap> accountList = accountRoleMapDao
+					.searchAccountByRoleId(role);
 			final List<RolePermissionMap> rolePermissionlist = rolePermissionMapDao
 					.searchPermissionByRole(role);
-			for (AccountRoleMap accRoleMap : accountList)
-			{
+			for (AccountRoleMap accRoleMap : accountList) {
 				Account acc = accRoleMap.getAccountByAccId();
-				permission = permissionDao.findById(Integer.parseInt(createUser));
-				final RolePermissionMap test = rolePermissionMapDao.findRolePermissionByAccountAndPermission(acc, permission);
-				if (!rolePermissionlist.contains(test))
-				{
-					this.rolePermissionMap = new RolePermissionMap();
-					insertPermisson(acc, permission, role, new Date(System.currentTimeMillis()));
+				this.deletePermission(acc);
+				for (String idPermission : listPermission) {
+					permission = permissionDao.findById(Integer
+							.parseInt(idPermission.trim()));
+					final RolePermissionMap test = rolePermissionMapDao
+							.findRolePermissionByAccountAndPermission(acc,
+									permission);
+					if (!rolePermissionlist.contains(test)) {
+						this.rolePermissionMap = new RolePermissionMap();
+						insertPermisson(acc, permission, role,
+								new Date(System.currentTimeMillis()));
+					} else {
+						break;
+					}
 				}
+
 			}
 		} catch (final Exception ex) {
 			ex.printStackTrace();
 			RoleManagementServlet.log.debug("Failed to edit user");
 		}
 	}
-	
-	private void insertPermisson(Account account, Permission permission, Role role, Date date)
-	{
+
+	private void insertPermisson(Account account, Permission permission,
+			Role role, Date date) {
 		this.rolePermissionMap.setAccount(account);
 		this.rolePermissionMap.setPermission(permission);
 		this.rolePermissionMap.setRole(role);
 		this.rolePermissionMap.setRolePermissionGrantedDate(date);
+		this.rolePermissionMapDao.save(this.rolePermissionMap);
+	}
+
+	private void deletePermission(Account account) {
+		List<RolePermissionMap> rpmList = this.rolePermissionMapDao
+				.searchPermissionByAccount(account);
+		for (RolePermissionMap rpm : rpmList) {
+			this.rolePermissionMapDao.delete(rpm);
+		}
+	}
+
+	public void goToPage(final String page, final HttpServletRequest request,
+			final HttpServletResponse response) throws ServletException,
+			IOException {
+		final RequestDispatcher dispatcher = this.getServletContext()
+				.getRequestDispatcher(page);
+		dispatcher.forward(request, response);
 	}
 
 }

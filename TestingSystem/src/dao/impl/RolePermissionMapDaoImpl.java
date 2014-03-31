@@ -68,7 +68,7 @@ public class RolePermissionMapDaoImpl extends
 //		criteria.setProjection(Projections
 //				.projectionList()
 //				// .add(Projections.property(RolePermissionMapDao.PERMISSION),"permission").add(Projections.groupProperty(RolePermissionMapDao.PERMISSION)));
-//				.add(Projections.groupProperty(RolePermissionMapDao.PERMISSION))); 
+//				.add(Projections.groupProperty(RolePermissionMapDao.PERMISSION)));
 //		List<RolePermissionMap> results = criteria.list();
 		List<RolePermissionMap> results = new ArrayList<RolePermissionMap>();
 		try {
@@ -88,7 +88,7 @@ public class RolePermissionMapDaoImpl extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see dao.RolePermissionMapDao#searchPermissionByAccount(model.Account)
 	 */
 	@Override
@@ -96,12 +96,12 @@ public class RolePermissionMapDaoImpl extends
 		// TODO Auto-generated method stub
 		final List<RolePermissionMap> results = this.findByProperty(
 				RolePermissionMapDao.ACCOUNT, account);
-		return null;
+		return results;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * dao.RolePermissionMapDao#findRolePermissionByAccountAndPermission(model
 	 * .Account, model.Permission)
