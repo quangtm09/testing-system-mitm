@@ -1,11 +1,20 @@
 var deleteAccountId;
 
+var deleteUserId;
+
 function login(cmd){
 	$('input[name="cmd"]').val(cmd);
 }
 
 function logout(){
 	window.location.href = '/TestingSystem/LogoutServlet';
+}
+
+function deleteUser(userId){
+	deleteUserId = userId;
+	var message = 'Are you sure you want to delete <span style="color: red">' + userId + '</span> user?';
+	$('#deleteUserMessage').html(message);
+	$( "#deleteUserDialog" ).dialog("open");
 }
 
 function deleteAccount(accountId){
@@ -285,6 +294,50 @@ $(function() {
         });
 
         $( "#deleteAccountDialog" ).dialog( "option", "hide");
+        
+        $( "#deleteUserDialog" ).dialog({
+            resizable: false,
+            width:'auto',
+            height: 'auto',
+            modal: true,
+            autoOpen: false,
+            buttons: 
+          	  [
+                 {
+                     text: 'Delete',
+                     icons: {primary: "ui-icon-trash"},
+                     click: function(){
+                  	   $.ajax({
+              			  type: "POST",
+              				  url: "/TestingSystem/TestingSystemServlet",
+              				  data: {
+              					  cmd: 'deleteUser',
+              					  userId: deleteUserId,
+              				  },
+              				  success: function(data){
+              					  if(data === 'false'){
+              						  alert('Error while deleting user: ' + deleteUserId);
+              					  } else {
+              						  alert('Deleted ' + deleteUserId + ' successfully!');
+              						  location.reload();
+              					  }
+              				  }
+              			}).done(function() {
+              					
+              			});
+                     }
+                 },
+                 {
+                     text: 'Cancel',
+                     icons: { primary: "ui-icon-circle-close"},
+                 	  click: function(){
+                 		$( this ).dialog( "close" );
+                 	  }
+                 }
+             ]
+          });
+
+          $( "#deleteUserDialog" ).dialog( "option", "hide");
     
     $( "#addAccountButton" ).button({
         icons: {

@@ -81,7 +81,7 @@
 						<td>
 							<a title="View details" href="${viewUserURL}"><img src="/TestingSystem/images/view_icon.png"/></a>
 							<a title="Edit" href="${editUserURL}"><img src="/TestingSystem/images/edit_icon.png"/></a>
-							<a title="Delete"><img src="/TestingSystem/images/delete_icon.png"/></a>
+							<a title="Delete" onclick="deleteUser('${user.userId}')" href="javascript:;"><img src="/TestingSystem/images/delete_icon.png"/></a>
 						</td>
 		
 					</tr>
@@ -116,4 +116,8 @@
 			<td><input type="text" id="email"></td>
 		</tr>
 	</table>
-</div>    
+</div>
+
+<div id="deleteUserDialog" title="Delete User">
+	<span id="deleteUserMessage"></span>
+</div>

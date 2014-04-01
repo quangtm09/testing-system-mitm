@@ -61,25 +61,25 @@ public class TestingSystemServlet extends HttpServlet {
 		try {
 			// User submits login form
 			if(cmd.equals(TSConstants.LOGIN)){
-				this.login(request, response);
+				login(request, response);
 			} else if(cmd.equals(TSConstants.EDIT_USER)){
-				this.editUser(request, response);
+				editUser(request, response);
 			} else if(cmd.equals(TSConstants.CHANGE_PASSWORD)){
-				this.changePassword(request, response);
+				changePassword(request, response);
 			} else if(cmd.equals(TSConstants.SEARCH_USER)) {
-				this.searchUser(request, response);
+				searchUser(request, response);
 			} else if(cmd.equals(TSConstants.ADD_USER)) {
-				this.addUser(request, response);
+				addUser(request, response);
 			} else if(cmd.equals(TSConstants.ADD_ACCOUNT)){
-				this.addAccount(request, response);
+				addAccount(request, response);
 			} else if(cmd.equals(TSConstants.CHANGE_ACCOUNT_ROLE)){
-				this.changeAccountRole(request, response);
+				changeAccountRole(request, response);
 			} else if (cmd.equals(TSConstants.DELETE_ACCOUNT)){
-				this.deleteAccount(request, response);
+				deleteAccount(request, response);
 			} else if(cmd.equals(TSConstants.DELETE_USER)){
-				this.deleteUser(request, response);
+				deleteUser(request, response);
 			} else if(cmd.equals(TSConstants.SEARCH_ACCOUNT)){
-				this.searchAccount(request, response);
+				searchAccount(request, response);
 			} else {
 
 				if(tsTabParam.equals("edit-user") || tsTabParam.equals("user-details")){
@@ -96,11 +96,11 @@ public class TestingSystemServlet extends HttpServlet {
 				final Integer roleId = ((Role)session.getAttribute("role")).getRoleId();
 
 				if(roleId == RoleConstants.ROLE_ADMIN){
-					this.goToPage(TSConstants.INDEX_JSP, request, response);
+					goToPage(TSConstants.INDEX_JSP, request, response);
 				} else if(roleId == RoleConstants.ROLE_LECTURER){
-					this.goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
+					goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
 				} else if(roleId == RoleConstants.ROLE_STUDENT){
-					this.goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
+					goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
 				}
 
 			}
@@ -109,7 +109,7 @@ public class TestingSystemServlet extends HttpServlet {
 			ex.printStackTrace();
 			TestingSystemServlet.log.error("Error while processing request!");
 			try {
-				this.goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
+				goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
 			} catch (final Exception e) {
 				e.printStackTrace();
 			}
@@ -146,26 +146,26 @@ public class TestingSystemServlet extends HttpServlet {
 				response.addCookie(accountIdCookie);
 
 				if(accountRoleId == RoleConstants.ROLE_ADMIN){
-					this.goToPage(TSConstants.INDEX_JSP, request, response);
+					goToPage(TSConstants.INDEX_JSP, request, response);
 				} else if(accountRoleId == RoleConstants.ROLE_LECTURER){
-					this.goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
+					goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
 				} else if(accountRoleId == RoleConstants.ROLE_STUDENT){
-					this.goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
+					goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
 				} else {
-					this.goToPage(TSConstants.LOGIN_JSP, request, response);
+					goToPage(TSConstants.LOGIN_JSP, request, response);
 				}
 
 			} else {
 				request.setAttribute("isWrongUsernameOrPassword", false);
 				request.setAttribute("errorMessage", "Failed to login!");
-				this.goToPage(TSConstants.LOGIN_JSP, request, response);
+				goToPage(TSConstants.LOGIN_JSP, request, response);
 			}
 
 		} catch (final Exception ex){
 			ex.printStackTrace();
 			request.setAttribute("isWrongUsernameOrPassword", false);
 			request.setAttribute("errorMessage", "Your account is not granted for login!");
-			this.goToPage(TSConstants.LOGIN_JSP, request, response);
+			goToPage(TSConstants.LOGIN_JSP, request, response);
 			TestingSystemServlet.log.error("Error while login!");
 		}
 	}
@@ -214,11 +214,11 @@ public class TestingSystemServlet extends HttpServlet {
 			final Integer roleId = ((Role)session.getAttribute("role")).getRoleId();
 
 			if(roleId == RoleConstants.ROLE_ADMIN){
-				this.goToPage(TSConstants.INDEX_JSP, request, response);
+				goToPage(TSConstants.INDEX_JSP, request, response);
 			} else if(roleId == RoleConstants.ROLE_LECTURER){
-				this.goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
+				goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
 			} else if(roleId == RoleConstants.ROLE_STUDENT){
-				this.goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
+				goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
 			}
 
 		} catch (final Exception ex){
@@ -274,7 +274,7 @@ public class TestingSystemServlet extends HttpServlet {
 		request.setAttribute("isClickedSearchButton", true);
 
 		try {
-			this.goToPage(TSConstants.INDEX_JSP, request, response);
+			goToPage(TSConstants.INDEX_JSP, request, response);
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
@@ -296,7 +296,7 @@ public class TestingSystemServlet extends HttpServlet {
 		request.setAttribute("isClickedSearchButton", true);
 
 		try {
-			this.goToPage(TSConstants.INDEX_JSP, request, response);
+			goToPage(TSConstants.INDEX_JSP, request, response);
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
@@ -456,8 +456,18 @@ public class TestingSystemServlet extends HttpServlet {
 		printWriter.close();
 	}
 
-	private void deleteUser(final HttpServletRequest request, final HttpServletResponse response){
+	private void deleteUser(final HttpServletRequest request, final HttpServletResponse response) throws IOException{
+		final String userId = request.getParameter("userId");
+		final User user = userDao.findById(userId);
 
+		final boolean isUserDeleted = userDao.deleteUser(user);
+
+		response.setContentType("text/html");
+
+		final PrintWriter printWriter = response.getWriter();
+
+		printWriter.print(isUserDeleted);
+		printWriter.close();
 	}
 
 	/**
@@ -465,7 +475,7 @@ public class TestingSystemServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		this.processRequest(request, response);
+		processRequest(request, response);
 	}
 
 	/**
@@ -473,13 +483,13 @@ public class TestingSystemServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		this.processRequest(request, response);
+		processRequest(request, response);
 	}
 
 
 	public void goToPage(final String page, final HttpServletRequest request,
 			final HttpServletResponse response) throws ServletException, IOException {
-		final RequestDispatcher dispatcher = this.getServletContext()
+		final RequestDispatcher dispatcher = getServletContext()
 				.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 	}

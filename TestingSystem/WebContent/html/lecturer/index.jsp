@@ -23,8 +23,8 @@
 	<c:param name="tsTab" value="user-profile"/>
 </c:url>
 
-<c:url value="<%=TSConstants.LECTURER_SERVLET_URL_PATTERN%>" var="account_management_url">
-	<c:param name="tsTab" value="account-management"/>
+<c:url value="<%=TSConstants.LECTURER_SERVLET_URL_PATTERN%>" var="student_management_url">
+	<c:param name="tsTab" value="student-management"/>
 </c:url>
 
 <c:url value="<%=TSConstants.LECTURER_SERVLET_URL_PATTERN%>" var="test_management_url">
@@ -44,7 +44,7 @@
 		<ul>
 			<li class="current_page_item"><a href="${home_url}">Homepage</a></li>
 			<li><a href="${user_profile_url}">User Profile</a></li>
-			<li><a href="${account_management_url}">Account Management</a></li>
+			<li><a href="${student_management_url}">Student Management</a></li>
 			<li><a href="${test_management_url}">Test Management</a></li>
 			<li><a href="${result_management_url}">Result Management</a></li>
 			<li style="color: yellow;">
@@ -69,8 +69,8 @@
 		<div id="page-bgtop">
 			<div id="page-bgbtm">
 				<c:choose>
-					<c:when test='<%=tsTab.equals("account-management") %>'>
-						<%@include file="/html/lecturer/account_management.jspf" %>
+					<c:when test='<%=tsTab.equals("student-management") %>'>
+						<%@include file="/html/lecturer/student_management.jspf" %>
 					</c:when>
 					<c:when test='<%=tsTab.equals("test-management") %>'>
 						<%@include file="/html/lecturer/test_management.jspf" %>
