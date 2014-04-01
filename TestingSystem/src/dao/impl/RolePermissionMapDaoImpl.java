@@ -8,14 +8,9 @@ import model.Permission;
 import model.Role;
 import model.RolePermissionMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibernate.Criteria;
+import org.apache.log4j.Logger;
+import org.apache.log4j.MDC;
 import org.hibernate.Query;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Projection;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 
 import dao.AbstractHibernateDaoSupport;
 import dao.RolePermissionMapDao;
@@ -23,8 +18,8 @@ import dao.RolePermissionMapDao;
 public class RolePermissionMapDaoImpl extends
 		AbstractHibernateDaoSupport<RolePermissionMap, Integer> implements
 		RolePermissionMapDao {
-	private static final Log log = LogFactory
-			.getLog(RolePermissionMapDaoImpl.class);
+	private static final Logger log = Logger
+			.getLogger(RolePermissionMapDaoImpl.class);
 
 	public RolePermissionMapDaoImpl() {
 		super(RolePermissionMap.class);
@@ -62,20 +57,12 @@ public class RolePermissionMapDaoImpl extends
 
 	@Override
 	public List<RolePermissionMap> searchPermissionByRole(final Role role) {
-//		final Criteria criteria = AbstractHibernateDaoSupport.getSession()
-//				.createCriteria(RolePermissionMap.class);
-//		criteria.add(Restrictions.eq("role", role));
-//		criteria.setProjection(Projections
-//				.projectionList()
-//				// .add(Projections.property(RolePermissionMapDao.PERMISSION),"permission").add(Projections.groupProperty(RolePermissionMapDao.PERMISSION)));
-//				.add(Projections.groupProperty(RolePermissionMapDao.PERMISSION)));
-//		List<RolePermissionMap> results = criteria.list();
 		List<RolePermissionMap> results = new ArrayList<RolePermissionMap>();
 		try {
 			final String queryString = "from RolePermissionMap "
-					+ " as model where model."
-					+ RolePermissionMapDaoImpl.ROLE + "= :propertyVal"
-					+ " group by model." + RolePermissionMapDaoImpl.PERMISSION ;
+					+ " as model where model." + RolePermissionMapDaoImpl.ROLE
+					+ "= :propertyVal" + " group by model."
+					+ RolePermissionMapDaoImpl.PERMISSION;
 			final Query queryObject = AbstractHibernateDaoSupport.getSession()
 					.createQuery(queryString);
 			queryObject.setParameter("propertyVal", role);
@@ -110,16 +97,6 @@ public class RolePermissionMapDaoImpl extends
 	public RolePermissionMap findRolePermissionByAccountAndPermission(
 			Account account, Permission permission) {
 		// TODO Auto-generated method stub
-
-		// final Criteria criteria =
-		// AbstractHibernateDaoSupport.getSession().createCriteria(RolePermissionMap.class);
-		// Criterion accountCri = Restrictions.eq(RolePermissionMapDao.ACCOUNT,
-		// account);
-		// Criterion permissionCri =
-		// Restrictions.eq(RolePermissionMapDao.PERMISSION, permission);
-		// criteria.add(Restrictions.and(accountCri, permissionCri));
-		// RolePermissionMap result =
-		// (RolePermissionMap)criteria.uniqueResult();
 		RolePermissionMap result = new RolePermissionMap();
 		try {
 			final String queryString = "from RolePermissionMap "

@@ -20,19 +20,17 @@ import model.Permission;
 import model.Role;
 import model.RolePermissionMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
+import org.apache.log4j.MDC;
 
 import util.StringPool;
 import util.TSUtil;
 import constants.RoleConstants;
 import constants.TSConstants;
-import dao.AccountDao;
 import dao.AccountRoleMapDao;
 import dao.PermissionDao;
 import dao.RoleDao;
 import dao.RolePermissionMapDao;
-import dao.impl.AccountDaoImpl;
 import dao.impl.AccountRoleMapDaoImpl;
 import dao.impl.PermissionDaoImpl;
 import dao.impl.RoleDaoImpl;
@@ -44,8 +42,8 @@ import dao.impl.RolePermissionMapDaoImpl;
 @WebServlet("/RoleManagementServlet")
 public class RoleManagementServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Log log = LogFactory
-			.getLog(RoleManagementServlet.class);
+	private static final Logger log = Logger
+			.getLogger(RoleManagementServlet.class);
 	// private final PermissionDao permisionDao = new PermissionDaoImpl();
 	private final RoleDao roleDao = new RoleDaoImpl();
 	RolePermissionMapDao rolePermissionMapDao = new RolePermissionMapDaoImpl();

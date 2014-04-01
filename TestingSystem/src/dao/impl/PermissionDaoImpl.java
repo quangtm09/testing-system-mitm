@@ -2,8 +2,8 @@ package dao.impl;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
+import org.apache.log4j.MDC;
 
 import model.Permission;
 import model.User;
@@ -13,7 +13,7 @@ import dao.PermissionDao;
 public class PermissionDaoImpl extends
 		AbstractHibernateDaoSupport<Permission, Integer> implements
 		PermissionDao {
-	private static final Log log = LogFactory.getLog(PermissionDaoImpl.class);
+	private static final Logger log = Logger.getLogger(PermissionDaoImpl.class);
 	public PermissionDaoImpl() {
 		super(Permission.class);
 	}

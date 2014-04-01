@@ -20,8 +20,7 @@ import model.AccountRoleMap;
 import model.Role;
 import model.User;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import util.StringPool;
 import util.TSUtil;
@@ -44,7 +43,8 @@ public class TestingSystemServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Log log = LogFactory.getLog(TestingSystemServlet.class);
+	private static final Logger log = Logger
+			.getLogger(TestingSystemServlet.class);
 
 	private static final AccountDao accountDao = new AccountDaoImpl();
 	private static final UserDao userDao = new UserDaoImpl();

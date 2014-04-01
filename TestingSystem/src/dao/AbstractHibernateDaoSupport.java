@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -18,8 +17,7 @@ public abstract class AbstractHibernateDaoSupport<C, ID extends Serializable>
 implements Dao<C, ID> {
 	private final Class<C> classPersistent;
 
-	private static final Log log = LogFactory
-			.getLog(AbstractHibernateDaoSupport.class);
+	private static Logger log = Logger.getLogger(AbstractHibernateDaoSupport.class);
 
 	protected AbstractHibernateDaoSupport(final Class<C> classPersistent) {
 		this.classPersistent = classPersistent;

@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
+import org.apache.log4j.MDC;
 
 import util.StringPool;
 import util.TSUtil;
@@ -23,7 +23,7 @@ import constants.TSConstants;
 public class LecturerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static final Log log = LogFactory.getLog(LecturerServlet.class);
+	private static final Logger log = Logger.getLogger(LecturerServlet.class);
 
 	protected void processRequest(final HttpServletRequest request, final HttpServletResponse response){
 		// Get command

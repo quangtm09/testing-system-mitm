@@ -9,6 +9,8 @@ import model.User;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.apache.log4j.Logger;
+import org.apache.log4j.MDC;
 
 import dao.AbstractHibernateDaoSupport;
 import dao.UserDao;
@@ -22,6 +24,8 @@ import dao.UserDao;
 @Stateless
 public class UserDaoImpl extends
 AbstractHibernateDaoSupport<User, String> implements UserDao {
+
+	private static final Logger log = Logger.getLogger(UserDaoImpl.class);
 
 	public UserDaoImpl() {
 		super(User.class);
