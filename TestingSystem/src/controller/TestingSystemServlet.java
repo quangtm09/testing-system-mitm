@@ -21,6 +21,7 @@ import model.Role;
 import model.User;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.MDC;
 
 import util.StringPool;
 import util.TSUtil;
@@ -120,7 +121,7 @@ public class TestingSystemServlet extends HttpServlet {
 		// check userId & password, then login, redirect to index page
 		final String accountId = TSUtil.getParameter(request, "accountId", StringPool.BLANK);
 		final String password = TSUtil.getParameter(request, "password", StringPool.BLANK);
-
+		log.debug("Login Account: " + accountId);
 		try {
 			final Account account = accountDao.getAccountById(accountId.toUpperCase());
 
@@ -144,21 +145,26 @@ public class TestingSystemServlet extends HttpServlet {
 				accountIdCookie.setMaxAge(30*60);
 
 				response.addCookie(accountIdCookie);
-
+				MDC.put("UserId", account.getUser());
 				if(accountRoleId == RoleConstants.ROLE_ADMIN){
 					goToPage(TSConstants.INDEX_JSP, request, response);
+					log.info("Login successful with Admin Role");
 				} else if(accountRoleId == RoleConstants.ROLE_LECTURER){
 					goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
+					log.info("Login successful with Lecturer Role");
 				} else if(accountRoleId == RoleConstants.ROLE_STUDENT){
 					goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
+					log.info("Login successful with Student Role");
 				} else {
 					goToPage(TSConstants.LOGIN_JSP, request, response);
+					log.info("Login Fail");
 				}
 
 			} else {
 				request.setAttribute("isWrongUsernameOrPassword", false);
 				request.setAttribute("errorMessage", "Failed to login!");
 				goToPage(TSConstants.LOGIN_JSP, request, response);
+				log.info("Login Fail");
 			}
 
 		} catch (final Exception ex){
@@ -181,6 +187,7 @@ public class TestingSystemServlet extends HttpServlet {
 		final String tsTabParam = TSUtil.getParameter(request, "tsTab", StringPool.BLANK);
 
 		final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		log.debug("Edit User: "+ userId);
 
 		try {
 			final User user = userDao.findById(userId);
@@ -196,18 +203,20 @@ public class TestingSystemServlet extends HttpServlet {
 			user.setFname(firstName);
 			user.setLname(lastName);
 			user.setMobile(mobile);
-
+			MDC.put("UserId", userId);
 			if(userDao.updateUser(user)){
 				request.setAttribute("successMessage", "Updated user successfully!");
 				request.setAttribute("tsTab", tsTabParam);
 				request.setAttribute("userId", userId);
 				request.setAttribute("isUpdatedSucessfully", true);
 				request.setAttribute("isClickedEditButton", true);
+				log.info("Update Profile Successful");
 
 			} else {
 				request.setAttribute("isUpdatedSucessfully", false);
 				request.setAttribute("isClickedEditButton", true);
 				request.setAttribute("errorMessage", "Failed to update!");
+				log.info("Update Profile Failed");
 			}
 
 			final HttpSession session = request.getSession();
@@ -233,25 +242,28 @@ public class TestingSystemServlet extends HttpServlet {
 		final String oldPassword = request.getParameter("oldPassword");
 		final String newPassword = TSUtil.getParameter(request, "newPassword", StringPool.BLANK);
 		final String accountId = request.getParameter("accountId");
-
+		
 		response.setContentType("text/html");
-
+		log.debug("Change Password For Account "+ accountId);
 		try {
 			final PrintWriter printWriter = response.getWriter();
 			final Account account = accountDao.findById(accountId);
-
+			MDC.put("UserId", account.getUser());
 			if(account.getAccPwd().equals(oldPassword) && !oldPassword.equals(newPassword)){
 				account.setAccPwd(newPassword);
 				accountDao.update(account);
 				printWriter.println("<span style=\"color: green\">Updated successfully!</span>");
+				log.info("Change Password Successful");
 			} else {
 				printWriter.println("<span style=\"color: red\">Updating failed! Your entered old password do not match or the new password is equal to the old one!</span>");
+				log.info("Change Password Failed");
 			}
 
 			printWriter.close();
 
 		} catch (final Exception ex) {
 			ex.printStackTrace();
+			log.error("Exception: "+ ex);
 		}
 
 	}
@@ -272,7 +284,7 @@ public class TestingSystemServlet extends HttpServlet {
 
 		request.setAttribute("isSearchSuccess", true);
 		request.setAttribute("isClickedSearchButton", true);
-
+		log.debug("Search Users");
 		try {
 			goToPage(TSConstants.INDEX_JSP, request, response);
 		} catch (final Exception e) {
@@ -311,7 +323,7 @@ public class TestingSystemServlet extends HttpServlet {
 		response.setContentType("text/html");
 
 		final PrintWriter printWriter = response.getWriter();
-
+		log.debug("Add Users "+ userId);
 		try {
 			final User user = new User();
 			user.setUserId(userId);
@@ -320,7 +332,6 @@ public class TestingSystemServlet extends HttpServlet {
 			user.setEmail(email);
 
 			final boolean isAddedSuccessfully = userDao.saveUser(user);
-
 			if(isAddedSuccessfully){
 				printWriter.print("<span style=\"color: green\">Adding new user successfully!</span>");
 			} else {
@@ -345,7 +356,7 @@ public class TestingSystemServlet extends HttpServlet {
 		response.setContentType("text/html");
 
 		final PrintWriter printWriter = response.getWriter();
-
+		log.debug("Add Accounts "+ newAccountId);
 		try {
 			parsedRoleId = Integer.parseInt(roleId);
 		} catch (final NumberFormatException ex){
@@ -362,11 +373,13 @@ public class TestingSystemServlet extends HttpServlet {
 			account.setUser(user);
 
 			final boolean isAddAccountSuccess = accountDao.addAccount(account);
-
+			MDC.put("UserId", userId);
 			if(isAddAccountSuccess){
 				printWriter.print("<span style=\"color: green\">Adding new account successfully!</span><br>");
+				log.info("Add Accounts " + account.getAccId());
 			} else {
 				printWriter.print("<span style=\"color: red\">Failed to add new account!</span>");
+				log.info("Failed to add Accounts " + account.getAccId());
 			}
 
 			if(role != null && isAddAccountSuccess != false){
@@ -379,14 +392,17 @@ public class TestingSystemServlet extends HttpServlet {
 
 				if(isAssignRoleAccountSuccess){
 					printWriter.print("<span style=\"color: green\">Assigning role for this account successfully!</span>");
+					log.info("Assign Role for " + account.getAccId());
 				} else {
 					printWriter.print("<span style=\"color: red\">Failed to assign role for this account!</span>");
+					log.info("Failed to assign Role for " + account.getAccId());
 				}
 			}
 
 		} catch (final Exception e) {
 			e.printStackTrace();
 			printWriter.print("<span style=\"color: red\">Error while adding account!</span>");
+			log.error("Exception: "+ e);
 		} finally {
 			printWriter.close();
 		}

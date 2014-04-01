@@ -3,8 +3,8 @@
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-	<!-- <appender name="ROOT_APPENDER" class="org.apache.log4j.ConsoleAppender">
-		<layout class="org.apache.log4j.PatternLayout"> <param name="ConversionPattern"
+	<!-- <appender name="ROOT_APPENDER" class="org.apache.log4j.ConsoleAppender"> 
+		<layout class="org.apache.log4j.PatternLayout"> <param name="ConversionPattern" 
 		value="%m%n" /> </layout> </appender> -->
 
 	<appender name="ASYNC" class="org.apache.log4j.AsyncAppender">
@@ -20,23 +20,12 @@
 		</layout>
 	</appender>
 
-	<appender name="ERROR_LOG_APPENDER" class="org.apache.log4j.ConsoleAppender">
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="[ERROR] - %m%n" />
-		</layout>
-	</appender>
-
-	<appender name="ERROR_LOG_FILE" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${catalina.home}/log/SystemError.log" />
-		<param name="datePattern" value="'.'yyyy-MM-dd" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%-5p,[ERROR]       ,%m%n" />
-		</layout>
-	</appender>
+	<additivity class="controller" value="true" />
 
 	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="C:/log/TestingSystem.log" />
 		<param name="MaxFileSize" value="1MB" />
+		<param name="Threshold" value="ALL" />
 		<param name="datePattern" value="'.'yyyy-MM-dd" />
 		<param name="MaxBackupIndex" value="1" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -45,26 +34,26 @@
 	</appender>
 
 	<appender name="DB" class="org.apache.log4j.jdbc.JDBCAppender">
-		<param name="URL" value="jdbc:mysql://localhost:3307/testsys_dba" />
+		<param name="URL" value="jdbc:mysql://localhost:3306/testsys_dba" />
 		<param name="driver" value="com.mysql.jdbc.Driver" />
 		<param name="user" value="root" />
 		<param name="password" value="root" />
+		<param name="Threshold" value="INFO" />
 		<param name="sql"
 			value="INSERT INTO LOGS VALUES(NULL,'%X{UserId}',
                              '%d{yyyy-MM-dd HH:mm:ss}','%C','%p','%m')" />
 	</appender>
 
 	<root>
-		<priority value="ALL" />
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 		<appender-ref ref="DB" />
 	</root>
 
-	<logger name="org.hibernate">
-		<level value="ALL" />
+	<!-- logger package com.mycorp.project.first -->
+	<logger name="controller">
+		<level value="DEBUG" />
 		<appender-ref ref="FILE" />
 	</logger>
-
 
 </log4j:configuration>
