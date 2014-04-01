@@ -6,6 +6,17 @@ function login(cmd){
 	$('input[name="cmd"]').val(cmd);
 }
 
+function toSubmit(){
+	var accountId = $('#accountId').val();
+	var password = $('#password').val();
+	
+	if(accountId.length == 0 || password.length == 0){
+		$('div#error').html('Account ID or Password cannot be blank!');
+		$.unblockUI();
+		return false;
+	}
+}
+
 function logout(){
 	window.location.href = '/TestingSystem/LogoutServlet';
 }
@@ -77,6 +88,21 @@ function validateEmail(email) {
     return re.test(email);
 } 
 
+function blockUI(){	
+    $.blockUI({ 
+        message: $('#domMessage'),
+        css: { 
+            border: 'none', 
+            padding: '15px', 
+            backgroundColor: '#000', 
+            '-webkit-border-radius': '10px', 
+            '-moz-border-radius': '10px', 
+            opacity: .5, 
+            color: '#fff' 
+        } 
+    });
+}
+
 // Document ready
 $(function() {
 	$( "#datepicker" ).datepicker({
@@ -87,6 +113,18 @@ $(function() {
     });
 	
 	$("#datepicker").attr( 'readOnly' , 'true' );
+	
+	$('button, input[type=submit]').click(function() {
+		blockUI();
+	}); 
+	
+    $(document).ajaxStart(function(){
+        blockUI();
+    });
+
+    $(document).ajaxComplete(function(){
+    	$.unblockUI();
+    });
 
     $( "#changePasswordDialog" ).dialog({
       resizable: false,

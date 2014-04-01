@@ -14,7 +14,7 @@
 <!-- Begin Page Content -->
 <div id="container">
 	<form action="<%=TSConstants.TESTING_SYSTEM_SERVLET%>" name="loginForm"
-		method="POST">
+		method="POST" onsubmit="return toSubmit();">
 		<!-- Display error message if login is not success -->
 		<!-- error message can be configured in servlet -->
 		<c:choose>
@@ -22,6 +22,8 @@
 				<%@ include file="/html/message/errorMessage.jspf"%>
 			</c:when>
 		</c:choose>
+		
+		<div id="error" style="color: red; padding-left: 17px"></div>
 		
 		<input name="<%=TSConstants.CMD%>" type="hidden" /> <label
 			for="accountId">Account ID:</label> <input type="text" id="accountId"

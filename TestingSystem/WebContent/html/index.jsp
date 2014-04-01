@@ -50,12 +50,12 @@
 <div id="menu-wrapper">
 	<div id="menu">
 		<ul>
-			<li class="current_page_item"><a href="${home_url}">Homepage</a></li>
-			<li><a href="${user_profile_url}">User Profile</a></li>
-			<li><a href="${account_management_url}">Account Management</a></li>
-			<li><a href="${user_management_url}">User Management</a></li>
-			<li><a href="${role_management_url}">Role Management</a></li>
-			<li><a href="${log_management_url}">Log Management</a></li>
+			<li class="current_page_item"><a href="${home_url}" onclick="blockUI()">Homepage</a></li>
+			<li><a href="${user_profile_url}" onclick="blockUI()">User Profile</a></li>
+			<li><a href="${account_management_url}" onclick="blockUI()">Account Management</a></li>
+			<li><a href="${user_management_url}"onclick="blockUI()">User Management</a></li>
+			<li><a href="${role_management_url}"onclick="blockUI()">Role Management</a></li>
+			<li><a href="${log_management_url}"onclick="blockUI()">Log Management</a></li>
 			<!-- <li><a href="${contact_us_url}">Contact Us</a></li> -->
 			<li style="color: yellow;">
 				&nbsp;Welcome, <%=username %>!&nbsp;
