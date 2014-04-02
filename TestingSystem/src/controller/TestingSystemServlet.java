@@ -60,7 +60,11 @@ public class TestingSystemServlet extends HttpServlet {
 		final String userId = TSUtil.getParameter(request, "userId", null);
 
 		final HttpSession session = request.getSession();
-		final Integer roleId = ((Role)session.getAttribute("role")).getRoleId();
+		Integer roleId = 0;
+
+		if(session.getAttribute("role") != null){
+			roleId = ((Role)session.getAttribute("role")).getRoleId();
+		}
 
 		try {
 			// User submits login form
