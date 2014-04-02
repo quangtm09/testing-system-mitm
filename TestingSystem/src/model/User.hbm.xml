@@ -26,13 +26,13 @@
         <property name="address" type="string">
             <column name="ADDRESS" length="65535" />
         </property>
-        <set name="accounts" table="account" inverse="true" lazy="true" fetch="select">
+        <set name="accounts" table="account" inverse="true" lazy="true" fetch="select" cascade="all,delete-orphan">
             <key>
                 <column name="USER_ID" length="10" />
             </key>
             <one-to-many class="model.Account" />
         </set>
-        <set name="logses" table="logs" inverse="true" lazy="true" fetch="select">
+        <set name="logses" table="logs" inverse="true" lazy="true" fetch="select" cascade="all,delete-orphan">
             <key>
                 <column name="USER_ID" length="10" not-null="true" />
             </key>
