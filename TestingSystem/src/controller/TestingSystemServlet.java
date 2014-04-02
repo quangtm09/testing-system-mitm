@@ -123,6 +123,7 @@ public class TestingSystemServlet extends HttpServlet {
 		final String accountId = TSUtil.getParameter(request, "accountId", StringPool.BLANK);
 		final String password = TSUtil.getParameter(request, "password", StringPool.BLANK);
 		log.debug("Login Account: " + accountId);
+		MDC.put("AccId", accountId);
 		try {
 			final Account account = accountDao.getAccountById(accountId.toUpperCase());
 
@@ -146,7 +147,6 @@ public class TestingSystemServlet extends HttpServlet {
 				accountIdCookie.setMaxAge(30*60);
 
 				response.addCookie(accountIdCookie);
-				MDC.put("UserId", account.getUser());
 				if(accountRoleId == RoleConstants.ROLE_ADMIN){
 					goToPage(TSConstants.INDEX_JSP, request, response);
 					log.info("Login successful with Admin Role");
@@ -204,7 +204,6 @@ public class TestingSystemServlet extends HttpServlet {
 			user.setFname(firstName);
 			user.setLname(lastName);
 			user.setMobile(mobile);
-			MDC.put("UserId", userId);
 			if(userDao.updateUser(user)){
 				request.setAttribute("successMessage", "Updated user successfully!");
 				request.setAttribute("tsTab", tsTabParam);
@@ -249,7 +248,6 @@ public class TestingSystemServlet extends HttpServlet {
 		try {
 			final PrintWriter printWriter = response.getWriter();
 			final Account account = accountDao.findById(accountId);
-			MDC.put("UserId", account.getUser());
 			if(account.getAccPwd().equals(oldPassword) && !oldPassword.equals(newPassword)){
 				account.setAccPwd(newPassword);
 				accountDao.update(account);
@@ -374,7 +372,6 @@ public class TestingSystemServlet extends HttpServlet {
 			account.setUser(user);
 
 			final boolean isAddAccountSuccess = accountDao.addAccount(account);
-			MDC.put("UserId", userId);
 			if(isAddAccountSuccess){
 				printWriter.print("<span style=\"color: green\">Adding new account successfully!</span><br>");
 				log.info("Add Accounts " + account.getAccId());

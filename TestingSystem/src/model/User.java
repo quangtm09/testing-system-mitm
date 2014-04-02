@@ -31,7 +31,7 @@ public class User implements java.io.Serializable {
 	private Date bdate;
 	private String address;
 	private Set<Account> accounts = new HashSet<Account>(0);
-	private Set<Logs> logses = new HashSet<Logs>(0);
+//	private Set<Logs> logses = new HashSet<Logs>(0);
 
 	public User() {
 	}
@@ -48,8 +48,7 @@ public class User implements java.io.Serializable {
 	}
 
 	public User(String userId, String fname, String lname, String email,
-			String mobile, Date bdate, String address, Set<Account> accounts,
-			Set<Logs> logses) {
+			String mobile, Date bdate, String address, Set<Account> accounts) {
 		this.userId = userId;
 		this.fname = fname;
 		this.lname = lname;
@@ -58,7 +57,7 @@ public class User implements java.io.Serializable {
 		this.bdate = bdate;
 		this.address = address;
 		this.accounts = accounts;
-		this.logses = logses;
+//		this.logses = logses;
 	}
 
 	@Id
@@ -135,13 +134,13 @@ public class User implements java.io.Serializable {
 		this.accounts = accounts;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	public Set<Logs> getLogses() {
-		return this.logses;
-	}
-
-	public void setLogses(Set<Logs> logses) {
-		this.logses = logses;
-	}
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+//	public Set<Logs> getLogses() {
+//		return this.logses;
+//	}
+//
+//	public void setLogses(Set<Logs> logses) {
+//		this.logses = logses;
+//	}
 
 }

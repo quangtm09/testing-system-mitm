@@ -13,6 +13,8 @@ public class TSConstants {
 
 	public static final String ROLE_MANAGEMENT_JS = TSConstants.TESTING_SYSTEM_PATH + "/js/role_management.js";
 
+	public static final String LOG_MANAGEMENT_JS = TSConstants.TESTING_SYSTEM_PATH + "/js/log_management.js";
+
 	public static final String INDEX_JSP = "/html/index.jsp";
 
 	public static final String LECTURER_INDEX_JSP = "/html/lecturer/index.jsp";
@@ -28,6 +30,10 @@ public class TSConstants {
 	public static final String ROLE_MANAGEMENT_SERVLET = TSConstants.TESTING_SYSTEM_PATH + "/RoleManagementServlet";
 
 	public static final String ROLE_MANAGEMENT_SERVLET_URL_PATTERN = "/RoleManagementServlet";
+
+	public static final String LOG_MANAGEMENT_SERVLET = TSConstants.TESTING_SYSTEM_PATH + "/LogManagementServlet";
+
+	public static final String LOG_MANAGEMENT_SERVLET_URL_PATTERN = "/LogManagementServlet";
 
 	public static final String LECTURER_SERVLET_URL_PATTERN = "/LecturerServlet";
 
@@ -69,4 +75,8 @@ public class TSConstants {
 	public static final String UPDATE_ROLE_PERMISSION = "updateRolePermission";
 
 	public static final String SEARCH_ACCOUNT = "searchAccount";
+
+	public static final String DELETE_LOG = "deleteLog";
+
+	public static final String SEARCH_LOG ="searchLog";
 }

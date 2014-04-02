@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
 public class Logs implements java.io.Serializable {
 
 	private Integer logId;
-	private User user;
+	private Account account;
 	private Date logDate;
 	private String logger;
 	private String level;
@@ -32,16 +32,16 @@ public class Logs implements java.io.Serializable {
 	public Logs() {
 	}
 
-	public Logs(User user, Date logDate, String logger, String level) {
-		this.user = user;
+	public Logs(Account account, Date logDate, String logger, String level) {
+		this.account = account;
 		this.logDate = logDate;
 		this.logger = logger;
 		this.level = level;
 	}
 
-	public Logs(User user, Date logDate, String logger, String level,
+	public Logs(Account account, Date logDate, String logger, String level,
 			String message) {
-		this.user = user;
+		this.account = account;
 		this.logDate = logDate;
 		this.logger = logger;
 		this.level = level;
@@ -60,13 +60,13 @@ public class Logs implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_ID", nullable = false)
-	public User getUser() {
-		return this.user;
+	@JoinColumn(name = "ACC_ID", nullable = true)
+	public Account getAccount() {
+		return this.account;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

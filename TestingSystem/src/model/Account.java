@@ -32,7 +32,7 @@ public class Account implements java.io.Serializable {
 			0);
 	private Set<AccountRoleMap> accountRoleMapsForAccId = new HashSet<AccountRoleMap>(
 			0);
-
+	private Set<Logs> logses = new HashSet<Logs>(0);
 	public Account() {
 	}
 
@@ -44,13 +44,14 @@ public class Account implements java.io.Serializable {
 	public Account(final String accId, final User user, final String accPwd,
 			final Set<AccountRoleMap> accountRoleMapsForCreatorAccRoleId,
 			final Set<RolePermissionMap> rolePermissionMaps,
-			final Set<AccountRoleMap> accountRoleMapsForAccId) {
+			final Set<AccountRoleMap> accountRoleMapsForAccId, final Set<Logs> logses) {
 		this.accId = accId;
 		this.user = user;
 		this.accPwd = accPwd;
 		this.accountRoleMapsForCreatorAccRoleId = accountRoleMapsForCreatorAccRoleId;
 		this.rolePermissionMaps = rolePermissionMaps;
 		this.accountRoleMapsForAccId = accountRoleMapsForAccId;
+		this.logses = logses;
 	}
 
 	@Id
@@ -109,6 +110,15 @@ public class Account implements java.io.Serializable {
 	public void setAccountRoleMapsForAccId(
 			final Set<AccountRoleMap> accountRoleMapsForAccId) {
 		this.accountRoleMapsForAccId = accountRoleMapsForAccId;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+	public Set<Logs> getLogses() {
+		return this.logses;
+	}
+
+	public void setLogses(Set<Logs> logses) {
+		this.logses = logses;
 	}
 
 }

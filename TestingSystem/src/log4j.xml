@@ -3,8 +3,8 @@
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-	<!-- <appender name="ROOT_APPENDER" class="org.apache.log4j.ConsoleAppender"> 
-		<layout class="org.apache.log4j.PatternLayout"> <param name="ConversionPattern" 
+	<!-- <appender name="ROOT_APPENDER" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout"> <param name="ConversionPattern"
 		value="%m%n" /> </layout> </appender> -->
 
 	<appender name="ASYNC" class="org.apache.log4j.AsyncAppender">
@@ -34,13 +34,13 @@
 	</appender>
 
 	<appender name="DB" class="org.apache.log4j.jdbc.JDBCAppender">
-		<param name="URL" value="jdbc:mysql://localhost:3306/testsys_dba" />
+		<param name="URL" value="jdbc:mysql://localhost:3307/testsys_dba" />
 		<param name="driver" value="com.mysql.jdbc.Driver" />
 		<param name="user" value="root" />
 		<param name="password" value="root" />
 		<param name="Threshold" value="INFO" />
 		<param name="sql"
-			value="INSERT INTO LOGS VALUES(NULL,'%X{UserId}',
+			value="INSERT INTO LOGS VALUES(NULL,'%X{AccId}',
                              '%d{yyyy-MM-dd HH:mm:ss}','%C','%p','%m')" />
 	</appender>
 
