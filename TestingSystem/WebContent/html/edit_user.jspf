@@ -6,184 +6,210 @@
 	
 	String userId = (String) request.getAttribute("userId");
 	User user = userDao.findById(userId);
-	Set<Account> accountList = user.getAccounts();
 	
-	Account account = (Account) session.getAttribute("account");
+	Set<Account> accountList = null;
+	Account account = null;
+	Role accountRole = null;
+	Integer roleId = null;
 	
-	Role accountRole = ((AccountRoleMap) account.getAccountRoleMapsForAccId().toArray()[0]).getRole();
-	Integer roleId = accountRole.getRoleId();
+	String fullName = null;
+	String address = null;
+	String mobile = null;
+	Date userBDate = null;
 	
-	String fullName = user.getFname() + StringPool.SPACE + user.getLname();
-	String address = user.getAddress();
+	String date = null;
 	
-	if(address == null){
-		address = StringPool.BLANK;
+	boolean isUpdatedSuccessfully = false;
+	boolean isClickedEditButton = false;
+	
+	if(user != null){
+		accountList = user.getAccounts();
+		
+		account = (Account) session.getAttribute("account");
+		
+		accountRole = ((AccountRoleMap) account.getAccountRoleMapsForAccId().toArray()[0]).getRole();
+		roleId = accountRole.getRoleId();
+		
+		fullName = user.getFname() + StringPool.SPACE + user.getLname();
+		address = user.getAddress();
+		
+		if(address == null){
+			address = StringPool.BLANK;
+		}
+		
+		mobile = user.getMobile();
+		
+		if(mobile == null){
+			mobile = StringPool.BLANK;
+		}
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		userBDate = user.getBdate();
+		date = "";
+		
+		if(null != userBDate){
+			date = formatter.format(user.getBdate());
+		}
+		
+		isUpdatedSuccessfully = (Boolean) TSUtil.getAttribute(request, "isUpdatedSuccessfully", true);
+		isClickedEditButton = (Boolean) TSUtil.getAttribute(request, "isClickedEditButton", false);
 	}
-	
-	String mobile = user.getMobile();
-	
-	if(mobile == null){
-		mobile = StringPool.BLANK;
-	}
-	
-	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-	Date userBDate = user.getBdate();
-	String date = "";
-	
-	if(null != userBDate){
-		date = formatter.format(user.getBdate());
-	}
-	
-	boolean isUpdatedSuccessfully = (Boolean) TSUtil.getAttribute(request, "isUpdatedSuccessfully", true);
-	boolean isClickedEditButton = (Boolean) TSUtil.getAttribute(request, "isClickedEditButton", false);
 %>
 
-
-<div style="font-size: 2.5em;">
-	<c:choose>
-		<c:when test='<%=tsTab.equals("edit-user") %>'>
-			<div style="display: inline; text-align: left">Edit User - <%=fullName%></div>
-			<a href="${user_management_url}" id="backButton" class="rightButton" style="font-size: 0.5em">Back</a>
-		</c:when>
-		<c:when test='<%=tsTab.equals("user-profile") %>'>
-			<div style="display: inline; text-align: left">User Profile - <%=fullName%></div>
-			<a href="${home_url}" id="backButton" class="rightButton" style="font-size: 0.5em">Back</a>
-		</c:when>
-	</c:choose>	
+<c:choose>
+	<c:when test='<%=user != null%>'>
 	
-	<hr>
-</div>
-
-<c:set var="isCurrentAccountAdmin" value="<%=roleId.equals(RoleConstants.ROLE_ADMIN) %>"></c:set>
-<c:set var="currentAccountId" value="<%=account.getAccId()%>"></c:set>
-
-<c:set var="adminRoleId" value="<%=RoleConstants.ROLE_ADMIN %>"/>
-
-<c:choose>
-	<c:when test="<%=!isUpdatedSuccessfully%>">
-		<%@ include file="/html/message/errorMessage.jspf"%>
-	</c:when>
-</c:choose>
-
-<c:choose>
-	<c:when test="<%=isUpdatedSuccessfully && isClickedEditButton%>">
-		<%@ include file="/html/message/successMessage.jspf"%>
-	</c:when>
-</c:choose>
-
-<form action="<%=TSConstants.TESTING_SYSTEM_SERVLET%>" method="POST">
-	<input type="hidden" name="<%=TSConstants.CMD%>" value="<%=TSConstants.EDIT_USER%>"/>
-	<input type="hidden" name="userId" id="userId" value="<%=user.getUserId()%>"/>
-	<input type="hidden" name="tsTab" value="<%=tsTab%>"/>
-	<table>
-		<tr>
-			<td>First Name:</td>
-			<td><input type="text" value="<%=user.getFname()%>" name="fname"/></td>
-		</tr>
-		<tr>
-			<td>Last Name:</td>
-			<td><input type="text" value="<%=user.getLname()%>" name="lname"/></td>
-		</tr>
-		<tr>
-			<td>Email:</td>
-			<td><input type="text" value="<%=user.getEmail()%>" name="email"/></td>
-		</tr>
-		<tr>
-			<td>Mobile:</td>
-			<td><input type="text" value="<%=mobile%>" name="mobile"/></td>
-		</tr>
-		<tr>
-			<td>Birthday:</td>
-			<td><input type="text" value="<%=date%>" name="bdate" id="datepicker"/></td>
-		</tr>
-		<tr>
-			<td>Address:</td>
-			<td>
-				<input type="text" value="<%=address%>" name="address"/>
-			</td>
-		</tr>
-		<tr>
-			<td>Accounts:</td>
-			<td>
-				<c:if test="${isCurrentAccountAdmin}">
-					<a href="javascript:openAddAccountDialog();" id="addAccountButton">
-						Add account
-					</a>
-				</c:if>
-			</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td>
-				<c:choose>
-					<c:when test="<%=accountList.size() > 0 %>">
-						<table id="hor-minimalist-b" summary="User Accounts" style="margin-bottom: 20px">
-							<thead>
-						    	<tr>
-						    		<th scope="col">No.</th>
-						        	<th scope="col">Account ID</th>
-						            <th scope="col">Role</th>
-						            <th scope="col">Actions</th>
-						        </tr>
-						    </thead>
-							<c:set var="count" value="0"/>
-							<c:forEach items="<%=accountList %>" var="account">
-								<tr>
-									<c:set var="count" value="${count + 1}"/>
-									<td>${count}.</td>
-									<td>${account.accId}</td>
-									<td>
-										<c:choose>
-											<c:when test='${isCurrentAccountAdmin && (account.accId ne currentAccountId) && account.accountRoleMapsForAccId.toArray()[0].role.roleId ne adminRoleId}'>
-												<select id="changeRoleCombobox" name="changeRole${account.accId}" onchange="changeAccountRole('${account.accId}')">
-													<c:choose>
-														<c:when test="${account.accountRoleMapsForAccId != null && not empty account.accountRoleMapsForAccId}">
-															<c:forEach items="<%=roleList%>" var="role">
-																<c:choose>
-																	<c:when test="${account.accountRoleMapsForAccId.toArray()[0].role eq role}">
-																		<option selected="selected" value="${role.roleId}">${role.roleName}</option>
-																	</c:when>
-																	<c:otherwise>
+		<div style="font-size: 2.5em;">
+			<c:choose>
+				<c:when test='<%=tsTab.equals("edit-user") %>'>
+					<div style="display: inline; text-align: left">Edit User - <%=fullName%></div>
+					<a href="${user_management_url}" id="backButton" class="rightButton" style="font-size: 0.5em">Back</a>
+				</c:when>
+				<c:when test='<%=tsTab.equals("user-profile") %>'>
+					<div style="display: inline; text-align: left">User Profile - <%=fullName%></div>
+					<a href="${home_url}" id="backButton" class="rightButton" style="font-size: 0.5em">Back</a>
+				</c:when>
+			</c:choose>	
+			
+			<hr>
+		</div>
+		
+		<c:set var="isCurrentAccountAdmin" value="<%=roleId.equals(RoleConstants.ROLE_ADMIN) %>"></c:set>
+		<c:set var="currentAccountId" value="<%=account.getAccId()%>"></c:set>
+		
+		<c:set var="adminRoleId" value="<%=RoleConstants.ROLE_ADMIN %>"/>
+		
+		<c:choose>
+			<c:when test="<%=!isUpdatedSuccessfully%>">
+				<%@ include file="/html/message/errorMessage.jspf"%>
+			</c:when>
+		</c:choose>
+		
+		<c:choose>
+			<c:when test="<%=isUpdatedSuccessfully && isClickedEditButton%>">
+				<%@ include file="/html/message/successMessage.jspf"%>
+			</c:when>
+		</c:choose>
+		
+		<form action="<%=TSConstants.TESTING_SYSTEM_SERVLET%>" method="POST">
+			<input type="hidden" name="<%=TSConstants.CMD%>" value="<%=TSConstants.EDIT_USER%>"/>
+			<input type="hidden" name="userId" id="userId" value="<%=user.getUserId()%>"/>
+			<input type="hidden" name="tsTab" value="<%=tsTab%>"/>
+			<table>
+				<tr>
+					<td>First Name:</td>
+					<td><input type="text" value="<%=user.getFname()%>" name="fname"/></td>
+				</tr>
+				<tr>
+					<td>Last Name:</td>
+					<td><input type="text" value="<%=user.getLname()%>" name="lname"/></td>
+				</tr>
+				<tr>
+					<td>Email:</td>
+					<td><input type="text" value="<%=user.getEmail()%>" name="email"/></td>
+				</tr>
+				<tr>
+					<td>Mobile:</td>
+					<td><input type="text" value="<%=mobile%>" name="mobile"/></td>
+				</tr>
+				<tr>
+					<td>Birthday:</td>
+					<td><input type="text" value="<%=date%>" name="bdate" id="datepicker"/></td>
+				</tr>
+				<tr>
+					<td>Address:</td>
+					<td>
+						<input type="text" value="<%=address%>" name="address"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Accounts:</td>
+					<td>
+						<c:if test="${isCurrentAccountAdmin}">
+							<a href="javascript:openAddAccountDialog();" id="addAccountButton">
+								Add account
+							</a>
+						</c:if>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>
+						<c:choose>
+							<c:when test="<%=accountList.size() > 0 %>">
+								<table id="hor-minimalist-b" summary="User Accounts" style="margin-bottom: 20px">
+									<thead>
+								    	<tr>
+								    		<th scope="col">No.</th>
+								        	<th scope="col">Account ID</th>
+								            <th scope="col">Role</th>
+								            <th scope="col">Actions</th>
+								        </tr>
+								    </thead>
+									<c:set var="count" value="0"/>
+									<c:forEach items="<%=accountList %>" var="account">
+										<tr>
+											<c:set var="count" value="${count + 1}"/>
+											<td>${count}.</td>
+											<td>${account.accId}</td>
+											<td>
+												<c:choose>
+													<c:when test='${isCurrentAccountAdmin && (account.accId ne currentAccountId) && account.accountRoleMapsForAccId.toArray()[0].role.roleId ne adminRoleId}'>
+														<select id="changeRoleCombobox" name="changeRole${account.accId}" onchange="changeAccountRole('${account.accId}')">
+															<c:choose>
+																<c:when test="${account.accountRoleMapsForAccId != null && not empty account.accountRoleMapsForAccId}">
+																	<c:forEach items="<%=roleList%>" var="role">
+																		<c:choose>
+																			<c:when test="${account.accountRoleMapsForAccId.toArray()[0].role eq role}">
+																				<option selected="selected" value="${role.roleId}">${role.roleName}</option>
+																			</c:when>
+																			<c:otherwise>
+																				<option value="${role.roleId}">${role.roleName}</option>
+																			</c:otherwise>
+																		</c:choose>
+																	</c:forEach>
+																</c:when>
+																<c:otherwise>
+																	<option selected="selected" value="0">None</option>
+																	<c:forEach items="<%=roleList%>" var="role">
 																		<option value="${role.roleId}">${role.roleName}</option>
-																	</c:otherwise>
-																</c:choose>
-															</c:forEach>
-														</c:when>
-														<c:otherwise>
-															<option selected="selected" value="0">None</option>
-															<c:forEach items="<%=roleList%>" var="role">
-																<option value="${role.roleId}">${role.roleName}</option>
-															</c:forEach>
-														</c:otherwise>
-													</c:choose>
-												</select>
-											</c:when>
-											<c:otherwise>
-												<c:forEach items="${account.accountRoleMapsForAccId}" var="aRM">
-													${aRM.role.roleName}<br/>
-												</c:forEach>
-											</c:otherwise>
-										</c:choose>
-									</td>
-									<td>
-										<a title="Change Password" href="javascript:openChangePasswordDialog('${account.accId}');"><img src="/TestingSystem/images/change-password-icon.png"/></a>
-										<c:if test="${isCurrentAccountAdmin && (account.accId ne currentAccountId) && account.accountRoleMapsForAccId.toArray()[0].role.roleId ne adminRoleId}">
-											<a title="Delete" onclick="deleteAccount('${account.accId}')" href="javascript:;"><img src="/TestingSystem/images/delete_icon.png"/></a>
-										</c:if>
-									</td>
-								</tr>
-							</c:forEach>
-						</table>
-					</c:when>
-					<c:otherwise>
-						<div style="color: red">No accounts found!</div>
-					</c:otherwise>
-				</c:choose>
-			</td>
-		</tr>
-	</table>
-	<button type="submit" value="Edit" id="editUserButton" style="margin-top: 20px">Edit</button>
-</form>
+																	</c:forEach>
+																</c:otherwise>
+															</c:choose>
+														</select>
+													</c:when>
+													<c:otherwise>
+														<c:forEach items="${account.accountRoleMapsForAccId}" var="aRM">
+															${aRM.role.roleName}<br/>
+														</c:forEach>
+													</c:otherwise>
+												</c:choose>
+											</td>
+											<td>
+												<a title="Change Password" href="javascript:openChangePasswordDialog('${account.accId}');"><img src="/TestingSystem/images/change-password-icon.png"/></a>
+												<c:if test="${isCurrentAccountAdmin && (account.accId ne currentAccountId) && account.accountRoleMapsForAccId.toArray()[0].role.roleId ne adminRoleId}">
+													<a title="Delete" onclick="deleteAccount('${account.accId}')" href="javascript:;"><img src="/TestingSystem/images/delete_icon.png"/></a>
+												</c:if>
+											</td>
+										</tr>
+									</c:forEach>
+								</table>
+							</c:when>
+							<c:otherwise>
+								<div style="color: red">No accounts found!</div>
+							</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
+			</table>
+			<button type="submit" value="Edit" id="editUserButton" style="margin-top: 20px">Edit</button>
+		</form>
+	</c:when>
+	<c:otherwise>
+		<%@ include file="/html/message/errorMessage.jspf"%>
+	</c:otherwise>
+</c:choose>
+
 
 <div style="height: 40px"></div>
 

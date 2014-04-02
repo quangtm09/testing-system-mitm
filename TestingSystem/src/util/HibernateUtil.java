@@ -63,7 +63,7 @@ public class HibernateUtil {
 		try {
 			if (tx != null && !tx.wasCommitted() && !tx.wasRolledBack()) {
 				tx.rollback();
-				closeSession();
+				tx = null;
 			}
 		} catch (final HibernateException ex) {
 			throw new HibernateException(ex);

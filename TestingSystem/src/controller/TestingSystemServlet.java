@@ -83,13 +83,6 @@ public class TestingSystemServlet extends HttpServlet {
 				searchAccount(request, response);
 			} else {
 
-				if(tsTabParam.equals("edit-user") || tsTabParam.equals("user-details")){
-					final User user = userDao.findById(userId);
-					if(user == null){
-						tsTabParam = "404";
-					}
-				}
-
 				request.setAttribute("tsTab", tsTabParam);
 				request.setAttribute("userId", userId);
 
@@ -107,13 +100,9 @@ public class TestingSystemServlet extends HttpServlet {
 			}
 		} catch (final Exception ex){
 			tsTabParam = "404";
+			request.setAttribute("tsTab", tsTabParam);
 			ex.printStackTrace();
 			TestingSystemServlet.log.error("Error while processing request!");
-			try {
-				goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
-			} catch (final Exception e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
@@ -207,7 +196,7 @@ public class TestingSystemServlet extends HttpServlet {
 			if(userDao.updateUser(user)){
 				request.setAttribute("successMessage", "Updated user successfully!");
 				request.setAttribute("tsTab", tsTabParam);
-				request.setAttribute("userId", userId);
+				request.setAttribute("editUserId", userId);
 				request.setAttribute("isUpdatedSucessfully", true);
 				request.setAttribute("isClickedEditButton", true);
 				log.info("Update Profile Successful");
@@ -242,7 +231,7 @@ public class TestingSystemServlet extends HttpServlet {
 		final String oldPassword = request.getParameter("oldPassword");
 		final String newPassword = TSUtil.getParameter(request, "newPassword", StringPool.BLANK);
 		final String accountId = request.getParameter("accountId");
-		
+
 		response.setContentType("text/html");
 		log.debug("Change Password For Account "+ accountId);
 		try {

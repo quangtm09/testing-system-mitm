@@ -2,110 +2,125 @@
 	UserDao userDao = new UserDaoImpl();
 	String userId = (String) request.getAttribute("userId");
 	User user = userDao.findById(userId);
-	Set<Account> accountList = user.getAccounts();
 	
-	String fullName = user.getFname() + StringPool.SPACE + user.getLname();
+	Set<Account> accountList = null;
+	String fullName = null;
+	String date = null;
+	Date userBdate = null;
 	
-	SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
-	
-	String date = StringPool.BLANK;
-	
-	Date userBdate = user.getBdate();
-	
-	if(null != userBdate){
-		date = formatter.format(userBdate);
+	if(user != null){
+		accountList = user.getAccounts();
+		
+		fullName = user.getFname() + StringPool.SPACE + user.getLname();
+		
+		SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
+		
+		date = StringPool.BLANK;
+		
+		userBdate = user.getBdate();
+		
+		if(null != userBdate){
+			date = formatter.format(userBdate);
+		}
 	}
 	
 %>
 
-<div style="font-size: 2.5em;">
-	<div style="display: inline; text-align: left"><%=fullName%>'s User Details</div>
-	<a href="${user_management_url}" id="backButton" class="rightButton">Back</a>
-	<hr>
-</div>
-
-<table>
-	<tr>
-		<td>User ID: </td>
-		<td><%=user.getUserId()%></td>
-	</tr>
-	<tr>
-		<td>First Name:</td>
-		<td><%=user.getFname()%></td>
-	</tr>
-	<tr>
-		<td>Last Name:</td>
-		<td><%=user.getLname()%></td>
-	</tr>
-	<tr>
-		<td>Email:</td>
-		<td><%=user.getEmail()%></td>
-	</tr>
-	<tr>
-		<td>Mobile:</td>
-		<td>
-			<c:choose>
-				<c:when test='<%=user.getMobile() == null %>'>
-					
-				</c:when>
-				<c:otherwise>
-					<%=user.getMobile()%>
-				</c:otherwise>
-			</c:choose>
-		</td>
-	</tr>
-	<tr>
-		<td>Birthday:</td>
-		<td><%=date%></td>
-	</tr>
-	<tr>
-		<td>Address:</td>
-		<td>
-			<c:choose>
-				<c:when test='<%=user.getAddress() == null %>'>
-					
-				</c:when>
-				<c:otherwise>
-					<%=user.getAddress()%>
-				</c:otherwise>
-			</c:choose>
-		</td>
-	</tr>
-	<tr>
-		<td>Accounts:</td>
-		<td>
-			<c:if test='<%=accountList.size() == 0 %>'>
-				No accounts found!
-			</c:if>
-		</td>
-	</tr>
-</table>
 <c:choose>
-	<c:when test="<%=accountList.size() > 0 %>">
-		<table id="hor-minimalist-b" summary="User Accounts" style="margin-left: 70px">
-		    <thead>
-		    	<tr>
-		    		<th scope="col">No.</th>
-		        	<th scope="col">Account ID</th>
-		            <th scope="col">Role</th>
-		        </tr>
-		    </thead>
-		    <tbody>
-		    	<c:set var="count" value="0"/>
-				<c:forEach items="<%=accountList %>" var="account">
-					<tr>
-						<c:set var="count" value="${count + 1}"/>
-						<td>${count}.</td>
-						<td>${account.accId}</td>
-						<td>
-							<c:forEach items="${account.accountRoleMapsForAccId}" var="aRM">
-								${aRM.role.roleName}<br/>
-							</c:forEach>
-						</td>
-					</tr>
-				</c:forEach>
-		    </tbody>
+	<c:when test='<%=user != null%>'>
+		<div style="font-size: 2.5em;">
+			<div style="display: inline; text-align: left"><%=fullName%>'s User Details</div>
+			<a href="${user_management_url}" id="backButton" class="rightButton">Back</a>
+			<hr>
+		</div>
+
+		<table>
+			<tr>
+				<td>User ID: </td>
+				<td><%=user.getUserId()%></td>
+			</tr>
+			<tr>
+				<td>First Name:</td>
+				<td><%=user.getFname()%></td>
+			</tr>
+			<tr>
+				<td>Last Name:</td>
+				<td><%=user.getLname()%></td>
+			</tr>
+			<tr>
+				<td>Email:</td>
+				<td><%=user.getEmail()%></td>
+			</tr>
+			<tr>
+				<td>Mobile:</td>
+				<td>
+					<c:choose>
+						<c:when test='<%=user.getMobile() == null %>'>
+							
+						</c:when>
+						<c:otherwise>
+							<%=user.getMobile()%>
+						</c:otherwise>
+					</c:choose>
+				</td>
+			</tr>
+			<tr>
+				<td>Birthday:</td>
+				<td><%=date%></td>
+			</tr>
+			<tr>
+				<td>Address:</td>
+				<td>
+					<c:choose>
+						<c:when test='<%=user.getAddress() == null %>'>
+							
+						</c:when>
+						<c:otherwise>
+							<%=user.getAddress()%>
+						</c:otherwise>
+					</c:choose>
+				</td>
+			</tr>
+			<tr>
+				<td>Accounts:</td>
+				<td>
+					<c:if test='<%=accountList.size() == 0 %>'>
+						No accounts found!
+					</c:if>
+				</td>
+			</tr>
 		</table>
+		<c:choose>
+			<c:when test="<%=accountList.size() > 0 %>">
+				<table id="hor-minimalist-b" summary="User Accounts" style="margin-left: 70px">
+				    <thead>
+				    	<tr>
+				    		<th scope="col">No.</th>
+				        	<th scope="col">Account ID</th>
+				            <th scope="col">Role</th>
+				        </tr>
+				    </thead>
+				    <tbody>
+				    	<c:set var="count" value="0"/>
+						<c:forEach items="<%=accountList %>" var="account">
+							<tr>
+								<c:set var="count" value="${count + 1}"/>
+								<td>${count}.</td>
+								<td>${account.accId}</td>
+								<td>
+									<c:forEach items="${account.accountRoleMapsForAccId}" var="aRM">
+										${aRM.role.roleName}<br/>
+									</c:forEach>
+								</td>
+							</tr>
+						</c:forEach>
+				    </tbody>
+				</table>
+			</c:when>
+		</c:choose>
 	</c:when>
+	<c:otherwise>
+		<%@ include file="/html/message/errorMessage.jspf"%>
+	</c:otherwise>
 </c:choose>
 <div style="height: 40px"></div>
