@@ -53,11 +53,14 @@ public class TestingSystemServlet extends HttpServlet {
 	private static final AccountRoleMapDao aRMDao = new AccountRoleMapDaoImpl();
 
 
-	protected void processRequest(final HttpServletRequest request, final HttpServletResponse response) {
+	protected void processRequest(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		// Get command
 		final String cmd = TSUtil.getParameter(request, TSConstants.CMD, StringPool.BLANK);
 		String tsTabParam = TSUtil.getParameter(request, "tsTab", StringPool.BLANK);
 		final String userId = TSUtil.getParameter(request, "userId", null);
+
+		final HttpSession session = request.getSession();
+		final Integer roleId = ((Role)session.getAttribute("role")).getRoleId();
 
 		try {
 			// User submits login form
@@ -86,9 +89,6 @@ public class TestingSystemServlet extends HttpServlet {
 				request.setAttribute("tsTab", tsTabParam);
 				request.setAttribute("userId", userId);
 
-				final HttpSession session = request.getSession();
-				final Integer roleId = ((Role)session.getAttribute("role")).getRoleId();
-
 				if(roleId == RoleConstants.ROLE_ADMIN){
 					goToPage(TSConstants.INDEX_JSP, request, response);
 				} else if(roleId == RoleConstants.ROLE_LECTURER){
@@ -103,6 +103,14 @@ public class TestingSystemServlet extends HttpServlet {
 			request.setAttribute("tsTab", tsTabParam);
 			ex.printStackTrace();
 			TestingSystemServlet.log.error("Error while processing request!");
+
+			if(roleId == RoleConstants.ROLE_ADMIN){
+				goToPage(TSConstants.INDEX_JSP, request, response);
+			} else if(roleId == RoleConstants.ROLE_LECTURER){
+				goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
+			} else if(roleId == RoleConstants.ROLE_STUDENT){
+				goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
+			}
 		}
 	}
 
