@@ -9,7 +9,7 @@ function login(cmd){
 function toSubmit(){
 	var accountId = $('#accountId').val();
 	var password = $('#password').val();
-	
+
 	if(accountId.length == 0 || password.length == 0){
 		$('div#error').html('Account ID or Password cannot be blank!');
 		$.unblockUI();
@@ -51,7 +51,7 @@ function changeAccountRole(accountId){
 			  }
 		  }
 	}).done(function() {
-			
+
 	});
 }
 
@@ -83,23 +83,23 @@ function openAddUserDialog(accountId){
 	$( "#addUserDialog" ).dialog("open");
 }
 
-function validateEmail(email) { 
+function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
-} 
+}
 
-function blockUI(){	
-    $.blockUI({ 
+function blockUI(){
+    $.blockUI({
         message: $('#domMessage'),
-        css: { 
-            border: 'none', 
-            padding: '15px', 
-            backgroundColor: '#000', 
-            '-webkit-border-radius': '10px', 
-            '-moz-border-radius': '10px', 
-            opacity: .5, 
-            color: '#fff' 
-        } 
+        css: {
+            border: 'none',
+            padding: '15px',
+            backgroundColor: '#000',
+            '-webkit-border-radius': '10px',
+            '-moz-border-radius': '10px',
+            opacity: .5,
+            color: '#fff'
+        }
     });
 }
 
@@ -111,13 +111,13 @@ $(function() {
 		dateFormat: 'dd-mm-yy',
 		yearRange: "1900:" + (new Date().getFullYear() + 100)
     });
-	
+
 	$("#datepicker").attr( 'readOnly' , 'true' );
-	
+
 	$('button, input[type=submit]').click(function() {
 		blockUI();
-	}); 
-	
+	});
+
     $(document).ajaxStart(function(){
         blockUI();
     });
@@ -132,7 +132,7 @@ $(function() {
       width: 400,
       modal: true,
       autoOpen: false,
-      buttons: 
+      buttons:
     	  [
            {
                text: 'Change',
@@ -141,7 +141,7 @@ $(function() {
 	            	var newPassword = $.trim($('#newPassword').val());
 	               	var oldPassword = $.trim($('#oldPassword').val());
 	               	var confirmedPassword = $.trim($('#confirmedPassword').val());
-	
+
 	               	if(newPassword !== confirmedPassword){
 	               		$('#changePasswordResult').html('<span style="color: red">Passwords do not match!</span>');
 	               	} else if(newPassword == 0 || oldPassword == 0 || confirmedPassword == 0){
@@ -178,7 +178,7 @@ $(function() {
     });
 
     $( "#changePasswordDialog" ).dialog( "option", "hide");
-    
+
     $( "#addUserDialog" ).dialog({
         resizable: false,
         height:270,
@@ -230,16 +230,16 @@ $(function() {
                   }
               ]
       });
-    
+
     $( "#addUserDialog" ).dialog( "option", "hide");
-    
+
     $( "#addAccountDialog" ).dialog({
         resizable: false,
         height:270,
         width: 400,
         modal: true,
         autoOpen: false,
-        buttons: 
+        buttons:
       	  [
              {
                  text: 'Add',
@@ -250,7 +250,7 @@ $(function() {
   	               	var newAccountId = $.trim($('#newAccountId').val());
   	               	var accountRoleId = $.trim($('#selectRoleCombobox').val());
   	               	var userId = $('#userId').val();
-  	
+
   	               	if(password !== confirmedPassword){
   	               		$('#addAccountResult').html('<span style="color: red">Passwords do not match!</span>');
   	               	} else if(accountId == 0 || password == 0 || confirmedPassword == 0){
@@ -288,14 +288,14 @@ $(function() {
       });
 
       $( "#addAccountDialog" ).dialog( "option", "hide");
-      
+
       $( "#deleteAccountDialog" ).dialog({
           resizable: false,
           width:'auto',
           height: 'auto',
           modal: true,
           autoOpen: false,
-          buttons: 
+          buttons:
         	  [
                {
                    text: 'Delete',
@@ -317,7 +317,7 @@ $(function() {
             					  }
             				  }
             			}).done(function() {
-            					
+
             			});
                    }
                },
@@ -332,14 +332,14 @@ $(function() {
         });
 
         $( "#deleteAccountDialog" ).dialog( "option", "hide");
-        
+
         $( "#deleteUserDialog" ).dialog({
             resizable: false,
             width:'auto',
             height: 'auto',
             modal: true,
             autoOpen: false,
-            buttons: 
+            buttons:
           	  [
                  {
                      text: 'Delete',
@@ -361,7 +361,7 @@ $(function() {
               					  }
               				  }
               			}).done(function() {
-              					
+
               			});
                      }
                  },
@@ -376,42 +376,42 @@ $(function() {
           });
 
           $( "#deleteUserDialog" ).dialog( "option", "hide");
-    
+
     $( "#addAccountButton" ).button({
         icons: {
           primary: "ui-icon-circle-plus"
         }
      });
-    
+
     $( "#searchButton" ).button({
         icons: {
           primary: "ui-icon-search"
         }
      });
-    
+
     $( "#addUser" ).button({
         icons: {
           primary: "ui-icon-plusthick"
         }
      });
-    
+
     $( "#editUserButton" ).button({
         icons: {
           primary: "ui-icon-wrench"
         }
      });
-    
-    
+
+
     $( "#logoutButton" ).button({
         icons: {
           primary: "ui-icon-power"
         }
      });
-    
+
     $( "#backButton" ).button({
         icons: {
           primary: "ui-icon-arrowreturnthick-1-w"
         }
      });
-    
+
 });

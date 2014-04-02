@@ -31,6 +31,7 @@
 <script type="text/javascript" src="/TestingSystem/js/jquery.blockUI.js"></script>
 <script type="text/javascript" src="<%=TSConstants.TESTING_SYSTEM_JS%>"></script>
 <script type="text/javascript" src="<%=TSConstants.ROLE_MANAGEMENT_JS%>"></script>
+<script type="text/javascript" src="<%=TSConstants.LOG_MANAGEMENT_JS%>"></script>
 
 <div id="domMessage" style="display:none;"> 
     <img src="/TestingSystem/images/loader.gif" alt="Loading..."/><br/><h1>Now loading... Please wait</h1>

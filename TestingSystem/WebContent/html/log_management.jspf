@@ -1,1 +1,109 @@
-Log Management
+<%@page import="constants.RoleConstants"%>
+<%@page import="dao.impl.*"%>
+<%@page import="dao.*"%>
+<%@page import="constants.*"%>
+<%@page import="util.*"%>
+<%@page import="model.*"%>
+<%@page import="java.util.*"%>
+<%
+	LogDao logDao = new LogDaoImpl();
+	String accId = (String) TSUtil.getAttribute(request, "accId",
+			StringPool.BLANK);
+	String userId = (String) TSUtil.getAttribute(request, "userId",
+			StringPool.BLANK);
+
+	List<Logs> logList = logDao.searchLogsByUser(accId, userId);
+	
+	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+	boolean isSearchSuccess = (Boolean) TSUtil.getAttribute(request,
+			"isSearchSuccess", true);
+	boolean isClickedSearchButton = (Boolean) TSUtil.getAttribute(
+			request, "isClickedSearchButton", false);
+%>
+
+<div style="font-size: 2.5em;">
+	<div style="display: inline; text-align: left">History</div>
+	<a href="javascript:openDeleteLogDialog();" id="deleteLog"
+		class="rightButton" style="FONT-SIZE: large">Delete History</a>
+	<hr>
+</div>
+
+<c:choose>
+	<c:when test="<%=isSearchSuccess && isClickedSearchButton%>">
+		<%@ include file="/html/message/successMessage.jspf"%>
+	</c:when>
+</c:choose>
+
+<form action="<%=TSConstants.LOG_MANAGEMENT_SERVLET%>" method="POST"
+	style="margin-bottom: 15px">
+	<input type="hidden" name="<%=TSConstants.CMD%>"
+		value="<%=TSConstants.SEARCH_LOG%>" />
+	<table>
+		<tr>
+			<td>Account ID:</td>
+			<td><input type="text" name="accId" value="<%=accId%>" /></td>
+		</tr>
+		<tr>
+			<td>User ID:</td>
+			<td><input type="text" name="userId" value="<%=userId%>" /></td>
+		</tr>
+	</table>
+	<button type="submit" value="Search" id="searchButton"
+		style="margin-top: 20px">Search</button>
+</form>
+
+<hr>
+<c:choose>
+	<c:when test="<%=logList.size() > 0%>">
+		<div class="CSSTableGenerator" style="margin-top: 20px">
+			<table>
+				<tr>
+					<td>No.</td>
+					<td>User ID</td>
+					<td>Account ID</td>
+					<td>Action</td>
+					<td>Date</td>
+				</tr>
+				<c:set var="count" value="0" />
+				<c:forEach items="<%=logList%>" var="logs">
+					<tr>
+						<c:set var="count" value="${count + 1}" />
+						<td>${count}.</td>
+						<td>${logs.account.user.userId}</td>
+						<td>${logs.account.accId}</td>
+						<td>${logs.message}</td>
+						<td>${logs.logDate}</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+
+	</c:when>
+	<c:otherwise>
+		<div style="color: red">No users found!</div>
+	</c:otherwise>
+</c:choose>
+
+<div style="height: 40px"></div>
+
+<div id="deleteLogDialog" title="Delete History">
+	<div id="deleteLogResult"></div>
+	<table>
+		<tr style="COLOR: #000000; FONT-WEIGHT: bold; FONT-SIZE: medium;">Time
+			range to clear
+		</tr>
+		<tr>
+			<td><input type="radio" name="radioDeleteLog"
+				value="<%=LogConstants.radioDeleteToday%>" />Today</td>
+		</tr>
+		<tr>
+			<td><input type="radio" name="radioDeleteLog"
+				value="<%=LogConstants.radioDeleteFourWeeks%>" />Four Weeks</td>
+		</tr>
+		<tr>
+			<td><input type="radio" name="radioDeleteLog"
+				value="<%=LogConstants.radioDeleteAll%>" />Everything</td>
+		</tr>
+	</table>
+</div>

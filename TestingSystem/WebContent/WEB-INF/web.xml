@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
   <filter>
     <filter-name>TSFilter</filter-name>
     <filter-class>
@@ -17,12 +17,13 @@
   <filter-mapping>
     <filter-name>TSFilter</filter-name>
     <url-pattern>/RoleManagementServlet</url-pattern>
+    <url-pattern>/LogManagementServlet</url-pattern>
   </filter-mapping>
-   <filter-mapping>
+  <filter-mapping>
     <filter-name>TSFilter</filter-name>
     <url-pattern>/StudentServlet</url-pattern>
   </filter-mapping>
-   <filter-mapping>
+  <filter-mapping>
     <filter-name>TSFilter</filter-name>
     <url-pattern>/LecturerServlet</url-pattern>
   </filter-mapping>
@@ -32,5 +33,7 @@
   </filter-mapping>
   <welcome-file-list>
     <welcome-file>TestingSystemServlet</welcome-file>
+    <welcome-file>RoleManagementServlet</welcome-file>
+    <welcome-file>LogManagementServlet</welcome-file>
   </welcome-file-list>
 </web-app>
