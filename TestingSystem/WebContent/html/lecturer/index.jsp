@@ -42,11 +42,11 @@
 <div id="menu-wrapper">
 	<div id="menu">
 		<ul>
-			<li class="current_page_item"><a href="${home_url}">Homepage</a></li>
-			<li><a href="${user_profile_url}">User Profile</a></li>
-			<li><a href="${student_management_url}">Student Management</a></li>
-			<li><a href="${test_management_url}">Test Management</a></li>
-			<li><a href="${result_management_url}">Result Management</a></li>
+			<li class="current_page_item"><a href="${home_url}" onclick="blockUI()">Homepage</a></li>
+			<li><a href="${user_profile_url}" onclick="blockUI()">User Profile</a></li>
+			<li><a href="${student_management_url}"onclick="blockUI()">Student Management</a></li>
+			<li><a href="${test_management_url}" onclick="blockUI()">Test Management</a></li>
+			<li><a href="${result_management_url}" onclick="blockUI()">Result Management</a></li>
 			<li style="color: yellow;">
 				&nbsp;Welcome, <%=username %>!&nbsp;
 				<button id="logoutButton" onclick="logout();">Logout</button>

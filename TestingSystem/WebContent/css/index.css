@@ -550,7 +550,7 @@ img
 }.CSSTableGenerator tr:hover td{
 	
 }
-.CSSTableGenerator tr:nth-child(odd){ background-color:#aad4ff; }
+.CSSTableGenerator tr:nth-child(odd){ background-color:#aad4ff !important; }
 .CSSTableGenerator tr:nth-child(even)    { background-color:#ffffff; }.CSSTableGenerator td{
 	vertical-align:middle;
 	
@@ -633,4 +633,49 @@ img
 	float: right;
 	font-size: 0.5em !important;
 	margin-top: 5px;
+}
+
+.noDocument{
+    color: red;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    text-align: center;
+}
+.no_more{
+    background-color: black;
+    color: white;
+    cursor: default;
+}
+
+.tableNavigation{
+    padding-bottom: 10px;
+}
+
+.table_Navigation{
+    padding-bottom: 10px;
+}
+
+.table_Navigation a{
+    padding:3px 5px;
+    margin:2px;
+    color:white;
+    text-decoration:none;
+    font-family: Tahoma;
+    font-size: 12px;
+    background-color:black;
+}
+
+.tableNavigation a{
+    padding:3px 5px;
+    margin:2px;
+    color:white;
+    text-decoration:none;
+    font-family: Tahoma;
+    font-size: 12px;
+    background-color:black;
+}
+.active_page{
+    background-color:white !important;
+    color:black !important;
+    border-style: solid;
+    border-width: 1px;
 }

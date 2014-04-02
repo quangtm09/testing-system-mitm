@@ -21,6 +21,7 @@ public class LogoutServlet extends HttpServlet {
 
 	protected void processRequest(final HttpServletRequest request, final HttpServletResponse response){
 		try {
+			Thread.sleep(2000);
 			response.setContentType("text/html");
 
 			//invalidate the session if exists

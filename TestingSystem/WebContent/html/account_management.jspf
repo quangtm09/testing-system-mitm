@@ -59,6 +59,7 @@
    	<c:when test="<%=accountList.size() > 0 %>">
    		<div class="CSSTableGenerator" style="margin-top: 20px">
 		    <table summary="Account Management">
+		    	<thead>
 			        <tr>
 			            <td>No.</td>
 			            <td>Account ID</td>
@@ -67,7 +68,10 @@
 			            <td>Email</td>
 			            <td>Actions</td>
 			        </tr>
+			       </thead>
 		        <c:set var="count" value="0"/>
+		        <tbody id="itemContainer">
+		        <tr></tr>
 				<c:forEach items="<%=accountList %>" var="account">
 					<tr>
 						<c:set var="count" value="${count + 1}"/>
@@ -96,7 +100,9 @@
 		
 					</tr>
 				</c:forEach>
+				</tbody>
 		    </table>
+		    <div align="center" class="tableNavigation"></div>
 	    </div>
 	</c:when>
 	<c:otherwise>

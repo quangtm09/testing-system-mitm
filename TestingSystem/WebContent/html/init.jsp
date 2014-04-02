@@ -29,6 +29,7 @@
 <script type="text/javascript" src="/TestingSystem/js/jquery.js"></script>
 <script type="text/javascript" src="/TestingSystem/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/TestingSystem/js/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/TestingSystem/js/jquery.pajinate.min.js"></script>
 <script type="text/javascript" src="<%=TSConstants.TESTING_SYSTEM_JS%>"></script>
 <script type="text/javascript" src="<%=TSConstants.ROLE_MANAGEMENT_JS%>"></script>
 <script type="text/javascript" src="<%=TSConstants.LOG_MANAGEMENT_JS%>"></script>
