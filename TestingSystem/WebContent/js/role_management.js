@@ -1,8 +1,23 @@
+var deleteRoleId;
+function deleteRole(roleId){
+	deleteRoleId = roleId;
+	var message = 'Are you sure you want to delete <span style="color: red">' + roleId + '</span> account?';
+	$('#deleteRoleMessage').html(message);
+	$( "#deleteRoleDialog" ).dialog("open");
+}
 function openOtherPermissionDialog(roleId) {
 	$('#roleId').val(roleId);
 	$('#otherPremissionResult').html('');
 	$("#otherPermissionDialog").dialog("open");
 }
+
+function openAddNewRoleDialog() {
+	$('#roleName').val('');
+	$('#roleDesc').val('');
+	$('#addNewRoleResult').html('');
+	$("#addNewRoleDialog").dialog("open");
+}
+
 function openAdminPermissionDialog(roleId) {
 	$('#roleId').val(roleId);
 	$('#adminPremissionResult').html('');
@@ -58,7 +73,7 @@ $(function() {
 				        						   url : "/TestingSystem/RoleManagementServlet",
 				        						   data : {
 				        							   cmd: 'updateRolePermission',
-				        							   adPermission: adPermission,
+				        							   updatePermission: adPermission,
 				        							   roleId: $('#roleId').val()
 				        						   },
 				        						   success : function() {
@@ -126,7 +141,7 @@ $(function() {
 				        						   url : "/TestingSystem/RoleManagementServlet",
 				        						   data : {
 				        							   cmd : 'updateRolePermission',
-				        							   lecPermission : lecPermission,
+				        							   updatePermission : lecPermission,
 				        							   roleId: $('#roleId').val()
 				        						   },
 				        						   success : function() {
@@ -194,7 +209,7 @@ $(function() {
 				        						   url : "/TestingSystem/RoleManagementServlet",
 				        						   data : {
 				        							   cmd : 'updateRolePermission',
-				        							   stuPermission : stuPermission,
+				        							   updatePermission : stuPermission,
 				        							   roleId: $('#roleId').val()
 				        						   },
 				        						   success : function() {
@@ -241,16 +256,16 @@ $(function() {
 				        		   primary : "ui-icon-pencil"
 				        	   },
 				        	   click : function() {
-				        		   var adPermission = '';
+				        		   var otherPermission = '';
 				        		   $("input[name=otherPermission]:Checked")
 				        		   .each(
 				        				   function() {
-				        					   adPermission = adPermission
+				        					   otherPermission = otherPermission
 				        					   + $(this)
 				        					   .val()
 				        					   + ",";
 				        				   });
-				        		   if (adPermission == '') {
+				        		   if (otherPermission == '') {
 				        			   $('#otherPremissionResult')
 				        			   .html(
 				        			   '<span style="color: red">No value is checked</span>');
@@ -262,7 +277,7 @@ $(function() {
 				        						   url : "/TestingSystem/RoleManagementServlet",
 				        						   data : {
 				        							   cmd: 'updateRolePermission',
-				        							   adPermission: adPermission,
+				        							   updatePermission: otherPermission,
 				        							   roleId: $('#roleId').val()
 				        						   },
 				        						   success : function() {
@@ -293,4 +308,97 @@ $(function() {
 				           } ]
 			});
 	$("#otherPermissionDialog").dialog("option", "hide");
+	
+	$( "#addNewRoleDialog" ).dialog({
+        resizable: false,
+        height:270,
+        width: 400,
+        modal: true,
+        autoOpen: false,
+        buttons:
+      	  [
+             {
+                 text: 'Add',
+                 icons: {primary: "ui-icon-circle-plus"},
+                 click: function(){
+  	            	var roleName = $.trim($('#roleName').val());
+  	               	var roleDesc = $.trim($('#roleDesc').val());
+
+  	               	if(roleName == ''){
+  	               		$('#addNewRoleResult').html('<span style="color: red">Required fied is not empty</span>');
+  	               	} else {
+  	               		$.ajax({
+  	               		  type: "POST",
+  	           			  url: "/TestingSystem/RoleManagementServlet",
+  	           			  data: {
+  	           				  cmd: 'addNewRole',
+  	           				  roleName: roleName,
+  	           				  roleDesc: roleDesc
+  	           			  },
+  	           			  success: function(data){
+  	           				  $('#addNewRoleResult').html(data);
+  	                         }
+  	           			}).done(function() {
+	  	           			setTimeout(function(){
+	  	           				location.reload();
+	        				}, 3000);
+  	           			});
+  	               	}
+                 }
+             },
+             {
+                 text: 'Cancel',
+                 icons: { primary: "ui-icon-circle-close"},
+             	  click: function(){
+             		$( this ).dialog( "close" );
+             	  }
+             }
+         ]
+      });
+
+      $( "#addNewRoleDialog" ).dialog( "option", "hide");
+      
+      $( "#deleteRoleDialog" ).dialog({
+          resizable: false,
+          width:'auto',
+          height: 'auto',
+          modal: true,
+          autoOpen: false,
+          buttons:
+        	  [
+               {
+                   text: 'Delete',
+                   icons: {primary: "ui-icon-trash"},
+                   click: function(){
+                	   $.ajax({
+            			  type: "POST",
+            				  url: "/TestingSystem/RoleManagementServlet",
+            				  data: {
+            					  cmd: 'deleteRole',
+            					  deleteRoleId: deleteRoleId,
+            				  },
+            				  success: function(data){
+            					  if(data === 'false'){
+            						  alert('Error while deleting account: ' + deleteRoleId);
+            					  } else {
+            						  alert('Deleted ' + deleteRoleId + ' successfully!');
+            						  location.reload();
+            					  }
+            				  }
+            			}).done(function() {
+
+            			});
+                   }
+               },
+               {
+                   text: 'Cancel',
+                   icons: { primary: "ui-icon-circle-close"},
+               	  click: function(){
+               		$( this ).dialog( "close" );
+               	  }
+               }
+           ]
+        });
+
+        $( "#deleteRoleDialog" ).dialog( "option", "hide");
 });

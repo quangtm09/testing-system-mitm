@@ -79,4 +79,8 @@ public class TSConstants {
 	public static final String DELETE_LOG = "deleteLog";
 
 	public static final String SEARCH_LOG ="searchLog";
+
+	public static final String ADD_NEW_ROLE ="addNewRole";
+
+	public static final String DELETE_ROLE ="deleteRole";
 }

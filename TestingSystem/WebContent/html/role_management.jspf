@@ -12,32 +12,21 @@
 	Role stuRole = roleDao.findById(RoleConstants.ROLE_STUDENT);
 	RolePermissionMapDao rpm = new RolePermissionMapDaoImpl();
 	List<Role> roleList = roleDao.findAll();
-	/*List<List<RolePermissionMap>> listPermissionByRole = new ArrayList<List<RolePermissionMap>>();
-	int count = 0;
-	for (int i = 0; i < roleList.size(); i++) {
-		List<RolePermissionMap> rolePermissionList = rpm
-				.searchPermissionByRole(roleList.get(i));
-		listPermissionByRole.add(i, rolePermissionList);
-	}
-	int countRole = listPermissionByRole.size();
-	System.out.println("count Role : " + countRole);
-	System.out.println(listPermissionByRole.get(0).listIterator());
-	*/
 %>
 </style>
 <div style="font-size: 2.5em;">
 	<div style="display: inline; text-align: left">Role Management</div>
-	<a href="${home_url}" id="backButton" class="rightButton"
-		style="font-size: 0.5em">Back</a>
+	<a href="javascript:openAddNewRoleDialog();" id="addRole"
+		class="rightButton">Add New Role</a>
 	<hr>
 </div>
 <div class="CSSTableGenerator" style="margin-top: 20px">
 	<table>
 		<tr>
 			<td></td>
-			<c:set var="roleAdmin" value="<%=RoleConstants.ROLE_ADMIN%>"/>
-			<c:set var="roleLec" value="<%=RoleConstants.ROLE_LECTURER%>"/>
-			<c:set var="roleStu" value="<%=RoleConstants.ROLE_STUDENT%>"/>
+			<c:set var="roleAdmin" value="<%=RoleConstants.ROLE_ADMIN%>" />
+			<c:set var="roleLec" value="<%=RoleConstants.ROLE_LECTURER%>" />
+			<c:set var="roleStu" value="<%=RoleConstants.ROLE_STUDENT%>" />
 			<c:forEach items="<%=roleList%>" var="role">
 				<td style="COLOR: #ffff80; FONT-SIZE: medium; FONT-WEIGHT: bold;">${role.roleName}
 					<c:choose>
@@ -60,6 +49,9 @@
 							<a title="Update Permission"
 								href="javascript:openOtherPermissionDialog('${role.roleId}');"
 								onclick=";"><img src="/TestingSystem/images/edit_icon.png" /></a>
+							<a title="Delete" onclick="deleteRole('${role.roleId}')"
+								href="javascript:;"><img
+								src="/TestingSystem/images/delete_icon.png" /></a>
 						</c:otherwise>
 					</c:choose>
 
@@ -355,8 +347,8 @@
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
 				Profile</td>
-			<td align="center"><input id="otherUpdateProfile" type="checkbox"
-				name="otherPermission" value="9"></td>
+			<td align="center"><input id="otherUpdateProfile"
+				type="checkbox" name="otherPermission" value="9"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Manage
@@ -367,8 +359,8 @@
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
 				Account</td>
-			<td align="center"><input id="otherCreateAccount" type="checkbox"
-				name="otherPermission" value="7"></td>
+			<td align="center"><input id="otherCreateAccount"
+				type="checkbox" name="otherPermission" value="7"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
@@ -463,4 +455,21 @@
 
 	</table>
 </div>
-
+<div id="addNewRoleDialog" title="Add New Role">
+	<div id="otherPremissionResult"></div>
+	<table>
+		<tr>
+			<td>Role Name:</td>
+			<td><input type="text" style="width: 250px" name="roleName"
+				id="roleName"></td>
+		</tr>
+		<tr>
+			<td>Description:</td>
+			<td><input type="text" style="width: 250px; height: 100px"
+				name="roleDesc" id="roleDesc"></td>
+		</tr>
+	</table>
+</div>
+<div id="deleteRoleDialog" title="Delete Role">
+	<span id="deleteRoleMessage"></span>
+</div>

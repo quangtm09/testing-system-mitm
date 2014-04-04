@@ -3,13 +3,16 @@ package model;
 // default package
 // Generated Mar 15, 2014 7:27:54 PM by Hibernate Tools 3.4.0.CR1
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -31,13 +34,13 @@ public class Role implements java.io.Serializable {
 	public Role() {
 	}
 
-	public Role(String roleName) {
+	public Role(final String roleName) {
 		this.roleName = roleName;
 	}
 
-	public Role(String roleName, String roleDesc,
-			Set<RolePermissionMap> rolePermissionMaps,
-			Set<AccountRoleMap> accountRoleMaps) {
+	public Role(final String roleName, final String roleDesc,
+			final Set<RolePermissionMap> rolePermissionMaps,
+			final Set<AccountRoleMap> accountRoleMaps) {
 		this.roleName = roleName;
 		this.roleDesc = roleDesc;
 		this.rolePermissionMaps = rolePermissionMaps;
@@ -51,7 +54,7 @@ public class Role implements java.io.Serializable {
 		return this.roleId;
 	}
 
-	public void setRoleId(Integer roleId) {
+	public void setRoleId(final Integer roleId) {
 		this.roleId = roleId;
 	}
 
@@ -60,7 +63,7 @@ public class Role implements java.io.Serializable {
 		return this.roleName;
 	}
 
-	public void setRoleName(String roleName) {
+	public void setRoleName(final String roleName) {
 		this.roleName = roleName;
 	}
 
@@ -69,25 +72,25 @@ public class Role implements java.io.Serializable {
 		return this.roleDesc;
 	}
 
-	public void setRoleDesc(String roleDesc) {
+	public void setRoleDesc(final String roleDesc) {
 		this.roleDesc = roleDesc;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role", cascade = {CascadeType.ALL}, orphanRemoval = true)
 	public Set<RolePermissionMap> getRolePermissionMaps() {
 		return this.rolePermissionMaps;
 	}
 
-	public void setRolePermissionMaps(Set<RolePermissionMap> rolePermissionMaps) {
+	public void setRolePermissionMaps(final Set<RolePermissionMap> rolePermissionMaps) {
 		this.rolePermissionMaps = rolePermissionMaps;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role", cascade = {CascadeType.ALL}, orphanRemoval = true)
 	public Set<AccountRoleMap> getAccountRoleMaps() {
 		return this.accountRoleMaps;
 	}
 
-	public void setAccountRoleMaps(Set<AccountRoleMap> accountRoleMaps) {
+	public void setAccountRoleMaps(final Set<AccountRoleMap> accountRoleMaps) {
 		this.accountRoleMaps = accountRoleMaps;
 	}
 
