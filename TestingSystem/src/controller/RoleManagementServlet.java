@@ -199,7 +199,7 @@ public class RoleManagementServlet extends HttpServlet {
 		rolePermissionMapDao.save(this.rolePermissionMap);
 	}
 
-	private void deletePermission(final Account account) {
+	public static void deletePermission(final Account account) {
 		final List<RolePermissionMap> rpmList = rolePermissionMapDao
 				.searchPermissionByAccount(account);
 		for (final RolePermissionMap rpm : rpmList) {

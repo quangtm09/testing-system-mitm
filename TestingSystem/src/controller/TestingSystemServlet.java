@@ -3,7 +3,9 @@ package controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
@@ -17,7 +19,9 @@ import javax.servlet.http.HttpSession;
 
 import model.Account;
 import model.AccountRoleMap;
+import model.Permission;
 import model.Role;
+import model.RolePermissionMap;
 import model.User;
 
 import org.apache.log4j.Logger;
@@ -29,11 +33,15 @@ import constants.RoleConstants;
 import constants.TSConstants;
 import dao.AccountDao;
 import dao.AccountRoleMapDao;
+import dao.PermissionDao;
 import dao.RoleDao;
+import dao.RolePermissionMapDao;
 import dao.UserDao;
 import dao.impl.AccountDaoImpl;
 import dao.impl.AccountRoleMapDaoImpl;
+import dao.impl.PermissionDaoImpl;
 import dao.impl.RoleDaoImpl;
+import dao.impl.RolePermissionMapDaoImpl;
 import dao.impl.UserDaoImpl;
 
 /**
@@ -51,6 +59,9 @@ public class TestingSystemServlet extends HttpServlet {
 	private static final UserDao userDao = new UserDaoImpl();
 	private static final RoleDao roleDao = new RoleDaoImpl();
 	private static final AccountRoleMapDao aRMDao = new AccountRoleMapDaoImpl();
+	private RolePermissionMap rolePermissionMap;
+	private static final RolePermissionMapDao rolePermissionMapDao = new RolePermissionMapDaoImpl();
+	private final PermissionDao permissionDao = new PermissionDaoImpl();
 
 
 	protected void processRequest(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
@@ -424,6 +435,8 @@ public class TestingSystemServlet extends HttpServlet {
 
 			final Set<AccountRoleMap> arms = account.getAccountRoleMapsForAccId();
 
+			final List<RolePermissionMap> listRolePermission = rolePermissionMapDao.searchPermissionByRole(selectedRole);
+
 			if(arms.size() != 0){
 				AccountRoleMap oldARM = null;
 
@@ -433,6 +446,34 @@ public class TestingSystemServlet extends HttpServlet {
 
 				final Role oldRole = oldARM.getRole();
 
+				final List<Permission> permissionList = new ArrayList<Permission>();
+
+				final List<RolePermissionMap> rpmList = rolePermissionMapDao
+						.searchPermissionByAccount(account);
+				if (rpmList.size() > 0) {
+					RoleManagementServlet.deletePermission(account);
+
+				} else {
+					final List<RolePermissionMap> rolePermissionlist = rolePermissionMapDao
+							.searchPermissionByRole(oldRole);
+					System.out.println(rolePermissionlist.toString());
+					for (final RolePermissionMap rpmdelete : rolePermissionlist) {
+						rolePermissionMapDao.delete(rpmdelete);
+					}
+				}
+
+				for (final RolePermissionMap rpm : listRolePermission) {
+					final Permission permission = rpm.getPermission();
+					this.rolePermissionMap = new RolePermissionMap();
+					this.rolePermissionMap.setAccount(account);
+					this.rolePermissionMap.setPermission(permission);
+					this.rolePermissionMap.setRole(selectedRole);
+					this.rolePermissionMap
+							.setRolePermissionGrantedDate(new Date());
+
+					rolePermissionMapDao.save(this.rolePermissionMap);
+				}
+
 				if(oldRole.getRoleId() != selectedRole.getRoleId()){
 					oldARM.setRole(selectedRole);
 					oldARM.setAccRoleGrantedDate(new Date());
@@ -440,6 +481,17 @@ public class TestingSystemServlet extends HttpServlet {
 					isChangedSuccess = aRMDao.update(oldARM);
 				}
 			} else {
+				for (final RolePermissionMap rpm : listRolePermission) {
+					final Permission permission = rpm.getPermission();
+					this.rolePermissionMap = new RolePermissionMap();
+					this.rolePermissionMap.setAccount(account);
+					this.rolePermissionMap.setPermission(permission);
+					this.rolePermissionMap.setRole(selectedRole);
+					this.rolePermissionMap
+							.setRolePermissionGrantedDate(new Date());
+					rolePermissionMapDao.save(this.rolePermissionMap);
+				}
+
 				final AccountRoleMap arm = new AccountRoleMap();
 				arm.setAccountByAccId(account);
 				arm.setRole(selectedRole);

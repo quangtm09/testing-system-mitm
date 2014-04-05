@@ -62,7 +62,7 @@ public class User implements java.io.Serializable {
 	}
 
 	@Id
-	@Column(name = "USER_ID", unique = true, nullable = false, length = 10)
+	@Column(name = "USER_ID", unique = true, nullable = false, length = 100)
 	public String getUserId() {
 		return this.userId;
 	}
