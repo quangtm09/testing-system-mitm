@@ -148,7 +148,7 @@ public class RoleManagementServlet extends HttpServlet {
 			final Role role = roleDao.findById(Integer.parseInt(roleId.trim()));
 			final List<AccountRoleMap> accountList = accountRoleMapDao
 					.searchAccountByRoleId(role);
-
+			System.out.println("aaaaaaaaaaaaaa:  "+accountList.size());
 			if (accountList.size() > 0) {
 				for (final AccountRoleMap accRoleMap : accountList) {
 
@@ -156,7 +156,7 @@ public class RoleManagementServlet extends HttpServlet {
 					final List<RolePermissionMap> rpmList = rolePermissionMapDao
 							.searchPermissionByAccount(acc);
 					if (rpmList.size() > 0) {
-						this.deletePermission(acc);
+						deletePermission(acc);
 
 					} else {
 						final List<RolePermissionMap> rolePermissionlist = rolePermissionMapDao
@@ -233,7 +233,14 @@ public class RoleManagementServlet extends HttpServlet {
 		final String deleteRoleId = request.getParameter("deleteRoleId");
 		try {
 			final Role role = roleDao.findById(Integer.parseInt(deleteRoleId));
-			roleDao.delete(role);
+			final List<AccountRoleMap> accList = accountRoleMapDao.searchAccountByRoleId(role);
+			for(AccountRoleMap arm : accList)
+			{
+//				arm.setRole(null);
+//				accountRoleMapDao.update(arm);
+				accountRoleMapDao.delete(arm);
+			}
+			roleDao.delete(role);	
 		} catch (final Exception ex) {
 			ex.printStackTrace();
 			RoleManagementServlet.log.debug("Failed to edit role");

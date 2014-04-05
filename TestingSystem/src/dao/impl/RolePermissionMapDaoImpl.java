@@ -9,7 +9,6 @@ import model.Role;
 import model.RolePermissionMap;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.MDC;
 import org.hibernate.Query;
 
 import dao.AbstractHibernateDaoSupport;
@@ -55,6 +54,7 @@ public class RolePermissionMapDaoImpl extends
 		return this.delete(rolePermissionMap);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<RolePermissionMap> searchPermissionByRole(final Role role) {
 		List<RolePermissionMap> results = new ArrayList<RolePermissionMap>();

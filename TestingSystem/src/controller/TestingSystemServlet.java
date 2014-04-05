@@ -431,8 +431,6 @@ public class TestingSystemServlet extends HttpServlet {
 		boolean isChangedSuccess = false;
 
 		if(selectedRole != null){
-			final HttpSession currentSession = request.getSession();
-
 			final Set<AccountRoleMap> arms = account.getAccountRoleMapsForAccId();
 
 			final List<RolePermissionMap> listRolePermission = rolePermissionMapDao.searchPermissionByRole(selectedRole);
@@ -445,8 +443,6 @@ public class TestingSystemServlet extends HttpServlet {
 				}
 
 				final Role oldRole = oldARM.getRole();
-
-				final List<Permission> permissionList = new ArrayList<Permission>();
 
 				final List<RolePermissionMap> rpmList = rolePermissionMapDao
 						.searchPermissionByAccount(account);
@@ -473,7 +469,7 @@ public class TestingSystemServlet extends HttpServlet {
 
 					rolePermissionMapDao.save(this.rolePermissionMap);
 				}
-
+				
 				if(oldRole.getRoleId() != selectedRole.getRoleId()){
 					oldARM.setRole(selectedRole);
 					oldARM.setAccRoleGrantedDate(new Date());

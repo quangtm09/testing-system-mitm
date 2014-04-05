@@ -39,12 +39,12 @@ public class LogDaoImpl extends AbstractHibernateDaoSupport<Logs, Integer>
 		return results;
 	}
 
-	public static void main(String[] args) {
-		LogDao ld = new LogDaoImpl();
-		AccountDao accD = new AccountDaoImpl();
-		Account acc = accD.findById("AD01");
-		List<Logs> logs = ld.findAll();
-	}
+//	public static void main(String[] args) {
+//		LogDao ld = new LogDaoImpl();
+//		AccountDao accD = new AccountDaoImpl();
+//		Account acc = accD.findById("AD01");
+//		List<Logs> logs = ld.findAll();
+//	}
 
 	@Override
 	public boolean deleteLogCurrentDay(Date date) {

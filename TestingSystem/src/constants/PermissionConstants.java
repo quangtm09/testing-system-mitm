@@ -21,63 +21,67 @@ public class PermissionConstants {
 	public static final int DELETE_TEST = 5;
 	public static final String str_DELETE_TEST = "Delete Test";
 
-	// View Test Result Permission
-	public static final int VIEW_RESULTS = 6;
-	public static final String str_VIEW_RESULTS = "View Result";
-
-	// Create Account Permission
-	public static final int CREATE_ACCOUNT = 7;
-	public static final String str_CREATE_ACCOUNT = "Create Account";
-
-	// Add User Permission
-	public static final int ADD_USER = 8;
-	public static final String str_ADD_USER = "Add User";
-
-	// Update Profile Permission
-	public static final int UPDATE_PROFILE = 9;
-	public static final String str_UPDATE_PROFILE = "Update Profile";
-
-	// View History Permission
-	public static final int VIEW_HISTORY = 10;
-	public static final String str_VIEW_HISTORY = "View History";
-
-	// Manage User Permission
-	public static final int MANAGE = 11;
-	public static final String str_MANAGE = "Manage User";
-
-	// Remove User Permission
-	public static final int REMOVE_USER = 12;
-	public static final String str_REMOVE_USER = "Remove User";
-
 	// Update Test
-	public static final int UPDATE_TEST = 13;
+	public static final int UPDATE_TEST = 6;
 	public static final String str_UPDATE_TEST = "Update Test";
 
 	// Deploy Test
-	public static final int DEPLOY_TEST = 14;
+	public static final int DEPLOY_TEST = 7;
 	public static final String str_DEPLOY_TEST = "Deploy Test";
 
-	// View Account
-	public static final int VIEW_ACCOUNT = 15;
-	public static final String str_VIEW_ACCOUNT = "View Account";
-	
-	// Drop Account
-	public static final int DROP_ACCOUNT = 16;
-	public static final String str_DROP_ACCOUNT = "Drop Account";
-	
-	//Create Question
-	public static final int CREATE_QUESTION = 17;
+	// Create Question
+	public static final int CREATE_QUESTION = 8;
 	public static final String str_CREATE_QUESTION = "Create Question";
-	
+
 	// View Question
-	public static final int VIEW_QUESTION = 18;
+	public static final int VIEW_QUESTION = 9;
 	public static final String str_VIEW_QUESTION = "View Question";
-	
+
 	// Update Question
-	public static final int UPDATE_QUESTION = 19;
+	public static final int UPDATE_QUESTION = 10;
 	public static final String str_UPDATE_QUESTION = "Update Question";
-	
+
 	// Drop Question
-	public static final int DROP_QUESTION = 20;
+	public static final int DROP_QUESTION = 11;
 	public static final String str_DROP_QUESTION = "Drop Question";
+
+	// View Test Result Permission
+	public static final int VIEW_RESULTS = 12;
+	public static final String str_VIEW_RESULTS = "View Result";
+
+	// Add User Permission
+	public static final int CREATE_USER = 13;
+	public static final String str_ADD_USER = "Add User";
+
+	// Update Profile Permission
+	public static final int UPDATE_PROFILE = 14;
+	public static final String str_UPDATE_PROFILE = "Update Profile";
+
+	// Manage User Permission
+	public static final int MANAGE_USER = 15;
+	public static final String str_MANAGE_USER = "Manage User";
+
+	// Remove User Permission
+	public static final int REMOVE_USER = 16;
+	public static final String str_REMOVE_USER = "Remove User";
+
+	// Create Account Permission
+	public static final int CREATE_ACCOUNT = 17;
+	public static final String str_CREATE_ACCOUNT = "Create Account";
+
+	// View Account
+	public static final int VIEW_ACCOUNT = 18;
+	public static final String str_VIEW_ACCOUNT = "View Account";
+
+	// Drop Account
+	public static final int DROP_ACCOUNT = 19;
+	public static final String str_DROP_ACCOUNT = "Drop Account";
+
+	// remove Account
+	public static final int REMOVE_ACCOUNT = 20;
+	public static final String str_REMOVE_ACCOUNT = "Remove Account";
+
+	// change Password
+	public static final int CHANGE_PASSWD = 21;
+	public static final String str_CHANGE_PASSWD = "Change Password";
 }

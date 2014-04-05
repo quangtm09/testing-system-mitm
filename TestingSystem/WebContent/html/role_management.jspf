@@ -7,17 +7,21 @@
 	PermissionDao permissionDao = new PermissionDaoImpl();
 	List<Permission> permissionList = permissionDao.findAll();
 	RoleDao roleDao = new RoleDaoImpl();
-	Role adRole = roleDao.findById(RoleConstants.ROLE_ADMIN);
+/*	Role adRole = roleDao.findById(RoleConstants.ROLE_ADMIN);
 	Role lecRole = roleDao.findById(RoleConstants.ROLE_LECTURER);
 	Role stuRole = roleDao.findById(RoleConstants.ROLE_STUDENT);
+	*/
 	RolePermissionMapDao rpm = new RolePermissionMapDaoImpl();
 	List<Role> roleList = roleDao.findAll();
+//	System.out.println("roleList_Size: "+ roleList.size());
+	AccountRoleMapDao armDao = new AccountRoleMapDaoImpl();
+	
 %>
 </style>
 <div style="font-size: 2.5em;">
 	<div style="display: inline; text-align: left">Role Management</div>
-	<a href="javascript:openAddNewRoleDialog();" id="addRole"
-		class="rightButton">Add New Role</a>
+	<a href="javascript:openAddNewRoleDialog();" id="backButton"
+		class="rightButton" style="font-size: 0.5em">Add New Role</a>
 	<hr>
 </div>
 <div class="CSSTableGenerator" style="margin-top: 20px">
@@ -66,7 +70,8 @@
 					for (int i = 0; i < roleList.size(); i++) {
 							List<RolePermissionMap> listPermissionByRoleId = rpm
 									.searchPermissionByRole(roleList.get(i));
-							System.out.println(listPermissionByRoleId.toString());
+							System.out.println("Role ID: "+ roleList.get(i).getRoleId());
+							System.out.println("Permission NAME: "+listPermissionByRoleId.toString());
 				%>
 				<td><c:forEach items="<%=listPermissionByRoleId%>"
 						var="listPermissionByRoleID">
@@ -84,6 +89,54 @@
 		</c:forEach>
 	</table>
 </div>
+<br>
+<hr noshade size=3 color="grey">
+<br>
+<div id="accountList" class="CSSTableGenerator" style="margin-top: 20px">
+	<% int countRole = 0; %>
+	<c:forEach items="<%=roleList%>" var="role">
+		<table>
+			<thead style="COLOR: #ffff80; FONT-SIZE: medium; FONT-WEIGHT: bold;">
+				<tr>
+					<td>${role.roleName}</td>
+				</tr>
+			</thead>
+			<tr>
+				<td>No.</td>
+				<td>Account Id</td>
+				<td>User Id</td>
+				<td>First Name</td>
+				<td>Last Name</td>
+				<td>Created By Account ID</td>
+				<td>Created Date</td>
+			</tr>
+			<tbody id="itemContainer">
+				<c:set var="count" value="0" />
+				<%
+					List<AccountRoleMap> accountList = armDao.searchAccountByRoleId(roleList.get(countRole));
+			 %>
+				<c:forEach items="<%=accountList%>" var="accList">
+					<c:set var="count" value="${count + 1}" />
+					<tr></tr>
+					<tr>
+						<td>${count}.</td>
+						<td>${accList.accountByAccId.accId}</td>
+						<td>${accList.accountByAccId.user.userId}</td>
+						<td>${accList.accountByAccId.user.fname}</td>
+						<td>${accList.accountByAccId.user.lname}</td>
+						<td>${accList.accountByCreatorAccRoleId.accId}</td>
+						<td>${accList.accRoleGrantedDate}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<% countRole = countRole+ 1;%>
+		<br />
+		<div align="center" class="tableNavigation"></div>
+		<hr noshade size=3 color="grey">
+		<br />
+	</c:forEach>
+</div>
 
 <div id="adminPermissionDialog" title="Update Admin Permission">
 	<input type="hidden" id="roleId">
@@ -99,49 +152,43 @@
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
 				User</td>
 			<td align="center"><input id="adCreateUser" type="checkbox"
-				name="adPermission" value="8"></td>
+				name="adPermission" value="<%=PermissionConstants.CREATE_USER%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
 				Profile</td>
 			<td align="center"><input id="adUpdateProfile" type="checkbox"
-				name="adPermission" value="9"></td>
+				name="adPermission" value="<%=PermissionConstants.UPDATE_PROFILE%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Remove
 				User</td>
 			<td align="center"><input id="adRemoveUser" type="checkbox"
-				name="adPermission" value="12"></td>
+				name="adPermission" value="<%=PermissionConstants.REMOVE_USER%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Manage
 				Users</td>
 			<td align="center"><input id="adManageUser" type="checkbox"
-				name="adPermission" value="11"></td>
+				name="adPermission" value="<%=PermissionConstants.MANAGE_USER%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
 				Account</td>
 			<td align="center"><input id="adCreateAccount" type="checkbox"
-				name="adPermission" value="7"></td>
+				name="adPermission" value="<%=PermissionConstants.CREATE_ACCOUNT%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
 				Account</td>
 			<td align="center"><input id="adViewAccount" type="checkbox"
-				name="adPermission" value="15"></td>
+				name="adPermission" value="<%=PermissionConstants.VIEW_ACCOUNT%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Drop
 				Account</td>
 			<td align="center"><input id="adDropAccount" type="checkbox"
-				name="adPermission" value="16"></td>
-		</tr>
-		<tr>
-			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
-				History</td>
-			<td align="center"><input id="adViewHist" type="checkbox"
-				name="adPermission" value="10"></td>
+				name="adPermission" value="<%=PermissionConstants.DROP_ACCOUNT%>"></td>
 		</tr>
 	</table>
 </div>
@@ -160,109 +207,105 @@
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
 				Profile</td>
 			<td align="center"><input id="lecUpdateProfile" type="checkbox"
-				name="lecPermission" value="9"></td>
+				name="lecPermission" value="<%=PermissionConstants.UPDATE_PROFILE%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Manage
 				Users</td>
 			<td align="center"><input id="lecManageUser" type="checkbox"
-				name="lecPermission" value="11"></td>
+				name="lecPermission" value="<%=PermissionConstants.MANAGE_USER%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
 				Account</td>
 			<td align="center"><input id="lecCreateAccount" type="checkbox"
-				name="lecPermission" value="7"></td>
+				name="lecPermission" value="<%=PermissionConstants.CREATE_ACCOUNT%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
 				Account</td>
 			<td align="center"><input id="lecViewAccount" type="checkbox"
-				name="lecPermission" value="15"></td>
+				name="lecPermission" value="<%=PermissionConstants.VIEW_ACCOUNT%>"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Drop
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Remove
 				Account</td>
 			<td align="center"><input id="lecDropAccount" type="checkbox"
-				name="lecPermission" value="16"></td>
-		</tr>
-		<tr>
-			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
-				History</td>
-			<td align="center"><input id="lecViewHist" type="checkbox"
-				name="lecPermission" value="10"></td>
+				name="lecPermission" value="<%=PermissionConstants.REMOVE_ACCOUNT%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
 				Test</td>
 			<td align="center"><input id="lecCreateTest" type="checkbox"
-				name="lecPermission" value="1"></td>
+				name="lecPermission" value="<%=PermissionConstants.CREATE_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Edit
 				Test</td>
 			<td align="center"><input id="lecEditTest" type="checkbox"
-				name="lecPermission" value="2"></td>
+				name="lecPermission" value="<%=PermissionConstants.EDIT_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Take
 				Test</td>
-			<td align="center"><input id="lecEditTest" type="checkbox"
-				name="lecPermission" value="3"></td>
+			<td align="center"><input id="lecTakeTest" type="checkbox"
+				name="lecPermission" value="<%=PermissionConstants.TAKE_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
 				Test</td>
 			<td align="center"><input id="lecViewTest" type="checkbox"
-				name="lecPermission" value="4"></td>
-		</tr>
-		<tr>
-			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Take
-				Test</td>
-			<td align="center"><input id="lecEditTest" type="checkbox"
-				name="lecPermission" value="3"></td>
+				name="lecPermission" value="<%=PermissionConstants.VIEW_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
 				Test</td>
 			<td align="center"><input id="lecUpdateTest" type="checkbox"
-				name="lecPermission" value="13"></td>
+				name="lecPermission" value="<%=PermissionConstants.UPDATE_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Deploy
 				Test</td>
 			<td align="center"><input id="lecDeployTest" type="checkbox"
-				name="lecPermission" value="14"></td>
+				name="lecPermission" value="<%=PermissionConstants.DEPLOY_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Delete
 				Test</td>
 			<td align="center"><input id="lecDeleteTest" type="checkbox"
-				name="lecPermission" value="5"></td>
+				name="lecPermission" value="<%=PermissionConstants.DELETE_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
 				Question</td>
 			<td align="center"><input id="lecCreateQuest" type="checkbox"
-				name="lecPermission" value="17"></td>
+				name="lecPermission"
+				value="<%=PermissionConstants.CREATE_QUESTION%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
 				Question</td>
 			<td align="center"><input id="lecUpdateQuest" type="checkbox"
-				name="lecPermission" value="19"></td>
+				name="lecPermission"
+				value="<%=PermissionConstants.UPDATE_QUESTION%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
 				Question</td>
 			<td align="center"><input id="lecViewQuest" type="checkbox"
-				name="lecPermission" value="18"></td>
+				name="lecPermission" value="<%=PermissionConstants.VIEW_QUESTION%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Drop
 				Question</td>
 			<td align="center"><input id="lecDropQuest" type="checkbox"
-				name="lecPermission" value="20"></td>
+				name="lecPermission" value="<%=PermissionConstants.DROP_QUESTION%>"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Change
+				Password</td>
+			<td align="center"><input id="lecChangePassword" type="checkbox"
+				name="lecPermission" value="<%=PermissionConstants.CHANGE_PASSWD%>"></td>
 		</tr>
 
 	</table>
@@ -282,55 +325,55 @@
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
 				Profile</td>
 			<td align="center"><input id="stuUpdateProfile" type="checkbox"
-				name="stuPermission" value="9"></td>
+				name="stuPermission" value="<%=PermissionConstants.UPDATE_PROFILE%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
 				Account</td>
 			<td align="center"><input id="adViewAccount" type="checkbox"
-				name="stuPermission" value="15"></td>
-		</tr>
-		<tr>
-			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
-				History</td>
-			<td align="center"><input id="adViewHist" type="checkbox"
-				name="stuPermission" value="10"></td>
+				name="stuPermission" value="<%=PermissionConstants.VIEW_ACCOUNT%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Take
 				Test</td>
-			<td align="center"><input id="stuEditTest" type="checkbox"
-				name="stuPermission" value="3"></td>
+			<td align="center"><input id="stuTakeTest" type="checkbox"
+				name="stuPermission" value="<%=PermissionConstants.TAKE_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
 				Test</td>
 			<td align="center"><input id="stuViewTest" type="checkbox"
-				name="stuPermission" value="4"></td>
+				name="stuPermission" value="<%=PermissionConstants.VIEW_RESULTS%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
 				Test</td>
 			<td align="center"><input id="stuUpdateTest" type="checkbox"
-				name="stuPermission" value="13"></td>
+				name="stuPermission" value="<%=PermissionConstants.UPDATE_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Deploy
 				Test</td>
 			<td align="center"><input id="stuDeployTest" type="checkbox"
-				name="stuPermission" value="14"></td>
+				name="stuPermission" value="<%=PermissionConstants.DEPLOY_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
 				Question</td>
 			<td align="center"><input id="stuViewQuest" type="checkbox"
-				name="stuPermission" value="18"></td>
+				name="stuPermission" value="<%=PermissionConstants.VIEW_QUESTION%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
 				Results</td>
 			<td align="center"><input id="stuViewResult" type="checkbox"
-				name="stuPermission" value="6"></td>
+				name="stuPermission" value="<%=PermissionConstants.VIEW_RESULTS%>"></td>
+		</tr>
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Change
+				Password</td>
+			<td align="center"><input id="stuChangePassword" type="checkbox"
+				name="stuPermission" value="<%=PermissionConstants.CHANGE_PASSWD%>"></td>
 		</tr>
 	</table>
 </div>
@@ -345,114 +388,127 @@
 				style="FONT-SIZE: medium; COLOR: #ff8000; BACKGROUND-COLOR: #ffffff; FONT-WEIGHT: bold;">Select</td>
 		</tr>
 		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
+				User</td>
+			<td align="center"><input id="otherCreateUser" type="checkbox"
+				name="otherPermission" value="<%=PermissionConstants.CREATE_USER%>"></td>
+		</tr>
+		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
 				Profile</td>
 			<td align="center"><input id="otherUpdateProfile"
-				type="checkbox" name="otherPermission" value="9"></td>
+				type="checkbox" name="otherPermission"
+				value="<%=PermissionConstants.UPDATE_PROFILE%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Manage
 				Users</td>
 			<td align="center"><input id="otherManageUser" type="checkbox"
-				name="otherPermission" value="11"></td>
+				name="otherPermission" value="<%=PermissionConstants.MANAGE_USER%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
 				Account</td>
 			<td align="center"><input id="otherCreateAccount"
-				type="checkbox" name="otherPermission" value="7"></td>
+				type="checkbox" name="otherPermission"
+				value="<%=PermissionConstants.CREATE_ACCOUNT%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
 				Account</td>
 			<td align="center"><input id="otherViewAccount" type="checkbox"
-				name="otherPermission" value="15"></td>
+				name="otherPermission" value="<%=PermissionConstants.VIEW_ACCOUNT%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Drop
 				Account</td>
 			<td align="center"><input id="otherDropAccount" type="checkbox"
-				name="otherPermission" value="16"></td>
+				name="otherPermission" value="<%=PermissionConstants.DROP_ACCOUNT%>"></td>
 		</tr>
 		<tr>
-			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
-				History</td>
-			<td align="center"><input id="otherViewHist" type="checkbox"
-				name="otherPermission" value="10"></td>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Remove
+				Account</td>
+			<td align="center"><input id="otherDropAccount" type="checkbox"
+				name="otherPermission"
+				value="<%=PermissionConstants.REMOVE_ACCOUNT%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
 				Test</td>
 			<td align="center"><input id="otherCreateTest" type="checkbox"
-				name="otherPermission" value="1"></td>
+				name="otherPermission" value="<%=PermissionConstants.CREATE_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Edit
 				Test</td>
 			<td align="center"><input id="otherEditTest" type="checkbox"
-				name="otherPermission" value="2"></td>
+				name="otherPermission" value="<%=PermissionConstants.EDIT_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Take
 				Test</td>
-			<td align="center"><input id="otherEditTest" type="checkbox"
-				name="otherPermission" value="3"></td>
+			<td align="center"><input id="otherTakeTest" type="checkbox"
+				name="otherPermission" value="<%=PermissionConstants.TAKE_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
 				Test</td>
 			<td align="center"><input id="otherViewTest" type="checkbox"
-				name="otherPermission" value="4"></td>
-		</tr>
-		<tr>
-			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Take
-				Test</td>
-			<td align="center"><input id="otherEditTest" type="checkbox"
-				name="otherPermission" value="3"></td>
+				name="otherPermission" value="<%=PermissionConstants.VIEW_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
 				Test</td>
 			<td align="center"><input id="otherUpdateTest" type="checkbox"
-				name="otherPermission" value="13"></td>
+				name="otherPermission" value="<%=PermissionConstants.UPDATE_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Deploy
 				Test</td>
 			<td align="center"><input id="otherDeployTest" type="checkbox"
-				name="otherPermission" value="14"></td>
+				name="otherPermission" value="<%=PermissionConstants.DEPLOY_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Delete
 				Test</td>
 			<td align="center"><input id="otherDeleteTest" type="checkbox"
-				name="otherPermission" value="5"></td>
+				name="otherPermission" value="<%=PermissionConstants.DELETE_TEST%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Create
 				Question</td>
 			<td align="center"><input id="otherCreateQuest" type="checkbox"
-				name="otherPermission" value="17"></td>
+				name="otherPermission"
+				value="<%=PermissionConstants.CREATE_QUESTION%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Update
 				Question</td>
 			<td align="center"><input id="otherUpdateQuest" type="checkbox"
-				name="otherPermission" value="19"></td>
+				name="otherPermission"
+				value="<%=PermissionConstants.UPDATE_QUESTION%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">View
 				Question</td>
 			<td align="center"><input id="otherViewQuest" type="checkbox"
-				name="otherPermission" value="18"></td>
+				name="otherPermission"
+				value="<%=PermissionConstants.VIEW_QUESTION%>"></td>
 		</tr>
 		<tr>
 			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Drop
 				Question</td>
 			<td align="center"><input id="otherDropQuest" type="checkbox"
-				name="otherPermission" value="20"></td>
+				name="otherPermission"
+				value="<%=PermissionConstants.DROP_QUESTION%>"></td>
 		</tr>
-
+		<tr>
+			<td style="FONT-SIZE: small; COLOR: #0080c0; width: 150px">Change
+				Password</td>
+			<td align="center"><input id="otherChangePassword"
+				type="checkbox" name="otherPermission"
+				value="<%=PermissionConstants.CHANGE_PASSWD%>"></td>
+		</tr>
 	</table>
 </div>
 <div id="addNewRoleDialog" title="Add New Role">

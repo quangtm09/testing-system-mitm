@@ -43,7 +43,7 @@ public class LogManagementServlet extends HttpServlet {
 				StringPool.BLANK);
 		String tsTabParam = TSUtil.getParameter(request, "tsTab",
 				StringPool.BLANK);
-		final String userId = TSUtil.getParameter(request, "userId", null);
+//		final String userId = TSUtil.getParameter(request, "userId", null);
 
 		try {
 			// User submits login form
@@ -53,7 +53,7 @@ public class LogManagementServlet extends HttpServlet {
 				searchLog(request, response);
 			} else {
 				request.setAttribute("tsTab", tsTabParam);
-				request.setAttribute("userId", userId);
+//				request.setAttribute("userId", userId);
 
 				final HttpSession session = request.getSession();
 				final Integer roleId = ((Role) session.getAttribute("role"))
