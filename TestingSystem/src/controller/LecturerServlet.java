@@ -8,12 +8,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import model.Role;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.MDC;
 
 import util.StringPool;
 import util.TSUtil;
+import constants.RoleConstants;
 import constants.TSConstants;
 
 /**
@@ -30,6 +33,13 @@ public class LecturerServlet extends HttpServlet {
 		final String cmd = TSUtil.getParameter(request, TSConstants.CMD, StringPool.BLANK);
 		String tsTabParam = TSUtil.getParameter(request, "tsTab", StringPool.BLANK);
 		final String userId = TSUtil.getParameter(request, "userId", null);
+		final HttpSession session = request.getSession();
+
+		Integer roleId = 0;
+
+		if(session.getAttribute("role") != null){
+			roleId = ((Role)session.getAttribute("role")).getRoleId();
+		}
 
 		try {
 			// Lecturer do something
@@ -39,17 +49,21 @@ public class LecturerServlet extends HttpServlet {
 				request.setAttribute("tsTab", tsTabParam);
 				request.setAttribute("userId", userId);
 
-				this.goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
+				if(roleId == RoleConstants.ROLE_ADMIN){
+					request.setAttribute("tsTab", "404");
+					this.goToPage(TSConstants.INDEX_JSP, request, response);
+				} else if(roleId == RoleConstants.ROLE_LECTURER){
+					this.goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
+				} else if(roleId == RoleConstants.ROLE_STUDENT){
+					request.setAttribute("tsTab", "404");
+					this.goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
+				}
 			}
 		} catch (final Exception ex){
 			tsTabParam = "404";
 			ex.printStackTrace();
 			log.error("Error while processing request!");
-			try {
-				this.goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
-			} catch (final Exception e) {
-				e.printStackTrace();
-			}
+
 		}
 	}
 

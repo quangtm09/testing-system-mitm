@@ -84,6 +84,10 @@ public class RoleManagementServlet extends HttpServlet {
 				} else if (roleId == RoleConstants.ROLE_LECTURER) {
 					this.goToPage(TSConstants.LECTURER_INDEX_JSP, request,
 							response);
+				} else if(roleId == RoleConstants.ROLE_STUDENT){
+					request.setAttribute("tsTab", "404");
+					this.goToPage(TSConstants.STUDENT_INDEX_JSP, request,
+							response);
 				}
 			}
 

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.Account;
+import model.Role;
 import model.User;
 import util.StringPool;
 import util.TSUtil;
@@ -26,12 +27,12 @@ import constants.TSConstants;
 @WebFilter(description = "TSFilter", urlPatterns = { "/TSFilter" })
 public class TSFilter implements Filter {
 
-    /**
-     * Default constructor.
-     */
-    public TSFilter() {
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * Default constructor.
+	 */
+	public TSFilter() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Filter#destroy()
@@ -45,40 +46,62 @@ public class TSFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	@Override
-	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
-		final HttpSession session = ((HttpServletRequest) request).getSession(true);
+	public void doFilter(final ServletRequest request,
+			final ServletResponse response, final FilterChain chain)
+			throws IOException, ServletException {
+		final HttpSession session = ((HttpServletRequest) request)
+				.getSession(true);
 
 		final HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		final HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
-		final User currentLoggedInUser = (User)session.getAttribute("user");
-		final Account currentLoggedInAccount = (Account) session.getAttribute("account");
+		final User currentLoggedInUser = (User) session.getAttribute("user");
+		final Account currentLoggedInAccount = (Account) session
+				.getAttribute("account");
+		final Role currentLoggedInRole = (Role) session.getAttribute("role");
 
-		final String cmd = TSUtil.getParameter(httpServletRequest, TSConstants.CMD, StringPool.BLANK);
+		final String cmd = TSUtil.getParameter(httpServletRequest,
+				TSConstants.CMD, StringPool.BLANK);
 
-		if(currentLoggedInAccount == null && !cmd.equals(TSConstants.LOGIN)) {
-			this.goToPage(TSConstants.LOGIN_JSP, httpServletRequest, httpServletResponse);
+		if (currentLoggedInAccount == null && !cmd.equals(TSConstants.LOGIN)) {
+			this.goToPage(TSConstants.LOGIN_JSP, httpServletRequest,
+					httpServletResponse);
 			return;
 		} else {
-//			final Role accountRole = (Role) currentLoggedInAccount.getAccountRoleMapsForAccId().toArray()[0];
-//			final Set<RolePermissionMap> rpms = accountRole.getRolePermissionMaps();
+			// final Role accountRole = (Role)
+			// currentLoggedInAccount.getAccountRoleMapsForAccId().toArray()[0];
+			// final Set<RolePermissionMap> rpms =
+			// accountRole.getRolePermissionMaps();
+			//
+			// final List<Permission> permissionList = new
+			// ArrayList<Permission>();
+			//
+			// for(final RolePermissionMap rpm: rpms){
+			// permissionList.add(rpm.getPermission());
+			// }
+			//
+			// final Integer roleId = accountRole.getRoleId();
+			//
+			// if(roleId.equals(RoleConstants.ROLE_ADMIN)){
+			//
+			// } else if(roleId.equals(RoleConstants.ROLE_LECTURER)){
+			// // Cannot access something??
+			//
+			//
+			// } else if(roleId.equals(RoleConstants.ROLE_STUDENT)){
+			//
+			// }
+			final String requestURL = httpServletRequest.getRequestURL()
+					.toString();
+
+//			if (!cmd.equals(TSConstants.EDIT_USER)) {
 //
-//			final List<Permission> permissionList = new ArrayList<Permission>();
+//				if(requestURL.contains(TSConstants.TESTING_SYSTEM_SERVLET_URL_PATTERN)){
+//					if(r){
 //
-//			for(final RolePermissionMap rpm: rpms){
-//				permissionList.add(rpm.getPermission());
-//			}
-//
-//			final Integer roleId = accountRole.getRoleId();
-//
-//			if(roleId.equals(RoleConstants.ROLE_ADMIN)){
-//
-//			} else if(roleId.equals(RoleConstants.ROLE_LECTURER)){
-//				// Cannot access something??
-//
-//
-//			} else if(roleId.equals(RoleConstants.ROLE_STUDENT)){
-//
+//					}
+//				}
+//				this.goToPage(TSConstants.STUDENT_INDEX_JSP, httpServletRequest, httpServletResponse);
 //			}
 		}
 
@@ -94,7 +117,8 @@ public class TSFilter implements Filter {
 	}
 
 	public void goToPage(final String page, final HttpServletRequest request,
-			final HttpServletResponse response) throws ServletException, IOException {
+			final HttpServletResponse response) throws ServletException,
+			IOException {
 		final RequestDispatcher dispatcher = request.getServletContext()
 				.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
