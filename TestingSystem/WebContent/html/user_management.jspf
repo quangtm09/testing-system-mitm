@@ -54,7 +54,7 @@
 <c:choose>
    	<c:when test="<%=userList.size() > 0 %>">
 		<div class="emphasistable" style="margin-top: 20px" >
-		    <table id="one-column-emphasis" cellspacing="0" cellpadding="0" style="width: 1000px; font-size: 14px;">
+		    <table id="one-column-emphasis" cellspacing="0" cellpadding="0" style="width: 1000px; font-size: 14px; border-bottom: 1px solid black;">
 		    	<thead style="background-color: #e8edff">
 		        <tr>
 		            <td>No.</td>
@@ -96,6 +96,7 @@
 				</c:forEach>
 				</tbody>
 		    </table>
+		    <div align="center" class="tableNavigation"></div>
 		</div>
 	</c:when>
 	<c:otherwise>

@@ -58,7 +58,7 @@
 <c:choose>
    	<c:when test="<%=accountList.size() > 0 %>">
    		<div style="margin-top: 20px" class="emphasisTable">
-		    <table summary="Account Management" id="one-column-emphasis" cellspacing="0" cellpadding="0" style="width: 1000px; font-size: 14px;">
+		    <table summary="Account Management" id="one-column-emphasis" cellspacing="0" cellpadding="0" style="width: 1000px; font-size: 14px; border-bottom: 1px solid black;">
 		    	<thead style="background-color: #e8edff">
 			        <tr>
 			            <td>No.</td>

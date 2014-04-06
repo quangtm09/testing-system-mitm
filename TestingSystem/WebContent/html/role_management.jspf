@@ -3,16 +3,18 @@
 <%@page import="constants.*"%>
 <%@page import="dao.*"%>
 <%@page import="dao.impl.*"%>
-<%@page import="org.apache.log4j.MDC"%>
 <%
 	PermissionDao permissionDao = new PermissionDaoImpl();
 	List<Permission> permissionList = permissionDao.findAll();
 	RoleDao roleDao = new RoleDaoImpl();
+/*	Role adRole = roleDao.findById(RoleConstants.ROLE_ADMIN);
+	Role lecRole = roleDao.findById(RoleConstants.ROLE_LECTURER);
+	Role stuRole = roleDao.findById(RoleConstants.ROLE_STUDENT);
+	*/
 	RolePermissionMapDao rpm = new RolePermissionMapDaoImpl();
 	List<Role> roleList = roleDao.findAll();
+//	System.out.println("roleList_Size: "+ roleList.size());
 	AccountRoleMapDao armDao = new AccountRoleMapDaoImpl();
-	Account account = (Account) session.getAttribute("account");
-	MDC.put("AccId",account.getAccId());
 	
 %>
 </style>
@@ -71,7 +73,7 @@
 							System.out.println("Role ID: "+ roleList.get(i).getRoleId());
 							System.out.println("Permission NAME: "+listPermissionByRoleId.toString());
 				%>
-				<td align="center"><c:forEach items="<%=listPermissionByRoleId%>"
+				<td><c:forEach items="<%=listPermissionByRoleId%>"
 						var="listPermissionByRoleID">
 						<c:if
 							test="${listPermissionByRoleID.permission.permissionId == permission.permissionId}">
@@ -90,16 +92,15 @@
 <br>
 <hr noshade size=3 color="grey">
 <br>
-<div id="accountList" class="CSSTableGenerator" style="margin-top: 20px">
+<div id="accountList" class="emphasisTable" style="margin-top: 20px">
 	<% int countRole = 0; %>
 	<c:forEach items="<%=roleList%>" var="role">
-		<table>
-			<thead style="COLOR: #ffff80; FONT-SIZE: medium; FONT-WEIGHT: bold;">
+		<table id="one-column-emphasis" cellspacing="0" cellpadding="0" style="width: 1000px; font-size: 14px; border-bottom: 1px solid black;">
+			<thead style="COLOR: #ffff80; FONT-SIZE: medium; FONT-WEIGHT: bold; background-color: #e8edff">
 				<tr>
 					<td>${role.roleName}</td>
 				</tr>
-			</thead>
-			<tr>
+				<tr>
 				<td>No.</td>
 				<td>Account Id</td>
 				<td>User Id</td>
@@ -108,6 +109,8 @@
 				<td>Created By Account ID</td>
 				<td>Created Date</td>
 			</tr>
+			</thead>
+			
 			<tbody id="itemContainer">
 				<c:set var="count" value="0" />
 				<%
