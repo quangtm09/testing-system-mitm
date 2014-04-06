@@ -53,8 +53,9 @@
 
 <c:choose>
    	<c:when test="<%=userList.size() > 0 %>">
-		<div class="CSSTableGenerator" style="margin-top: 20px" >
-		    <table >
+		<div class="emphasistable" style="margin-top: 20px" >
+		    <table id="one-column-emphasis" cellspacing="0" cellpadding="0" style="width: 1000px; font-size: 14px;">
+		    	<thead style="background-color: #e8edff">
 		        <tr>
 		            <td>No.</td>
 		            <td>User ID</td>
@@ -63,6 +64,8 @@
 		            <td>Email</td>
 		            <td>Actions</td>
 		        </tr>
+		        </thead>
+		        <tbody>
 		        <c:set var="count" value="0"/>
 				<c:forEach items="<%=userList %>" var="user">
 					<tr>
@@ -91,6 +94,7 @@
 		
 					</tr>
 				</c:forEach>
+				</tbody>
 		    </table>
 		</div>
 	</c:when>

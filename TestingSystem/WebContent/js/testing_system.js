@@ -104,10 +104,19 @@ function blockUI(){
     });
 }
 
+$('.testFlex').flexigrid();
+
 // Document ready
 $(function() {
 	
     $('.CSSTableGenerator').pajinate({
+        items_per_page: 5,
+        item_container_id: '#itemContainer',
+        nav_panel_id: '.tableNavigation',
+        num_page_links_to_display: 5
+    });
+    
+    $('.emphasisTable').pajinate({
         items_per_page: 5,
         item_container_id: '#itemContainer',
         nav_panel_id: '.tableNavigation',

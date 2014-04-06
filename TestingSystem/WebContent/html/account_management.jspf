@@ -57,9 +57,9 @@
 
 <c:choose>
    	<c:when test="<%=accountList.size() > 0 %>">
-   		<div class="CSSTableGenerator" style="margin-top: 20px">
-		    <table summary="Account Management">
-		    	<thead>
+   		<div style="margin-top: 20px" class="emphasisTable">
+		    <table summary="Account Management" id="one-column-emphasis" cellspacing="0" cellpadding="0" style="width: 1000px; font-size: 14px;">
+		    	<thead style="background-color: #e8edff">
 			        <tr>
 			            <td>No.</td>
 			            <td>Account ID</td>
@@ -71,7 +71,6 @@
 			       </thead>
 		        <c:set var="count" value="0"/>
 		        <tbody id="itemContainer">
-		        <tr></tr>
 				<c:forEach items="<%=accountList %>" var="account">
 					<tr>
 						<c:set var="count" value="${count + 1}"/>
