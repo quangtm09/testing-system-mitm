@@ -104,8 +104,6 @@ function blockUI(){
     });
 }
 
-$('.testFlex').flexigrid();
-
 // Document ready
 $(function() {
 	
