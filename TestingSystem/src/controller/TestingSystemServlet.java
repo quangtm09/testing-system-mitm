@@ -420,9 +420,11 @@ public class TestingSystemServlet extends HttpServlet {
 	private void changeAccountRole(final HttpServletRequest request, final HttpServletResponse response) throws IOException{
 		final String accountId = request.getParameter("accountId");
 		final Integer roleId = Integer.parseInt(request.getParameter("roleId"));
+		final String currentAccount = request.getParameter("currentAccountId");
 
 		final Account account = accountDao.findById(accountId);
 		final Role selectedRole = roleDao.getRoleById(roleId);
+		final Account creatorAccount = accountDao.findById(currentAccount);
 
 		response.setContentType("text/html");
 
@@ -473,7 +475,7 @@ public class TestingSystemServlet extends HttpServlet {
 				if(oldRole.getRoleId() != selectedRole.getRoleId()){
 					oldARM.setRole(selectedRole);
 					oldARM.setAccRoleGrantedDate(new Date());
-
+					oldARM.setAccountByCreatorAccRoleId(creatorAccount);
 					isChangedSuccess = aRMDao.update(oldARM);
 				}
 			} else {
@@ -492,6 +494,7 @@ public class TestingSystemServlet extends HttpServlet {
 				arm.setAccountByAccId(account);
 				arm.setRole(selectedRole);
 				arm.setAccRoleGrantedDate(new Date());
+				arm.setAccountByCreatorAccRoleId(creatorAccount);
 
 				isChangedSuccess = aRMDao.save(arm);
 			}

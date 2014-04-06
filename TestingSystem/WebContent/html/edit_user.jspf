@@ -8,8 +8,8 @@
 	String userId = (String) request.getAttribute("userId");
 	User user = userDao.findById(userId);
 	
-	Account accoun = (Account) session.getAttribute("account");
-	MDC.put("AccId",accoun.getAccId());
+	Account accountLogin = (Account) session.getAttribute("account");
+	MDC.put("AccId",accountLogin.getAccId());
 	
 	Set<Account> accountList = null;
 	Account account = null;
@@ -151,6 +151,7 @@
 								        </tr>
 								    </thead>
 									<c:set var="count" value="0"/>
+									<c:set var="currentAccount" value="<%=accountLogin %>"/>
 									<c:forEach items="<%=accountList %>" var="account">
 										<tr>
 											<c:set var="count" value="${count + 1}"/>
@@ -159,7 +160,7 @@
 											<td>
 												<c:choose>
 													<c:when test='${isCurrentAccountAdmin && (account.accId ne currentAccountId) && account.accountRoleMapsForAccId.toArray()[0].role.roleId ne adminRoleId}'>
-														<select id="changeRoleCombobox" name="changeRole${account.accId}" onchange="changeAccountRole('${account.accId}')">
+														<select id="changeRoleCombobox" name="changeRole${account.accId}" onchange="changeAccountRole('${account.accId}','${currentAccount.accId }')">
 															<c:choose>
 																<c:when test="${account.accountRoleMapsForAccId != null && not empty account.accountRoleMapsForAccId}">
 																	<c:forEach items="<%=roleList%>" var="role">

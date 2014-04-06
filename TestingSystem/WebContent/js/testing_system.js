@@ -35,13 +35,14 @@ function deleteAccount(accountId){
 	$( "#deleteAccountDialog" ).dialog("open");
 }
 
-function changeAccountRole(accountId){
+function changeAccountRole(accountId, currentAccountId){
 	$.ajax({
 	  type: "POST",
 		  url: "/TestingSystem/TestingSystemServlet",
 		  data: {
 			  cmd: 'changeAccountRole',
 			  accountId: accountId,
+			  currentAccountId: currentAccountId,
 			  userId: $('#userId').val(),
 			  roleId: $('select[name=\'changeRole' + accountId + '\']').val()
 		  },
