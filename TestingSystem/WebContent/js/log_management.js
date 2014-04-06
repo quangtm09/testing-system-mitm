@@ -8,7 +8,7 @@ $(function() {
 	.dialog(
 			{
 				resizable : false,
-				height : 300,
+				height : 200,
 				width : 300,
 				modal : true,
 				autoOpen : false,

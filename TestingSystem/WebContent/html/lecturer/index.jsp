@@ -48,7 +48,7 @@
 			<li><a href="${test_management_url}" onclick="blockUI()">Test Management</a></li>
 			<li><a href="${result_management_url}" onclick="blockUI()">Result Management</a></li>
 			<li style="color: yellow;">
-				&nbsp;Welcome, <%=username %>!&nbsp;
+				&nbsp;Welcome, <%=username%>!&nbsp;
 				<button id="logoutButton" onclick="logout();">Logout</button>
 			</li>
 		</ul>
@@ -69,16 +69,16 @@
 		<div id="page-bgtop">
 			<div id="page-bgbtm">
 				<c:choose>
-					<c:when test='<%=tsTab.equals("student-management") %>'>
+					<c:when test='<%=tsTab.equals("student-management")%>'>
 						<%@include file="/html/lecturer/student_management.jspf" %>
 					</c:when>
-					<c:when test='<%=tsTab.equals("test-management") %>'>
+					<c:when test='<%=tsTab.equals("test-management")%>'>
 						<%@include file="/html/lecturer/test_management.jspf" %>
 					</c:when>
-					<c:when test='<%=tsTab.equals("result-management") %>'>
+					<c:when test='<%=tsTab.equals("result-management")%>'>
 						<%@include file="/html/lecturer/result_management.jspf" %>
 					</c:when>
-					<c:when test='<%=tsTab.equals("user-profile") %>'>
+					<c:when test='<%=tsTab.equals("user-profile")%>'>
 						<%@include file="/html/user_profile.jspf" %>
 					</c:when>
 					<c:when test='<%=tsTab.equals("404") %>'>

@@ -29,7 +29,7 @@ public class RolePermissionMapDaoImpl extends
 	public void addRolePermissonByAccID(
 			final RolePermissionMap rolePermissionMap) {
 		// TODO Auto-generated method stub
-		RolePermissionMapDaoImpl.log.info("Add Role Permission By Account ID "
+		RolePermissionMapDaoImpl.log.debug("Add Role Permission By Account ID "
 				+ rolePermissionMap.getAccount().getAccId());
 		this.save(rolePermissionMap);
 	}
@@ -39,7 +39,7 @@ public class RolePermissionMapDaoImpl extends
 			final RolePermissionMap rolePermissionMap) {
 		// TODO Auto-generated method stub
 		RolePermissionMapDaoImpl.log
-				.info("Update Role Permission For Account ID "
+				.debug("Update Role Permission For Account ID "
 						+ rolePermissionMap.getAccount().getAccId());
 		return this.update(rolePermissionMap);
 	}
@@ -49,7 +49,7 @@ public class RolePermissionMapDaoImpl extends
 			final RolePermissionMap rolePermissionMap) {
 		// TODO Auto-generated method stub
 		RolePermissionMapDaoImpl.log
-				.info("Delete Role Permission For Account ID "
+				.debug("Delete Role Permission For Account ID "
 						+ rolePermissionMap.getAccount().getAccId());
 		return this.delete(rolePermissionMap);
 	}

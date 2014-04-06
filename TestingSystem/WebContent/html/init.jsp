@@ -8,12 +8,12 @@
 <%@page import="util.HibernateUtil"%>
 
 <%@page import="model.User"%>
-<%@page import="model.Account"%>
+<%@page import="model.Account_new"%>
 <%@page import="model.AccountRoleMap"%>
 <%@page import="model.Permission"%>
 <%@page import="model.Role"%>
 <%@page import="model.RolePermissionMap"%>
-<%@page import="model.Logs"%>
+<%@page import="model.Logs_new"%>
 
 <%@page import="dao.UserDao"%>
 <%@page import="dao.AccountDao"%>

@@ -21,9 +21,7 @@ public interface LogDao extends Dao<Logs, Integer> {
 
 	List<Logs> getLogByAccount(Account account);
 
-	public boolean deleteLogCurrentDay(Date date);
-
-	public boolean deleteLogOneMonth(Date date);
+	public boolean deleteLogCurrentDay(String date);
 
 	public boolean deleteLogEveryThing();
 

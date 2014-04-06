@@ -3,7 +3,6 @@ package controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -33,13 +32,11 @@ import constants.RoleConstants;
 import constants.TSConstants;
 import dao.AccountDao;
 import dao.AccountRoleMapDao;
-import dao.PermissionDao;
 import dao.RoleDao;
 import dao.RolePermissionMapDao;
 import dao.UserDao;
 import dao.impl.AccountDaoImpl;
 import dao.impl.AccountRoleMapDaoImpl;
-import dao.impl.PermissionDaoImpl;
 import dao.impl.RoleDaoImpl;
 import dao.impl.RolePermissionMapDaoImpl;
 import dao.impl.UserDaoImpl;
@@ -61,89 +58,100 @@ public class TestingSystemServlet extends HttpServlet {
 	private static final AccountRoleMapDao aRMDao = new AccountRoleMapDaoImpl();
 	private RolePermissionMap rolePermissionMap;
 	private static final RolePermissionMapDao rolePermissionMapDao = new RolePermissionMapDaoImpl();
-	private final PermissionDao permissionDao = new PermissionDaoImpl();
 
-
-	protected void processRequest(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+	protected void processRequest(final HttpServletRequest request,
+			final HttpServletResponse response) throws ServletException,
+			IOException {
 		// Get command
-		final String cmd = TSUtil.getParameter(request, TSConstants.CMD, StringPool.BLANK);
-		String tsTabParam = TSUtil.getParameter(request, "tsTab", StringPool.BLANK);
+		final String cmd = TSUtil.getParameter(request, TSConstants.CMD,
+				StringPool.BLANK);
+		String tsTabParam = TSUtil.getParameter(request, "tsTab",
+				StringPool.BLANK);
 		final String userId = TSUtil.getParameter(request, "userId", null);
 
 		final HttpSession session = request.getSession();
 		Integer roleId = 0;
 
-		if(session.getAttribute("role") != null){
-			roleId = ((Role)session.getAttribute("role")).getRoleId();
+		if (session.getAttribute("role") != null) {
+			roleId = ((Role) session.getAttribute("role")).getRoleId();
 		}
 
 		try {
 			// User submits login form
-			if(cmd.equals(TSConstants.LOGIN)){
+			if (cmd.equals(TSConstants.LOGIN)) {
 				this.login(request, response);
-			} else if(cmd.equals(TSConstants.EDIT_USER)){
+			} else if (cmd.equals(TSConstants.EDIT_USER)) {
 				this.editUser(request, response);
-			} else if(cmd.equals(TSConstants.CHANGE_PASSWORD)){
+			} else if (cmd.equals(TSConstants.CHANGE_PASSWORD)) {
 				this.changePassword(request, response);
-			} else if(cmd.equals(TSConstants.SEARCH_USER)) {
+			} else if (cmd.equals(TSConstants.SEARCH_USER)) {
 				this.searchUser(request, response);
-			} else if(cmd.equals(TSConstants.ADD_USER)) {
+			} else if (cmd.equals(TSConstants.ADD_USER)) {
 				this.addUser(request, response);
-			} else if(cmd.equals(TSConstants.ADD_ACCOUNT)){
+			} else if (cmd.equals(TSConstants.ADD_ACCOUNT)) {
 				this.addAccount(request, response);
-			} else if(cmd.equals(TSConstants.CHANGE_ACCOUNT_ROLE)){
+			} else if (cmd.equals(TSConstants.CHANGE_ACCOUNT_ROLE)) {
 				this.changeAccountRole(request, response);
-			} else if (cmd.equals(TSConstants.DELETE_ACCOUNT)){
+			} else if (cmd.equals(TSConstants.DELETE_ACCOUNT)) {
 				this.deleteAccount(request, response);
-			} else if(cmd.equals(TSConstants.DELETE_USER)){
+			} else if (cmd.equals(TSConstants.DELETE_USER)) {
 				this.deleteUser(request, response);
-			} else if(cmd.equals(TSConstants.SEARCH_ACCOUNT)){
+			} else if (cmd.equals(TSConstants.SEARCH_ACCOUNT)) {
 				this.searchAccount(request, response);
 			} else {
 
 				request.setAttribute("tsTab", tsTabParam);
 				request.setAttribute("userId", userId);
 
-				if(roleId == RoleConstants.ROLE_ADMIN){
+				if (roleId == RoleConstants.ROLE_ADMIN) {
 					this.goToPage(TSConstants.INDEX_JSP, request, response);
-				} else if(roleId == RoleConstants.ROLE_LECTURER){
-					this.goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
-				} else if(roleId == RoleConstants.ROLE_STUDENT){
-					this.goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
+				} else if (roleId == RoleConstants.ROLE_LECTURER) {
+					this.goToPage(TSConstants.LECTURER_INDEX_JSP, request,
+							response);
+				} else if (roleId == RoleConstants.ROLE_STUDENT) {
+					this.goToPage(TSConstants.STUDENT_INDEX_JSP, request,
+							response);
 				}
 
 			}
-		} catch (final Exception ex){
+		} catch (final Exception ex) {
 			tsTabParam = "404";
 			request.setAttribute("tsTab", tsTabParam);
 			ex.printStackTrace();
 			TestingSystemServlet.log.error("Error while processing request!");
 
-			if(roleId == RoleConstants.ROLE_ADMIN){
+			if (roleId == RoleConstants.ROLE_ADMIN) {
 				this.goToPage(TSConstants.INDEX_JSP, request, response);
-			} else if(roleId == RoleConstants.ROLE_LECTURER){
+			} else if (roleId == RoleConstants.ROLE_LECTURER) {
 				this.goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
-			} else if(roleId == RoleConstants.ROLE_STUDENT){
+			} else if (roleId == RoleConstants.ROLE_STUDENT) {
 				this.goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
 			}
 		}
 	}
 
-	private void login(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException{
+	private void login(final HttpServletRequest request,
+			final HttpServletResponse response) throws ServletException,
+			IOException {
 		// check userId & password, then login, redirect to index page
-		final String accountId = TSUtil.getParameter(request, "accountId", StringPool.BLANK);
-		final String password = TSUtil.getParameter(request, "password", StringPool.BLANK);
+		final String accountId = TSUtil.getParameter(request, "accountId",
+				StringPool.BLANK);
+		final String password = TSUtil.getParameter(request, "password",
+				StringPool.BLANK);
+		
 		log.debug("Login Account: " + accountId);
-		MDC.put("AccId", accountId);
 		try {
-			final Account account = accountDao.getAccountById(accountId.toUpperCase());
-
-			if(null != account && account.getAccPwd().equals(password)){
+			final Account account = accountDao.getAccountById(accountId
+					.toUpperCase());
+			MDC.put("AccId", accountId);
+			if (null != account && account.getAccPwd().equals(password)) {
 				final User accountUser = account.getUser();
-				final Role accountRole = ((AccountRoleMap) account.getAccountRoleMapsForAccId().toArray()[0]).getRole();
+				final Role accountRole = ((AccountRoleMap) account
+						.getAccountRoleMapsForAccId().toArray()[0]).getRole();
 				final Integer accountRoleId = accountRole.getRoleId();
 
-				final String fullName = accountUser.getFname() + StringPool.SPACE + accountUser.getLname();
+				final String fullName = accountUser.getFname()
+						+ StringPool.SPACE + accountUser.getLname();
 
 				final HttpSession session = request.getSession();
 				session.setAttribute("account", account);
@@ -152,21 +160,27 @@ public class TestingSystemServlet extends HttpServlet {
 				session.setAttribute("role", accountRole);
 
 				// set session to be expired in 30 minutes
-				session.setMaxInactiveInterval(30*60);
+				session.setMaxInactiveInterval(30 * 60);
 
-				final Cookie accountIdCookie = new Cookie("accountId", accountId);
-				accountIdCookie.setMaxAge(30*60);
+				final Cookie accountIdCookie = new Cookie("accountId",
+						accountId);
+				accountIdCookie.setMaxAge(30 * 60);
 
 				response.addCookie(accountIdCookie);
-				if(accountRoleId == RoleConstants.ROLE_ADMIN){
+				if (accountRoleId == RoleConstants.ROLE_ADMIN) {
 					this.goToPage(TSConstants.INDEX_JSP, request, response);
-					log.info("Login successful with Admin Role");
-				} else if(accountRoleId == RoleConstants.ROLE_LECTURER){
-					this.goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
-					log.info("Login successful with Lecturer Role");
-				} else if(accountRoleId == RoleConstants.ROLE_STUDENT){
-					this.goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
-					log.info("Login successful with Student Role");
+					log.info("Account " + accountId
+							+ "Login successful with Admin Role");
+				} else if (accountRoleId == RoleConstants.ROLE_LECTURER) {
+					this.goToPage(TSConstants.LECTURER_INDEX_JSP, request,
+							response);
+					log.info("Account " + accountId
+							+ "Login successful with Lecturer Role");
+				} else if (accountRoleId == RoleConstants.ROLE_STUDENT) {
+					this.goToPage(TSConstants.STUDENT_INDEX_JSP, request,
+							response);
+					log.info("Account " + accountId
+							+ "Login successful with Student Role");
 				} else {
 					this.goToPage(TSConstants.LOGIN_JSP, request, response);
 					log.info("Login Fail");
@@ -179,16 +193,18 @@ public class TestingSystemServlet extends HttpServlet {
 				log.info("Login Fail");
 			}
 
-		} catch (final Exception ex){
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 			request.setAttribute("isWrongUsernameOrPassword", false);
-			request.setAttribute("errorMessage", "Your account is not granted for login!");
+			request.setAttribute("errorMessage",
+					"Your account is not granted for login!");
 			this.goToPage(TSConstants.LOGIN_JSP, request, response);
-			TestingSystemServlet.log.error("Error while login!");
+			TestingSystemServlet.log.error("Error while login!" + ex);
 		}
 	}
 
-	private void editUser(final HttpServletRequest request, final HttpServletResponse response){
+	private void editUser(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		final String firstName = request.getParameter("fname");
 		final String lastName = request.getParameter("lname");
 		final String email = request.getParameter("email");
@@ -196,16 +212,17 @@ public class TestingSystemServlet extends HttpServlet {
 		final String birthDay = request.getParameter("bdate");
 		final String address = request.getParameter("address");
 		final String userId = request.getParameter("userId");
-		final String tsTabParam = TSUtil.getParameter(request, "tsTab", StringPool.BLANK);
+		final String tsTabParam = TSUtil.getParameter(request, "tsTab",
+				StringPool.BLANK);
 
 		final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		log.debug("Edit User: "+ userId);
+		log.info("Update User: " + userId);
 
 		try {
 			final User user = userDao.findById(userId);
 			user.setAddress(address);
 
-			if(birthDay == null || birthDay == StringPool.BLANK){
+			if (birthDay == null || birthDay == StringPool.BLANK) {
 				user.setBdate(null);
 			} else {
 				user.setBdate(formatter.parse(birthDay));
@@ -215,70 +232,77 @@ public class TestingSystemServlet extends HttpServlet {
 			user.setFname(firstName);
 			user.setLname(lastName);
 			user.setMobile(mobile);
-			if(userDao.updateUser(user)){
-				request.setAttribute("successMessage", "Updated user successfully!");
+			if (userDao.updateUser(user)) {
+				request.setAttribute("successMessage",
+						"Updated user successfully!");
 				request.setAttribute("tsTab", tsTabParam);
 				request.setAttribute("editUserId", userId);
 				request.setAttribute("isUpdatedSucessfully", true);
 				request.setAttribute("isClickedEditButton", true);
-				log.info("Update Profile Successful");
+				log.debug("Update Profile Successful");
 
 			} else {
 				request.setAttribute("isUpdatedSucessfully", false);
 				request.setAttribute("isClickedEditButton", true);
 				request.setAttribute("errorMessage", "Failed to update!");
-				log.info("Update Profile Failed");
+				log.debug("Update Profile Failed");
 			}
 
 			final HttpSession session = request.getSession();
-			final Integer roleId = ((Role)session.getAttribute("role")).getRoleId();
+			final Integer roleId = ((Role) session.getAttribute("role"))
+					.getRoleId();
 
-			if(roleId == RoleConstants.ROLE_ADMIN){
+			if (roleId == RoleConstants.ROLE_ADMIN) {
 				this.goToPage(TSConstants.INDEX_JSP, request, response);
-			} else if(roleId == RoleConstants.ROLE_LECTURER){
+			} else if (roleId == RoleConstants.ROLE_LECTURER) {
 				this.goToPage(TSConstants.LECTURER_INDEX_JSP, request, response);
-			} else if(roleId == RoleConstants.ROLE_STUDENT){
+			} else if (roleId == RoleConstants.ROLE_STUDENT) {
 				this.goToPage(TSConstants.STUDENT_INDEX_JSP, request, response);
 			}
 
-		} catch (final Exception ex){
+		} catch (final Exception ex) {
 			ex.printStackTrace();
-			TestingSystemServlet.log.debug("Failed to edit user");
+			log.error("Exception: " + ex);
 		}
-
 
 	}
 
-	private void changePassword(final HttpServletRequest request, final HttpServletResponse response){
+	private void changePassword(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		final String oldPassword = request.getParameter("oldPassword");
-		final String newPassword = TSUtil.getParameter(request, "newPassword", StringPool.BLANK);
+		final String newPassword = TSUtil.getParameter(request, "newPassword",
+				StringPool.BLANK);
 		final String accountId = request.getParameter("accountId");
 
 		response.setContentType("text/html");
-		log.debug("Change Password For Account "+ accountId);
+		log.info("Change Password For Account " + accountId);
 		try {
 			final PrintWriter printWriter = response.getWriter();
 			final Account account = accountDao.findById(accountId);
-			if(account.getAccPwd().equals(oldPassword) && !oldPassword.equals(newPassword)){
+			if (account.getAccPwd().equals(oldPassword)
+					&& !oldPassword.equals(newPassword)) {
 				account.setAccPwd(newPassword);
 				accountDao.update(account);
-				printWriter.println("<span style=\"color: green\">Updated successfully!</span>");
-				log.info("Change Password Successful");
+				printWriter
+						.println("<span style=\"color: green\">Updated successfully!</span>");
+				log.debug("Change Password Successful");
 			} else {
-				printWriter.println("<span style=\"color: red\">Updating failed! Your entered old password do not match or the new password is equal to the old one!</span>");
-				log.info("Change Password Failed");
+				printWriter
+						.println("<span style=\"color: red\">Updating failed! Your entered old password do not match or the new password is equal to the old one!</span>");
+				log.debug("Change Password Failed");
 			}
 
 			printWriter.close();
 
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			log.error("Exception: "+ ex);
+			log.error("Exception: " + ex);
 		}
 
 	}
 
-	private void searchUser(final HttpServletRequest request, final HttpServletResponse response){
+	private void searchUser(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		final String firstName = request.getParameter("fname");
 		final String lastName = request.getParameter("lname");
 		final String email = request.getParameter("email");
@@ -294,15 +318,20 @@ public class TestingSystemServlet extends HttpServlet {
 
 		request.setAttribute("isSearchSuccess", true);
 		request.setAttribute("isClickedSearchButton", true);
-		log.debug("Search Users");
+		log.info("Search Users with FirstName: " + firstName
+				+ " ,or LastName :" + lastName + " ,or Email :" + email
+				+ " ,or Address :" + address);
 		try {
 			this.goToPage(TSConstants.INDEX_JSP, request, response);
+			log.debug("Search Account successful");
 		} catch (final Exception e) {
 			e.printStackTrace();
+			log.error("Exception: " + e);
 		}
 	}
 
-	private void searchAccount(final HttpServletRequest request, final HttpServletResponse response){
+	private void searchAccount(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		final String firstName = request.getParameter("fname");
 		final String lastName = request.getParameter("lname");
 		final String email = request.getParameter("email");
@@ -317,14 +346,18 @@ public class TestingSystemServlet extends HttpServlet {
 		request.setAttribute("isSearchSuccess", true);
 		request.setAttribute("isClickedSearchButton", true);
 
+		log.info("Search Account with ID  " + accountId);
 		try {
 			this.goToPage(TSConstants.INDEX_JSP, request, response);
+			log.debug("Search successful");
 		} catch (final Exception e) {
 			e.printStackTrace();
+			log.error("Exception: " + e);
 		}
 	}
 
-	private void addUser(final HttpServletRequest request, final HttpServletResponse response) throws IOException{
+	private void addUser(final HttpServletRequest request,
+			final HttpServletResponse response) throws IOException {
 		final String firstName = request.getParameter("firstName");
 		final String lastName = request.getParameter("lastName");
 		final String email = request.getParameter("email");
@@ -333,7 +366,7 @@ public class TestingSystemServlet extends HttpServlet {
 		response.setContentType("text/html");
 
 		final PrintWriter printWriter = response.getWriter();
-		log.debug("Add Users "+ userId);
+		log.info("Add User with ID " + userId);
 		try {
 			final User user = new User();
 			user.setUserId(userId);
@@ -342,21 +375,28 @@ public class TestingSystemServlet extends HttpServlet {
 			user.setEmail(email);
 
 			final boolean isAddedSuccessfully = userDao.saveUser(user);
-			if(isAddedSuccessfully){
-				printWriter.print("<span style=\"color: green\">Adding new user successfully!</span>");
+			if (isAddedSuccessfully) {
+				printWriter
+						.print("<span style=\"color: green\">Adding new user successfully!</span>");
+				log.debug("Add user successful");
 			} else {
-				printWriter.print("<span style=\"color: red\">Failed to add new user!</span>");
+				printWriter
+						.print("<span style=\"color: red\">Failed to add new user!</span>");
+				log.debug("Add user failed");
 			}
 
 		} catch (final Exception e) {
 			e.printStackTrace();
-			printWriter.print("<span style=\"color: red\">Error while adding user!</span>");
+			printWriter
+					.print("<span style=\"color: red\">Error while adding user!</span>");
+			log.error("Exception: " + e);
 		} finally {
 			printWriter.close();
 		}
 	}
 
-	private void addAccount(final HttpServletRequest request, final HttpServletResponse response) throws IOException{
+	private void addAccount(final HttpServletRequest request,
+			final HttpServletResponse response) throws IOException {
 		final String newAccountId = request.getParameter("newAccountId");
 		final String accountPassword = request.getParameter("password");
 		final String roleId = request.getParameter("accountRoleId");
@@ -366,10 +406,10 @@ public class TestingSystemServlet extends HttpServlet {
 		response.setContentType("text/html");
 
 		final PrintWriter printWriter = response.getWriter();
-		log.debug("Add Accounts "+ newAccountId);
+		log.info("Add Accounts " + newAccountId);
 		try {
 			parsedRoleId = Integer.parseInt(roleId);
-		} catch (final NumberFormatException ex){
+		} catch (final NumberFormatException ex) {
 		}
 
 		try {
@@ -383,41 +423,48 @@ public class TestingSystemServlet extends HttpServlet {
 			account.setUser(user);
 
 			final boolean isAddAccountSuccess = accountDao.addAccount(account);
-			if(isAddAccountSuccess){
-				printWriter.print("<span style=\"color: green\">Adding new account successfully!</span><br>");
-				log.info("Add Accounts " + account.getAccId());
+			if (isAddAccountSuccess) {
+				printWriter
+						.print("<span style=\"color: green\">Adding new account successfully!</span><br>");
+				log.debug("Add Accounts " + account.getAccId());
 			} else {
-				printWriter.print("<span style=\"color: red\">Failed to add new account!</span>");
-				log.info("Failed to add Accounts " + account.getAccId());
+				printWriter
+						.print("<span style=\"color: red\">Failed to add new account!</span>");
+				log.debug("Failed to add Accounts " + account.getAccId());
 			}
 
-			if(role != null && isAddAccountSuccess != false){
+			if (role != null && isAddAccountSuccess != false) {
 				final AccountRoleMap accountRoleMap = new AccountRoleMap();
 				accountRoleMap.setAccountByAccId(account);
 				accountRoleMap.setRole(role);
 				accountRoleMap.setAccRoleGrantedDate(new Date());
 
-				final boolean isAssignRoleAccountSuccess = aRMDao.save(accountRoleMap);
+				final boolean isAssignRoleAccountSuccess = aRMDao
+						.save(accountRoleMap);
 
-				if(isAssignRoleAccountSuccess){
-					printWriter.print("<span style=\"color: green\">Assigning role for this account successfully!</span>");
-					log.info("Assign Role for " + account.getAccId());
+				if (isAssignRoleAccountSuccess) {
+					printWriter
+							.print("<span style=\"color: green\">Assigning role for this account successfully!</span>");
+					log.debug("Assign Role for " + account.getAccId());
 				} else {
-					printWriter.print("<span style=\"color: red\">Failed to assign role for this account!</span>");
-					log.info("Failed to assign Role for " + account.getAccId());
+					printWriter
+							.print("<span style=\"color: red\">Failed to assign role for this account!</span>");
+					log.debug("Failed to assign Role for " + account.getAccId());
 				}
 			}
 
 		} catch (final Exception e) {
 			e.printStackTrace();
-			printWriter.print("<span style=\"color: red\">Error while adding account!</span>");
-			log.error("Exception: "+ e);
+			printWriter
+					.print("<span style=\"color: red\">Error while adding account!</span>");
+			log.error("Exception: " + e);
 		} finally {
 			printWriter.close();
 		}
 	}
 
-	private void changeAccountRole(final HttpServletRequest request, final HttpServletResponse response) throws IOException{
+	private void changeAccountRole(final HttpServletRequest request,
+			final HttpServletResponse response) throws IOException {
 		final String accountId = request.getParameter("accountId");
 		final Integer roleId = Integer.parseInt(request.getParameter("roleId"));
 		final String currentAccount = request.getParameter("currentAccountId");
@@ -426,21 +473,26 @@ public class TestingSystemServlet extends HttpServlet {
 		final Role selectedRole = roleDao.getRoleById(roleId);
 		final Account creatorAccount = accountDao.findById(currentAccount);
 
+		log.info("Change Account Role for " + accountId + " with Role "
+				+ roleDao.findById(roleId).getRoleName());
+
 		response.setContentType("text/html");
 
 		final PrintWriter printWriter = response.getWriter();
 
 		boolean isChangedSuccess = false;
 
-		if(selectedRole != null){
-			final Set<AccountRoleMap> arms = account.getAccountRoleMapsForAccId();
+		if (selectedRole != null) {
+			final Set<AccountRoleMap> arms = account
+					.getAccountRoleMapsForAccId();
 
-			final List<RolePermissionMap> listRolePermission = rolePermissionMapDao.searchPermissionByRole(selectedRole);
+			final List<RolePermissionMap> listRolePermission = rolePermissionMapDao
+					.searchPermissionByRole(selectedRole);
 
-			if(arms.size() != 0){
+			if (arms.size() != 0) {
 				AccountRoleMap oldARM = null;
 
-				for(final AccountRoleMap arm: arms){
+				for (final AccountRoleMap arm : arms) {
 					oldARM = arm;
 				}
 
@@ -454,7 +506,7 @@ public class TestingSystemServlet extends HttpServlet {
 				} else {
 					final List<RolePermissionMap> rolePermissionlist = rolePermissionMapDao
 							.searchPermissionByRole(oldRole);
-					System.out.println(rolePermissionlist.toString());
+					// System.out.println(rolePermissionlist.toString());
 					for (final RolePermissionMap rpmdelete : rolePermissionlist) {
 						rolePermissionMapDao.delete(rpmdelete);
 					}
@@ -471,8 +523,8 @@ public class TestingSystemServlet extends HttpServlet {
 
 					rolePermissionMapDao.save(this.rolePermissionMap);
 				}
-				
-				if(oldRole.getRoleId() != selectedRole.getRoleId()){
+
+				if (oldRole.getRoleId() != selectedRole.getRoleId()) {
 					oldARM.setRole(selectedRole);
 					oldARM.setAccRoleGrantedDate(new Date());
 					oldARM.setAccountByCreatorAccRoleId(creatorAccount);
@@ -500,14 +552,15 @@ public class TestingSystemServlet extends HttpServlet {
 			}
 		}
 
-		if(!isChangedSuccess){
+		if (!isChangedSuccess) {
 			printWriter.print(isChangedSuccess);
 		}
 
 		printWriter.close();
 	}
 
-	private void deleteAccount(final HttpServletRequest request, final HttpServletResponse response) throws IOException{
+	private void deleteAccount(final HttpServletRequest request,
+			final HttpServletResponse response) throws IOException {
 		final String accountId = request.getParameter("accountId");
 		final Account account = accountDao.findById(accountId);
 
@@ -515,19 +568,24 @@ public class TestingSystemServlet extends HttpServlet {
 
 		response.setContentType("text/html");
 
+		log.info("Delete Account ID:  " + accountId);
+
 		final PrintWriter printWriter = response.getWriter();
 
 		printWriter.print(isAccountDeleted);
 		printWriter.close();
 	}
 
-	private void deleteUser(final HttpServletRequest request, final HttpServletResponse response) throws IOException{
+	private void deleteUser(final HttpServletRequest request,
+			final HttpServletResponse response) throws IOException {
 		final String userId = request.getParameter("userId");
 		final User user = userDao.findById(userId);
 
 		final boolean isUserDeleted = userDao.deleteUser(user);
 
 		response.setContentType("text/html");
+
+		log.info("Delete User ID:  " + userId);
 
 		final PrintWriter printWriter = response.getWriter();
 
@@ -536,24 +594,30 @@ public class TestingSystemServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	@Override
-	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(final HttpServletRequest request,
+			final HttpServletResponse response) throws ServletException,
+			IOException {
 		this.processRequest(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	@Override
-	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(final HttpServletRequest request,
+			final HttpServletResponse response) throws ServletException,
+			IOException {
 		this.processRequest(request, response);
 	}
 
-
 	public void goToPage(final String page, final HttpServletRequest request,
-			final HttpServletResponse response) throws ServletException, IOException {
+			final HttpServletResponse response) throws ServletException,
+			IOException {
 		final RequestDispatcher dispatcher = this.getServletContext()
 				.getRequestDispatcher(page);
 		dispatcher.forward(request, response);

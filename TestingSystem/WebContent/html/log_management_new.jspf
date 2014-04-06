@@ -17,8 +17,8 @@
 
 <div style="font-size: 2.5em;">
 	<div style="display: inline; text-align: left">History</div>
-	<a href="javascript:openDeleteLogDialog();" id="backButton"
-		class="rightButton" style="font-size: 0.5em">Delete History</a>
+	<a href="javascript:openDeleteLogDialog();" id="deleteLog"
+		class="rightButton" style="FONT-SIZE: large">Delete History</a>
 	<hr>
 </div>
 
@@ -53,7 +53,6 @@
 			<table>
 				<tr>
 					<td>No.</td>
-					<td>User ID</td>
 					<td>Account ID</td>
 					<td>Action</td>
 					<td>Date</td>
@@ -63,8 +62,7 @@
 					<tr>
 						<c:set var="count" value="${count + 1}" />
 						<td>${count}.</td>
-						<td>${logs.account.user.userId}</td>
-						<td>${logs.account.accId}</td>
+						<td>${logs.accId}</td>
 						<td>${logs.message}</td>
 						<td>${logs.logDate}</td>
 					</tr>
@@ -89,6 +87,10 @@
 		<tr>
 			<td><input type="radio" name="radioDeleteLog"
 				value="<%=LogConstants.radioDeleteToday%>" />Today</td>
+		</tr>
+		<tr>
+			<td><input type="radio" name="radioDeleteLog"
+				value="<%=LogConstants.radioDeleteFourWeeks%>" />Four Weeks</td>
 		</tr>
 		<tr>
 			<td><input type="radio" name="radioDeleteLog"

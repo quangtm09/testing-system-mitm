@@ -1,7 +1,8 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -43,7 +44,7 @@ public class LogManagementServlet extends HttpServlet {
 				StringPool.BLANK);
 		String tsTabParam = TSUtil.getParameter(request, "tsTab",
 				StringPool.BLANK);
-//		final String userId = TSUtil.getParameter(request, "userId", null);
+		// final String userId = TSUtil.getParameter(request, "userId", null);
 
 		try {
 			// User submits login form
@@ -53,7 +54,7 @@ public class LogManagementServlet extends HttpServlet {
 				searchLog(request, response);
 			} else {
 				request.setAttribute("tsTab", tsTabParam);
-//				request.setAttribute("userId", userId);
+				// request.setAttribute("userId", userId);
 
 				final HttpSession session = request.getSession();
 				final Integer roleId = ((Role) session.getAttribute("role"))
@@ -104,15 +105,14 @@ public class LogManagementServlet extends HttpServlet {
 	private void deleteLog(final HttpServletRequest request,
 			final HttpServletResponse response) {
 		final String deleteLog = request.getParameter("deleteLog");
-		System.out.println("Delete Log "+ deleteLog);
+		Date date = new Date();             
+		SimpleDateFormat dateformatYYYYMMDD = new SimpleDateFormat("yyyy-MM-dd");  
 		final LogDao logDao = new LogDaoImpl();
 		try {
 			if (deleteLog.equals(LogConstants.radioDeleteAll)) {
 				logDao.deleteLogEveryThing();
-			} else if (deleteLog.equals(LogConstants.radioDeleteFourWeeks)) {
-				logDao.deleteLogOneMonth(new Date(System.currentTimeMillis()));
 			} else {
-				logDao.deleteLogCurrentDay(new Date(System.currentTimeMillis()));
+				logDao.deleteLogCurrentDay(dateformatYYYYMMDD.format(date));
 			}
 		} catch (final Exception ex) {
 			ex.printStackTrace();

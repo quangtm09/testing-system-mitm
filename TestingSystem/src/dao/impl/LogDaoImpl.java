@@ -15,13 +15,15 @@ import model.Logs;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 
+import bean.ConvertToDate;
+
 import dao.AbstractHibernateDaoSupport;
 import dao.AccountDao;
 import dao.LogDao;
 
 /**
  * @author huynh.ai.loan
- *
+ * 
  */
 @Stateless
 public class LogDaoImpl extends AbstractHibernateDaoSupport<Logs, Integer>
@@ -39,21 +41,29 @@ public class LogDaoImpl extends AbstractHibernateDaoSupport<Logs, Integer>
 		return results;
 	}
 
-//	public static void main(String[] args) {
-//		LogDao ld = new LogDaoImpl();
-//		AccountDao accD = new AccountDaoImpl();
-//		Account acc = accD.findById("AD01");
-//		List<Logs> logs = ld.findAll();
-//	}
+	// public static void main(String[] args) {
+	// LogDao ld = new LogDaoImpl();
+	// AccountDao accD = new AccountDaoImpl();
+	// Account acc = accD.findById("AD01");
+	// List<Logs> logs = ld.findAll();
+	// }
 
 	@Override
-	public boolean deleteLogCurrentDay(Date date) {
+	public boolean deleteLogCurrentDay(String date) {
 		// TODO Auto-generated method stub
-		final List<Logs> listlog = this.findByProperty(LogDao.LOG_DATE, date);
-		log.debug("Delete in Log with Date "+ date);
+		System.out.println("Date: " + date);
+		List<Logs> listlog = new ArrayList<Logs>();
+
+		log.debug("Delete in Log with Date " + date);
 		try {
-			for (Logs logs : listlog)
-			{
+			final String queryString = "from Logs "
+					+ " as a where DATE_FORMAT(a." + LOG_DATE
+					+ ", '%Y-%m-%d') = :logDate";
+			final Query queryObject = AbstractHibernateDaoSupport.getSession()
+					.createQuery(queryString);
+			queryObject.setParameter("logDate", date);
+			listlog = queryObject.list();
+			for (Logs logs : listlog) {
 				this.delete(logs);
 			}
 			return true;
@@ -65,22 +75,12 @@ public class LogDaoImpl extends AbstractHibernateDaoSupport<Logs, Integer>
 	}
 
 	@Override
-	public boolean deleteLogOneMonth(Date date) {
-		// TODO Auto-generated method stub
-//		delete from TESTDEPT
-//		where to_char(createdate, 'YYYYMMDD')
-//		between to_char(sysdate, 'YYYYMMDD') and to_char(sysdate + 28, 'YYYYMMDD');
-		return false;
-	}
-
-	@Override
 	public boolean deleteLogEveryThing() {
 		// TODO Auto-generated method stub
 		final List<Logs> listlog = this.findAll();
 		log.debug("Delete in Log EveryThing");
 		try {
-			for (Logs logs : listlog)
-			{
+			for (Logs logs : listlog) {
 				this.delete(logs);
 			}
 			return true;
@@ -95,10 +95,12 @@ public class LogDaoImpl extends AbstractHibernateDaoSupport<Logs, Integer>
 	public List<Logs> searchLogsByUser(final String accountId,
 			final String userId) {
 		List<Logs> logList = new ArrayList<Logs>();
-		log.info("Search Logs By AccountId " + accountId + "or UserId "+ userId);
+		log.debug("Search Logs By AccountId " + accountId + "or UserId "
+				+ userId);
 
 		try {
-			final String queryString = "from Logs " + " as a where a.account."
+			final String queryString = "from Logs "
+					+ " as a where a.account."
 					+ ACCOUNT_ID
 					+ " like :accountId and a.account.user.userId like :userId ";
 			final Query queryObject = AbstractHibernateDaoSupport.getSession()

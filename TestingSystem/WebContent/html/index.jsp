@@ -58,7 +58,7 @@
 			<li><a href="${log_management_url}"onclick="blockUI()">Log Management</a></li>
 			<!-- <li><a href="${contact_us_url}">Contact Us</a></li> -->
 			<li style="color: yellow;">
-				&nbsp;Welcome, <%=username %>!&nbsp;
+				&nbsp;Welcome, <%=username%>!&nbsp;
 				<button id="logoutButton" onclick="logout();">Logout</button>
 			</li>
 		</ul>
@@ -79,28 +79,28 @@
 		<div id="page-bgtop">
 			<div id="page-bgbtm">
 				<c:choose>
-					<c:when test='<%=tsTab.equals("user-profile") %>'>
+					<c:when test='<%=tsTab.equals("user-profile")%>'>
 						<%@include file="/html/user_profile.jspf" %>
 					</c:when>
-					<c:when test='<%=tsTab.equals("account-management") %>'>
+					<c:when test='<%=tsTab.equals("account-management")%>'>
 						<%@include file="/html/account_management.jspf" %>
 					</c:when>
-					<c:when test='<%=tsTab.equals("user-management") %>'>
+					<c:when test='<%=tsTab.equals("user-management")%>'>
 						<%@include file="/html/user_management.jspf" %>
 					</c:when>
-					<c:when test='<%=tsTab.equals("role-management") %>'>
+					<c:when test='<%=tsTab.equals("role-management")%>'>
 						<%@include file="/html/role_management.jspf" %>
 					</c:when>
-					<c:when test='<%=tsTab.equals("log-management") %>'>
+					<c:when test='<%=tsTab.equals("log-management")%>'>
 						<%@include file="/html/log_management.jspf" %>
 					</c:when>
-					<c:when test='<%=tsTab.equals("contact-us") %>'>
+					<c:when test='<%=tsTab.equals("contact-us")%>'>
 						<%@include file="/html/contact_us.jspf" %>
 					</c:when>
-					<c:when test='<%=tsTab.equals("user-details") %>'>
+					<c:when test='<%=tsTab.equals("user-details")%>'>
 						<%@include file="/html/user_details.jspf" %>
 					</c:when>
-					<c:when test='<%=tsTab.equals("edit-user") %>'>
+					<c:when test='<%=tsTab.equals("edit-user")%>'>
 						<%@include file="/html/edit_user.jspf" %>
 					</c:when>
 					<c:when test='<%=tsTab.equals("404") %>'>

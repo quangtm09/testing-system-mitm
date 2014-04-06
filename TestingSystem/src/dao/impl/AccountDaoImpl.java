@@ -32,19 +32,19 @@ public class AccountDaoImpl extends
 
 	@Override
 	public boolean addAccount(final Account account) {
-		AccountDaoImpl.log.info("Add Account " + account);
+		AccountDaoImpl.log.debug("Add Account " + account);
 		return this.save(account);
 	}
 
 	@Override
 	public Account getAccountById(final String accountId) {
-		AccountDaoImpl.log.info("Get Accounts By ID " + accountId);
+		AccountDaoImpl.log.debug("Get Accounts By ID " + accountId);
 		return this.findById(accountId);
 	}
 
 	@Override
 	public boolean deleteAccount(final Account account) {
-		AccountDaoImpl.log.info("Delete Account " + account);
+		AccountDaoImpl.log.debug("Delete Account " + account);
 		return this.delete(account);
 	}
 
@@ -52,7 +52,7 @@ public class AccountDaoImpl extends
 	public List<Account> searchAccount(final String accId, final String fname,
 			final String lname, final String email) {
 		List<Account> accountList = new ArrayList<Account>();
-		log.info("Search Account By AccountId: "+ accId + " ,Fname: "+ fname + " ,Lname: "+ lname + " ,Email: "+ email);
+		log.debug("Search Account By AccountId: "+ accId + " ,Fname: "+ fname + " ,Lname: "+ lname + " ,Email: "+ email);
 		try {
 			final String queryString = "from Account "
 					+ " as a where a."

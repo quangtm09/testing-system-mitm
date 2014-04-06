@@ -67,7 +67,7 @@ public class RoleManagementServlet extends HttpServlet {
 		}
 
 		try {
-			// User submits login form
+			// User update Role Permission
 			if (cmd.equals(TSConstants.UPDATE_ROLE_PERMISSION)) {
 				this.updatePermission(request, response);
 			} else if (cmd.equals(TSConstants.ADD_NEW_ROLE)) {
@@ -139,10 +139,10 @@ public class RoleManagementServlet extends HttpServlet {
 			final HttpServletResponse response) {
 		final String updatePermisson = request.getParameter("updatePermission");
 		final String roleId = request.getParameter("roleId");
-		// System.out.println(roleId);
 		final List<String> listPermission = new ArrayList<String>(
 				Arrays.asList(updatePermisson.split(",")));
 		final PermissionDao permissionDao = new PermissionDaoImpl();
+		log.info("Update Permission for Role: " + roleDao.findById(Integer.parseInt(roleId.trim())).getRoleName());
 		Permission permission;
 		try {
 			final Role role = roleDao.findById(Integer.parseInt(roleId.trim()));
@@ -186,7 +186,7 @@ public class RoleManagementServlet extends HttpServlet {
 
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			RoleManagementServlet.log.debug("Failed to edit user");
+			RoleManagementServlet.log.error("Exception: "+ ex);
 		}
 	}
 
@@ -212,6 +212,7 @@ public class RoleManagementServlet extends HttpServlet {
 		final String newRoleName = request.getParameter("roleName");
 		final String newRoleDesc = request.getParameter("roleDesc");
 		// System.out.println(roleId);
+		log.info("Add New Role "+ newRoleName);
 		try {
 			final Role role = new Role();
 			role.setRoleName(newRoleName);
@@ -222,15 +223,17 @@ public class RoleManagementServlet extends HttpServlet {
 			rpm.setRolePermissionGrantedDate(new Date(System
 					.currentTimeMillis()));
 			rolePermissionMapDao.save(rpm);
+			log.debug("Add New Role successfully ");
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			RoleManagementServlet.log.debug("Failed to edit user");
+			RoleManagementServlet.log.error("Exception: "+ ex);
 		}
 	}
 
 	private void deleteRole(final HttpServletRequest request,
 			final HttpServletResponse response) {
 		final String deleteRoleId = request.getParameter("deleteRoleId");
+		log.info("Delete Role "+ roleDao.findById(Integer.parseInt(deleteRoleId)).getRoleName());
 		try {
 			final Role role = roleDao.findById(Integer.parseInt(deleteRoleId));
 			final List<AccountRoleMap> accList = accountRoleMapDao.searchAccountByRoleId(role);
@@ -241,9 +244,10 @@ public class RoleManagementServlet extends HttpServlet {
 				accountRoleMapDao.delete(arm);
 			}
 			roleDao.delete(role);	
+			log.debug("Delete Role successfully ");
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			RoleManagementServlet.log.debug("Failed to edit role");
+			RoleManagementServlet.log.error("Exception: "+ ex);
 		}
 	}
 

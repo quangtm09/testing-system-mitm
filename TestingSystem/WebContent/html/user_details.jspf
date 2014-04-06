@@ -1,3 +1,4 @@
+<%@page import="model.*"%>
 <%
 	UserDao userDao = new UserDaoImpl();
 	String userId = (String) request.getAttribute("userId");

@@ -3,18 +3,16 @@
 <%@page import="constants.*"%>
 <%@page import="dao.*"%>
 <%@page import="dao.impl.*"%>
+<%@page import="org.apache.log4j.MDC"%>
 <%
 	PermissionDao permissionDao = new PermissionDaoImpl();
 	List<Permission> permissionList = permissionDao.findAll();
 	RoleDao roleDao = new RoleDaoImpl();
-/*	Role adRole = roleDao.findById(RoleConstants.ROLE_ADMIN);
-	Role lecRole = roleDao.findById(RoleConstants.ROLE_LECTURER);
-	Role stuRole = roleDao.findById(RoleConstants.ROLE_STUDENT);
-	*/
 	RolePermissionMapDao rpm = new RolePermissionMapDaoImpl();
 	List<Role> roleList = roleDao.findAll();
-//	System.out.println("roleList_Size: "+ roleList.size());
 	AccountRoleMapDao armDao = new AccountRoleMapDaoImpl();
+	Account account = (Account) session.getAttribute("account");
+	MDC.put("AccId",account.getAccId());
 	
 %>
 </style>
@@ -73,7 +71,7 @@
 							System.out.println("Role ID: "+ roleList.get(i).getRoleId());
 							System.out.println("Permission NAME: "+listPermissionByRoleId.toString());
 				%>
-				<td><c:forEach items="<%=listPermissionByRoleId%>"
+				<td align="center"><c:forEach items="<%=listPermissionByRoleId%>"
 						var="listPermissionByRoleID">
 						<c:if
 							test="${listPermissionByRoleID.permission.permissionId == permission.permissionId}">

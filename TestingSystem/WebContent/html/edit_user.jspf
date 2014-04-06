@@ -8,8 +8,7 @@
 	String userId = (String) request.getAttribute("userId");
 	User user = userDao.findById(userId);
 	
-	Account accountLogin = (Account) session.getAttribute("account");
-	MDC.put("AccId",accountLogin.getAccId());
+
 	
 	Set<Account> accountList = null;
 	Account account = null;
@@ -30,6 +29,7 @@
 		accountList = user.getAccounts();
 		
 		account = (Account) session.getAttribute("account");
+		MDC.put("AccId",account.getAccId());
 		
 		accountRole = ((AccountRoleMap) account.getAccountRoleMapsForAccId().toArray()[0]).getRole();
 		roleId = accountRole.getRoleId();
@@ -151,7 +151,7 @@
 								        </tr>
 								    </thead>
 									<c:set var="count" value="0"/>
-									<c:set var="currentAccount" value="<%=accountLogin %>"/>
+									<c:set var="currentAccount" value="<%=account %>"/>
 									<c:forEach items="<%=accountList %>" var="account">
 										<tr>
 											<c:set var="count" value="${count + 1}"/>
