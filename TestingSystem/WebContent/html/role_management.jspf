@@ -20,7 +20,7 @@
 </style>
 <div style="font-size: 2.5em;">
 	<div style="display: inline; text-align: left">Role Management</div>
-	<a href="javascript:openAddNewRoleDialog();" id="backButton"
+	<a href="javascript:openAddNewRoleDialog();" id="addUser"
 		class="rightButton" style="font-size: 0.5em">Add New Role</a>
 	<hr>
 </div>

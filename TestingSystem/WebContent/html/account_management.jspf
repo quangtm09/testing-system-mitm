@@ -95,9 +95,7 @@
 							<a title="View details" href="${viewUserURL}"><img src="/TestingSystem/images/view_icon.png"/></a>
 							<a title="Edit" href="${editUserURL}"><img src="/TestingSystem/images/edit_icon.png"/></a>
 							<a title="Delete" onclick="deleteAccount('${account.accId}')" href="javascript:;"><img src="/TestingSystem/images/delete_icon.png"/></a>
-							
 						</td>
-		
 					</tr>
 				</c:forEach>
 				</tbody>
