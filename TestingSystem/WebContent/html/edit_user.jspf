@@ -1,4 +1,3 @@
-<%@page import="org.apache.log4j.MDC"%>
 <%
 	UserDao userDao = new UserDaoImpl();
 	RoleDao roleDao = new RoleDaoImpl();
@@ -7,8 +6,6 @@
 	
 	String userId = (String) request.getAttribute("userId");
 	User user = userDao.findById(userId);
-	
-
 	
 	Set<Account> accountList = null;
 	Account account = null;

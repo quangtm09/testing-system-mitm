@@ -34,6 +34,8 @@
 <%@page import="java.util.Date" %>
 <%@page import="java.text.SimpleDateFormat"%>
 
+<%@page import="org.apache.log4j.MDC"%>
+
 <link rel="stylesheet" type="text/css" href="<%=TSConstants.JQUERY_CSS%>"/>
 
 <script type="text/javascript" src="/TestingSystem/js/jquery.js"></script>
