@@ -2,21 +2,6 @@ var deleteAccountId;
 
 var deleteUserId;
 
-function login(cmd){
-	$('input[name="cmd"]').val(cmd);
-}
-
-function toSubmit(){
-	var accountId = $('#accountId').val();
-	var password = $('#password').val();
-
-	if(accountId.length == 0 || password.length == 0){
-		$('div#error').html('Account ID or Password cannot be blank!');
-		$.unblockUI();
-		return false;
-	}
-}
-
 function logout(){
 	window.location.href = '/TestingSystem/LogoutServlet';
 }

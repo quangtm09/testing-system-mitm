@@ -23,6 +23,8 @@ public class TSConstants {
 
 	public static final String LOGIN_JSP = "/html/login.jsp";
 
+	public static final String LOGIN_SERVLET_URL = "/Login";
+
 	public static final String TESTING_SYSTEM_SERVLET = TSConstants.TESTING_SYSTEM_PATH + "/TestingSystemServlet";
 
 	public static final String TESTING_SYSTEM_SERVLET_URL_PATTERN = "/TestingSystemServlet";

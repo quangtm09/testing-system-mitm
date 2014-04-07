@@ -10,30 +10,26 @@
       <param-value>This parameter is for testing.</param-value>
     </init-param>
   </filter>
-  <filter-mapping>
-    <filter-name>TSFilter</filter-name>
-    <url-pattern>/TestingSystemServlet</url-pattern>
-  </filter-mapping>
-  <filter-mapping>
+   <filter-mapping>
     <filter-name>TSFilter</filter-name>
     <url-pattern>/RoleManagementServlet</url-pattern>
     <url-pattern>/LogManagementServlet</url-pattern>
-  </filter-mapping>
-  <filter-mapping>
-    <filter-name>TSFilter</filter-name>
     <url-pattern>/StudentServlet</url-pattern>
-  </filter-mapping>
-  <filter-mapping>
-    <filter-name>TSFilter</filter-name>
+    <url-pattern>/TestingSystemServlet</url-pattern>
     <url-pattern>/LecturerServlet</url-pattern>
-  </filter-mapping>
-  <filter-mapping>
-    <filter-name>TSFilter</filter-name>
     <url-pattern>/html/*</url-pattern>
   </filter-mapping>
+  
+  	<servlet>
+	  <servlet-name>Login</servlet-name>
+	  <jsp-file>/html/login.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+	  <servlet-name>Login</servlet-name>
+	  <url-pattern>/Login</url-pattern> <!-- Use this URL -->
+	</servlet-mapping>
+  
   <welcome-file-list>
     <welcome-file>TestingSystemServlet</welcome-file>
-    <welcome-file>RoleManagementServlet</welcome-file>
-    <welcome-file>LogManagementServlet</welcome-file>
   </welcome-file-list>
 </web-app>
