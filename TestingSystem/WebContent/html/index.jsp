@@ -47,25 +47,31 @@
 	String tsTab = (String) TSUtil.getAttribute(request, "tsTab", StringPool.BLANK);
 %>
 
-<div id="menu-wrapper">
-	<div id="menu">
-		<ul>
-			<li class="current_page_item"><a href="${home_url}" onclick="blockUI()">Homepage</a></li>
-			<li><a href="${user_profile_url}" onclick="blockUI()">User Profile</a></li>
-			<li><a href="${account_management_url}" onclick="blockUI()">Account Management</a></li>
-			<li><a href="${user_management_url}"onclick="blockUI()">User Management</a></li>
-			<li><a href="${role_management_url}"onclick="blockUI()">Role Management</a></li>
-			<li><a href="${log_management_url}"onclick="blockUI()">Log Management</a></li>
-			<!-- <li><a href="${contact_us_url}">Contact Us</a></li> -->
-			<li style="color: yellow;">
-				&nbsp;Welcome, <%=username%>!&nbsp;
-				<button id="logoutButton" onclick="logout();">Logout</button>
-			</li>
-		</ul>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div id="menu-wrapper">
+			<div id="menu">
+				<ul>
+					<li class="current_page_item"><a href="${home_url}" onclick="blockUI()">Homepage</a></li>
+					<li><a href="${user_profile_url}" onclick="blockUI()">User Profile</a></li>
+					<li><a href="${account_management_url}" onclick="blockUI()">Account Management</a></li>
+					<li><a href="${user_management_url}"onclick="blockUI()">User Management</a></li>
+					<li><a href="${role_management_url}"onclick="blockUI()">Role Management</a></li>
+					<li><a href="${log_management_url}"onclick="blockUI()">Log Management</a></li>
+					<!-- <li><a href="${contact_us_url}">Contact Us</a></li> -->
+					<li style="color: yellow;">
+						&nbsp;Welcome, <%=username%>!&nbsp;
+						<button id="logoutButton" onclick="logout();">Logout</button>
+					</li>
+				</ul>
+				
+			</div>
+			<!-- end #menu --> 
+		</div>
 	</div>
-	<!-- end #menu --> 
-</div>
-<div id="header-wrapper">
+</nav>
+
+<div id="header-wrapper" style="margin-top:30px">
 	<div id="header">
 		<div id="logo">
 			<h1><a href="#">Testing System</a></h1>
