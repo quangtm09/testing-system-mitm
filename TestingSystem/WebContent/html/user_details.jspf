@@ -109,9 +109,7 @@
 								<td>${count}.</td>
 								<td>${account.accId}</td>
 								<td>
-									<c:forEach items="${account.accountRoleMapsForAccId}" var="aRM">
-										${aRM.role.roleName}<br/>
-									</c:forEach>
+									${account.accountRoleMapsForAccId.toArray()[0].role.roleName}
 								</td>
 							</tr>
 						</c:forEach>

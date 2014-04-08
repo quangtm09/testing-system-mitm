@@ -18,7 +18,7 @@
 
 <div style="font-size: 2.5em;">
 	<div style="display: inline; text-align: left">History</div>
-	<a href="javascript:openDeleteLogDialog();" id="backButton"
+	<a href="javascript:openDeleteLogDialog();" id="deletehistory"
 		class="rightButton" style="font-size: 0.5em">Delete History</a>
 	<hr>
 </div>

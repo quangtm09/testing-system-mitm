@@ -414,5 +414,12 @@ $(function() {
           primary: "ui-icon-arrowreturnthick-1-w"
         }
      });
+    
+    
+    $( "#deletehistory" ).button({
+        icons: {
+          primary: "ui-icon-closethick"
+        }
+     });
 
 });

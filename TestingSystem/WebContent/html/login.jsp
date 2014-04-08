@@ -18,7 +18,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Login Page</title>
+<title>Testing System - Login</title>
 <script type="text/javascript" src="/TestingSystem/js/jquery.js"></script>
 <script type="text/javascript" src="/TestingSystem/js/jquery.blockUI.js"></script>
 <link rel="stylesheet"
