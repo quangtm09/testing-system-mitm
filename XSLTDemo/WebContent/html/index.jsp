@@ -69,7 +69,7 @@
 							  $('div#tabContents').append('<div class="tab-pane" id="transformResult">' + data + '</div>');
 						  }
 				}).done(function() {
-			
+					$('#transformResultLI').children().trigger('click');
 				});
 			});
 		});
