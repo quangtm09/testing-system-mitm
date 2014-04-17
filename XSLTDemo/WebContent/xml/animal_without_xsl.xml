@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!--There are two new attributes in the end:endangered_species element: the xmlns:xsi attribute which specifies the namespace for all xsi-prefixed components (like the one that immediately follows), and the xsi:schemaLocation attribute which specifies, within a single set of double quotation marks, a namespace that may be used in this XML document, and the actual schema file in which its members are defined. (Otherwise, this document is identical to validating.xml.) It can be validated with referencing_namespaces.xsd (or any of its variations).-->
+<end:endangered_species xmlns:end="http://www.cookwood.com/ns/end_species1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.cookwood.com/ns/end_species1 animal.xsd">
+<animal>
+	<name language="English">Tiger</name>
+	<name language="Latin">panthera tigris</name>
+	<threats><threat>poachers</threat>
+	<threat>habitat destruction</threat>
+	<threat>trade in tiger bones for traditional Chinese medicine (TCM)</threat>
+	</threats>
+	<weight>500 pounds</weight>
+	<length>3 yards from nose to tail</length>
+	<source sectionid="120" newspaperid="21"></source>
+	<picture filename="http://localhost:8082/XSLTDemo/img/tiger.jpg" x="400" y="394"/>
+		
+	<subspecies>
+		<name language="English">Amur or Siberian</name>
+		<name language="Latin">P.t. altaica</name>
+		<region>Far East Russia</region>
+		<population year="1999">445</population>
+		</subspecies>
+	
+	<subspecies>
+		<name language="English">Balian</name>
+		<name language="Latin">P.t. balica</name>
+		<region>Bali</region>
+		<population year="1937">0</population>
+	</subspecies>
+	
+	<subspecies>
+		<name language="English">Javan</name>
+		<name language="Latin">P.t. sondaica</name>
+		<region>Java</region>
+		<population year="1972">0</population>
+	</subspecies>
+
+	<subspecies>
+		<name language="English">Caspian</name>
+		<name language="Latin">P.t. virgata</name>
+		<region>Caspian Sea</region>
+		<population year="1950">0</population>
+	</subspecies>
+	<subspecies>
+		<name language="English">Bengal</name>
+		<name language="Latin">P.t. tigris</name>
+		<region>India</region>
+		<population year="1999">3159</population>
+		</subspecies>
+
+	<subspecies>
+		<name language="English">Sumatran</name>
+		<name language="Latin">P.t. sumatrae</name>
+		<region>India, Bangladesh</region>
+		<population year="1999">400</population>
+		</subspecies>
+
+	<subspecies>
+		<name language="English">Amoy</name>
+		<name language="Latin">P.t. amoyensis</name>
+		<region>South China</region>
+		<population year="1999">20</population>
+	</subspecies>
+	<subspecies>
+		<name language="English">Indo-chinese</name>
+		<name language="Latin">P.t. corbetti</name>
+		<region>Indo-China</region>
+		<population year="1998">1227</population>
+		</subspecies>
+	</animal>
+<animal>
+	
+	<name language="English">Black Rhino</name>
+	<name language="Latin">diceros bicornis</name>
+	<threats><threat>poaching to satisfy demand for rhino horn in traditional Asian medicines and as decorative dagger handles in Middle East</threat>
+	<threat>habitat destruction</threat>
+	</threats>
+	<source sectionid="101" newspaperid="21"></source>
+	<picture filename="http://localhost:8082/XSLTDemo/img/rhino.jpg" x="400" y="316"/>
+	<subspecies>
+		<name language="English">Southern Black Rhino</name>
+		<name language="Latin">D.b. minor</name>
+		<region>Zimbabwe and South Africa</region>
+		<population year="1999">1365</population>
+		</subspecies>
+	<subspecies>
+		<name language="English">Southwestern Black Rhino</name>
+		<name language="Latin">D.b. bicornis</name>
+		<region>Namibia</region>
+		<population year="1999">740</population>
+		</subspecies>
+	<subspecies>
+		<name language="English">Eastern Black Rhino</name>
+		<name language="Latin">D.b. michaeli</name>
+		<region>Kenya (Ethiopia and Rwanda)</region>
+		<population year="1999">485</population>
+		</subspecies>
+	<subspecies>
+		<name language="English">Northwestern Black Rhino</name>
+		<name language="Latin">D.b. longipes</name>
+		<region>Cameroon</region>
+		<population year="1999">10</population>
+		</subspecies>
+		</animal>	 		
+	</end:endangered_species>
