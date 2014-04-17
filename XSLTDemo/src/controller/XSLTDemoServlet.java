@@ -39,6 +39,15 @@ public class XSLTDemoServlet extends HttpServlet {
 			outputHTMLFile.delete();
 		}
 
+		response.setContentType("text/html");
+
+		PrintWriter printWriter = null;
+		try {
+			printWriter = response.getWriter();
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+
 		if(validateXMLAgainstXSD(xml, xsd)){
 			final TransformerFactory factory = TransformerFactory.newInstance();
 			final Source xslSource = new StreamSource(xsl);
@@ -47,7 +56,7 @@ public class XSLTDemoServlet extends HttpServlet {
 			try {
 				transformer = factory.newTransformer(xslSource);
 			} catch (final TransformerConfigurationException e) {
-				System.out.println("Cannot initialize transformer");
+				printWriter.print("Cannot initialize transformer");
 				e.printStackTrace();
 			}
 
@@ -70,21 +79,27 @@ public class XSLTDemoServlet extends HttpServlet {
 				}
 
 				// Print html file content to response
-				response.setContentType("text/html");
-				final PrintWriter printWriter = response.getWriter();
+
 				printWriter.print(buffer.toString());
 
-				printWriter.close();
 			} catch (final Exception e) {
-				System.out.println("Cannot transforming XML file");
+				printWriter.print("Cannot transforming XML file");
 				e.printStackTrace();
 			}
 		} else {
-			System.out.println("Invalid XML file!");
+			printWriter.print("Invalid XML file!");
 		}
 
+		printWriter.close();
 	}
 
+	/**
+	 * Validate XML against XSD file
+	 * 
+	 * @param xml
+	 * @param xsd
+	 * @return
+	 */
 	private boolean validateXMLAgainstXSD(final File xml, final File xsd){
 		try{
 
