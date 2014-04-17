@@ -22,12 +22,21 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 /**
+ * @author TAQ1HC
  * Servlet implementation class XSLTDemoServlet
+ *
  */
 @WebServlet("/XSLTDemoServlet")
 public class XSLTDemoServlet extends HttpServlet {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @param request
+	 * @param response
+	 */
 	private void processAction(final HttpServletRequest request, final HttpServletResponse response){
 		final File xml = new File("C:\\Users\\TAQ1HC\\workspace\\XSLTDemo\\WebContent\\xml\\animal_without_xsl.xml");
 		final File xsd = new File("C:\\Users\\TAQ1HC\\workspace\\XSLTDemo\\WebContent\\xml\\animal.xsd");
@@ -48,11 +57,13 @@ public class XSLTDemoServlet extends HttpServlet {
 			System.out.println("Cannot get writer!");
 		}
 
+		// validate XML
 		if(validateXMLAgainstXSD(xml, xsd)){
 			final TransformerFactory factory = TransformerFactory.newInstance();
 			final Source xslSource = new StreamSource(xsl);
 			Transformer transformer = null;
 
+			// initialize transformer
 			try {
 				transformer = factory.newTransformer(xslSource);
 			} catch (final TransformerConfigurationException e) {
@@ -62,6 +73,7 @@ public class XSLTDemoServlet extends HttpServlet {
 			final Source xmlSource = new StreamSource(xml);
 
 			try {
+				// transform xml file
 				transformer.transform(xmlSource, new StreamResult(outputHTMLFile));
 
 				// Read html file content
@@ -78,7 +90,6 @@ public class XSLTDemoServlet extends HttpServlet {
 				}
 
 				// Print html file content to response
-
 				printWriter.print(buffer.toString());
 
 			} catch (final Exception e) {
