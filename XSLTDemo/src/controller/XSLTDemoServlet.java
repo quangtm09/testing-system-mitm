@@ -45,7 +45,7 @@ public class XSLTDemoServlet extends HttpServlet {
 		try {
 			printWriter = response.getWriter();
 		} catch (final IOException e) {
-			e.printStackTrace();
+			System.out.println("Cannot get writer!");
 		}
 
 		if(validateXMLAgainstXSD(xml, xsd)){
@@ -57,7 +57,6 @@ public class XSLTDemoServlet extends HttpServlet {
 				transformer = factory.newTransformer(xslSource);
 			} catch (final TransformerConfigurationException e) {
 				printWriter.print("Cannot initialize transformer");
-				e.printStackTrace();
 			}
 
 			final Source xmlSource = new StreamSource(xml);
@@ -84,7 +83,6 @@ public class XSLTDemoServlet extends HttpServlet {
 
 			} catch (final Exception e) {
 				printWriter.print("Cannot transforming XML file");
-				e.printStackTrace();
 			}
 		} else {
 			printWriter.print("Invalid XML file!");
