@@ -8,9 +8,8 @@
 	    <link rel="stylesheet" href="/XSLTDemo/css/bootstrap.vertical-tabs.min.css">
 	    <link rel="stylesheet" href="/XSLTDemo/css/index.css">
 	
-	    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	    <script src="/XMLDomDemo/js/loadxml.js"></script>
-	    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	    <script src="/XSLTDemo/js/jquery.min.js"></script>
+	    <script src="/XSLTDemo/js/bootstrap.min.js"></script>
 		<title>XML Session 2 Demo - XSLT</title>
 	</head>
 	<body>
