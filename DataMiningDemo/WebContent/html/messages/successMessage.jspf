@@ -1,0 +1,10 @@
+<%@include file="/html/init.jsp"%>
+<%
+	final String successMessage = (String) DMUtil.getAttribute(request, "successMessage", "Processed request successfully!");
+%>
+<div class="ui-widget">
+	<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
+		<p style="color: green"><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<%= successMessage%></p>
+	</div>
+</div>
