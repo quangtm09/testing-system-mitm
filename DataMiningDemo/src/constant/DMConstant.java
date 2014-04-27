@@ -12,7 +12,7 @@ public class DMConstant {
 
 	public static final String DATA_MINING_JS = DMConstant.DATA_MINING_DEMO + "/js/data_mining.js";
 
-	public static final String INDEX_JSP = "/html/index2.jsp";
+	public static final String INDEX_JSP = "/html/index.jsp";
 
 	public static final String LOGIN_JSP = "/html/login.jsp";
 
