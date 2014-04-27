@@ -68,7 +68,7 @@ public class LoginServlet extends HttpServlet {
 		} else {
 			request.setAttribute("isWrongUsernameOrPassword", false);
 			request.setAttribute("errorMessage", "Failed to login!");
-			this.goToPage(DMConstant.LOGIN_URL_PATTERN, request, response);
+			this.goToPage(DMConstant.LOGIN_JSP, request, response);
 		}
 	}
 
