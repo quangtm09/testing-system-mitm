@@ -1018,11 +1018,10 @@ public class Apriori
     }
 
     public String toString_edit() {
-//        final DataManager dataManager = new DataManager();
         final StringBuffer text = new StringBuffer();
 
         if (this.m_Ls.size() <= 1) {
-//            return dataManager.displayErrorBlock("No large itemsets and rules found!");
+        	return "<div class=\"alert alert-danger\">No large itemsets and rules found!</div>";
         }
 //        text.append("<h3>Apriori<br>=======<br>");
 //        text.append("Number of cycles performed: " + m_cycles + "</h3>");

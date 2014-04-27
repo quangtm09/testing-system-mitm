@@ -16,6 +16,8 @@ public class DMConstant {
 
 	public static final String LOGIN_JSP = "/html/login.jsp";
 
+	public static final String RULE_JSP = "/html/rule.jsp";
+
 	public static final String LOGIN_URL_PATTERN = "/LoginServlet";
 
 	public static final String DM_URL_PATTERN = "/DataMiningServlet";

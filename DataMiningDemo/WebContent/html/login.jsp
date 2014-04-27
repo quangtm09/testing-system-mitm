@@ -6,7 +6,7 @@
 %>
 
 <c:if test='<%=isUserLoggedIn %>'>
-	<c:redirect url="<%=DMConstant.DM_SERVLET %>"/>
+	<c:redirect url="<%=DMConstant.INDEX_JSP %>"/>
 </c:if>
 
 <html lang="en">
@@ -83,20 +83,5 @@
 
 	function login(cmd) {
 		$('input[name="cmd"]').val(cmd);
-	}
-
-	function blockUI() {
-		$.blockUI({
-			message : $('#domMessage'),
-			css : {
-				border : 'none',
-				padding : '15px',
-				backgroundColor : '#000',
-				'-webkit-border-radius' : '10px',
-				'-moz-border-radius' : '10px',
-				opacity : .5,
-				color : '#fff'
-			}
-		});
 	}
 </script>
