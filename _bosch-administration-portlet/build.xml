@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<!DOCTYPE project>
-
-<project name="_bosch-administration-portlet" basedir="." default="deploy">
-	<import file="../build-common-portlet.xml" />
-	<import file="../../build-ci-common.xml" />
-</project>
