@@ -1,0 +1,183 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.vn.bosch</groupId>
+  <artifactId>jpa</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>JPA Project</name>
+  <url>http://maven.apache.org</url>
+
+  	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <path.to.checkstyle>src/main/resources/checkstyle.xml</path.to.checkstyle>
+		<lucene.version>4.8.0</lucene.version>
+		<junit.version>4.7</junit.version>
+		<perf4j.version>0.9.12</perf4j.version>
+		<slf4j-log4j.version>1.5.2</slf4j-log4j.version>
+		<spring.version>2.5.6.SEC01</spring.version>
+		<commons.lang.version>2.4</commons.lang.version>
+		<commons.io.version>2.4</commons.io.version>
+		<commons.collections.version>3.2</commons.collections.version>
+		<commons.net.version>2.0</commons.net.version>
+		<servlet.version>2.5</servlet.version>
+		<jdom.version>1.1</jdom.version>
+		<jdom.additional.version>1.0-FCS</jdom.additional.version>
+		<jtidy.version>21122004</jtidy.version>
+		<mockito.version>1.8.4</mockito.version>
+		<derby.version>10.6.1.0</derby.version>
+		<json.version>20080701</json.version>
+        <hsql.version>1.8.0.10</hsql.version>
+	</properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+    </dependency>
+    
+    <dependency>
+		<groupId>com.oracle</groupId>
+		<artifactId>ojdbc6</artifactId>
+		<version>11.2.0.3</version>
+	</dependency>
+	
+	<dependency>
+	   <groupId>mysql</groupId>
+	   <artifactId>mysql-connector-java</artifactId>
+	   <version>5.1.30</version>
+	   <scope>runtime</scope>
+	</dependency>
+	
+	<dependency>
+	   <groupId>jstl</groupId>
+	   <artifactId>jstl</artifactId>
+	   <version>1.2</version>
+	</dependency>
+    
+    <!-- <dependency>
+		<groupId>org.eclipse.persistence</groupId>
+		<artifactId>eclipselink</artifactId>
+		<version>2.5.1</version>
+		<exclusions>
+			<exclusion>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>commonj.sdo</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency> -->
+	
+	<dependency>
+		<groupId>org.apache.lucene</groupId>
+		<artifactId>lucene-core</artifactId>
+		<version>${lucene.version}</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.apache.lucene</groupId>
+		<artifactId>lucene-queries</artifactId>
+		<version>${lucene.version}</version>
+	</dependency>
+	
+		<dependency>
+		<groupId>org.apache.lucene</groupId>
+		<artifactId>lucene-analyzers-common</artifactId>
+		<version>${lucene.version}</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.apache.lucene</groupId>
+		<artifactId>lucene-queryparser</artifactId>
+		<version>${lucene.version}</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.apache.lucene</groupId>
+		<artifactId>lucene-highlighter</artifactId>
+		<version>${lucene.version}</version>
+	</dependency>
+	
+	<!-- Spring Framework -->
+	<dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>4.0.5.RELEASE</version>
+    </dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-core</artifactId>
+		<version>4.0.5.RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-webmvc</artifactId>
+		<version>4.0.5.RELEASE</version>
+	</dependency>
+	<!-- Test classes that integrates Junit 3.8 and 4 to Spring based applications -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-test</artifactId>
+		<version>4.0.5.RELEASE</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>4.0.5.RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context-support</artifactId>
+		<version>4.0.5.RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-tx</artifactId>
+		<version>4.0.5.RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+		<version>4.0.5.RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-orm</artifactId>
+		<version>4.0.5.RELEASE</version>
+	</dependency>
+	<dependency>
+		<groupId>com.google.guava</groupId>
+		<artifactId>guava</artifactId>
+		<version>16.0.1</version>
+	</dependency>
+	<!-- Spring AOP dependency -->
+	<dependency>
+		<groupId>cglib</groupId>
+		<artifactId>cglib</artifactId>
+		<version>3.0</version>
+	</dependency>
+	<!-- Hibernate framework -->
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-entitymanager</artifactId>
+	    <version>4.3.5.Final</version>
+	</dependency>
+    
+  </dependencies>
+  
+  <repositories>
+    <repository>
+      <id>codelds</id>
+      <url>https://code.lds.org/nexus/content/groups/main-repo</url>
+    </repository>
+    
+    <repository>
+		<id>oss.sonatype.org</id>
+		<name>OSS Sonatype Staging</name>
+		<url>https://oss.sonatype.org/content/groups/staging</url>
+	</repository>
+  </repositories>
+</project>
