@@ -1,0 +1,20 @@
+## Custom variable
+
+#set ($css_class = "${css_class} dockbar-split")
+
+#set ($company_name="Agit")
+#set ($site_logo = "$images_folder/common/company_logo.png")
+#set ($site_name = "Agit Portal")
+
+#set ($site_logo_height="115%")
+#set ($site_logo_width="115%")
+#set ($max_width="115%")
+
+#set ($banner = "$images_folder/banner.png")
+#set ($banner_description = "Agit Portal")
+
+#set ($banner_height="100%")
+#set ($banner_width="100%")
+
+#set ($jqueryJS_path = "$javascript_folder/jquery-1.11.1.min.js")
+#set ($jqueryMarqueeJS_path = "$javascript_folder/jquery.marquee.min.js")

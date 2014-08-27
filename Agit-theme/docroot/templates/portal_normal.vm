@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+#parse ($init)
+
+<html class="$root_css_class" dir="#language ("lang.dir")" lang="$w3c_language_id">
+
+<head>
+    <title>$the_title - $company_name</title>
+
+    <meta content="initial-scale=1.0, width=device-width" name="viewport" />
+    
+    <script type="text/javascript" src="$jqueryJS_path"></script>
+    <script type="text/javascript" src="$jqueryMarqueeJS_path"></script>
+
+    $theme.include($top_head_include)
+    
+</head>
+
+<body class="$css_class">
+    <a href="#main-content" id="skip-to-content">#language ("skip-to-content")</a>
+
+    $theme.include($body_top_include)
+    
+    #if ($is_signed_in)
+        #dockbar()
+    #end
+
+    <div id="wrapper" class="container-fluid">
+        <!-- logo & banner -->
+        <div class="aui row-fluid">
+            
+            <!-- logo -->
+            <div class="aui span2">
+                <a class="$logo_css_class" href="$site_default_url" title="#language_format ("go-to-x", [$site_name])">
+                    <img alt="$logo_description" height="$site_logo_height" src="$site_logo" width="$site_logo_width" style="max-width:$max_width"/>
+                </a>
+            </div>
+            
+            <!-- banner -->
+            <div class="aui span10">
+                <img alt="$banner_description" height="$banner_height" src="$banner" width="$banner_width" />
+            </div>
+            
+        </div>
+        
+        <div class="aui row-fluid">
+            <div class="aui span12" style="text-align: center">
+               Banner description
+            </div>
+            
+            <!--<div class="aui span6">
+                AGIT - Slogan
+            </div>
+            
+            <div class="aui span3">
+                Right column
+            </div>-->
+            
+            <!--<div id="scroller">
+                <span id="static-text">This text won't move</span>
+                <div class="scrollingtext">
+                    <span class="review">
+                        <span class="message">
+                            <a href="#">'Scrolling Text'</a>
+                        </span>
+                        <span class="forename">Extra info</span>, 
+                        <span class="location">Location</span>
+                    </span>
+                    <span class="review">
+                        <span class="message">
+                            <a href="#">'More Scrolling Text'</a>
+                        </span> -
+                        <span class="forename">More Extra info</span>, 
+                        <span class="location">Another Location</span>
+                    </span>
+                </div>
+            </div>-->
+            
+        </div>
+        
+        <div class="aui row-fluid">
+            <div class="aui span12">
+                
+                <div class="navbar">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <a data-target=".navbar-responsive-collapse" data-toggle="collapse" class="btn btn-navbar collapsed">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </a>
+                            <a href="#" class="brand" style="padding: 12.7px 20px;">AGIT</a>
+                            <div class="nav-collapse navbar-responsive-collapse collapse" style="height: 0px;">
+                                <ul class="nav">
+                                    <li>
+                                        <a href="#">Home</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Introduction</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Legal Instrument</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Fields of Operation</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">News & Events</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">FAQ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Contact Us</a>
+                                    </li>
+                                    <li>
+                                        <form action="" style="margin-left: 10%; margin-top: 4.3%;">
+                                            <input type="text" value="" title="" placeholder="Search" name="" id="" class="search-query span9" style="width: 100%">
+                                        </form>
+                                    </li>
+                                </ul>
+                                <ul class="nav pull-right">
+                                    <li>
+                                        <a href="#">Sitemap</a>
+                                    </li>
+                                </ul>
+                            </div><!-- /.nav-collapse -->
+                        </div>
+                    </div><!-- /navbar-inner -->
+                </div>
+                
+            </div>      
+        </div>
+        
+        <div class="aui row-fluid">
+            <div class="aui span3">
+                Video
+            </div>
+            
+            <div class="aui span6">
+                Info
+            </div>
+            
+            <div class="aui span3">
+                Advertisement
+            </div>
+        </div>
+        
+        <div id="content">
+            
+            <!-- Breadcrumbs -->
+            <nav id="breadcrumbs">#breadcrumbs()</nav>
+            
+            <!-- Navigation bar -->
+            ##if ($has_navigation || $is_signed_in)
+                ##parse ("$full_templates_path/navigation.vm")
+            ##end
+            
+            
+    
+            #if ($selectable)
+                $theme.include($content_include)
+            #else
+                $portletDisplay.recycle()
+    
+                $portletDisplay.setTitle($the_title)
+    
+                $theme.wrapPortlet("portlet.vm", $content_include)
+            #end
+        </div>
+        
+        
+        <footer id="footer" role="contentinfo">
+            <p class="powered-by">
+                #language ("powered-by") <a href="http://www.liferay.com" rel="external">Liferay</a>
+            </p>
+        </footer>
+    </div>
+
+$theme.include($body_bottom_include)
+
+$theme.include($bottom_include)
+    
+</body>
+
+</html>
+
+
+
+#*
+
+<html class="$root_css_class" dir="#language ("lang.dir")" lang="$w3c_language_id">
+
+<head>
+    <title>$the_title - $company_name</title>
+
+    <meta content="initial-scale=1.0, width=device-width" name="viewport" />
+
+    $theme.include($top_head_include)
+</head>
+
+<body class="$css_class">
+
+<a href="#main-content" id="skip-to-content">#language ("skip-to-content")</a>
+
+$theme.include($body_top_include)
+
+#dockbar()
+
+<div class="container-fluid" id="wrapper">
+    <header id="banner" role="banner">
+        <div id="heading">
+            <h1 class="site-title">
+                <a class="$logo_css_class" href="$site_default_url" title="#language_format ("go-to-x", [$site_name])">
+                    <img alt="$logo_description" height="$site_logo_height" src="$site_logo" width="$site_logo_width" />
+
+                    #if ($show_site_name)
+                        <span class="site-name" title="#language_format ("go-to-x", [$site_name])">
+                            $site_name
+                        </span>
+                    #end
+                </a>
+
+            </h1>
+
+            <h2 class="page-title">
+                <span>$the_title</span>
+            </h2>
+        </div>
+
+        #if ($has_navigation || $is_signed_in)
+            #parse ("$full_templates_path/navigation.vm")
+        #end
+    </header>
+
+    <div id="content">
+        <nav id="breadcrumbs">#breadcrumbs()</nav>
+
+        #if ($selectable)
+            $theme.include($content_include)
+        #else
+            $portletDisplay.recycle()
+
+            $portletDisplay.setTitle($the_title)
+
+            $theme.wrapPortlet("portlet.vm", $content_include)
+        #end
+    </div>
+
+    <footer id="footer" role="contentinfo">
+        <p class="powered-by">
+            #language ("powered-by") <a href="http://www.liferay.com" rel="external">Liferay</a>
+        </p>
+    </footer>
+</div>
+
+$theme.include($body_bottom_include)
+
+$theme.include($bottom_include)
+
+</body>
+
+
+
+*#
